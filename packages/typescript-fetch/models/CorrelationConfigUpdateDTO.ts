@@ -35,16 +35,22 @@ export interface CorrelationConfigUpdateDTO {
     field?: string;
     /**
      * Target data query
-     * @type {{ [key: string]: object; }}
+     * @type {object}
      * @memberof CorrelationConfigUpdateDTO
      */
-    target?: { [key: string]: object; };
+    target?: object;
     /**
      * Source data transformations
      * @type {Array<Transformation>}
      * @memberof CorrelationConfigUpdateDTO
      */
     transformations?: Array<Transformation>;
+    /**
+     * 
+     * @type {string}
+     * @memberof CorrelationConfigUpdateDTO
+     */
+    type?: string;
 }
 
 /**
@@ -67,6 +73,7 @@ export function CorrelationConfigUpdateDTOFromJSONTyped(json: any, ignoreDiscrim
         'field': json['field'] == null ? undefined : json['field'],
         'target': json['target'] == null ? undefined : json['target'],
         'transformations': json['transformations'] == null ? undefined : ((json['transformations'] as Array<any>).map(TransformationFromJSON)),
+        'type': json['type'] == null ? undefined : json['type'],
     };
 }
 
@@ -84,6 +91,7 @@ export function CorrelationConfigUpdateDTOToJSONTyped(value?: CorrelationConfigU
         'field': value['field'],
         'target': value['target'],
         'transformations': value['transformations'] == null ? undefined : ((value['transformations'] as Array<any>).map(TransformationToJSON)),
+        'type': value['type'],
     };
 }
 

@@ -33,10 +33,10 @@ export interface ListAllProvidersSettings200ResponseInner {
     provider?: string;
     /**
      * 
-     * @type {{ [key: string]: object; }}
+     * @type {object}
      * @memberof ListAllProvidersSettings200ResponseInner
      */
-    settings?: { [key: string]: object; };
+    settings?: object;
     /**
      * 
      * @type {string}

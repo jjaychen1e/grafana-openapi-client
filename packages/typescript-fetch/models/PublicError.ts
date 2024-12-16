@@ -22,10 +22,10 @@ import { mapValues } from '../runtime';
 export interface PublicError {
     /**
      * Extra Additional information about the error
-     * @type {{ [key: string]: object; }}
+     * @type {object}
      * @memberof PublicError
      */
-    extra?: { [key: string]: object; };
+    extra?: object;
     /**
      * Message A human readable message
      * @type {string}

@@ -33,10 +33,10 @@ export interface UpdateProviderSettingsRequest {
     provider?: string;
     /**
      * 
-     * @type {{ [key: string]: object; }}
+     * @type {object}
      * @memberof UpdateProviderSettingsRequest
      */
-    settings?: { [key: string]: object; };
+    settings?: object;
 }
 
 /**

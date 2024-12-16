@@ -69,10 +69,10 @@ export interface RecordingRuleJSON {
     promName?: string;
     /**
      * 
-     * @type {Array<{ [key: string]: object; }>}
+     * @type {Array<object>}
      * @memberof RecordingRuleJSON
      */
-    queries?: Array<{ [key: string]: object; }>;
+    queries?: Array<object>;
     /**
      * 
      * @type {number}

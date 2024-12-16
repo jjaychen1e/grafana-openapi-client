@@ -229,18 +229,7 @@ export interface Certificate {
      */
     permittedURIDomains?: Array<string>;
     /**
-     * Policies contains all policy identifiers included in the certificate.
-     * In Go 1.22, encoding/gob cannot handle and ignores this field.
-     * @type {Array<string>}
-     * @memberof Certificate
-     */
-    policies?: Array<string>;
-    /**
-     * PolicyIdentifiers contains asn1.ObjectIdentifiers, the components
-     * of which are limited to int32. If a certificate contains a policy which
-     * cannot be represented by asn1.ObjectIdentifier, it will not be included in
-     * PolicyIdentifiers, but will be present in Policies, which contains all parsed
-     * policy OIDs.
+     * 
      * @type {Array<Array<number>>}
      * @memberof Certificate
      */
@@ -393,7 +382,6 @@ export function CertificateFromJSONTyped(json: any, ignoreDiscriminator: boolean
         'permittedEmailAddresses': json['PermittedEmailAddresses'] == null ? undefined : json['PermittedEmailAddresses'],
         'permittedIPRanges': json['PermittedIPRanges'] == null ? undefined : ((json['PermittedIPRanges'] as Array<any>).map(IPNetFromJSON)),
         'permittedURIDomains': json['PermittedURIDomains'] == null ? undefined : json['PermittedURIDomains'],
-        'policies': json['Policies'] == null ? undefined : json['Policies'],
         'policyIdentifiers': json['PolicyIdentifiers'] == null ? undefined : json['PolicyIdentifiers'],
         'publicKey': json['PublicKey'] == null ? undefined : json['PublicKey'],
         'publicKeyAlgorithm': json['PublicKeyAlgorithm'] == null ? undefined : json['PublicKeyAlgorithm'],
@@ -451,7 +439,6 @@ export function CertificateToJSONTyped(value?: Certificate | null, ignoreDiscrim
         'PermittedEmailAddresses': value['permittedEmailAddresses'],
         'PermittedIPRanges': value['permittedIPRanges'] == null ? undefined : ((value['permittedIPRanges'] as Array<any>).map(IPNetToJSON)),
         'PermittedURIDomains': value['permittedURIDomains'],
-        'Policies': value['policies'],
         'PolicyIdentifiers': value['policyIdentifiers'],
         'PublicKey': value['publicKey'],
         'PublicKeyAlgorithm': value['publicKeyAlgorithm'],

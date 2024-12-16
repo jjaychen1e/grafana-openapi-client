@@ -45,13 +45,6 @@ export interface UpdateCorrelationCommand {
      * @memberof UpdateCorrelationCommand
      */
     label?: string;
-    /**
-     * the type of correlation, either query for containing query information, or external for containing an external URL
-     * +enum
-     * @type {string}
-     * @memberof UpdateCorrelationCommand
-     */
-    type?: string;
 }
 
 /**
@@ -74,7 +67,6 @@ export function UpdateCorrelationCommandFromJSONTyped(json: any, ignoreDiscrimin
         'config': json['config'] == null ? undefined : CorrelationConfigUpdateDTOFromJSON(json['config']),
         'description': json['description'] == null ? undefined : json['description'],
         'label': json['label'] == null ? undefined : json['label'],
-        'type': json['type'] == null ? undefined : json['type'],
     };
 }
 
@@ -92,7 +84,6 @@ export function UpdateCorrelationCommandToJSONTyped(value?: UpdateCorrelationCom
         'config': CorrelationConfigUpdateDTOToJSON(value['config']),
         'description': value['description'],
         'label': value['label'],
-        'type': value['type'],
     };
 }
 

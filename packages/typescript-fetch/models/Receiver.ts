@@ -13,12 +13,32 @@
  */
 
 import { mapValues } from '../runtime';
+import type { Integration } from './Integration';
+import {
+    IntegrationFromJSON,
+    IntegrationFromJSONTyped,
+    IntegrationToJSON,
+    IntegrationToJSONTyped,
+} from './Integration';
+
 /**
- * Receiver receiver
+ * 
  * @export
  * @interface Receiver
  */
 export interface Receiver {
+    /**
+     * active
+     * @type {boolean}
+     * @memberof Receiver
+     */
+    active: boolean;
+    /**
+     * integrations
+     * @type {Array<Integration>}
+     * @memberof Receiver
+     */
+    integrations: Array<Integration>;
     /**
      * name
      * @type {string}
@@ -31,6 +51,8 @@ export interface Receiver {
  * Check if a given object implements the Receiver interface.
  */
 export function instanceOfReceiver(value: object): value is Receiver {
+    if (!('active' in value) || value['active'] === undefined) return false;
+    if (!('integrations' in value) || value['integrations'] === undefined) return false;
     if (!('name' in value) || value['name'] === undefined) return false;
     return true;
 }
@@ -45,6 +67,8 @@ export function ReceiverFromJSONTyped(json: any, ignoreDiscriminator: boolean): 
     }
     return {
         
+        'active': json['active'],
+        'integrations': ((json['integrations'] as Array<any>).map(IntegrationFromJSON)),
         'name': json['name'],
     };
 }
@@ -60,6 +84,8 @@ export function ReceiverToJSONTyped(value?: Receiver | null, ignoreDiscriminator
 
     return {
         
+        'active': value['active'],
+        'integrations': ((value['integrations'] as Array<any>).map(IntegrationToJSON)),
         'name': value['name'],
     };
 }

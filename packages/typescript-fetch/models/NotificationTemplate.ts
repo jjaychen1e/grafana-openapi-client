@@ -37,12 +37,6 @@ export interface NotificationTemplate {
      * @memberof NotificationTemplate
      */
     template?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof NotificationTemplate
-     */
-    version?: string;
 }
 
 /**
@@ -65,7 +59,6 @@ export function NotificationTemplateFromJSONTyped(json: any, ignoreDiscriminator
         'name': json['name'] == null ? undefined : json['name'],
         'provenance': json['provenance'] == null ? undefined : json['provenance'],
         'template': json['template'] == null ? undefined : json['template'],
-        'version': json['version'] == null ? undefined : json['version'],
     };
 }
 
@@ -83,7 +76,6 @@ export function NotificationTemplateToJSONTyped(value?: NotificationTemplate | n
         'name': value['name'],
         'provenance': value['provenance'],
         'template': value['template'],
-        'version': value['version'],
     };
 }
 

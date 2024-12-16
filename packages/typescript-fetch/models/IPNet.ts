@@ -26,7 +26,7 @@ export interface IPNet {
      */
     iP?: string;
     /**
-     * See type [IPNet] and func [ParseCIDR] for details.
+     * See type IPNet and func ParseCIDR for details.
      * @type {Array<number>}
      * @memberof IPNet
      */

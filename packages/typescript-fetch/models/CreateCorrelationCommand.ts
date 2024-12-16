@@ -52,18 +52,11 @@ export interface CreateCorrelationCommand {
      */
     provisioned?: boolean;
     /**
-     * Target data source UID to which the correlation is created. required if type = query
+     * Target data source UID to which the correlation is created. required if config.type = query
      * @type {string}
      * @memberof CreateCorrelationCommand
      */
     targetUID?: string;
-    /**
-     * the type of correlation, either query for containing query information, or external for containing an external URL
-     * +enum
-     * @type {string}
-     * @memberof CreateCorrelationCommand
-     */
-    type?: string;
 }
 
 /**
@@ -88,7 +81,6 @@ export function CreateCorrelationCommandFromJSONTyped(json: any, ignoreDiscrimin
         'label': json['label'] == null ? undefined : json['label'],
         'provisioned': json['provisioned'] == null ? undefined : json['provisioned'],
         'targetUID': json['targetUID'] == null ? undefined : json['targetUID'],
-        'type': json['type'] == null ? undefined : json['type'],
     };
 }
 
@@ -108,7 +100,6 @@ export function CreateCorrelationCommandToJSONTyped(value?: CreateCorrelationCom
         'label': value['label'],
         'provisioned': value['provisioned'],
         'targetUID': value['targetUID'],
-        'type': value['type'],
     };
 }
 

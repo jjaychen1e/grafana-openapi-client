@@ -28,18 +28,6 @@ import {
  */
 export interface GettableRuleGroupConfig {
     /**
-     * 
-     * @type {boolean}
-     * @memberof GettableRuleGroupConfig
-     */
-    alignEvaluationTimeOnInterval?: boolean;
-    /**
-     * 
-     * @type {string}
-     * @memberof GettableRuleGroupConfig
-     */
-    evaluationDelay?: string;
-    /**
      * A Duration represents the elapsed time between two instants
      * as an int64 nanosecond count. The representation limits the
      * largest representable duration to approximately 290 years.
@@ -49,22 +37,10 @@ export interface GettableRuleGroupConfig {
     interval?: number;
     /**
      * 
-     * @type {number}
-     * @memberof GettableRuleGroupConfig
-     */
-    limit?: number;
-    /**
-     * 
      * @type {string}
      * @memberof GettableRuleGroupConfig
      */
     name?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof GettableRuleGroupConfig
-     */
-    queryOffset?: string;
     /**
      * 
      * @type {Array<GettableExtendedRuleNode>}
@@ -96,12 +72,8 @@ export function GettableRuleGroupConfigFromJSONTyped(json: any, ignoreDiscrimina
     }
     return {
         
-        'alignEvaluationTimeOnInterval': json['align_evaluation_time_on_interval'] == null ? undefined : json['align_evaluation_time_on_interval'],
-        'evaluationDelay': json['evaluation_delay'] == null ? undefined : json['evaluation_delay'],
         'interval': json['interval'] == null ? undefined : json['interval'],
-        'limit': json['limit'] == null ? undefined : json['limit'],
         'name': json['name'] == null ? undefined : json['name'],
-        'queryOffset': json['query_offset'] == null ? undefined : json['query_offset'],
         'rules': json['rules'] == null ? undefined : ((json['rules'] as Array<any>).map(GettableExtendedRuleNodeFromJSON)),
         'sourceTenants': json['source_tenants'] == null ? undefined : json['source_tenants'],
     };
@@ -118,12 +90,8 @@ export function GettableRuleGroupConfigToJSONTyped(value?: GettableRuleGroupConf
 
     return {
         
-        'align_evaluation_time_on_interval': value['alignEvaluationTimeOnInterval'],
-        'evaluation_delay': value['evaluationDelay'],
         'interval': value['interval'],
-        'limit': value['limit'],
         'name': value['name'],
-        'query_offset': value['queryOffset'],
         'rules': value['rules'] == null ? undefined : ((value['rules'] as Array<any>).map(GettableExtendedRuleNodeToJSON)),
         'source_tenants': value['sourceTenants'],
     };

@@ -15,8 +15,8 @@
     "lerna": "^8.1.9"
   },
   "scripts": {
-    "generate": "./openapi/generate.sh",
-    "build": "lerna run build",
-    "publish": "lerna publish"
+    "generate": "./scripts/generate.sh \"$@\"",
+    "release": "./scripts/release.sh \"$@\"",
+    "build": "lerna run build"
   }
 }

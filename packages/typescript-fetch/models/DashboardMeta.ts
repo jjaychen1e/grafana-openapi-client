@@ -152,6 +152,12 @@ export interface DashboardMeta {
      * @type {string}
      * @memberof DashboardMeta
      */
+    publicDashboardUid?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof DashboardMeta
+     */
     slug?: string;
     /**
      * 
@@ -222,6 +228,7 @@ export function DashboardMetaFromJSONTyped(json: any, ignoreDiscriminator: boole
         'provisioned': json['provisioned'] == null ? undefined : json['provisioned'],
         'provisionedExternalId': json['provisionedExternalId'] == null ? undefined : json['provisionedExternalId'],
         'publicDashboardEnabled': json['publicDashboardEnabled'] == null ? undefined : json['publicDashboardEnabled'],
+        'publicDashboardUid': json['publicDashboardUid'] == null ? undefined : json['publicDashboardUid'],
         'slug': json['slug'] == null ? undefined : json['slug'],
         'type': json['type'] == null ? undefined : json['type'],
         'updated': json['updated'] == null ? undefined : (new Date(json['updated'])),
@@ -262,6 +269,7 @@ export function DashboardMetaToJSONTyped(value?: DashboardMeta | null, ignoreDis
         'provisioned': value['provisioned'],
         'provisionedExternalId': value['provisionedExternalId'],
         'publicDashboardEnabled': value['publicDashboardEnabled'],
+        'publicDashboardUid': value['publicDashboardUid'],
         'slug': value['slug'],
         'type': value['type'],
         'updated': value['updated'] == null ? undefined : ((value['updated']).toISOString()),

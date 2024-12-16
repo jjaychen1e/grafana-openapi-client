@@ -15,18 +15,28 @@
 
 import * as runtime from '../runtime';
 import type {
+  AddAPIKeyCommand,
   ApiKeyDTO,
   ErrorResponseBody,
+  NewApiKeyResult,
   SuccessResponseBody,
 } from '../models/index';
 import {
+    AddAPIKeyCommandFromJSON,
+    AddAPIKeyCommandToJSON,
     ApiKeyDTOFromJSON,
     ApiKeyDTOToJSON,
     ErrorResponseBodyFromJSON,
     ErrorResponseBodyToJSON,
+    NewApiKeyResultFromJSON,
+    NewApiKeyResultToJSON,
     SuccessResponseBodyFromJSON,
     SuccessResponseBodyToJSON,
 } from '../models/index';
+
+export interface ApiKeysApiAddAPIkeyRequest {
+    body: AddAPIKeyCommand;
+}
 
 export interface ApiKeysApiDeleteAPIkeyRequest {
     id: number;
@@ -46,10 +56,19 @@ export class ApiKeysApi extends runtime.BaseAPI {
      * Creates an API key.
      * @deprecated
      */
-    async addAPIkeyRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+    async addAPIkeyRaw(requestParameters: ApiKeysApiAddAPIkeyRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<NewApiKeyResult>> {
+        if (requestParameters['body'] == null) {
+            throw new runtime.RequiredError(
+                'body',
+                'Required parameter "body" was null or undefined when calling addAPIkey().'
+            );
+        }
+
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
 
         if (this.configuration && this.configuration.apiKey) {
             headerParameters["Authorization"] = await this.configuration.apiKey("Authorization"); // api_key authentication
@@ -63,9 +82,10 @@ export class ApiKeysApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
+            body: AddAPIKeyCommandToJSON(requestParameters['body']),
         }, initOverrides);
 
-        return new runtime.VoidApiResponse(response);
+        return new runtime.JSONApiResponse(response, (jsonValue) => NewApiKeyResultFromJSON(jsonValue));
     }
 
     /**
@@ -73,12 +93,13 @@ export class ApiKeysApi extends runtime.BaseAPI {
      * Creates an API key.
      * @deprecated
      */
-    async addAPIkey(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
-        await this.addAPIkeyRaw(initOverrides);
+    async addAPIkey(requestParameters: ApiKeysApiAddAPIkeyRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<NewApiKeyResult> {
+        const response = await this.addAPIkeyRaw(requestParameters, initOverrides);
+        return await response.value();
     }
 
     /**
-     * Deletes an API key. Deprecated. See: https://grafana.com/docs/grafana/next/administration/service-accounts/migrate-api-keys/.
+     * Deletes an API key. Deprecated. See: https://grafana.com/docs/grafana/next/administration/api-keys/#migrate-api-keys-to-grafana-service-accounts-using-the-api.
      * Delete API key.
      * @deprecated
      */
@@ -112,7 +133,7 @@ export class ApiKeysApi extends runtime.BaseAPI {
     }
 
     /**
-     * Deletes an API key. Deprecated. See: https://grafana.com/docs/grafana/next/administration/service-accounts/migrate-api-keys/.
+     * Deletes an API key. Deprecated. See: https://grafana.com/docs/grafana/next/administration/api-keys/#migrate-api-keys-to-grafana-service-accounts-using-the-api.
      * Delete API key.
      * @deprecated
      */
@@ -122,7 +143,7 @@ export class ApiKeysApi extends runtime.BaseAPI {
     }
 
     /**
-     * Will return auth keys.  Deprecated: true.  Deprecated. Please use GET /api/serviceaccounts and GET /api/serviceaccounts/{id}/tokens instead see https://grafana.com/docs/grafana/next/administration/service-accounts/migrate-api-keys/.
+     * Will return auth keys.  Deprecated: true.  Deprecated. Please use GET /api/serviceaccounts and GET /api/serviceaccounts/{id}/tokens instead see https://grafana.com/docs/grafana/next/administration/api-keys/#migrate-api-keys-to-grafana-service-accounts-using-the-api.
      * Get auth keys.
      */
     async getAPIkeysRaw(requestParameters: ApiKeysApiGetAPIkeysRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<ApiKeyDTO>>> {
@@ -152,7 +173,7 @@ export class ApiKeysApi extends runtime.BaseAPI {
     }
 
     /**
-     * Will return auth keys.  Deprecated: true.  Deprecated. Please use GET /api/serviceaccounts and GET /api/serviceaccounts/{id}/tokens instead see https://grafana.com/docs/grafana/next/administration/service-accounts/migrate-api-keys/.
+     * Will return auth keys.  Deprecated: true.  Deprecated. Please use GET /api/serviceaccounts and GET /api/serviceaccounts/{id}/tokens instead see https://grafana.com/docs/grafana/next/administration/api-keys/#migrate-api-keys-to-grafana-service-accounts-using-the-api.
      * Get auth keys.
      */
     async getAPIkeys(requestParameters: ApiKeysApiGetAPIkeysRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<ApiKeyDTO>> {

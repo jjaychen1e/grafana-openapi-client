@@ -35,10 +35,10 @@ export interface CorrelationConfig {
     field: string;
     /**
      * Target data query
-     * @type {{ [key: string]: object; }}
+     * @type {object}
      * @memberof CorrelationConfig
      */
-    target: { [key: string]: object; };
+    target: object;
     /**
      * 
      * @type {Array<Transformation>}
@@ -46,12 +46,11 @@ export interface CorrelationConfig {
      */
     transformations?: Array<Transformation>;
     /**
-     * the type of correlation, either query for containing query information, or external for containing an external URL
-     * +enum
+     * 
      * @type {string}
      * @memberof CorrelationConfig
      */
-    type?: string;
+    type: string;
 }
 
 /**
@@ -60,6 +59,7 @@ export interface CorrelationConfig {
 export function instanceOfCorrelationConfig(value: object): value is CorrelationConfig {
     if (!('field' in value) || value['field'] === undefined) return false;
     if (!('target' in value) || value['target'] === undefined) return false;
+    if (!('type' in value) || value['type'] === undefined) return false;
     return true;
 }
 
@@ -76,7 +76,7 @@ export function CorrelationConfigFromJSONTyped(json: any, ignoreDiscriminator: b
         'field': json['field'],
         'target': json['target'],
         'transformations': json['transformations'] == null ? undefined : ((json['transformations'] as Array<any>).map(TransformationFromJSON)),
-        'type': json['type'] == null ? undefined : json['type'],
+        'type': json['type'],
     };
 }
 

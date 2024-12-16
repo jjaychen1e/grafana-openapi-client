@@ -45,16 +45,16 @@ export interface QueryStat {
     /**
      * Map values to a display color
      * NOTE: this interface is under development in the frontend... so simple map for now
-     * @type {{ [key: string]: object; }}
+     * @type {object}
      * @memberof QueryStat
      */
-    color?: { [key: string]: object; };
+    color?: object;
     /**
      * Panel Specific Values
-     * @type {{ [key: string]: object; }}
+     * @type {object}
      * @memberof QueryStat
      */
-    custom?: { [key: string]: object; };
+    custom?: object;
     /**
      * 
      * @type {number}

@@ -32,12 +32,6 @@ export interface Authorization {
      */
     credentialsFile?: string;
     /**
-     * CredentialsRef is the name of the secret within the secret manager to use as credentials.
-     * @type {string}
-     * @memberof Authorization
-     */
-    credentialsRef?: string;
-    /**
      * 
      * @type {string}
      * @memberof Authorization
@@ -64,7 +58,6 @@ export function AuthorizationFromJSONTyped(json: any, ignoreDiscriminator: boole
         
         'credentials': json['credentials'] == null ? undefined : json['credentials'],
         'credentialsFile': json['credentials_file'] == null ? undefined : json['credentials_file'],
-        'credentialsRef': json['credentials_ref'] == null ? undefined : json['credentials_ref'],
         'type': json['type'] == null ? undefined : json['type'],
     };
 }
@@ -82,7 +75,6 @@ export function AuthorizationToJSONTyped(value?: Authorization | null, ignoreDis
         
         'credentials': value['credentials'],
         'credentials_file': value['credentialsFile'],
-        'credentials_ref': value['credentialsRef'],
         'type': value['type'],
     };
 }

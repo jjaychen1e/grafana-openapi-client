@@ -21,22 +21,22 @@ import { mapValues } from '../runtime';
 export interface CookiePreferences {
     /**
      * 
-     * @type {{ [key: string]: object; }}
+     * @type {object}
      * @memberof CookiePreferences
      */
-    analytics?: { [key: string]: object; };
+    analytics?: object;
     /**
      * 
-     * @type {{ [key: string]: object; }}
+     * @type {object}
      * @memberof CookiePreferences
      */
-    functional?: { [key: string]: object; };
+    functional?: object;
     /**
      * 
-     * @type {{ [key: string]: object; }}
+     * @type {object}
      * @memberof CookiePreferences
      */
-    performance?: { [key: string]: object; };
+    performance?: object;
 }
 
 /**

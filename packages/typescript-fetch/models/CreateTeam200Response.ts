@@ -31,12 +31,6 @@ export interface CreateTeam200Response {
      * @memberof CreateTeam200Response
      */
     teamId?: number;
-    /**
-     * 
-     * @type {string}
-     * @memberof CreateTeam200Response
-     */
-    uid?: string;
 }
 
 /**
@@ -58,7 +52,6 @@ export function CreateTeam200ResponseFromJSONTyped(json: any, ignoreDiscriminato
         
         'message': json['message'] == null ? undefined : json['message'],
         'teamId': json['teamId'] == null ? undefined : json['teamId'],
-        'uid': json['uid'] == null ? undefined : json['uid'],
     };
 }
 
@@ -75,7 +68,6 @@ export function CreateTeam200ResponseToJSONTyped(value?: CreateTeam200Response |
         
         'message': value['message'],
         'teamId': value['teamId'],
-        'uid': value['uid'],
     };
 }
 

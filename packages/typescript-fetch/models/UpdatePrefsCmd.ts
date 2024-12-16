@@ -13,13 +13,6 @@
  */
 
 import { mapValues } from '../runtime';
-import type { NavbarPreference } from './NavbarPreference';
-import {
-    NavbarPreferenceFromJSON,
-    NavbarPreferenceFromJSONTyped,
-    NavbarPreferenceToJSON,
-    NavbarPreferenceToJSONTyped,
-} from './NavbarPreference';
 import type { QueryHistoryPreference } from './QueryHistoryPreference';
 import {
     QueryHistoryPreferenceFromJSON,
@@ -58,12 +51,6 @@ export interface UpdatePrefsCmd {
      * @memberof UpdatePrefsCmd
      */
     language?: string;
-    /**
-     * 
-     * @type {NavbarPreference}
-     * @memberof UpdatePrefsCmd
-     */
-    navbar?: NavbarPreference;
     /**
      * 
      * @type {QueryHistoryPreference}
@@ -132,7 +119,6 @@ export function UpdatePrefsCmdFromJSONTyped(json: any, ignoreDiscriminator: bool
         'homeDashboardId': json['homeDashboardId'] == null ? undefined : json['homeDashboardId'],
         'homeDashboardUID': json['homeDashboardUID'] == null ? undefined : json['homeDashboardUID'],
         'language': json['language'] == null ? undefined : json['language'],
-        'navbar': json['navbar'] == null ? undefined : NavbarPreferenceFromJSON(json['navbar']),
         'queryHistory': json['queryHistory'] == null ? undefined : QueryHistoryPreferenceFromJSON(json['queryHistory']),
         'theme': json['theme'] == null ? undefined : json['theme'],
         'timezone': json['timezone'] == null ? undefined : json['timezone'],
@@ -155,7 +141,6 @@ export function UpdatePrefsCmdToJSONTyped(value?: UpdatePrefsCmd | null, ignoreD
         'homeDashboardId': value['homeDashboardId'],
         'homeDashboardUID': value['homeDashboardUID'],
         'language': value['language'],
-        'navbar': NavbarPreferenceToJSON(value['navbar']),
         'queryHistory': QueryHistoryPreferenceToJSON(value['queryHistory']),
         'theme': value['theme'],
         'timezone': value['timezone'],

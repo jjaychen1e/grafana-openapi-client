@@ -36,7 +36,7 @@ import {
 } from './ReportOptions';
 
 /**
- * 
+ * ConfigDTO is model representation in transfer
  * @export
  * @interface Report
  */
@@ -126,7 +126,7 @@ export interface Report {
      */
     schedule?: ReportSchedule;
     /**
-     * +enum
+     * 
      * @type {string}
      * @memberof Report
      */

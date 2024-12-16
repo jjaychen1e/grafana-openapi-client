@@ -41,12 +41,6 @@ export interface ReportOptions {
     orientation?: string;
     /**
      * 
-     * @type {boolean}
-     * @memberof ReportOptions
-     */
-    pdfShowTemplateVariables?: boolean;
-    /**
-     * 
      * @type {ReportTimeRange}
      * @memberof ReportOptions
      */
@@ -72,7 +66,6 @@ export function ReportOptionsFromJSONTyped(json: any, ignoreDiscriminator: boole
         
         'layout': json['layout'] == null ? undefined : json['layout'],
         'orientation': json['orientation'] == null ? undefined : json['orientation'],
-        'pdfShowTemplateVariables': json['pdfShowTemplateVariables'] == null ? undefined : json['pdfShowTemplateVariables'],
         'timeRange': json['timeRange'] == null ? undefined : ReportTimeRangeFromJSON(json['timeRange']),
     };
 }
@@ -90,7 +83,6 @@ export function ReportOptionsToJSONTyped(value?: ReportOptions | null, ignoreDis
         
         'layout': value['layout'],
         'orientation': value['orientation'],
-        'pdfShowTemplateVariables': value['pdfShowTemplateVariables'],
         'timeRange': ReportTimeRangeToJSON(value['timeRange']),
     };
 }

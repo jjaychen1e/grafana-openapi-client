@@ -70,13 +70,6 @@ export interface Correlation {
      */
     targetUID?: string;
     /**
-     * the type of correlation, either query for containing query information, or external for containing an external URL
-     * +enum
-     * @type {string}
-     * @memberof Correlation
-     */
-    type?: string;
-    /**
      * Unique identifier of the correlation
      * @type {string}
      * @memberof Correlation
@@ -108,7 +101,6 @@ export function CorrelationFromJSONTyped(json: any, ignoreDiscriminator: boolean
         'provisioned': json['provisioned'] == null ? undefined : json['provisioned'],
         'sourceUID': json['sourceUID'] == null ? undefined : json['sourceUID'],
         'targetUID': json['targetUID'] == null ? undefined : json['targetUID'],
-        'type': json['type'] == null ? undefined : json['type'],
         'uid': json['uid'] == null ? undefined : json['uid'],
     };
 }
@@ -131,7 +123,6 @@ export function CorrelationToJSONTyped(value?: Correlation | null, ignoreDiscrim
         'provisioned': value['provisioned'],
         'sourceUID': value['sourceUID'],
         'targetUID': value['targetUID'],
-        'type': value['type'],
         'uid': value['uid'],
     };
 }

@@ -41,7 +41,6 @@ export interface SearchApiSearchRequest {
     page?: number;
     permission?: SearchPermissionEnum;
     sort?: SearchSortEnum;
-    deleted?: boolean;
 }
 
 /**
@@ -133,10 +132,6 @@ export class SearchApi extends runtime.BaseAPI {
 
         if (requestParameters['sort'] != null) {
             queryParameters['sort'] = requestParameters['sort'];
-        }
-
-        if (requestParameters['deleted'] != null) {
-            queryParameters['deleted'] = requestParameters['deleted'];
         }
 
         const headerParameters: runtime.HTTPHeaders = {};

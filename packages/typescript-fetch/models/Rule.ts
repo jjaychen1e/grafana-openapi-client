@@ -13,14 +13,6 @@
  */
 
 import { mapValues } from '../runtime';
-import type { Label } from './Label';
-import {
-    LabelFromJSON,
-    LabelFromJSONTyped,
-    LabelToJSON,
-    LabelToJSONTyped,
-} from './Label';
-
 /**
  * adapted from cortex
  * @export
@@ -40,12 +32,11 @@ export interface Rule {
      */
     health: string;
     /**
-     * Labels is a sorted set of labels. Order has to be guaranteed upon
-     * instantiation.
-     * @type {Array<Label>}
+     * The custom marshaling for labels.Labels ends up doing this anyways.
+     * @type {{ [key: string]: string; }}
      * @memberof Rule
      */
-    labels?: Array<Label>;
+    labels?: { [key: string]: string; };
     /**
      * 
      * @type {string}
@@ -101,7 +92,7 @@ export function RuleFromJSONTyped(json: any, ignoreDiscriminator: boolean): Rule
         
         'evaluationTime': json['evaluationTime'] == null ? undefined : json['evaluationTime'],
         'health': json['health'],
-        'labels': json['labels'] == null ? undefined : ((json['labels'] as Array<any>).map(LabelFromJSON)),
+        'labels': json['labels'] == null ? undefined : json['labels'],
         'lastError': json['lastError'] == null ? undefined : json['lastError'],
         'lastEvaluation': json['lastEvaluation'] == null ? undefined : (new Date(json['lastEvaluation'])),
         'name': json['name'],
@@ -123,7 +114,7 @@ export function RuleToJSONTyped(value?: Rule | null, ignoreDiscriminator: boolea
         
         'evaluationTime': value['evaluationTime'],
         'health': value['health'],
-        'labels': value['labels'] == null ? undefined : ((value['labels'] as Array<any>).map(LabelToJSON)),
+        'labels': value['labels'],
         'lastError': value['lastError'],
         'lastEvaluation': value['lastEvaluation'] == null ? undefined : ((value['lastEvaluation']).toISOString()),
         'name': value['name'],

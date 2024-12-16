@@ -14,7 +14,7 @@
 
 import { mapValues } from '../runtime';
 /**
- * 
+ * PagerdutyImage is an image
  * @export
  * @interface PagerdutyImage
  */

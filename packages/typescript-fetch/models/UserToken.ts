@@ -48,12 +48,6 @@ export interface UserToken {
      * @type {number}
      * @memberof UserToken
      */
-    externalSessionId?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof UserToken
-     */
     id?: number;
     /**
      * 
@@ -126,7 +120,6 @@ export function UserTokenFromJSONTyped(json: any, ignoreDiscriminator: boolean):
         'authTokenSeen': json['AuthTokenSeen'] == null ? undefined : json['AuthTokenSeen'],
         'clientIp': json['ClientIp'] == null ? undefined : json['ClientIp'],
         'createdAt': json['CreatedAt'] == null ? undefined : json['CreatedAt'],
-        'externalSessionId': json['ExternalSessionId'] == null ? undefined : json['ExternalSessionId'],
         'id': json['Id'] == null ? undefined : json['Id'],
         'prevAuthToken': json['PrevAuthToken'] == null ? undefined : json['PrevAuthToken'],
         'revokedAt': json['RevokedAt'] == null ? undefined : json['RevokedAt'],
@@ -154,7 +147,6 @@ export function UserTokenToJSONTyped(value?: UserToken | null, ignoreDiscriminat
         'AuthTokenSeen': value['authTokenSeen'],
         'ClientIp': value['clientIp'],
         'CreatedAt': value['createdAt'],
-        'ExternalSessionId': value['externalSessionId'],
         'Id': value['id'],
         'PrevAuthToken': value['prevAuthToken'],
         'RevokedAt': value['revokedAt'],

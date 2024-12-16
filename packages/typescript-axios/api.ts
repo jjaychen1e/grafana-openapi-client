@@ -799,10 +799,10 @@ export interface AlertQueryExport {
     'datasourceUid'?: string;
     /**
      * 
-     * @type {{ [key: string]: object; }}
+     * @type {object}
      * @memberof AlertQueryExport
      */
-    'model'?: { [key: string]: object; };
+    'model'?: object;
     /**
      * 
      * @type {string}
@@ -856,19 +856,6 @@ export interface AlertResponse {
 /**
  * 
  * @export
- * @interface AlertRuleEditorSettings
- */
-export interface AlertRuleEditorSettings {
-    /**
-     * 
-     * @type {boolean}
-     * @memberof AlertRuleEditorSettings
-     */
-    'simplified_query_and_expressions_section'?: boolean;
-}
-/**
- * 
- * @export
  * @interface AlertRuleExport
  */
 export interface AlertRuleExport {
@@ -889,7 +876,7 @@ export interface AlertRuleExport {
      * @type {string}
      * @memberof AlertRuleExport
      */
-    'dashboardUid'?: string;
+    'dasboardUid'?: string;
     /**
      * 
      * @type {Array<AlertQueryExport>}
@@ -938,12 +925,6 @@ export interface AlertRuleExport {
      * @memberof AlertRuleExport
      */
     'panelId'?: number;
-    /**
-     * 
-     * @type {AlertRuleRecordExport}
-     * @memberof AlertRuleExport
-     */
-    'record'?: AlertRuleRecordExport;
     /**
      * 
      * @type {string}
@@ -1057,19 +1038,6 @@ export interface AlertRuleGroupMetadata {
 /**
  * 
  * @export
- * @interface AlertRuleMetadata
- */
-export interface AlertRuleMetadata {
-    /**
-     * 
-     * @type {AlertRuleEditorSettings}
-     * @memberof AlertRuleMetadata
-     */
-    'editor_settings'?: AlertRuleEditorSettings;
-}
-/**
- * 
- * @export
  * @interface AlertRuleNotificationSettings
  */
 export interface AlertRuleNotificationSettings {
@@ -1152,25 +1120,6 @@ export interface AlertRuleNotificationSettingsExport {
      * @memberof AlertRuleNotificationSettingsExport
      */
     'repeat_interval'?: string;
-}
-/**
- * 
- * @export
- * @interface AlertRuleRecordExport
- */
-export interface AlertRuleRecordExport {
-    /**
-     * 
-     * @type {string}
-     * @memberof AlertRuleRecordExport
-     */
-    'from'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof AlertRuleRecordExport
-     */
-    'metric'?: string;
 }
 /**
  * AlertStatus alert status
@@ -1260,11 +1209,11 @@ export interface AlertingRule {
      */
     'alerts'?: Array<Alert>;
     /**
-     * Labels is a sorted set of labels. Order has to be guaranteed upon instantiation.
-     * @type {Array<Label>}
+     * The custom marshaling for labels.Labels ends up doing this anyways.
+     * @type {{ [key: string]: string; }}
      * @memberof AlertingRule
      */
-    'annotations': Array<Label>;
+    'annotations': { [key: string]: string; };
     /**
      * 
      * @type {number}
@@ -1284,11 +1233,11 @@ export interface AlertingRule {
      */
     'health': string;
     /**
-     * Labels is a sorted set of labels. Order has to be guaranteed upon instantiation.
-     * @type {Array<Label>}
+     * The custom marshaling for labels.Labels ends up doing this anyways.
+     * @type {{ [key: string]: string; }}
      * @memberof AlertingRule
      */
-    'labels'?: Array<Label>;
+    'labels'?: { [key: string]: string; };
     /**
      * 
      * @type {string}
@@ -1924,12 +1873,6 @@ export interface Authorization {
      */
     'credentials_file'?: string;
     /**
-     * CredentialsRef is the name of the secret within the secret manager to use as credentials.
-     * @type {string}
-     * @memberof Authorization
-     */
-    'credentials_ref'?: string;
-    /**
      * 
      * @type {string}
      * @memberof Authorization
@@ -2031,12 +1974,6 @@ export interface BasicAuth {
      */
     'password_file'?: string;
     /**
-     * PasswordRef is the name of the secret within the secret manager to use as the password.
-     * @type {string}
-     * @memberof BasicAuth
-     */
-    'password_ref'?: string;
-    /**
      * 
      * @type {string}
      * @memberof BasicAuth
@@ -2048,183 +1985,6 @@ export interface BasicAuth {
      * @memberof BasicAuth
      */
     'username_file'?: string;
-    /**
-     * UsernameRef is the name of the secret within the secret manager to use as the username.
-     * @type {string}
-     * @memberof BasicAuth
-     */
-    'username_ref'?: string;
-}
-/**
- * Config defines the internal representation of a cache configuration, including fields not set by the API caller
- * @export
- * @interface CacheConfig
- */
-export interface CacheConfig {
-    /**
-     * 
-     * @type {string}
-     * @memberof CacheConfig
-     */
-    'created'?: string;
-    /**
-     * Fields that can be set by the API caller - read/write
-     * @type {number}
-     * @memberof CacheConfig
-     */
-    'dataSourceID'?: number;
-    /**
-     * 
-     * @type {string}
-     * @memberof CacheConfig
-     */
-    'dataSourceUID'?: string;
-    /**
-     * These are returned by the HTTP API, but are managed internally - read-only Note: \'created\' and \'updated\' are special properties managed automatically by xorm, but we are setting them manually
-     * @type {number}
-     * @memberof CacheConfig
-     */
-    'defaultTTLMs'?: number;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof CacheConfig
-     */
-    'enabled'?: boolean;
-    /**
-     * TTL MS, or \"time to live\", is how long a cached item will stay in the cache before it is removed (in milliseconds)
-     * @type {number}
-     * @memberof CacheConfig
-     */
-    'ttlQueriesMs'?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof CacheConfig
-     */
-    'ttlResourcesMs'?: number;
-    /**
-     * 
-     * @type {string}
-     * @memberof CacheConfig
-     */
-    'updated'?: string;
-    /**
-     * If UseDefaultTTL is enabled, then the TTLQueriesMS and TTLResourcesMS in this object is always sent as the default TTL located in grafana.ini
-     * @type {boolean}
-     * @memberof CacheConfig
-     */
-    'useDefaultTTL'?: boolean;
-}
-/**
- * 
- * @export
- * @interface CacheConfigResponse
- */
-export interface CacheConfigResponse {
-    /**
-     * 
-     * @type {string}
-     * @memberof CacheConfigResponse
-     */
-    'created'?: string;
-    /**
-     * Fields that can be set by the API caller - read/write
-     * @type {number}
-     * @memberof CacheConfigResponse
-     */
-    'dataSourceID'?: number;
-    /**
-     * 
-     * @type {string}
-     * @memberof CacheConfigResponse
-     */
-    'dataSourceUID'?: string;
-    /**
-     * These are returned by the HTTP API, but are managed internally - read-only Note: \'created\' and \'updated\' are special properties managed automatically by xorm, but we are setting them manually
-     * @type {number}
-     * @memberof CacheConfigResponse
-     */
-    'defaultTTLMs'?: number;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof CacheConfigResponse
-     */
-    'enabled'?: boolean;
-    /**
-     * 
-     * @type {string}
-     * @memberof CacheConfigResponse
-     */
-    'message'?: string;
-    /**
-     * TTL MS, or \"time to live\", is how long a cached item will stay in the cache before it is removed (in milliseconds)
-     * @type {number}
-     * @memberof CacheConfigResponse
-     */
-    'ttlQueriesMs'?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof CacheConfigResponse
-     */
-    'ttlResourcesMs'?: number;
-    /**
-     * 
-     * @type {string}
-     * @memberof CacheConfigResponse
-     */
-    'updated'?: string;
-    /**
-     * If UseDefaultTTL is enabled, then the TTLQueriesMS and TTLResourcesMS in this object is always sent as the default TTL located in grafana.ini
-     * @type {boolean}
-     * @memberof CacheConfigResponse
-     */
-    'useDefaultTTL'?: boolean;
-}
-/**
- * ConfigSetter defines the cache parameters that users can configure per datasource This is only intended to be consumed by the SetCache HTTP Handler
- * @export
- * @interface CacheConfigSetter
- */
-export interface CacheConfigSetter {
-    /**
-     * 
-     * @type {number}
-     * @memberof CacheConfigSetter
-     */
-    'dataSourceID'?: number;
-    /**
-     * 
-     * @type {string}
-     * @memberof CacheConfigSetter
-     */
-    'dataSourceUID'?: string;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof CacheConfigSetter
-     */
-    'enabled'?: boolean;
-    /**
-     * TTL MS, or \"time to live\", is how long a cached item will stay in the cache before it is removed (in milliseconds)
-     * @type {number}
-     * @memberof CacheConfigSetter
-     */
-    'ttlQueriesMs'?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof CacheConfigSetter
-     */
-    'ttlResourcesMs'?: number;
-    /**
-     * If UseDefaultTTL is enabled, then the TTLQueriesMS and TTLResourcesMS in this object is always sent as the default TTL located in grafana.ini
-     * @type {boolean}
-     * @memberof CacheConfigSetter
-     */
-    'useDefaultTTL'?: boolean;
 }
 /**
  * 
@@ -2447,13 +2207,7 @@ export interface Certificate {
      */
     'PermittedURIDomains'?: Array<string>;
     /**
-     * Policies contains all policy identifiers included in the certificate. In Go 1.22, encoding/gob cannot handle and ignores this field.
-     * @type {Array<string>}
-     * @memberof Certificate
-     */
-    'Policies'?: Array<string>;
-    /**
-     * PolicyIdentifiers contains asn1.ObjectIdentifiers, the components of which are limited to int32. If a certificate contains a policy which cannot be represented by asn1.ObjectIdentifier, it will not be included in PolicyIdentifiers, but will be present in Policies, which contains all parsed policy OIDs.
+     * 
      * @type {Array<Array<number>>}
      * @memberof Certificate
      */
@@ -2594,76 +2348,6 @@ export interface ClearHelpFlags200Response {
     'message'?: string;
 }
 /**
- * 
- * @export
- * @interface CloudMigrationRunListDTO
- */
-export interface CloudMigrationRunListDTO {
-    /**
-     * 
-     * @type {Array<MigrateDataResponseListDTO>}
-     * @memberof CloudMigrationRunListDTO
-     */
-    'runs'?: Array<MigrateDataResponseListDTO>;
-}
-/**
- * 
- * @export
- * @interface CloudMigrationSessionListResponseDTO
- */
-export interface CloudMigrationSessionListResponseDTO {
-    /**
-     * 
-     * @type {Array<CloudMigrationSessionResponseDTO>}
-     * @memberof CloudMigrationSessionListResponseDTO
-     */
-    'sessions'?: Array<CloudMigrationSessionResponseDTO>;
-}
-/**
- * 
- * @export
- * @interface CloudMigrationSessionRequestDTO
- */
-export interface CloudMigrationSessionRequestDTO {
-    /**
-     * 
-     * @type {string}
-     * @memberof CloudMigrationSessionRequestDTO
-     */
-    'authToken'?: string;
-}
-/**
- * 
- * @export
- * @interface CloudMigrationSessionResponseDTO
- */
-export interface CloudMigrationSessionResponseDTO {
-    /**
-     * 
-     * @type {string}
-     * @memberof CloudMigrationSessionResponseDTO
-     */
-    'created'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof CloudMigrationSessionResponseDTO
-     */
-    'slug'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof CloudMigrationSessionResponseDTO
-     */
-    'uid'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof CloudMigrationSessionResponseDTO
-     */
-    'updated'?: string;
-}
-/**
  * ClusterStatus cluster status
  * @export
  * @interface ClusterStatus
@@ -2771,22 +2455,22 @@ export interface ContactPointExport {
 export interface CookiePreferences {
     /**
      * 
-     * @type {{ [key: string]: object; }}
+     * @type {object}
      * @memberof CookiePreferences
      */
-    'analytics'?: { [key: string]: object; };
+    'analytics'?: object;
     /**
      * 
-     * @type {{ [key: string]: object; }}
+     * @type {object}
      * @memberof CookiePreferences
      */
-    'functional'?: { [key: string]: object; };
+    'functional'?: object;
     /**
      * 
-     * @type {{ [key: string]: object; }}
+     * @type {object}
      * @memberof CookiePreferences
      */
-    'performance'?: { [key: string]: object; };
+    'performance'?: object;
 }
 /**
  * Correlation is the model for correlations definitions
@@ -2837,12 +2521,6 @@ export interface Correlation {
      */
     'targetUID'?: string;
     /**
-     * the type of correlation, either query for containing query information, or external for containing an external URL +enum
-     * @type {string}
-     * @memberof Correlation
-     */
-    'type'?: string;
-    /**
      * Unique identifier of the correlation
      * @type {string}
      * @memberof Correlation
@@ -2863,10 +2541,10 @@ export interface CorrelationConfig {
     'field': string;
     /**
      * Target data query
-     * @type {{ [key: string]: object; }}
+     * @type {object}
      * @memberof CorrelationConfig
      */
-    'target': { [key: string]: object; };
+    'target': object;
     /**
      * 
      * @type {Array<Transformation>}
@@ -2874,11 +2552,11 @@ export interface CorrelationConfig {
      */
     'transformations'?: Array<Transformation>;
     /**
-     * the type of correlation, either query for containing query information, or external for containing an external URL +enum
+     * 
      * @type {string}
      * @memberof CorrelationConfig
      */
-    'type'?: string;
+    'type': string;
 }
 /**
  * 
@@ -2894,29 +2572,22 @@ export interface CorrelationConfigUpdateDTO {
     'field'?: string;
     /**
      * Target data query
-     * @type {{ [key: string]: object; }}
+     * @type {object}
      * @memberof CorrelationConfigUpdateDTO
      */
-    'target'?: { [key: string]: object; };
+    'target'?: object;
     /**
      * Source data transformations
      * @type {Array<Transformation>}
      * @memberof CorrelationConfigUpdateDTO
      */
     'transformations'?: Array<Transformation>;
-}
-/**
- * 
- * @export
- * @interface CreateAccessTokenResponseDTO
- */
-export interface CreateAccessTokenResponseDTO {
     /**
      * 
      * @type {string}
-     * @memberof CreateAccessTokenResponseDTO
+     * @memberof CorrelationConfigUpdateDTO
      */
-    'token'?: string;
+    'type'?: string;
 }
 /**
  * CreateCorrelationCommand is the command for creating a correlation
@@ -2949,17 +2620,11 @@ export interface CreateCorrelationCommand {
      */
     'provisioned'?: boolean;
     /**
-     * Target data source UID to which the correlation is created. required if type = query
+     * Target data source UID to which the correlation is created. required if config.type = query
      * @type {string}
      * @memberof CreateCorrelationCommand
      */
     'targetUID'?: string;
-    /**
-     * the type of correlation, either query for containing query information, or external for containing an external URL +enum
-     * @type {string}
-     * @memberof CreateCorrelationCommand
-     */
-    'type'?: string;
 }
 /**
  * CreateCorrelationResponse is the response struct for CreateCorrelationCommand
@@ -3157,79 +2822,79 @@ export type CreateLibraryElementCommandKindEnum = typeof CreateLibraryElementCom
 /**
  * 
  * @export
- * @interface CreateOrUpdateReport
+ * @interface CreateOrUpdateReportConfig
  */
-export interface CreateOrUpdateReport {
+export interface CreateOrUpdateReportConfig {
     /**
      * 
      * @type {Array<ReportDashboard>}
-     * @memberof CreateOrUpdateReport
+     * @memberof CreateOrUpdateReportConfig
      */
     'dashboards'?: Array<ReportDashboard>;
     /**
      * 
      * @type {boolean}
-     * @memberof CreateOrUpdateReport
+     * @memberof CreateOrUpdateReportConfig
      */
     'enableCsv'?: boolean;
     /**
      * 
      * @type {boolean}
-     * @memberof CreateOrUpdateReport
+     * @memberof CreateOrUpdateReportConfig
      */
     'enableDashboardUrl'?: boolean;
     /**
      * 
      * @type {Array<string>}
-     * @memberof CreateOrUpdateReport
+     * @memberof CreateOrUpdateReportConfig
      */
     'formats'?: Array<string>;
     /**
      * 
      * @type {string}
-     * @memberof CreateOrUpdateReport
+     * @memberof CreateOrUpdateReportConfig
      */
     'message'?: string;
     /**
      * 
      * @type {string}
-     * @memberof CreateOrUpdateReport
+     * @memberof CreateOrUpdateReportConfig
      */
     'name'?: string;
     /**
      * 
      * @type {ReportOptions}
-     * @memberof CreateOrUpdateReport
+     * @memberof CreateOrUpdateReportConfig
      */
     'options'?: ReportOptions;
     /**
      * 
      * @type {string}
-     * @memberof CreateOrUpdateReport
+     * @memberof CreateOrUpdateReportConfig
      */
     'recipients'?: string;
     /**
      * 
      * @type {string}
-     * @memberof CreateOrUpdateReport
+     * @memberof CreateOrUpdateReportConfig
      */
     'replyTo'?: string;
     /**
      * 
      * @type {number}
-     * @memberof CreateOrUpdateReport
+     * @memberof CreateOrUpdateReportConfig
      */
     'scaleFactor'?: number;
     /**
      * 
      * @type {ReportSchedule}
-     * @memberof CreateOrUpdateReport
+     * @memberof CreateOrUpdateReportConfig
      */
     'schedule'?: ReportSchedule;
     /**
-     * +enum
+     * 
      * @type {string}
-     * @memberof CreateOrUpdateReport
+     * @memberof CreateOrUpdateReportConfig
      */
     'state'?: string;
 }
@@ -3427,19 +3092,6 @@ export type CreateServiceAccountFormRoleEnum = typeof CreateServiceAccountFormRo
 /**
  * 
  * @export
- * @interface CreateSnapshotResponseDTO
- */
-export interface CreateSnapshotResponseDTO {
-    /**
-     * 
-     * @type {string}
-     * @memberof CreateSnapshotResponseDTO
-     */
-    'uid'?: string;
-}
-/**
- * 
- * @export
  * @interface CreateTeam200Response
  */
 export interface CreateTeam200Response {
@@ -3455,12 +3107,6 @@ export interface CreateTeam200Response {
      * @memberof CreateTeam200Response
      */
     'teamId'?: number;
-    /**
-     * 
-     * @type {string}
-     * @memberof CreateTeam200Response
-     */
-    'uid'?: string;
 }
 /**
  * 
@@ -3859,6 +3505,12 @@ export interface DashboardMeta {
      * @memberof DashboardMeta
      */
     'publicDashboardEnabled'?: boolean;
+    /**
+     * 
+     * @type {string}
+     * @memberof DashboardMeta
+     */
+    'publicDashboardUid'?: string;
     /**
      * 
      * @type {string}
@@ -4363,6 +4015,12 @@ export interface DeleteCorrelationResponseBody {
  */
 export interface DeleteDashboardByUID200Response {
     /**
+     * ID Identifier of the deleted dashboard.
+     * @type {number}
+     * @memberof DeleteDashboardByUID200Response
+     */
+    'id': number;
+    /**
      * Message Message of the deleted dashboard.
      * @type {string}
      * @memberof DeleteDashboardByUID200Response
@@ -4374,12 +4032,6 @@ export interface DeleteDashboardByUID200Response {
      * @memberof DeleteDashboardByUID200Response
      */
     'title': string;
-    /**
-     * UID Identifier of the deleted dashboard.
-     * @type {string}
-     * @memberof DeleteDashboardByUID200Response
-     */
-    'uid': string;
 }
 /**
  * 
@@ -5044,16 +4696,16 @@ export interface Field {
 export interface FieldConfig {
     /**
      * Map values to a display color NOTE: this interface is under development in the frontend... so simple map for now
-     * @type {{ [key: string]: object; }}
+     * @type {object}
      * @memberof FieldConfig
      */
-    'color'?: { [key: string]: object; };
+    'color'?: object;
     /**
      * Panel Specific Values
-     * @type {{ [key: string]: object; }}
+     * @type {object}
      * @memberof FieldConfig
      */
-    'custom'?: { [key: string]: object; };
+    'custom'?: object;
     /**
      * 
      * @type {number}
@@ -5510,45 +5162,15 @@ export interface FrameMeta {
 /**
  * 
  * @export
- * @interface GetAccessTokenResponseDTO
+ * @interface GenericPublicError
  */
-export interface GetAccessTokenResponseDTO {
+export interface GenericPublicError {
     /**
      * 
-     * @type {string}
-     * @memberof GetAccessTokenResponseDTO
+     * @type {PublicError}
+     * @memberof GenericPublicError
      */
-    'createdAt'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof GetAccessTokenResponseDTO
-     */
-    'displayName'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof GetAccessTokenResponseDTO
-     */
-    'expiresAt'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof GetAccessTokenResponseDTO
-     */
-    'firstUsedAt'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof GetAccessTokenResponseDTO
-     */
-    'id'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof GetAccessTokenResponseDTO
-     */
-    'lastUsedAt'?: string;
+    'body'?: PublicError;
 }
 /**
  * 
@@ -5626,71 +5248,6 @@ export interface GetSharingOptions200Response {
      */
     'externalSnapshotURL'?: string;
 }
-/**
- * 
- * @export
- * @interface GetSnapshotResponseDTO
- */
-export interface GetSnapshotResponseDTO {
-    /**
-     * 
-     * @type {string}
-     * @memberof GetSnapshotResponseDTO
-     */
-    'created'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof GetSnapshotResponseDTO
-     */
-    'finished'?: string;
-    /**
-     * 
-     * @type {Array<MigrateDataResponseItemDTO>}
-     * @memberof GetSnapshotResponseDTO
-     */
-    'results'?: Array<MigrateDataResponseItemDTO>;
-    /**
-     * 
-     * @type {string}
-     * @memberof GetSnapshotResponseDTO
-     */
-    'sessionUid'?: string;
-    /**
-     * 
-     * @type {SnapshotResourceStats}
-     * @memberof GetSnapshotResponseDTO
-     */
-    'stats'?: SnapshotResourceStats;
-    /**
-     * 
-     * @type {string}
-     * @memberof GetSnapshotResponseDTO
-     */
-    'status'?: GetSnapshotResponseDTOStatusEnum;
-    /**
-     * 
-     * @type {string}
-     * @memberof GetSnapshotResponseDTO
-     */
-    'uid'?: string;
-}
-
-export const GetSnapshotResponseDTOStatusEnum = {
-    Initializing: 'INITIALIZING',
-    Creating: 'CREATING',
-    PendingUpload: 'PENDING_UPLOAD',
-    Uploading: 'UPLOADING',
-    PendingProcessing: 'PENDING_PROCESSING',
-    Processing: 'PROCESSING',
-    Finished: 'FINISHED',
-    Canceled: 'CANCELED',
-    Error: 'ERROR',
-    Unknown: 'UNKNOWN'
-} as const;
-
-export type GetSnapshotResponseDTOStatusEnum = typeof GetSnapshotResponseDTOStatusEnum[keyof typeof GetSnapshotResponseDTOStatusEnum];
-
 /**
  * GettableAlert gettable alert
  * @export
@@ -6084,12 +5641,6 @@ export interface GettableGrafanaRule {
     'is_paused'?: boolean;
     /**
      * 
-     * @type {AlertRuleMetadata}
-     * @memberof GettableGrafanaRule
-     */
-    'metadata'?: AlertRuleMetadata;
-    /**
-     * 
      * @type {string}
      * @memberof GettableGrafanaRule
      */
@@ -6118,12 +5669,6 @@ export interface GettableGrafanaRule {
      * @memberof GettableGrafanaRule
      */
     'provenance'?: string;
-    /**
-     * 
-     * @type {Record}
-     * @memberof GettableGrafanaRule
-     */
-    'record'?: Record;
     /**
      * 
      * @type {string}
@@ -6171,73 +5716,6 @@ export const GettableGrafanaRuleNoDataStateEnum = {
 
 export type GettableGrafanaRuleNoDataStateEnum = typeof GettableGrafanaRuleNoDataStateEnum[keyof typeof GettableGrafanaRuleNoDataStateEnum];
 
-/**
- * 
- * @export
- * @interface GettableGrafanaSilence
- */
-export interface GettableGrafanaSilence {
-    /**
-     * 
-     * @type {{ [key: string]: boolean; }}
-     * @memberof GettableGrafanaSilence
-     */
-    'accessControl'?: { [key: string]: boolean; };
-    /**
-     * comment
-     * @type {string}
-     * @memberof GettableGrafanaSilence
-     */
-    'comment': string;
-    /**
-     * created by
-     * @type {string}
-     * @memberof GettableGrafanaSilence
-     */
-    'createdBy': string;
-    /**
-     * ends at
-     * @type {string}
-     * @memberof GettableGrafanaSilence
-     */
-    'endsAt': string;
-    /**
-     * id
-     * @type {string}
-     * @memberof GettableGrafanaSilence
-     */
-    'id': string;
-    /**
-     * Matchers matchers
-     * @type {Array<Matcher>}
-     * @memberof GettableGrafanaSilence
-     */
-    'matchers': Array<Matcher>;
-    /**
-     * 
-     * @type {SilenceMetadata}
-     * @memberof GettableGrafanaSilence
-     */
-    'metadata'?: SilenceMetadata;
-    /**
-     * starts at
-     * @type {string}
-     * @memberof GettableGrafanaSilence
-     */
-    'startsAt': string;
-    /**
-     * 
-     * @type {SilenceStatus}
-     * @memberof GettableGrafanaSilence
-     */
-    'status': SilenceStatus;
-    /**
-     * updated at
-     * @type {string}
-     * @memberof GettableGrafanaSilence
-     */
-    'updatedAt': string;
-}
 /**
  * 
  * @export
@@ -6304,18 +5782,6 @@ export type GettableNGalertConfigAlertmanagersChoiceEnum = typeof GettableNGaler
  */
 export interface GettableRuleGroupConfig {
     /**
-     * 
-     * @type {boolean}
-     * @memberof GettableRuleGroupConfig
-     */
-    'align_evaluation_time_on_interval'?: boolean;
-    /**
-     * 
-     * @type {string}
-     * @memberof GettableRuleGroupConfig
-     */
-    'evaluation_delay'?: string;
-    /**
      * A Duration represents the elapsed time between two instants as an int64 nanosecond count. The representation limits the largest representable duration to approximately 290 years.
      * @type {number}
      * @memberof GettableRuleGroupConfig
@@ -6323,22 +5789,10 @@ export interface GettableRuleGroupConfig {
     'interval'?: number;
     /**
      * 
-     * @type {number}
-     * @memberof GettableRuleGroupConfig
-     */
-    'limit'?: number;
-    /**
-     * 
      * @type {string}
      * @memberof GettableRuleGroupConfig
      */
     'name'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof GettableRuleGroupConfig
-     */
-    'query_offset'?: string;
     /**
      * 
      * @type {Array<GettableExtendedRuleNode>}
@@ -6353,7 +5807,7 @@ export interface GettableRuleGroupConfig {
     'source_tenants'?: Array<string>;
 }
 /**
- * GettableSilence gettable silence
+ * 
  * @export
  * @interface GettableSilence
  */
@@ -6462,12 +5916,6 @@ export interface GettableTimeIntervals {
      * @memberof GettableTimeIntervals
      */
     'time_intervals'?: Array<TimeIntervalItem>;
-    /**
-     * 
-     * @type {string}
-     * @memberof GettableTimeIntervals
-     */
-    'version'?: string;
 }
 /**
  * 
@@ -6694,12 +6142,6 @@ export interface HTTPClientConfig {
      */
     'follow_redirects'?: boolean;
     /**
-     * 
-     * @type {Headers}
-     * @memberof HTTPClientConfig
-     */
-    'http_headers'?: Headers;
-    /**
      * NoProxy contains addresses that should not use a proxy.
      * @type {string}
      * @memberof HTTPClientConfig
@@ -6739,80 +6181,11 @@ export interface HTTPClientConfig {
 /**
  * 
  * @export
- * @interface Header
- */
-export interface Header {
-    /**
-     * 
-     * @type {Array<string>}
-     * @memberof Header
-     */
-    'files'?: Array<string>;
-    /**
-     * 
-     * @type {Array<string>}
-     * @memberof Header
-     */
-    'secrets'?: Array<string>;
-    /**
-     * 
-     * @type {Array<string>}
-     * @memberof Header
-     */
-    'values'?: Array<string>;
-}
-/**
- * 
- * @export
- * @interface Headers
- */
-export interface Headers {
-    /**
-     * 
-     * @type {{ [key: string]: Header; }}
-     * @memberof Headers
-     */
-    'Headers'?: { [key: string]: Header; };
-}
-/**
- * 
- * @export
- * @interface HealthResponse
- */
-export interface HealthResponse {
-    /**
-     * 
-     * @type {string}
-     * @memberof HealthResponse
-     */
-    'commit'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof HealthResponse
-     */
-    'database'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof HealthResponse
-     */
-    'enterpriseCommit'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof HealthResponse
-     */
-    'version'?: string;
-}
-/**
- * 
- * @export
  * @interface Hit
  */
 export interface Hit {
     /**
-     * 
+     * Deprecated: use FolderUID instead
      * @type {number}
      * @memberof Hit
      */
@@ -6846,19 +6219,7 @@ export interface Hit {
      * @type {boolean}
      * @memberof Hit
      */
-    'isDeleted'?: boolean;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof Hit
-     */
     'isStarred'?: boolean;
-    /**
-     * 
-     * @type {string}
-     * @memberof Hit
-     */
-    'permanentlyDeleteDate'?: string;
     /**
      * 
      * @type {string}
@@ -6946,7 +6307,7 @@ export interface IPNet {
      */
     'IP'?: string;
     /**
-     * See type [IPNet] and func [ParseCIDR] for details.
+     * See type IPNet and func ParseCIDR for details.
      * @type {Array<number>}
      * @memberof IPNet
      */
@@ -7177,6 +6538,43 @@ export interface InhibitRule {
      * @memberof InhibitRule
      */
     'target_matchers'?: Array<Matcher>;
+}
+/**
+ * Integration integration
+ * @export
+ * @interface Integration
+ */
+export interface Integration {
+    /**
+     * A timestamp indicating the last attempt to deliver a notification regardless of the outcome. Format: date-time
+     * @type {string}
+     * @memberof Integration
+     */
+    'lastNotifyAttempt'?: string;
+    /**
+     * Duration of the last attempt to deliver a notification in humanized format (`1s` or `15ms`, etc).
+     * @type {string}
+     * @memberof Integration
+     */
+    'lastNotifyAttemptDuration'?: string;
+    /**
+     * Error string for the last attempt to deliver a notification. Empty if the last attempt was successful.
+     * @type {string}
+     * @memberof Integration
+     */
+    'lastNotifyAttemptError'?: string;
+    /**
+     * name
+     * @type {string}
+     * @memberof Integration
+     */
+    'name': string;
+    /**
+     * send resolved
+     * @type {boolean}
+     * @memberof Integration
+     */
+    'sendResolved': boolean;
 }
 /**
  * InternalDataLink definition to allow Explore links to be constructed in the backend
@@ -7631,10 +7029,10 @@ export interface ListAllProvidersSettings200ResponseInner {
     'provider'?: string;
     /**
      * 
-     * @type {{ [key: string]: object; }}
+     * @type {object}
      * @memberof ListAllProvidersSettings200ResponseInner
      */
-    'settings'?: { [key: string]: object; };
+    'settings'?: object;
     /**
      * 
      * @type {string}
@@ -7816,105 +7214,6 @@ export interface MetricRequest {
     'to': string;
 }
 /**
- * 
- * @export
- * @interface MigrateDataResponseDTO
- */
-export interface MigrateDataResponseDTO {
-    /**
-     * 
-     * @type {Array<MigrateDataResponseItemDTO>}
-     * @memberof MigrateDataResponseDTO
-     */
-    'items'?: Array<MigrateDataResponseItemDTO>;
-    /**
-     * 
-     * @type {string}
-     * @memberof MigrateDataResponseDTO
-     */
-    'uid'?: string;
-}
-/**
- * 
- * @export
- * @interface MigrateDataResponseItemDTO
- */
-export interface MigrateDataResponseItemDTO {
-    /**
-     * 
-     * @type {string}
-     * @memberof MigrateDataResponseItemDTO
-     */
-    'message'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof MigrateDataResponseItemDTO
-     */
-    'name'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof MigrateDataResponseItemDTO
-     */
-    'parentName'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof MigrateDataResponseItemDTO
-     */
-    'refId': string;
-    /**
-     * 
-     * @type {string}
-     * @memberof MigrateDataResponseItemDTO
-     */
-    'status': MigrateDataResponseItemDTOStatusEnum;
-    /**
-     * 
-     * @type {string}
-     * @memberof MigrateDataResponseItemDTO
-     */
-    'type': MigrateDataResponseItemDTOTypeEnum;
-}
-
-export const MigrateDataResponseItemDTOStatusEnum = {
-    Ok: 'OK',
-    Warning: 'WARNING',
-    Error: 'ERROR',
-    Pending: 'PENDING',
-    Unknown: 'UNKNOWN'
-} as const;
-
-export type MigrateDataResponseItemDTOStatusEnum = typeof MigrateDataResponseItemDTOStatusEnum[keyof typeof MigrateDataResponseItemDTOStatusEnum];
-export const MigrateDataResponseItemDTOTypeEnum = {
-    Dashboard: 'DASHBOARD',
-    Datasource: 'DATASOURCE',
-    Folder: 'FOLDER',
-    LibraryElement: 'LIBRARY_ELEMENT',
-    AlertRule: 'ALERT_RULE',
-    ContactPoint: 'CONTACT_POINT',
-    NotificationPolicy: 'NOTIFICATION_POLICY',
-    NotificationTemplate: 'NOTIFICATION_TEMPLATE',
-    MuteTiming: 'MUTE_TIMING'
-} as const;
-
-export type MigrateDataResponseItemDTOTypeEnum = typeof MigrateDataResponseItemDTOTypeEnum[keyof typeof MigrateDataResponseItemDTOTypeEnum];
-
-/**
- * 
- * @export
- * @interface MigrateDataResponseListDTO
- */
-export interface MigrateDataResponseListDTO {
-    /**
-     * 
-     * @type {string}
-     * @memberof MigrateDataResponseListDTO
-     */
-    'uid'?: string;
-}
-/**
  * MoveFolderCommand captures the information required by the folder service to move a folder.
  * @export
  * @interface MoveFolderCommand
@@ -7972,7 +7271,7 @@ export interface MuteTimeIntervalExport {
     'time_intervals'?: Array<TimeInterval>;
 }
 /**
- * Name represents an X.509 distinguished name. This only includes the common elements of a DN. Note that Name is only an approximation of the X.509 structure. If an accurate representation is needed, asn1.Unmarshal the raw subject or issuer as an [RDNSequence].
+ * Name represents an X.509 distinguished name. This only includes the common elements of a DN. Note that Name is only an approximation of the X.509 structure. If an accurate representation is needed, asn1.Unmarshal the raw subject or issuer as an RDNSequence.
  * @export
  * @interface Name
  */
@@ -8013,19 +7312,6 @@ export interface Name {
      * @memberof Name
      */
     'StreetAddress'?: Array<string>;
-}
-/**
- * 
- * @export
- * @interface NavbarPreference
- */
-export interface NavbarPreference {
-    /**
-     * 
-     * @type {Array<string>}
-     * @memberof NavbarPreference
-     */
-    'bookmarkUrls'?: Array<string>;
 }
 /**
  * 
@@ -8192,12 +7478,6 @@ export interface NotificationTemplate {
      * @memberof NotificationTemplate
      */
     'template'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof NotificationTemplate
-     */
-    'version'?: string;
 }
 /**
  * 
@@ -8211,12 +7491,6 @@ export interface NotificationTemplateContent {
      * @memberof NotificationTemplateContent
      */
     'template'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof NotificationTemplateContent
-     */
-    'version'?: string;
 }
 /**
  * 
@@ -8261,12 +7535,6 @@ export interface OAuth2 {
      * @memberof OAuth2
      */
     'client_secret_file'?: string;
-    /**
-     * ClientSecretRef is the name of the secret within the secret manager to use as the client secret.
-     * @type {string}
-     * @memberof OAuth2
-     */
-    'client_secret_ref'?: string;
     /**
      * 
      * @type {{ [key: string]: string; }}
@@ -8689,7 +7957,7 @@ export interface PagerdutyConfig {
     'url'?: URL;
 }
 /**
- * 
+ * PagerdutyImage is an image
  * @export
  * @interface PagerdutyImage
  */
@@ -8714,7 +7982,7 @@ export interface PagerdutyImage {
     'src'?: string;
 }
 /**
- * 
+ * PagerdutyLink is a link
  * @export
  * @interface PagerdutyLink
  */
@@ -8862,12 +8130,6 @@ export interface PatchPrefsCmd {
      * @memberof PatchPrefsCmd
      */
     'language'?: string;
-    /**
-     * 
-     * @type {NavbarPreference}
-     * @memberof PatchPrefsCmd
-     */
-    'navbar'?: NavbarPreference;
     /**
      * 
      * @type {QueryHistoryPreference}
@@ -9667,12 +8929,6 @@ export interface PostableGrafanaRule {
     'is_paused'?: boolean;
     /**
      * 
-     * @type {AlertRuleMetadata}
-     * @memberof PostableGrafanaRule
-     */
-    'metadata'?: AlertRuleMetadata;
-    /**
-     * 
      * @type {string}
      * @memberof PostableGrafanaRule
      */
@@ -9683,12 +8939,6 @@ export interface PostableGrafanaRule {
      * @memberof PostableGrafanaRule
      */
     'notification_settings'?: AlertRuleNotificationSettings;
-    /**
-     * 
-     * @type {Record}
-     * @memberof PostableGrafanaRule
-     */
-    'record'?: Record;
     /**
      * 
      * @type {string}
@@ -9747,29 +8997,11 @@ export type PostableNGalertConfigAlertmanagersChoiceEnum = typeof PostableNGaler
  */
 export interface PostableRuleGroupConfig {
     /**
-     * 
-     * @type {boolean}
-     * @memberof PostableRuleGroupConfig
-     */
-    'align_evaluation_time_on_interval'?: boolean;
-    /**
-     * 
-     * @type {string}
-     * @memberof PostableRuleGroupConfig
-     */
-    'evaluation_delay'?: string;
-    /**
      * A Duration represents the elapsed time between two instants as an int64 nanosecond count. The representation limits the largest representable duration to approximately 290 years.
      * @type {number}
      * @memberof PostableRuleGroupConfig
      */
     'interval'?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof PostableRuleGroupConfig
-     */
-    'limit'?: number;
     /**
      * 
      * @type {string}
@@ -9778,22 +9010,10 @@ export interface PostableRuleGroupConfig {
     'name'?: string;
     /**
      * 
-     * @type {string}
-     * @memberof PostableRuleGroupConfig
-     */
-    'query_offset'?: string;
-    /**
-     * 
      * @type {Array<PostableExtendedRuleNode>}
      * @memberof PostableRuleGroupConfig
      */
     'rules'?: Array<PostableExtendedRuleNode>;
-    /**
-     * 
-     * @type {Array<string>}
-     * @memberof PostableRuleGroupConfig
-     */
-    'source_tenants'?: Array<string>;
 }
 /**
  * PostableSilence postable silence
@@ -9856,12 +9076,6 @@ export interface PostableTimeIntervals {
      * @memberof PostableTimeIntervals
      */
     'time_intervals'?: Array<TimeIntervalItem>;
-    /**
-     * 
-     * @type {string}
-     * @memberof PostableTimeIntervals
-     */
-    'version'?: string;
 }
 /**
  * 
@@ -9906,12 +9120,6 @@ export interface Preferences {
      * @memberof Preferences
      */
     'language'?: string;
-    /**
-     * 
-     * @type {NavbarPreference}
-     * @memberof Preferences
-     */
-    'navbar'?: NavbarPreference;
     /**
      * 
      * @type {QueryHistoryPreference}
@@ -9999,11 +9207,11 @@ export interface ProvisionedAlertRule {
      */
     'folderUID': string;
     /**
-     * 
-     * @type {string}
+     * A Duration represents the elapsed time between two instants as an int64 nanosecond count. The representation limits the largest representable duration to approximately 290 years.
+     * @type {number}
      * @memberof ProvisionedAlertRule
      */
-    'for': string;
+    'for': number;
     /**
      * 
      * @type {number}
@@ -10046,12 +9254,6 @@ export interface ProvisionedAlertRule {
      * @memberof ProvisionedAlertRule
      */
     'provenance'?: string;
-    /**
-     * 
-     * @type {Record}
-     * @memberof ProvisionedAlertRule
-     */
-    'record'?: Record;
     /**
      * 
      * @type {string}
@@ -10328,10 +9530,10 @@ export interface PublicDashboardListResponseWithPagination {
 export interface PublicError {
     /**
      * Extra Additional information about the error
-     * @type {{ [key: string]: object; }}
+     * @type {object}
      * @memberof PublicError
      */
-    'extra'?: { [key: string]: object; };
+    'extra'?: object;
     /**
      * Message A human readable message
      * @type {string}
@@ -10619,16 +9821,16 @@ export interface QueryHistorySearchResult {
 export interface QueryStat {
     /**
      * Map values to a display color NOTE: this interface is under development in the frontend... so simple map for now
-     * @type {{ [key: string]: object; }}
+     * @type {object}
      * @memberof QueryStat
      */
-    'color'?: { [key: string]: object; };
+    'color'?: object;
     /**
      * Panel Specific Values
-     * @type {{ [key: string]: object; }}
+     * @type {object}
      * @memberof QueryStat
      */
-    'custom'?: { [key: string]: object; };
+    'custom'?: object;
     /**
      * 
      * @type {number}
@@ -10770,11 +9972,23 @@ export interface QuotaDTO {
     'user_id'?: number;
 }
 /**
- * Receiver receiver
+ * 
  * @export
  * @interface Receiver
  */
 export interface Receiver {
+    /**
+     * active
+     * @type {boolean}
+     * @memberof Receiver
+     */
+    'active': boolean;
+    /**
+     * integrations
+     * @type {Array<Integration>}
+     * @memberof Receiver
+     */
+    'integrations': Array<Integration>;
     /**
      * name
      * @type {string}
@@ -10812,25 +10026,6 @@ export interface ReceiverExport {
      * @memberof ReceiverExport
      */
     'uid'?: string;
-}
-/**
- * 
- * @export
- * @interface Record
- */
-export interface Record {
-    /**
-     * Which expression node should be used as the input for the recorded metric.
-     * @type {string}
-     * @memberof Record
-     */
-    'from': string;
-    /**
-     * Name of the recorded metric.
-     * @type {string}
-     * @memberof Record
-     */
-    'metric': string;
 }
 /**
  * RecordingRuleJSON is the external representation of a recording rule
@@ -10888,10 +10083,10 @@ export interface RecordingRuleJSON {
     'prom_name'?: string;
     /**
      * 
-     * @type {Array<{ [key: string]: object; }>}
+     * @type {Array<object>}
      * @memberof RecordingRuleJSON
      */
-    'queries'?: Array<{ [key: string]: object; }>;
+    'queries'?: Array<object>;
     /**
      * 
      * @type {number}
@@ -10944,7 +10139,7 @@ export interface RelativeTimeRangeExport {
     'to'?: number;
 }
 /**
- * 
+ * ConfigDTO is model representation in transfer
  * @export
  * @interface Report
  */
@@ -11034,7 +10229,7 @@ export interface Report {
      */
     'schedule'?: ReportSchedule;
     /**
-     * +enum
+     * 
      * @type {string}
      * @memberof Report
      */
@@ -11188,12 +10383,6 @@ export interface ReportOptions {
      * @memberof ReportOptions
      */
     'orientation'?: string;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof ReportOptions
-     */
-    'pdfShowTemplateVariables'?: boolean;
     /**
      * 
      * @type {ReportTimeRange}
@@ -11426,19 +10615,6 @@ export interface RestoreDashboardVersionCommand {
 /**
  * 
  * @export
- * @interface RestoreDeletedDashboardCommand
- */
-export interface RestoreDeletedDashboardCommand {
-    /**
-     * 
-     * @type {string}
-     * @memberof RestoreDeletedDashboardCommand
-     */
-    'folderUid'?: string;
-}
-/**
- * 
- * @export
  * @interface RetrieveJWKS200Response
  */
 export interface RetrieveJWKS200Response {
@@ -11609,12 +10785,6 @@ export interface RolesSearchQuery {
  * @interface Route
  */
 export interface Route {
-    /**
-     * 
-     * @type {Array<string>}
-     * @memberof Route
-     */
-    'active_time_intervals'?: Array<string>;
     /**
      * 
      * @type {boolean}
@@ -11792,11 +10962,11 @@ export interface Rule {
      */
     'health': string;
     /**
-     * Labels is a sorted set of labels. Order has to be guaranteed upon instantiation.
-     * @type {Array<Label>}
+     * The custom marshaling for labels.Labels ends up doing this anyways.
+     * @type {{ [key: string]: string; }}
      * @memberof Rule
      */
-    'labels'?: Array<Label>;
+    'labels'?: { [key: string]: string; };
     /**
      * 
      * @type {string}
@@ -11903,18 +11073,6 @@ export interface RuleGroup {
  */
 export interface RuleGroupConfigResponse {
     /**
-     * 
-     * @type {boolean}
-     * @memberof RuleGroupConfigResponse
-     */
-    'align_evaluation_time_on_interval'?: boolean;
-    /**
-     * 
-     * @type {string}
-     * @memberof RuleGroupConfigResponse
-     */
-    'evaluation_delay'?: string;
-    /**
      * A Duration represents the elapsed time between two instants as an int64 nanosecond count. The representation limits the largest representable duration to approximately 290 years.
      * @type {number}
      * @memberof RuleGroupConfigResponse
@@ -11922,22 +11080,10 @@ export interface RuleGroupConfigResponse {
     'interval'?: number;
     /**
      * 
-     * @type {number}
-     * @memberof RuleGroupConfigResponse
-     */
-    'limit'?: number;
-    /**
-     * 
      * @type {string}
      * @memberof RuleGroupConfigResponse
      */
     'name'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof RuleGroupConfigResponse
-     */
-    'query_offset'?: string;
     /**
      * 
      * @type {Array<GettableExtendedRuleNode>}
@@ -12134,55 +11280,6 @@ export interface SaveDashboardCommand {
      * @memberof SaveDashboardCommand
      */
     'userId'?: number;
-}
-/**
- * 
- * @export
- * @interface SearchDTO
- */
-export interface SearchDTO {
-    /**
-     * 
-     * @type {string}
-     * @memberof SearchDTO
-     */
-    'action'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof SearchDTO
-     */
-    'basicRole'?: string;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof SearchDTO
-     */
-    'onlyRoles'?: boolean;
-    /**
-     * 
-     * @type {string}
-     * @memberof SearchDTO
-     */
-    'roleName'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof SearchDTO
-     */
-    'scope'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof SearchDTO
-     */
-    'teamId'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof SearchDTO
-     */
-    'userId'?: string;
 }
 /**
  * 
@@ -12650,25 +11747,6 @@ export interface SetRoleAssignmentsCommand {
 /**
  * 
  * @export
- * @interface SetTeamMembershipsCommand
- */
-export interface SetTeamMembershipsCommand {
-    /**
-     * 
-     * @type {Array<string>}
-     * @memberof SetTeamMembershipsCommand
-     */
-    'admins'?: Array<string>;
-    /**
-     * 
-     * @type {Array<string>}
-     * @memberof SetTeamMembershipsCommand
-     */
-    'members'?: Array<string>;
-}
-/**
- * 
- * @export
  * @interface SetUserRolesCommand
  */
 export interface SetUserRolesCommand {
@@ -12764,31 +11842,6 @@ export interface Silence {
      * @memberof Silence
      */
     'startsAt': string;
-}
-/**
- * 
- * @export
- * @interface SilenceMetadata
- */
-export interface SilenceMetadata {
-    /**
-     * 
-     * @type {string}
-     * @memberof SilenceMetadata
-     */
-    'folder_uid'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof SilenceMetadata
-     */
-    'rule_title'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof SilenceMetadata
-     */
-    'rule_uid'?: string;
 }
 /**
  * SilenceStatus silence status
@@ -13061,97 +12114,6 @@ export interface SlackField {
     'value'?: string;
 }
 /**
- * Base snapshot without results
- * @export
- * @interface SnapshotDTO
- */
-export interface SnapshotDTO {
-    /**
-     * 
-     * @type {string}
-     * @memberof SnapshotDTO
-     */
-    'created'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof SnapshotDTO
-     */
-    'finished'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof SnapshotDTO
-     */
-    'sessionUid'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof SnapshotDTO
-     */
-    'status'?: SnapshotDTOStatusEnum;
-    /**
-     * 
-     * @type {string}
-     * @memberof SnapshotDTO
-     */
-    'uid'?: string;
-}
-
-export const SnapshotDTOStatusEnum = {
-    Initializing: 'INITIALIZING',
-    Creating: 'CREATING',
-    PendingUpload: 'PENDING_UPLOAD',
-    Uploading: 'UPLOADING',
-    PendingProcessing: 'PENDING_PROCESSING',
-    Processing: 'PROCESSING',
-    Finished: 'FINISHED',
-    Canceled: 'CANCELED',
-    Error: 'ERROR',
-    Unknown: 'UNKNOWN'
-} as const;
-
-export type SnapshotDTOStatusEnum = typeof SnapshotDTOStatusEnum[keyof typeof SnapshotDTOStatusEnum];
-
-/**
- * 
- * @export
- * @interface SnapshotListResponseDTO
- */
-export interface SnapshotListResponseDTO {
-    /**
-     * 
-     * @type {Array<SnapshotDTO>}
-     * @memberof SnapshotListResponseDTO
-     */
-    'snapshots'?: Array<SnapshotDTO>;
-}
-/**
- * 
- * @export
- * @interface SnapshotResourceStats
- */
-export interface SnapshotResourceStats {
-    /**
-     * 
-     * @type {{ [key: string]: number; }}
-     * @memberof SnapshotResourceStats
-     */
-    'statuses'?: { [key: string]: number; };
-    /**
-     * 
-     * @type {number}
-     * @memberof SnapshotResourceStats
-     */
-    'total'?: number;
-    /**
-     * 
-     * @type {{ [key: string]: number; }}
-     * @memberof SnapshotResourceStats
-     */
-    'types'?: { [key: string]: number; };
-}
-/**
  * 
  * @export
  * @interface Span
@@ -13239,12 +12201,6 @@ export interface TLSConfig {
      */
     'ca_file'?: string;
     /**
-     * CARef is the name of the secret within the secret manager to use as the CA cert for the targets.
-     * @type {string}
-     * @memberof TLSConfig
-     */
-    'ca_ref'?: string;
-    /**
      * Text of the client cert file for the targets.
      * @type {string}
      * @memberof TLSConfig
@@ -13256,12 +12212,6 @@ export interface TLSConfig {
      * @memberof TLSConfig
      */
     'cert_file'?: string;
-    /**
-     * CertRef is the name of the secret within the secret manager to use as the client cert for the targets.
-     * @type {string}
-     * @memberof TLSConfig
-     */
-    'cert_ref'?: string;
     /**
      * Disable target certificate validation.
      * @type {boolean}
@@ -13280,12 +12230,6 @@ export interface TLSConfig {
      * @memberof TLSConfig
      */
     'key_file'?: string;
-    /**
-     * KeyRef is the name of the secret within the secret manager to use as the client key for the targets.
-     * @type {string}
-     * @memberof TLSConfig
-     */
-    'key_ref'?: string;
     /**
      * 
      * @type {number}
@@ -13422,38 +12366,6 @@ export interface TeamGroupMapping {
      * @memberof TeamGroupMapping
      */
     'groupId'?: string;
-}
-/**
- * 
- * @export
- * @interface TeamLBACRule
- */
-export interface TeamLBACRule {
-    /**
-     * 
-     * @type {Array<string>}
-     * @memberof TeamLBACRule
-     */
-    'rules'?: Array<string>;
-    /**
-     * 
-     * @type {string}
-     * @memberof TeamLBACRule
-     */
-    'teamId'?: string;
-}
-/**
- * 
- * @export
- * @interface TeamLBACRules
- */
-export interface TeamLBACRules {
-    /**
-     * 
-     * @type {Array<TeamLBACRule>}
-     * @memberof TeamLBACRules
-     */
-    'rules'?: Array<TeamLBACRule>;
 }
 /**
  * 
@@ -14346,7 +13258,7 @@ export interface TypeMeta {
     'kind'?: string;
 }
 /**
- * The general form represented is:  [scheme:][//[userinfo@]host][/]path[?query][#fragment]  URLs that do not start with a slash after the scheme are interpreted as:  scheme:opaque[?query][#fragment]  The Host field contains the host and port subcomponents of the URL. When the port is present, it is separated from the host with a colon. When the host is an IPv6 address, it must be enclosed in square brackets: \"[fe80::1]:80\". The [net.JoinHostPort] function combines a host and port into a string suitable for the Host field, adding square brackets to the host when necessary.  Note that the Path field is stored in decoded form: /%47%6f%2f becomes /Go/. A consequence is that it is impossible to tell which slashes in the Path were slashes in the raw URL and which were %2f. This distinction is rarely important, but when it is, the code should use the [URL.EscapedPath] method, which preserves the original encoding of Path.  The RawPath field is an optional field which is only set when the default encoding of Path is different from the escaped path. See the EscapedPath method for more details.  URL\'s String method uses the EscapedPath method to obtain the path.
+ * The general form represented is:  [scheme:][//[userinfo@]host][/]path[?query][#fragment]  URLs that do not start with a slash after the scheme are interpreted as:  scheme:opaque[?query][#fragment]  Note that the Path field is stored in decoded form: /%47%6f%2f becomes /Go/. A consequence is that it is impossible to tell which slashes in the Path were slashes in the raw URL and which were %2f. This distinction is rarely important, but when it is, the code should use the EscapedPath method, which preserves the original encoding of Path.  The RawPath field is an optional field which is only set when the default encoding of Path is different from the escaped path. See the EscapedPath method for more details.  URL\'s String method uses the EscapedPath method to obtain the path.
  * @export
  * @interface URL
  */
@@ -14412,7 +13324,7 @@ export interface URL {
      */
     'Scheme'?: string;
     /**
-     * The Userinfo type is an immutable encapsulation of username and password details for a [URL]. An existing Userinfo value is guaranteed to have a username set (potentially empty, as allowed by RFC 2396), and optionally a password.
+     * The Userinfo type is an immutable encapsulation of username and password details for a URL. An existing Userinfo value is guaranteed to have a username set (potentially empty, as allowed by RFC 2396), and optionally a password.
      * @type {object}
      * @memberof URL
      */
@@ -14426,10 +13338,10 @@ export interface URL {
 export interface Unstructured {
     /**
      * Object is a JSON compatible map with string, float, int, bool, []interface{}, or map[string]interface{} children.
-     * @type {{ [key: string]: object; }}
+     * @type {object}
      * @memberof Unstructured
      */
-    'Object'?: { [key: string]: object; };
+    'Object'?: object;
 }
 /**
  * 
@@ -14498,12 +13410,6 @@ export interface UpdateCorrelationCommand {
      * @memberof UpdateCorrelationCommand
      */
     'label'?: string;
-    /**
-     * the type of correlation, either query for containing query information, or external for containing an external URL +enum
-     * @type {string}
-     * @memberof UpdateCorrelationCommand
-     */
-    'type'?: string;
 }
 /**
  * 
@@ -14801,12 +13707,6 @@ export interface UpdatePrefsCmd {
     'language'?: string;
     /**
      * 
-     * @type {NavbarPreference}
-     * @memberof UpdatePrefsCmd
-     */
-    'navbar'?: NavbarPreference;
-    /**
-     * 
      * @type {QueryHistoryPreference}
      * @memberof UpdatePrefsCmd
      */
@@ -14865,10 +13765,10 @@ export interface UpdateProviderSettingsRequest {
     'provider'?: string;
     /**
      * 
-     * @type {{ [key: string]: object; }}
+     * @type {object}
      * @memberof UpdateProviderSettingsRequest
      */
-    'settings'?: { [key: string]: object; };
+    'settings'?: object;
 }
 /**
  * 
@@ -15071,56 +13971,6 @@ export interface UpdateTeamCommand {
      * @memberof UpdateTeamCommand
      */
     'Name'?: string;
-}
-/**
- * 
- * @export
- * @interface UpdateTeamLBACCommand
- */
-export interface UpdateTeamLBACCommand {
-    /**
-     * 
-     * @type {Array<TeamLBACRule>}
-     * @memberof UpdateTeamLBACCommand
-     */
-    'rules'?: Array<TeamLBACRule>;
-}
-/**
- * 
- * @export
- * @interface UpdateTeamLBACRulesApi200Response
- */
-export interface UpdateTeamLBACRulesApi200Response {
-    /**
-     * 
-     * @type {number}
-     * @memberof UpdateTeamLBACRulesApi200Response
-     */
-    'id'?: number;
-    /**
-     * 
-     * @type {TeamLBACRules}
-     * @memberof UpdateTeamLBACRulesApi200Response
-     */
-    'lbacRules'?: TeamLBACRules;
-    /**
-     * 
-     * @type {string}
-     * @memberof UpdateTeamLBACRulesApi200Response
-     */
-    'message'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof UpdateTeamLBACRulesApi200Response
-     */
-    'name'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof UpdateTeamLBACRulesApi200Response
-     */
-    'uid'?: string;
 }
 /**
  * 
@@ -15443,12 +14293,6 @@ export interface UserToken {
      * @type {number}
      * @memberof UserToken
      */
-    'ExternalSessionId'?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof UserToken
-     */
     'Id'?: number;
     /**
      * 
@@ -15510,7 +14354,7 @@ export interface ValidationError {
      * @type {string}
      * @memberof ValidationError
      */
-    'message'?: string;
+    'msg'?: string;
 }
 /**
  * VersionInfo version info
@@ -16135,7 +14979,7 @@ export const AccessControlApiAxiosParamCreator = function (configuration?: Confi
             };
         },
         /**
-         * Get role assignments for the role with the given UID. Does not include role assignments mapped through group attribute sync.  You need to have a permission with action `teams.roles:list` and scope `teams:id:*` and `users.roles:list` and scope `users:id:*`.
+         * Get role assignments for the role with the given UID.  You need to have a permission with action `teams.roles:list` and scope `teams:id:*` and `users.roles:list` and scope `users:id:*`.
          * @summary Get role assignments.
          * @param {string} roleUID 
          * @param {*} [options] Override http request option.
@@ -16176,14 +15020,13 @@ export const AccessControlApiAxiosParamCreator = function (configuration?: Confi
             };
         },
         /**
-         * Gets all existing roles. The response contains all global and organization local roles, for the organization which user is signed in.  You need to have a permission with action `roles:read` and scope `roles:*`.  The `delegatable` flag reduces the set of roles to only those for which the signed-in user has permissions to assign.
+         * Gets all existing roles. The response contains all global and organization local roles, for the organization which user is signed in.  You need to have a permission with action `roles:read` and scope `roles:*`.
          * @summary Get all roles.
          * @param {boolean} [delegatable] 
-         * @param {boolean} [includeHidden] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        listRoles: async (delegatable?: boolean, includeHidden?: boolean, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        listRoles: async (delegatable?: boolean, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/access-control/roles`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -16205,10 +15048,6 @@ export const AccessControlApiAxiosParamCreator = function (configuration?: Confi
 
             if (delegatable !== undefined) {
                 localVarQueryParameter['delegatable'] = delegatable;
-            }
-
-            if (includeHidden !== undefined) {
-                localVarQueryParameter['includeHidden'] = includeHidden;
             }
 
 
@@ -16790,7 +15629,7 @@ export const AccessControlApiAxiosParamCreator = function (configuration?: Confi
             };
         },
         /**
-         * Update the user’s role assignments to match the provided set of UIDs. This will remove any assigned roles that aren’t in the request and add roles that are in the set but are not already assigned to the user. Roles mapped through group attribute sync are not impacted. If you want to add or remove a single role, consider using Add a user role assignment or Remove a user role assignment instead.  You need to have a permission with action `users.roles:add` and `users.roles:remove` and scope `permissions:type:delegate` for each. `permissions:type:delegate`  scope ensures that users can only assign or unassign roles which have same, or a subset of permissions which the user has. For example, if a user does not have required permissions for creating users, they won’t be able to assign or unassign a role which will allow to do that. This is done to prevent escalation of privileges.
+         * Update the user’s role assignments to match the provided set of UIDs. This will remove any assigned roles that aren’t in the request and add roles that are in the set but are not already assigned to the user. If you want to add or remove a single role, consider using Add a user role assignment or Remove a user role assignment instead.  You need to have a permission with action `users.roles:add` and `users.roles:remove` and scope `permissions:type:delegate` for each. `permissions:type:delegate`  scope ensures that users can only assign or unassign roles which have same, or a subset of permissions which the user has. For example, if a user does not have required permissions for creating users, they won’t be able to assign or unassign a role which will allow to do that. This is done to prevent escalation of privileges.
          * @summary Set user role assignments.
          * @param {number} userId 
          * @param {SetUserRolesCommand} body 
@@ -17002,7 +15841,7 @@ export const AccessControlApiFp = function(configuration?: Configuration) {
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
-         * Get role assignments for the role with the given UID. Does not include role assignments mapped through group attribute sync.  You need to have a permission with action `teams.roles:list` and scope `teams:id:*` and `users.roles:list` and scope `users:id:*`.
+         * Get role assignments for the role with the given UID.  You need to have a permission with action `teams.roles:list` and scope `teams:id:*` and `users.roles:list` and scope `users:id:*`.
          * @summary Get role assignments.
          * @param {string} roleUID 
          * @param {*} [options] Override http request option.
@@ -17015,15 +15854,14 @@ export const AccessControlApiFp = function(configuration?: Configuration) {
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
-         * Gets all existing roles. The response contains all global and organization local roles, for the organization which user is signed in.  You need to have a permission with action `roles:read` and scope `roles:*`.  The `delegatable` flag reduces the set of roles to only those for which the signed-in user has permissions to assign.
+         * Gets all existing roles. The response contains all global and organization local roles, for the organization which user is signed in.  You need to have a permission with action `roles:read` and scope `roles:*`.
          * @summary Get all roles.
          * @param {boolean} [delegatable] 
-         * @param {boolean} [includeHidden] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async listRoles(delegatable?: boolean, includeHidden?: boolean, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<RoleDTO>>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.listRoles(delegatable, includeHidden, options);
+        async listRoles(delegatable?: boolean, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<RoleDTO>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.listRoles(delegatable, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['AccessControlApi.listRoles']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -17200,7 +16038,7 @@ export const AccessControlApiFp = function(configuration?: Configuration) {
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
-         * Update the user’s role assignments to match the provided set of UIDs. This will remove any assigned roles that aren’t in the request and add roles that are in the set but are not already assigned to the user. Roles mapped through group attribute sync are not impacted. If you want to add or remove a single role, consider using Add a user role assignment or Remove a user role assignment instead.  You need to have a permission with action `users.roles:add` and `users.roles:remove` and scope `permissions:type:delegate` for each. `permissions:type:delegate`  scope ensures that users can only assign or unassign roles which have same, or a subset of permissions which the user has. For example, if a user does not have required permissions for creating users, they won’t be able to assign or unassign a role which will allow to do that. This is done to prevent escalation of privileges.
+         * Update the user’s role assignments to match the provided set of UIDs. This will remove any assigned roles that aren’t in the request and add roles that are in the set but are not already assigned to the user. If you want to add or remove a single role, consider using Add a user role assignment or Remove a user role assignment instead.  You need to have a permission with action `users.roles:add` and `users.roles:remove` and scope `permissions:type:delegate` for each. `permissions:type:delegate`  scope ensures that users can only assign or unassign roles which have same, or a subset of permissions which the user has. For example, if a user does not have required permissions for creating users, they won’t be able to assign or unassign a role which will allow to do that. This is done to prevent escalation of privileges.
          * @summary Set user role assignments.
          * @param {number} userId 
          * @param {SetUserRolesCommand} body 
@@ -17240,46 +16078,42 @@ export const AccessControlApiFactory = function (configuration?: Configuration, 
         /**
          * You need to have a permission with action `teams.roles:add` and scope `permissions:type:delegate`.
          * @summary Add team role.
-         * @param {number} teamId 
-         * @param {AddTeamRoleCommand} body 
+         * @param {AccessControlApiAddTeamRoleRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        addTeamRole(teamId: number, body: AddTeamRoleCommand, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
-            return localVarFp.addTeamRole(teamId, body, options).then((request) => request(axios, basePath));
+        addTeamRole(requestParameters: AccessControlApiAddTeamRoleRequest, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
+            return localVarFp.addTeamRole(requestParameters.teamId, requestParameters.body, options).then((request) => request(axios, basePath));
         },
         /**
          * Assign a role to a specific user. For bulk updates consider Set user role assignments.  You need to have a permission with action `users.roles:add` and scope `permissions:type:delegate`. `permissions:type:delegate` scope ensures that users can only assign roles which have same, or a subset of permissions which the user has. For example, if a user does not have required permissions for creating users, they won’t be able to assign a role which will allow to do that. This is done to prevent escalation of privileges.
          * @summary Add a user role assignment.
-         * @param {number} userId 
-         * @param {AddUserRoleCommand} body 
+         * @param {AccessControlApiAddUserRoleRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        addUserRole(userId: number, body: AddUserRoleCommand, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
-            return localVarFp.addUserRole(userId, body, options).then((request) => request(axios, basePath));
+        addUserRole(requestParameters: AccessControlApiAddUserRoleRequest, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
+            return localVarFp.addUserRole(requestParameters.userId, requestParameters.body, options).then((request) => request(axios, basePath));
         },
         /**
          * Creates a new custom role and maps given permissions to that role. Note that roles with the same prefix as Fixed Roles can’t be created.  You need to have a permission with action `roles:write` and scope `permissions:type:delegate`. `permissions:type:delegate` scope ensures that users can only create custom roles with the same, or a subset of permissions which the user has. For example, if a user does not have required permissions for creating users, they won’t be able to create a custom role which allows to do that. This is done to prevent escalation of privileges.
          * @summary Create a new custom role.
-         * @param {CreateRoleForm} body 
+         * @param {AccessControlApiCreateRoleRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createRole(body: CreateRoleForm, options?: RawAxiosRequestConfig): AxiosPromise<RoleDTO> {
-            return localVarFp.createRole(body, options).then((request) => request(axios, basePath));
+        createRole(requestParameters: AccessControlApiCreateRoleRequest, options?: RawAxiosRequestConfig): AxiosPromise<RoleDTO> {
+            return localVarFp.createRole(requestParameters.body, options).then((request) => request(axios, basePath));
         },
         /**
          * Delete a role with the given UID, and it’s permissions. If the role is assigned to a built-in role, the deletion operation will fail, unless force query param is set to true, and in that case all assignments will also be deleted.  You need to have a permission with action `roles:delete` and scope `permissions:type:delegate`. `permissions:type:delegate` scope ensures that users can only delete a custom role with the same, or a subset of permissions which the user has. For example, if a user does not have required permissions for creating users, they won’t be able to delete a custom role which allows to do that.
          * @summary Delete a custom role.
-         * @param {string} roleUID 
-         * @param {boolean} [force] 
-         * @param {boolean} [global] 
+         * @param {AccessControlApiDeleteRoleRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        deleteRole(roleUID: string, force?: boolean, global?: boolean, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
-            return localVarFp.deleteRole(roleUID, force, global, options).then((request) => request(axios, basePath));
+        deleteRole(requestParameters: AccessControlApiDeleteRoleRequest, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
+            return localVarFp.deleteRole(requestParameters.roleUID, requestParameters.force, requestParameters.global, options).then((request) => request(axios, basePath));
         },
         /**
          * Returns an indicator to check if fine-grained access control is enabled or not.  You need to have a permission with action `status:accesscontrol` and scope `services:accesscontrol`.
@@ -17293,214 +16127,671 @@ export const AccessControlApiFactory = function (configuration?: Configuration, 
         /**
          * 
          * @summary Get a description of a resource\'s access control properties.
-         * @param {string} resource 
+         * @param {AccessControlApiGetResourceDescriptionRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getResourceDescription(resource: string, options?: RawAxiosRequestConfig): AxiosPromise<Description> {
-            return localVarFp.getResourceDescription(resource, options).then((request) => request(axios, basePath));
+        getResourceDescription(requestParameters: AccessControlApiGetResourceDescriptionRequest, options?: RawAxiosRequestConfig): AxiosPromise<Description> {
+            return localVarFp.getResourceDescription(requestParameters.resource, options).then((request) => request(axios, basePath));
         },
         /**
          * 
          * @summary Get permissions for a resource.
-         * @param {string} resource 
-         * @param {string} resourceID 
+         * @param {AccessControlApiGetResourcePermissionsRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getResourcePermissions(resource: string, resourceID: string, options?: RawAxiosRequestConfig): AxiosPromise<Array<ResourcePermissionDTO>> {
-            return localVarFp.getResourcePermissions(resource, resourceID, options).then((request) => request(axios, basePath));
+        getResourcePermissions(requestParameters: AccessControlApiGetResourcePermissionsRequest, options?: RawAxiosRequestConfig): AxiosPromise<Array<ResourcePermissionDTO>> {
+            return localVarFp.getResourcePermissions(requestParameters.resource, requestParameters.resourceID, options).then((request) => request(axios, basePath));
         },
         /**
          * Get a role for the given UID.  You need to have a permission with action `roles:read` and scope `roles:*`.
          * @summary Get a role.
-         * @param {string} roleUID 
+         * @param {AccessControlApiGetRoleRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getRole(roleUID: string, options?: RawAxiosRequestConfig): AxiosPromise<RoleDTO> {
-            return localVarFp.getRole(roleUID, options).then((request) => request(axios, basePath));
+        getRole(requestParameters: AccessControlApiGetRoleRequest, options?: RawAxiosRequestConfig): AxiosPromise<RoleDTO> {
+            return localVarFp.getRole(requestParameters.roleUID, options).then((request) => request(axios, basePath));
         },
         /**
-         * Get role assignments for the role with the given UID. Does not include role assignments mapped through group attribute sync.  You need to have a permission with action `teams.roles:list` and scope `teams:id:*` and `users.roles:list` and scope `users:id:*`.
+         * Get role assignments for the role with the given UID.  You need to have a permission with action `teams.roles:list` and scope `teams:id:*` and `users.roles:list` and scope `users:id:*`.
          * @summary Get role assignments.
-         * @param {string} roleUID 
+         * @param {AccessControlApiGetRoleAssignmentsRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getRoleAssignments(roleUID: string, options?: RawAxiosRequestConfig): AxiosPromise<RoleAssignmentsDTO> {
-            return localVarFp.getRoleAssignments(roleUID, options).then((request) => request(axios, basePath));
+        getRoleAssignments(requestParameters: AccessControlApiGetRoleAssignmentsRequest, options?: RawAxiosRequestConfig): AxiosPromise<RoleAssignmentsDTO> {
+            return localVarFp.getRoleAssignments(requestParameters.roleUID, options).then((request) => request(axios, basePath));
         },
         /**
-         * Gets all existing roles. The response contains all global and organization local roles, for the organization which user is signed in.  You need to have a permission with action `roles:read` and scope `roles:*`.  The `delegatable` flag reduces the set of roles to only those for which the signed-in user has permissions to assign.
+         * Gets all existing roles. The response contains all global and organization local roles, for the organization which user is signed in.  You need to have a permission with action `roles:read` and scope `roles:*`.
          * @summary Get all roles.
-         * @param {boolean} [delegatable] 
-         * @param {boolean} [includeHidden] 
+         * @param {AccessControlApiListRolesRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        listRoles(delegatable?: boolean, includeHidden?: boolean, options?: RawAxiosRequestConfig): AxiosPromise<Array<RoleDTO>> {
-            return localVarFp.listRoles(delegatable, includeHidden, options).then((request) => request(axios, basePath));
+        listRoles(requestParameters: AccessControlApiListRolesRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<Array<RoleDTO>> {
+            return localVarFp.listRoles(requestParameters.delegatable, options).then((request) => request(axios, basePath));
         },
         /**
          * You need to have a permission with action `teams.roles:read` and scope `teams:id:<team ID>`.
          * @summary Get team roles.
-         * @param {number} teamId 
+         * @param {AccessControlApiListTeamRolesRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        listTeamRoles(teamId: number, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
-            return localVarFp.listTeamRoles(teamId, options).then((request) => request(axios, basePath));
+        listTeamRoles(requestParameters: AccessControlApiListTeamRolesRequest, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
+            return localVarFp.listTeamRoles(requestParameters.teamId, options).then((request) => request(axios, basePath));
         },
         /**
          * Lists the roles that have been directly assigned to the given teams.  You need to have a permission with action `teams.roles:read` and scope `teams:id:*`.
          * @summary List roles assigned to multiple teams.
-         * @param {RolesSearchQuery} body 
+         * @param {AccessControlApiListTeamsRolesRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        listTeamsRoles(body: RolesSearchQuery, options?: RawAxiosRequestConfig): AxiosPromise<{ [key: string]: Array<RoleDTO>; }> {
-            return localVarFp.listTeamsRoles(body, options).then((request) => request(axios, basePath));
+        listTeamsRoles(requestParameters: AccessControlApiListTeamsRolesRequest, options?: RawAxiosRequestConfig): AxiosPromise<{ [key: string]: Array<RoleDTO>; }> {
+            return localVarFp.listTeamsRoles(requestParameters.body, options).then((request) => request(axios, basePath));
         },
         /**
          * Lists the roles that have been directly assigned to a given user. The list does not include built-in roles (Viewer, Editor, Admin or Grafana Admin), and it does not include roles that have been inherited from a team.  You need to have a permission with action `users.roles:read` and scope `users:id:<user ID>`.
          * @summary List roles assigned to a user.
-         * @param {number} userId 
+         * @param {AccessControlApiListUserRolesRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        listUserRoles(userId: number, options?: RawAxiosRequestConfig): AxiosPromise<Array<RoleDTO>> {
-            return localVarFp.listUserRoles(userId, options).then((request) => request(axios, basePath));
+        listUserRoles(requestParameters: AccessControlApiListUserRolesRequest, options?: RawAxiosRequestConfig): AxiosPromise<Array<RoleDTO>> {
+            return localVarFp.listUserRoles(requestParameters.userId, options).then((request) => request(axios, basePath));
         },
         /**
          * Lists the roles that have been directly assigned to the given users. The list does not include built-in roles (Viewer, Editor, Admin or Grafana Admin), and it does not include roles that have been inherited from a team.  You need to have a permission with action `users.roles:read` and scope `users:id:*`.
          * @summary List roles assigned to multiple users.
-         * @param {RolesSearchQuery} body 
+         * @param {AccessControlApiListUsersRolesRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        listUsersRoles(body: RolesSearchQuery, options?: RawAxiosRequestConfig): AxiosPromise<{ [key: string]: Array<RoleDTO>; }> {
-            return localVarFp.listUsersRoles(body, options).then((request) => request(axios, basePath));
+        listUsersRoles(requestParameters: AccessControlApiListUsersRolesRequest, options?: RawAxiosRequestConfig): AxiosPromise<{ [key: string]: Array<RoleDTO>; }> {
+            return localVarFp.listUsersRoles(requestParameters.body, options).then((request) => request(axios, basePath));
         },
         /**
          * You need to have a permission with action `teams.roles:remove` and scope `permissions:type:delegate`.
          * @summary Remove team role.
-         * @param {string} roleUID 
-         * @param {number} teamId 
+         * @param {AccessControlApiRemoveTeamRoleRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        removeTeamRole(roleUID: string, teamId: number, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
-            return localVarFp.removeTeamRole(roleUID, teamId, options).then((request) => request(axios, basePath));
+        removeTeamRole(requestParameters: AccessControlApiRemoveTeamRoleRequest, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
+            return localVarFp.removeTeamRole(requestParameters.roleUID, requestParameters.teamId, options).then((request) => request(axios, basePath));
         },
         /**
          * Revoke a role from a user. For bulk updates consider Set user role assignments.  You need to have a permission with action `users.roles:remove` and scope `permissions:type:delegate`. `permissions:type:delegate` scope ensures that users can only unassign roles which have same, or a subset of permissions which the user has. For example, if a user does not have required permissions for creating users, they won’t be able to unassign a role which will allow to do that. This is done to prevent escalation of privileges.
          * @summary Remove a user role assignment.
-         * @param {string} roleUID 
-         * @param {number} userId 
-         * @param {boolean} [global] A flag indicating if the assignment is global or not. If set to false, the default org ID of the authenticated user will be used from the request to remove assignment.
+         * @param {AccessControlApiRemoveUserRoleRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        removeUserRole(roleUID: string, userId: number, global?: boolean, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
-            return localVarFp.removeUserRole(roleUID, userId, global, options).then((request) => request(axios, basePath));
+        removeUserRole(requestParameters: AccessControlApiRemoveUserRoleRequest, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
+            return localVarFp.removeUserRole(requestParameters.roleUID, requestParameters.userId, requestParameters.global, options).then((request) => request(axios, basePath));
         },
         /**
          * Assigns permissions for a resource by a given type (`:resource`) and `:resourceID` to one or many assignment types. Allowed resources are `datasources`, `teams`, `dashboards`, `folders`, and `serviceaccounts`. Refer to the `/access-control/{resource}/description` endpoint for allowed Permissions.
          * @summary Set resource permissions.
-         * @param {string} resource 
-         * @param {string} resourceID 
-         * @param {SetPermissionsCommand} body 
+         * @param {AccessControlApiSetResourcePermissionsRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        setResourcePermissions(resource: string, resourceID: string, body: SetPermissionsCommand, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
-            return localVarFp.setResourcePermissions(resource, resourceID, body, options).then((request) => request(axios, basePath));
+        setResourcePermissions(requestParameters: AccessControlApiSetResourcePermissionsRequest, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
+            return localVarFp.setResourcePermissions(requestParameters.resource, requestParameters.resourceID, requestParameters.body, options).then((request) => request(axios, basePath));
         },
         /**
          * Assigns permissions for a resource by a given type (`:resource`) and `:resourceID` to a built-in role. Allowed resources are `datasources`, `teams`, `dashboards`, `folders`, and `serviceaccounts`. Refer to the `/access-control/{resource}/description` endpoint for allowed Permissions.
          * @summary Set resource permissions for a built-in role.
-         * @param {string} resource 
-         * @param {string} resourceID 
-         * @param {string} builtInRole 
-         * @param {SetPermissionCommand} body 
+         * @param {AccessControlApiSetResourcePermissionsForBuiltInRoleRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        setResourcePermissionsForBuiltInRole(resource: string, resourceID: string, builtInRole: string, body: SetPermissionCommand, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
-            return localVarFp.setResourcePermissionsForBuiltInRole(resource, resourceID, builtInRole, body, options).then((request) => request(axios, basePath));
+        setResourcePermissionsForBuiltInRole(requestParameters: AccessControlApiSetResourcePermissionsForBuiltInRoleRequest, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
+            return localVarFp.setResourcePermissionsForBuiltInRole(requestParameters.resource, requestParameters.resourceID, requestParameters.builtInRole, requestParameters.body, options).then((request) => request(axios, basePath));
         },
         /**
          * Assigns permissions for a resource by a given type (`:resource`) and `:resourceID` to a team. Allowed resources are `datasources`, `teams`, `dashboards`, `folders`, and `serviceaccounts`. Refer to the `/access-control/{resource}/description` endpoint for allowed Permissions.
          * @summary Set resource permissions for a team.
-         * @param {string} resource 
-         * @param {string} resourceID 
-         * @param {number} teamID 
-         * @param {SetPermissionCommand} body 
+         * @param {AccessControlApiSetResourcePermissionsForTeamRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        setResourcePermissionsForTeam(resource: string, resourceID: string, teamID: number, body: SetPermissionCommand, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
-            return localVarFp.setResourcePermissionsForTeam(resource, resourceID, teamID, body, options).then((request) => request(axios, basePath));
+        setResourcePermissionsForTeam(requestParameters: AccessControlApiSetResourcePermissionsForTeamRequest, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
+            return localVarFp.setResourcePermissionsForTeam(requestParameters.resource, requestParameters.resourceID, requestParameters.teamID, requestParameters.body, options).then((request) => request(axios, basePath));
         },
         /**
          * Assigns permissions for a resource by a given type (`:resource`) and `:resourceID` to a user or a service account. Allowed resources are `datasources`, `teams`, `dashboards`, `folders`, and `serviceaccounts`. Refer to the `/access-control/{resource}/description` endpoint for allowed Permissions.
          * @summary Set resource permissions for a user.
-         * @param {string} resource 
-         * @param {string} resourceID 
-         * @param {number} userID 
-         * @param {SetPermissionCommand} body 
+         * @param {AccessControlApiSetResourcePermissionsForUserRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        setResourcePermissionsForUser(resource: string, resourceID: string, userID: number, body: SetPermissionCommand, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
-            return localVarFp.setResourcePermissionsForUser(resource, resourceID, userID, body, options).then((request) => request(axios, basePath));
+        setResourcePermissionsForUser(requestParameters: AccessControlApiSetResourcePermissionsForUserRequest, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
+            return localVarFp.setResourcePermissionsForUser(requestParameters.resource, requestParameters.resourceID, requestParameters.userID, requestParameters.body, options).then((request) => request(axios, basePath));
         },
         /**
          * Set role assignments for the role with the given UID.  You need to have a permission with action `teams.roles:add` and `teams.roles:remove` and scope `permissions:type:delegate`, and `users.roles:add` and `users.roles:remove` and scope `permissions:type:delegate`.
          * @summary Set role assignments.
-         * @param {string} roleUID 
-         * @param {SetRoleAssignmentsCommand} body 
+         * @param {AccessControlApiSetRoleAssignmentsRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        setRoleAssignments(roleUID: string, body: SetRoleAssignmentsCommand, options?: RawAxiosRequestConfig): AxiosPromise<RoleAssignmentsDTO> {
-            return localVarFp.setRoleAssignments(roleUID, body, options).then((request) => request(axios, basePath));
+        setRoleAssignments(requestParameters: AccessControlApiSetRoleAssignmentsRequest, options?: RawAxiosRequestConfig): AxiosPromise<RoleAssignmentsDTO> {
+            return localVarFp.setRoleAssignments(requestParameters.roleUID, requestParameters.body, options).then((request) => request(axios, basePath));
         },
         /**
          * You need to have a permission with action `teams.roles:add` and `teams.roles:remove` and scope `permissions:type:delegate` for each.
          * @summary Update team role.
-         * @param {number} teamId 
+         * @param {AccessControlApiSetTeamRolesRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        setTeamRoles(teamId: number, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
-            return localVarFp.setTeamRoles(teamId, options).then((request) => request(axios, basePath));
+        setTeamRoles(requestParameters: AccessControlApiSetTeamRolesRequest, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
+            return localVarFp.setTeamRoles(requestParameters.teamId, options).then((request) => request(axios, basePath));
         },
         /**
-         * Update the user’s role assignments to match the provided set of UIDs. This will remove any assigned roles that aren’t in the request and add roles that are in the set but are not already assigned to the user. Roles mapped through group attribute sync are not impacted. If you want to add or remove a single role, consider using Add a user role assignment or Remove a user role assignment instead.  You need to have a permission with action `users.roles:add` and `users.roles:remove` and scope `permissions:type:delegate` for each. `permissions:type:delegate`  scope ensures that users can only assign or unassign roles which have same, or a subset of permissions which the user has. For example, if a user does not have required permissions for creating users, they won’t be able to assign or unassign a role which will allow to do that. This is done to prevent escalation of privileges.
+         * Update the user’s role assignments to match the provided set of UIDs. This will remove any assigned roles that aren’t in the request and add roles that are in the set but are not already assigned to the user. If you want to add or remove a single role, consider using Add a user role assignment or Remove a user role assignment instead.  You need to have a permission with action `users.roles:add` and `users.roles:remove` and scope `permissions:type:delegate` for each. `permissions:type:delegate`  scope ensures that users can only assign or unassign roles which have same, or a subset of permissions which the user has. For example, if a user does not have required permissions for creating users, they won’t be able to assign or unassign a role which will allow to do that. This is done to prevent escalation of privileges.
          * @summary Set user role assignments.
-         * @param {number} userId 
-         * @param {SetUserRolesCommand} body 
+         * @param {AccessControlApiSetUserRolesRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        setUserRoles(userId: number, body: SetUserRolesCommand, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
-            return localVarFp.setUserRoles(userId, body, options).then((request) => request(axios, basePath));
+        setUserRoles(requestParameters: AccessControlApiSetUserRolesRequest, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
+            return localVarFp.setUserRoles(requestParameters.userId, requestParameters.body, options).then((request) => request(axios, basePath));
         },
         /**
          * You need to have a permission with action `roles:write` and scope `permissions:type:delegate`. `permissions:type:delegate` scope ensures that users can only create custom roles with the same, or a subset of permissions which the user has.
          * @summary Update a custom role.
-         * @param {string} roleUID 
-         * @param {UpdateRoleCommand} body 
+         * @param {AccessControlApiUpdateRoleRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateRole(roleUID: string, body: UpdateRoleCommand, options?: RawAxiosRequestConfig): AxiosPromise<RoleDTO> {
-            return localVarFp.updateRole(roleUID, body, options).then((request) => request(axios, basePath));
+        updateRole(requestParameters: AccessControlApiUpdateRoleRequest, options?: RawAxiosRequestConfig): AxiosPromise<RoleDTO> {
+            return localVarFp.updateRole(requestParameters.roleUID, requestParameters.body, options).then((request) => request(axios, basePath));
         },
     };
 };
+
+/**
+ * Request parameters for addTeamRole operation in AccessControlApi.
+ * @export
+ * @interface AccessControlApiAddTeamRoleRequest
+ */
+export interface AccessControlApiAddTeamRoleRequest {
+    /**
+     * 
+     * @type {number}
+     * @memberof AccessControlApiAddTeamRole
+     */
+    readonly teamId: number
+
+    /**
+     * 
+     * @type {AddTeamRoleCommand}
+     * @memberof AccessControlApiAddTeamRole
+     */
+    readonly body: AddTeamRoleCommand
+}
+
+/**
+ * Request parameters for addUserRole operation in AccessControlApi.
+ * @export
+ * @interface AccessControlApiAddUserRoleRequest
+ */
+export interface AccessControlApiAddUserRoleRequest {
+    /**
+     * 
+     * @type {number}
+     * @memberof AccessControlApiAddUserRole
+     */
+    readonly userId: number
+
+    /**
+     * 
+     * @type {AddUserRoleCommand}
+     * @memberof AccessControlApiAddUserRole
+     */
+    readonly body: AddUserRoleCommand
+}
+
+/**
+ * Request parameters for createRole operation in AccessControlApi.
+ * @export
+ * @interface AccessControlApiCreateRoleRequest
+ */
+export interface AccessControlApiCreateRoleRequest {
+    /**
+     * 
+     * @type {CreateRoleForm}
+     * @memberof AccessControlApiCreateRole
+     */
+    readonly body: CreateRoleForm
+}
+
+/**
+ * Request parameters for deleteRole operation in AccessControlApi.
+ * @export
+ * @interface AccessControlApiDeleteRoleRequest
+ */
+export interface AccessControlApiDeleteRoleRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof AccessControlApiDeleteRole
+     */
+    readonly roleUID: string
+
+    /**
+     * 
+     * @type {boolean}
+     * @memberof AccessControlApiDeleteRole
+     */
+    readonly force?: boolean
+
+    /**
+     * 
+     * @type {boolean}
+     * @memberof AccessControlApiDeleteRole
+     */
+    readonly global?: boolean
+}
+
+/**
+ * Request parameters for getResourceDescription operation in AccessControlApi.
+ * @export
+ * @interface AccessControlApiGetResourceDescriptionRequest
+ */
+export interface AccessControlApiGetResourceDescriptionRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof AccessControlApiGetResourceDescription
+     */
+    readonly resource: string
+}
+
+/**
+ * Request parameters for getResourcePermissions operation in AccessControlApi.
+ * @export
+ * @interface AccessControlApiGetResourcePermissionsRequest
+ */
+export interface AccessControlApiGetResourcePermissionsRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof AccessControlApiGetResourcePermissions
+     */
+    readonly resource: string
+
+    /**
+     * 
+     * @type {string}
+     * @memberof AccessControlApiGetResourcePermissions
+     */
+    readonly resourceID: string
+}
+
+/**
+ * Request parameters for getRole operation in AccessControlApi.
+ * @export
+ * @interface AccessControlApiGetRoleRequest
+ */
+export interface AccessControlApiGetRoleRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof AccessControlApiGetRole
+     */
+    readonly roleUID: string
+}
+
+/**
+ * Request parameters for getRoleAssignments operation in AccessControlApi.
+ * @export
+ * @interface AccessControlApiGetRoleAssignmentsRequest
+ */
+export interface AccessControlApiGetRoleAssignmentsRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof AccessControlApiGetRoleAssignments
+     */
+    readonly roleUID: string
+}
+
+/**
+ * Request parameters for listRoles operation in AccessControlApi.
+ * @export
+ * @interface AccessControlApiListRolesRequest
+ */
+export interface AccessControlApiListRolesRequest {
+    /**
+     * 
+     * @type {boolean}
+     * @memberof AccessControlApiListRoles
+     */
+    readonly delegatable?: boolean
+}
+
+/**
+ * Request parameters for listTeamRoles operation in AccessControlApi.
+ * @export
+ * @interface AccessControlApiListTeamRolesRequest
+ */
+export interface AccessControlApiListTeamRolesRequest {
+    /**
+     * 
+     * @type {number}
+     * @memberof AccessControlApiListTeamRoles
+     */
+    readonly teamId: number
+}
+
+/**
+ * Request parameters for listTeamsRoles operation in AccessControlApi.
+ * @export
+ * @interface AccessControlApiListTeamsRolesRequest
+ */
+export interface AccessControlApiListTeamsRolesRequest {
+    /**
+     * 
+     * @type {RolesSearchQuery}
+     * @memberof AccessControlApiListTeamsRoles
+     */
+    readonly body: RolesSearchQuery
+}
+
+/**
+ * Request parameters for listUserRoles operation in AccessControlApi.
+ * @export
+ * @interface AccessControlApiListUserRolesRequest
+ */
+export interface AccessControlApiListUserRolesRequest {
+    /**
+     * 
+     * @type {number}
+     * @memberof AccessControlApiListUserRoles
+     */
+    readonly userId: number
+}
+
+/**
+ * Request parameters for listUsersRoles operation in AccessControlApi.
+ * @export
+ * @interface AccessControlApiListUsersRolesRequest
+ */
+export interface AccessControlApiListUsersRolesRequest {
+    /**
+     * 
+     * @type {RolesSearchQuery}
+     * @memberof AccessControlApiListUsersRoles
+     */
+    readonly body: RolesSearchQuery
+}
+
+/**
+ * Request parameters for removeTeamRole operation in AccessControlApi.
+ * @export
+ * @interface AccessControlApiRemoveTeamRoleRequest
+ */
+export interface AccessControlApiRemoveTeamRoleRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof AccessControlApiRemoveTeamRole
+     */
+    readonly roleUID: string
+
+    /**
+     * 
+     * @type {number}
+     * @memberof AccessControlApiRemoveTeamRole
+     */
+    readonly teamId: number
+}
+
+/**
+ * Request parameters for removeUserRole operation in AccessControlApi.
+ * @export
+ * @interface AccessControlApiRemoveUserRoleRequest
+ */
+export interface AccessControlApiRemoveUserRoleRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof AccessControlApiRemoveUserRole
+     */
+    readonly roleUID: string
+
+    /**
+     * 
+     * @type {number}
+     * @memberof AccessControlApiRemoveUserRole
+     */
+    readonly userId: number
+
+    /**
+     * A flag indicating if the assignment is global or not. If set to false, the default org ID of the authenticated user will be used from the request to remove assignment.
+     * @type {boolean}
+     * @memberof AccessControlApiRemoveUserRole
+     */
+    readonly global?: boolean
+}
+
+/**
+ * Request parameters for setResourcePermissions operation in AccessControlApi.
+ * @export
+ * @interface AccessControlApiSetResourcePermissionsRequest
+ */
+export interface AccessControlApiSetResourcePermissionsRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof AccessControlApiSetResourcePermissions
+     */
+    readonly resource: string
+
+    /**
+     * 
+     * @type {string}
+     * @memberof AccessControlApiSetResourcePermissions
+     */
+    readonly resourceID: string
+
+    /**
+     * 
+     * @type {SetPermissionsCommand}
+     * @memberof AccessControlApiSetResourcePermissions
+     */
+    readonly body: SetPermissionsCommand
+}
+
+/**
+ * Request parameters for setResourcePermissionsForBuiltInRole operation in AccessControlApi.
+ * @export
+ * @interface AccessControlApiSetResourcePermissionsForBuiltInRoleRequest
+ */
+export interface AccessControlApiSetResourcePermissionsForBuiltInRoleRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof AccessControlApiSetResourcePermissionsForBuiltInRole
+     */
+    readonly resource: string
+
+    /**
+     * 
+     * @type {string}
+     * @memberof AccessControlApiSetResourcePermissionsForBuiltInRole
+     */
+    readonly resourceID: string
+
+    /**
+     * 
+     * @type {string}
+     * @memberof AccessControlApiSetResourcePermissionsForBuiltInRole
+     */
+    readonly builtInRole: string
+
+    /**
+     * 
+     * @type {SetPermissionCommand}
+     * @memberof AccessControlApiSetResourcePermissionsForBuiltInRole
+     */
+    readonly body: SetPermissionCommand
+}
+
+/**
+ * Request parameters for setResourcePermissionsForTeam operation in AccessControlApi.
+ * @export
+ * @interface AccessControlApiSetResourcePermissionsForTeamRequest
+ */
+export interface AccessControlApiSetResourcePermissionsForTeamRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof AccessControlApiSetResourcePermissionsForTeam
+     */
+    readonly resource: string
+
+    /**
+     * 
+     * @type {string}
+     * @memberof AccessControlApiSetResourcePermissionsForTeam
+     */
+    readonly resourceID: string
+
+    /**
+     * 
+     * @type {number}
+     * @memberof AccessControlApiSetResourcePermissionsForTeam
+     */
+    readonly teamID: number
+
+    /**
+     * 
+     * @type {SetPermissionCommand}
+     * @memberof AccessControlApiSetResourcePermissionsForTeam
+     */
+    readonly body: SetPermissionCommand
+}
+
+/**
+ * Request parameters for setResourcePermissionsForUser operation in AccessControlApi.
+ * @export
+ * @interface AccessControlApiSetResourcePermissionsForUserRequest
+ */
+export interface AccessControlApiSetResourcePermissionsForUserRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof AccessControlApiSetResourcePermissionsForUser
+     */
+    readonly resource: string
+
+    /**
+     * 
+     * @type {string}
+     * @memberof AccessControlApiSetResourcePermissionsForUser
+     */
+    readonly resourceID: string
+
+    /**
+     * 
+     * @type {number}
+     * @memberof AccessControlApiSetResourcePermissionsForUser
+     */
+    readonly userID: number
+
+    /**
+     * 
+     * @type {SetPermissionCommand}
+     * @memberof AccessControlApiSetResourcePermissionsForUser
+     */
+    readonly body: SetPermissionCommand
+}
+
+/**
+ * Request parameters for setRoleAssignments operation in AccessControlApi.
+ * @export
+ * @interface AccessControlApiSetRoleAssignmentsRequest
+ */
+export interface AccessControlApiSetRoleAssignmentsRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof AccessControlApiSetRoleAssignments
+     */
+    readonly roleUID: string
+
+    /**
+     * 
+     * @type {SetRoleAssignmentsCommand}
+     * @memberof AccessControlApiSetRoleAssignments
+     */
+    readonly body: SetRoleAssignmentsCommand
+}
+
+/**
+ * Request parameters for setTeamRoles operation in AccessControlApi.
+ * @export
+ * @interface AccessControlApiSetTeamRolesRequest
+ */
+export interface AccessControlApiSetTeamRolesRequest {
+    /**
+     * 
+     * @type {number}
+     * @memberof AccessControlApiSetTeamRoles
+     */
+    readonly teamId: number
+}
+
+/**
+ * Request parameters for setUserRoles operation in AccessControlApi.
+ * @export
+ * @interface AccessControlApiSetUserRolesRequest
+ */
+export interface AccessControlApiSetUserRolesRequest {
+    /**
+     * 
+     * @type {number}
+     * @memberof AccessControlApiSetUserRoles
+     */
+    readonly userId: number
+
+    /**
+     * 
+     * @type {SetUserRolesCommand}
+     * @memberof AccessControlApiSetUserRoles
+     */
+    readonly body: SetUserRolesCommand
+}
+
+/**
+ * Request parameters for updateRole operation in AccessControlApi.
+ * @export
+ * @interface AccessControlApiUpdateRoleRequest
+ */
+export interface AccessControlApiUpdateRoleRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof AccessControlApiUpdateRole
+     */
+    readonly roleUID: string
+
+    /**
+     * 
+     * @type {UpdateRoleCommand}
+     * @memberof AccessControlApiUpdateRole
+     */
+    readonly body: UpdateRoleCommand
+}
 
 /**
  * AccessControlApi - object-oriented interface
@@ -17512,53 +16803,49 @@ export class AccessControlApi extends BaseAPI {
     /**
      * You need to have a permission with action `teams.roles:add` and scope `permissions:type:delegate`.
      * @summary Add team role.
-     * @param {number} teamId 
-     * @param {AddTeamRoleCommand} body 
+     * @param {AccessControlApiAddTeamRoleRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof AccessControlApi
      */
-    public addTeamRole(teamId: number, body: AddTeamRoleCommand, options?: RawAxiosRequestConfig) {
-        return AccessControlApiFp(this.configuration).addTeamRole(teamId, body, options).then((request) => request(this.axios, this.basePath));
+    public addTeamRole(requestParameters: AccessControlApiAddTeamRoleRequest, options?: RawAxiosRequestConfig) {
+        return AccessControlApiFp(this.configuration).addTeamRole(requestParameters.teamId, requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Assign a role to a specific user. For bulk updates consider Set user role assignments.  You need to have a permission with action `users.roles:add` and scope `permissions:type:delegate`. `permissions:type:delegate` scope ensures that users can only assign roles which have same, or a subset of permissions which the user has. For example, if a user does not have required permissions for creating users, they won’t be able to assign a role which will allow to do that. This is done to prevent escalation of privileges.
      * @summary Add a user role assignment.
-     * @param {number} userId 
-     * @param {AddUserRoleCommand} body 
+     * @param {AccessControlApiAddUserRoleRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof AccessControlApi
      */
-    public addUserRole(userId: number, body: AddUserRoleCommand, options?: RawAxiosRequestConfig) {
-        return AccessControlApiFp(this.configuration).addUserRole(userId, body, options).then((request) => request(this.axios, this.basePath));
+    public addUserRole(requestParameters: AccessControlApiAddUserRoleRequest, options?: RawAxiosRequestConfig) {
+        return AccessControlApiFp(this.configuration).addUserRole(requestParameters.userId, requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Creates a new custom role and maps given permissions to that role. Note that roles with the same prefix as Fixed Roles can’t be created.  You need to have a permission with action `roles:write` and scope `permissions:type:delegate`. `permissions:type:delegate` scope ensures that users can only create custom roles with the same, or a subset of permissions which the user has. For example, if a user does not have required permissions for creating users, they won’t be able to create a custom role which allows to do that. This is done to prevent escalation of privileges.
      * @summary Create a new custom role.
-     * @param {CreateRoleForm} body 
+     * @param {AccessControlApiCreateRoleRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof AccessControlApi
      */
-    public createRole(body: CreateRoleForm, options?: RawAxiosRequestConfig) {
-        return AccessControlApiFp(this.configuration).createRole(body, options).then((request) => request(this.axios, this.basePath));
+    public createRole(requestParameters: AccessControlApiCreateRoleRequest, options?: RawAxiosRequestConfig) {
+        return AccessControlApiFp(this.configuration).createRole(requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Delete a role with the given UID, and it’s permissions. If the role is assigned to a built-in role, the deletion operation will fail, unless force query param is set to true, and in that case all assignments will also be deleted.  You need to have a permission with action `roles:delete` and scope `permissions:type:delegate`. `permissions:type:delegate` scope ensures that users can only delete a custom role with the same, or a subset of permissions which the user has. For example, if a user does not have required permissions for creating users, they won’t be able to delete a custom role which allows to do that.
      * @summary Delete a custom role.
-     * @param {string} roleUID 
-     * @param {boolean} [force] 
-     * @param {boolean} [global] 
+     * @param {AccessControlApiDeleteRoleRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof AccessControlApi
      */
-    public deleteRole(roleUID: string, force?: boolean, global?: boolean, options?: RawAxiosRequestConfig) {
-        return AccessControlApiFp(this.configuration).deleteRole(roleUID, force, global, options).then((request) => request(this.axios, this.basePath));
+    public deleteRole(requestParameters: AccessControlApiDeleteRoleRequest, options?: RawAxiosRequestConfig) {
+        return AccessControlApiFp(this.configuration).deleteRole(requestParameters.roleUID, requestParameters.force, requestParameters.global, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -17575,248 +16862,229 @@ export class AccessControlApi extends BaseAPI {
     /**
      * 
      * @summary Get a description of a resource\'s access control properties.
-     * @param {string} resource 
+     * @param {AccessControlApiGetResourceDescriptionRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof AccessControlApi
      */
-    public getResourceDescription(resource: string, options?: RawAxiosRequestConfig) {
-        return AccessControlApiFp(this.configuration).getResourceDescription(resource, options).then((request) => request(this.axios, this.basePath));
+    public getResourceDescription(requestParameters: AccessControlApiGetResourceDescriptionRequest, options?: RawAxiosRequestConfig) {
+        return AccessControlApiFp(this.configuration).getResourceDescription(requestParameters.resource, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
      * @summary Get permissions for a resource.
-     * @param {string} resource 
-     * @param {string} resourceID 
+     * @param {AccessControlApiGetResourcePermissionsRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof AccessControlApi
      */
-    public getResourcePermissions(resource: string, resourceID: string, options?: RawAxiosRequestConfig) {
-        return AccessControlApiFp(this.configuration).getResourcePermissions(resource, resourceID, options).then((request) => request(this.axios, this.basePath));
+    public getResourcePermissions(requestParameters: AccessControlApiGetResourcePermissionsRequest, options?: RawAxiosRequestConfig) {
+        return AccessControlApiFp(this.configuration).getResourcePermissions(requestParameters.resource, requestParameters.resourceID, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Get a role for the given UID.  You need to have a permission with action `roles:read` and scope `roles:*`.
      * @summary Get a role.
-     * @param {string} roleUID 
+     * @param {AccessControlApiGetRoleRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof AccessControlApi
      */
-    public getRole(roleUID: string, options?: RawAxiosRequestConfig) {
-        return AccessControlApiFp(this.configuration).getRole(roleUID, options).then((request) => request(this.axios, this.basePath));
+    public getRole(requestParameters: AccessControlApiGetRoleRequest, options?: RawAxiosRequestConfig) {
+        return AccessControlApiFp(this.configuration).getRole(requestParameters.roleUID, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
-     * Get role assignments for the role with the given UID. Does not include role assignments mapped through group attribute sync.  You need to have a permission with action `teams.roles:list` and scope `teams:id:*` and `users.roles:list` and scope `users:id:*`.
+     * Get role assignments for the role with the given UID.  You need to have a permission with action `teams.roles:list` and scope `teams:id:*` and `users.roles:list` and scope `users:id:*`.
      * @summary Get role assignments.
-     * @param {string} roleUID 
+     * @param {AccessControlApiGetRoleAssignmentsRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof AccessControlApi
      */
-    public getRoleAssignments(roleUID: string, options?: RawAxiosRequestConfig) {
-        return AccessControlApiFp(this.configuration).getRoleAssignments(roleUID, options).then((request) => request(this.axios, this.basePath));
+    public getRoleAssignments(requestParameters: AccessControlApiGetRoleAssignmentsRequest, options?: RawAxiosRequestConfig) {
+        return AccessControlApiFp(this.configuration).getRoleAssignments(requestParameters.roleUID, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
-     * Gets all existing roles. The response contains all global and organization local roles, for the organization which user is signed in.  You need to have a permission with action `roles:read` and scope `roles:*`.  The `delegatable` flag reduces the set of roles to only those for which the signed-in user has permissions to assign.
+     * Gets all existing roles. The response contains all global and organization local roles, for the organization which user is signed in.  You need to have a permission with action `roles:read` and scope `roles:*`.
      * @summary Get all roles.
-     * @param {boolean} [delegatable] 
-     * @param {boolean} [includeHidden] 
+     * @param {AccessControlApiListRolesRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof AccessControlApi
      */
-    public listRoles(delegatable?: boolean, includeHidden?: boolean, options?: RawAxiosRequestConfig) {
-        return AccessControlApiFp(this.configuration).listRoles(delegatable, includeHidden, options).then((request) => request(this.axios, this.basePath));
+    public listRoles(requestParameters: AccessControlApiListRolesRequest = {}, options?: RawAxiosRequestConfig) {
+        return AccessControlApiFp(this.configuration).listRoles(requestParameters.delegatable, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * You need to have a permission with action `teams.roles:read` and scope `teams:id:<team ID>`.
      * @summary Get team roles.
-     * @param {number} teamId 
+     * @param {AccessControlApiListTeamRolesRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof AccessControlApi
      */
-    public listTeamRoles(teamId: number, options?: RawAxiosRequestConfig) {
-        return AccessControlApiFp(this.configuration).listTeamRoles(teamId, options).then((request) => request(this.axios, this.basePath));
+    public listTeamRoles(requestParameters: AccessControlApiListTeamRolesRequest, options?: RawAxiosRequestConfig) {
+        return AccessControlApiFp(this.configuration).listTeamRoles(requestParameters.teamId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Lists the roles that have been directly assigned to the given teams.  You need to have a permission with action `teams.roles:read` and scope `teams:id:*`.
      * @summary List roles assigned to multiple teams.
-     * @param {RolesSearchQuery} body 
+     * @param {AccessControlApiListTeamsRolesRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof AccessControlApi
      */
-    public listTeamsRoles(body: RolesSearchQuery, options?: RawAxiosRequestConfig) {
-        return AccessControlApiFp(this.configuration).listTeamsRoles(body, options).then((request) => request(this.axios, this.basePath));
+    public listTeamsRoles(requestParameters: AccessControlApiListTeamsRolesRequest, options?: RawAxiosRequestConfig) {
+        return AccessControlApiFp(this.configuration).listTeamsRoles(requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Lists the roles that have been directly assigned to a given user. The list does not include built-in roles (Viewer, Editor, Admin or Grafana Admin), and it does not include roles that have been inherited from a team.  You need to have a permission with action `users.roles:read` and scope `users:id:<user ID>`.
      * @summary List roles assigned to a user.
-     * @param {number} userId 
+     * @param {AccessControlApiListUserRolesRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof AccessControlApi
      */
-    public listUserRoles(userId: number, options?: RawAxiosRequestConfig) {
-        return AccessControlApiFp(this.configuration).listUserRoles(userId, options).then((request) => request(this.axios, this.basePath));
+    public listUserRoles(requestParameters: AccessControlApiListUserRolesRequest, options?: RawAxiosRequestConfig) {
+        return AccessControlApiFp(this.configuration).listUserRoles(requestParameters.userId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Lists the roles that have been directly assigned to the given users. The list does not include built-in roles (Viewer, Editor, Admin or Grafana Admin), and it does not include roles that have been inherited from a team.  You need to have a permission with action `users.roles:read` and scope `users:id:*`.
      * @summary List roles assigned to multiple users.
-     * @param {RolesSearchQuery} body 
+     * @param {AccessControlApiListUsersRolesRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof AccessControlApi
      */
-    public listUsersRoles(body: RolesSearchQuery, options?: RawAxiosRequestConfig) {
-        return AccessControlApiFp(this.configuration).listUsersRoles(body, options).then((request) => request(this.axios, this.basePath));
+    public listUsersRoles(requestParameters: AccessControlApiListUsersRolesRequest, options?: RawAxiosRequestConfig) {
+        return AccessControlApiFp(this.configuration).listUsersRoles(requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * You need to have a permission with action `teams.roles:remove` and scope `permissions:type:delegate`.
      * @summary Remove team role.
-     * @param {string} roleUID 
-     * @param {number} teamId 
+     * @param {AccessControlApiRemoveTeamRoleRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof AccessControlApi
      */
-    public removeTeamRole(roleUID: string, teamId: number, options?: RawAxiosRequestConfig) {
-        return AccessControlApiFp(this.configuration).removeTeamRole(roleUID, teamId, options).then((request) => request(this.axios, this.basePath));
+    public removeTeamRole(requestParameters: AccessControlApiRemoveTeamRoleRequest, options?: RawAxiosRequestConfig) {
+        return AccessControlApiFp(this.configuration).removeTeamRole(requestParameters.roleUID, requestParameters.teamId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Revoke a role from a user. For bulk updates consider Set user role assignments.  You need to have a permission with action `users.roles:remove` and scope `permissions:type:delegate`. `permissions:type:delegate` scope ensures that users can only unassign roles which have same, or a subset of permissions which the user has. For example, if a user does not have required permissions for creating users, they won’t be able to unassign a role which will allow to do that. This is done to prevent escalation of privileges.
      * @summary Remove a user role assignment.
-     * @param {string} roleUID 
-     * @param {number} userId 
-     * @param {boolean} [global] A flag indicating if the assignment is global or not. If set to false, the default org ID of the authenticated user will be used from the request to remove assignment.
+     * @param {AccessControlApiRemoveUserRoleRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof AccessControlApi
      */
-    public removeUserRole(roleUID: string, userId: number, global?: boolean, options?: RawAxiosRequestConfig) {
-        return AccessControlApiFp(this.configuration).removeUserRole(roleUID, userId, global, options).then((request) => request(this.axios, this.basePath));
+    public removeUserRole(requestParameters: AccessControlApiRemoveUserRoleRequest, options?: RawAxiosRequestConfig) {
+        return AccessControlApiFp(this.configuration).removeUserRole(requestParameters.roleUID, requestParameters.userId, requestParameters.global, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Assigns permissions for a resource by a given type (`:resource`) and `:resourceID` to one or many assignment types. Allowed resources are `datasources`, `teams`, `dashboards`, `folders`, and `serviceaccounts`. Refer to the `/access-control/{resource}/description` endpoint for allowed Permissions.
      * @summary Set resource permissions.
-     * @param {string} resource 
-     * @param {string} resourceID 
-     * @param {SetPermissionsCommand} body 
+     * @param {AccessControlApiSetResourcePermissionsRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof AccessControlApi
      */
-    public setResourcePermissions(resource: string, resourceID: string, body: SetPermissionsCommand, options?: RawAxiosRequestConfig) {
-        return AccessControlApiFp(this.configuration).setResourcePermissions(resource, resourceID, body, options).then((request) => request(this.axios, this.basePath));
+    public setResourcePermissions(requestParameters: AccessControlApiSetResourcePermissionsRequest, options?: RawAxiosRequestConfig) {
+        return AccessControlApiFp(this.configuration).setResourcePermissions(requestParameters.resource, requestParameters.resourceID, requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Assigns permissions for a resource by a given type (`:resource`) and `:resourceID` to a built-in role. Allowed resources are `datasources`, `teams`, `dashboards`, `folders`, and `serviceaccounts`. Refer to the `/access-control/{resource}/description` endpoint for allowed Permissions.
      * @summary Set resource permissions for a built-in role.
-     * @param {string} resource 
-     * @param {string} resourceID 
-     * @param {string} builtInRole 
-     * @param {SetPermissionCommand} body 
+     * @param {AccessControlApiSetResourcePermissionsForBuiltInRoleRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof AccessControlApi
      */
-    public setResourcePermissionsForBuiltInRole(resource: string, resourceID: string, builtInRole: string, body: SetPermissionCommand, options?: RawAxiosRequestConfig) {
-        return AccessControlApiFp(this.configuration).setResourcePermissionsForBuiltInRole(resource, resourceID, builtInRole, body, options).then((request) => request(this.axios, this.basePath));
+    public setResourcePermissionsForBuiltInRole(requestParameters: AccessControlApiSetResourcePermissionsForBuiltInRoleRequest, options?: RawAxiosRequestConfig) {
+        return AccessControlApiFp(this.configuration).setResourcePermissionsForBuiltInRole(requestParameters.resource, requestParameters.resourceID, requestParameters.builtInRole, requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Assigns permissions for a resource by a given type (`:resource`) and `:resourceID` to a team. Allowed resources are `datasources`, `teams`, `dashboards`, `folders`, and `serviceaccounts`. Refer to the `/access-control/{resource}/description` endpoint for allowed Permissions.
      * @summary Set resource permissions for a team.
-     * @param {string} resource 
-     * @param {string} resourceID 
-     * @param {number} teamID 
-     * @param {SetPermissionCommand} body 
+     * @param {AccessControlApiSetResourcePermissionsForTeamRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof AccessControlApi
      */
-    public setResourcePermissionsForTeam(resource: string, resourceID: string, teamID: number, body: SetPermissionCommand, options?: RawAxiosRequestConfig) {
-        return AccessControlApiFp(this.configuration).setResourcePermissionsForTeam(resource, resourceID, teamID, body, options).then((request) => request(this.axios, this.basePath));
+    public setResourcePermissionsForTeam(requestParameters: AccessControlApiSetResourcePermissionsForTeamRequest, options?: RawAxiosRequestConfig) {
+        return AccessControlApiFp(this.configuration).setResourcePermissionsForTeam(requestParameters.resource, requestParameters.resourceID, requestParameters.teamID, requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Assigns permissions for a resource by a given type (`:resource`) and `:resourceID` to a user or a service account. Allowed resources are `datasources`, `teams`, `dashboards`, `folders`, and `serviceaccounts`. Refer to the `/access-control/{resource}/description` endpoint for allowed Permissions.
      * @summary Set resource permissions for a user.
-     * @param {string} resource 
-     * @param {string} resourceID 
-     * @param {number} userID 
-     * @param {SetPermissionCommand} body 
+     * @param {AccessControlApiSetResourcePermissionsForUserRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof AccessControlApi
      */
-    public setResourcePermissionsForUser(resource: string, resourceID: string, userID: number, body: SetPermissionCommand, options?: RawAxiosRequestConfig) {
-        return AccessControlApiFp(this.configuration).setResourcePermissionsForUser(resource, resourceID, userID, body, options).then((request) => request(this.axios, this.basePath));
+    public setResourcePermissionsForUser(requestParameters: AccessControlApiSetResourcePermissionsForUserRequest, options?: RawAxiosRequestConfig) {
+        return AccessControlApiFp(this.configuration).setResourcePermissionsForUser(requestParameters.resource, requestParameters.resourceID, requestParameters.userID, requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Set role assignments for the role with the given UID.  You need to have a permission with action `teams.roles:add` and `teams.roles:remove` and scope `permissions:type:delegate`, and `users.roles:add` and `users.roles:remove` and scope `permissions:type:delegate`.
      * @summary Set role assignments.
-     * @param {string} roleUID 
-     * @param {SetRoleAssignmentsCommand} body 
+     * @param {AccessControlApiSetRoleAssignmentsRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof AccessControlApi
      */
-    public setRoleAssignments(roleUID: string, body: SetRoleAssignmentsCommand, options?: RawAxiosRequestConfig) {
-        return AccessControlApiFp(this.configuration).setRoleAssignments(roleUID, body, options).then((request) => request(this.axios, this.basePath));
+    public setRoleAssignments(requestParameters: AccessControlApiSetRoleAssignmentsRequest, options?: RawAxiosRequestConfig) {
+        return AccessControlApiFp(this.configuration).setRoleAssignments(requestParameters.roleUID, requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * You need to have a permission with action `teams.roles:add` and `teams.roles:remove` and scope `permissions:type:delegate` for each.
      * @summary Update team role.
-     * @param {number} teamId 
+     * @param {AccessControlApiSetTeamRolesRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof AccessControlApi
      */
-    public setTeamRoles(teamId: number, options?: RawAxiosRequestConfig) {
-        return AccessControlApiFp(this.configuration).setTeamRoles(teamId, options).then((request) => request(this.axios, this.basePath));
+    public setTeamRoles(requestParameters: AccessControlApiSetTeamRolesRequest, options?: RawAxiosRequestConfig) {
+        return AccessControlApiFp(this.configuration).setTeamRoles(requestParameters.teamId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
-     * Update the user’s role assignments to match the provided set of UIDs. This will remove any assigned roles that aren’t in the request and add roles that are in the set but are not already assigned to the user. Roles mapped through group attribute sync are not impacted. If you want to add or remove a single role, consider using Add a user role assignment or Remove a user role assignment instead.  You need to have a permission with action `users.roles:add` and `users.roles:remove` and scope `permissions:type:delegate` for each. `permissions:type:delegate`  scope ensures that users can only assign or unassign roles which have same, or a subset of permissions which the user has. For example, if a user does not have required permissions for creating users, they won’t be able to assign or unassign a role which will allow to do that. This is done to prevent escalation of privileges.
+     * Update the user’s role assignments to match the provided set of UIDs. This will remove any assigned roles that aren’t in the request and add roles that are in the set but are not already assigned to the user. If you want to add or remove a single role, consider using Add a user role assignment or Remove a user role assignment instead.  You need to have a permission with action `users.roles:add` and `users.roles:remove` and scope `permissions:type:delegate` for each. `permissions:type:delegate`  scope ensures that users can only assign or unassign roles which have same, or a subset of permissions which the user has. For example, if a user does not have required permissions for creating users, they won’t be able to assign or unassign a role which will allow to do that. This is done to prevent escalation of privileges.
      * @summary Set user role assignments.
-     * @param {number} userId 
-     * @param {SetUserRolesCommand} body 
+     * @param {AccessControlApiSetUserRolesRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof AccessControlApi
      */
-    public setUserRoles(userId: number, body: SetUserRolesCommand, options?: RawAxiosRequestConfig) {
-        return AccessControlApiFp(this.configuration).setUserRoles(userId, body, options).then((request) => request(this.axios, this.basePath));
+    public setUserRoles(requestParameters: AccessControlApiSetUserRolesRequest, options?: RawAxiosRequestConfig) {
+        return AccessControlApiFp(this.configuration).setUserRoles(requestParameters.userId, requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * You need to have a permission with action `roles:write` and scope `permissions:type:delegate`. `permissions:type:delegate` scope ensures that users can only create custom roles with the same, or a subset of permissions which the user has.
      * @summary Update a custom role.
-     * @param {string} roleUID 
-     * @param {UpdateRoleCommand} body 
+     * @param {AccessControlApiUpdateRoleRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof AccessControlApi
      */
-    public updateRole(roleUID: string, body: UpdateRoleCommand, options?: RawAxiosRequestConfig) {
-        return AccessControlApiFp(this.configuration).updateRole(roleUID, body, options).then((request) => request(this.axios, this.basePath));
+    public updateRole(requestParameters: AccessControlApiUpdateRoleRequest, options?: RawAxiosRequestConfig) {
+        return AccessControlApiFp(this.configuration).updateRole(requestParameters.roleUID, requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -18336,22 +17604,22 @@ export const AdminLdapApiFactory = function (configuration?: Configuration, base
         /**
          * If you are running Grafana Enterprise and have Fine-grained access control enabled, you need to have a permission with action `ldap.user:read`.
          * @summary Finds an user based on a username in LDAP. This helps illustrate how would the particular user be mapped in Grafana when synced.
-         * @param {string} userName 
+         * @param {AdminLdapApiGetUserFromLDAPRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getUserFromLDAP(userName: string, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
-            return localVarFp.getUserFromLDAP(userName, options).then((request) => request(axios, basePath));
+        getUserFromLDAP(requestParameters: AdminLdapApiGetUserFromLDAPRequest, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
+            return localVarFp.getUserFromLDAP(requestParameters.userName, options).then((request) => request(axios, basePath));
         },
         /**
          * If you are running Grafana Enterprise and have Fine-grained access control enabled, you need to have a permission with action `ldap.user:sync`.
          * @summary Enables a single Grafana user to be synchronized against LDAP.
-         * @param {number} userId 
+         * @param {AdminLdapApiPostSyncUserWithLDAPRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        postSyncUserWithLDAP(userId: number, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
-            return localVarFp.postSyncUserWithLDAP(userId, options).then((request) => request(axios, basePath));
+        postSyncUserWithLDAP(requestParameters: AdminLdapApiPostSyncUserWithLDAPRequest, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
+            return localVarFp.postSyncUserWithLDAP(requestParameters.userId, options).then((request) => request(axios, basePath));
         },
         /**
          * If you are running Grafana Enterprise and have Fine-grained access control enabled, you need to have a permission with action `ldap.config:reload`.
@@ -18364,6 +17632,34 @@ export const AdminLdapApiFactory = function (configuration?: Configuration, base
         },
     };
 };
+
+/**
+ * Request parameters for getUserFromLDAP operation in AdminLdapApi.
+ * @export
+ * @interface AdminLdapApiGetUserFromLDAPRequest
+ */
+export interface AdminLdapApiGetUserFromLDAPRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof AdminLdapApiGetUserFromLDAP
+     */
+    readonly userName: string
+}
+
+/**
+ * Request parameters for postSyncUserWithLDAP operation in AdminLdapApi.
+ * @export
+ * @interface AdminLdapApiPostSyncUserWithLDAPRequest
+ */
+export interface AdminLdapApiPostSyncUserWithLDAPRequest {
+    /**
+     * 
+     * @type {number}
+     * @memberof AdminLdapApiPostSyncUserWithLDAP
+     */
+    readonly userId: number
+}
 
 /**
  * AdminLdapApi - object-oriented interface
@@ -18386,25 +17682,25 @@ export class AdminLdapApi extends BaseAPI {
     /**
      * If you are running Grafana Enterprise and have Fine-grained access control enabled, you need to have a permission with action `ldap.user:read`.
      * @summary Finds an user based on a username in LDAP. This helps illustrate how would the particular user be mapped in Grafana when synced.
-     * @param {string} userName 
+     * @param {AdminLdapApiGetUserFromLDAPRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof AdminLdapApi
      */
-    public getUserFromLDAP(userName: string, options?: RawAxiosRequestConfig) {
-        return AdminLdapApiFp(this.configuration).getUserFromLDAP(userName, options).then((request) => request(this.axios, this.basePath));
+    public getUserFromLDAP(requestParameters: AdminLdapApiGetUserFromLDAPRequest, options?: RawAxiosRequestConfig) {
+        return AdminLdapApiFp(this.configuration).getUserFromLDAP(requestParameters.userName, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * If you are running Grafana Enterprise and have Fine-grained access control enabled, you need to have a permission with action `ldap.user:sync`.
      * @summary Enables a single Grafana user to be synchronized against LDAP.
-     * @param {number} userId 
+     * @param {AdminLdapApiPostSyncUserWithLDAPRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof AdminLdapApi
      */
-    public postSyncUserWithLDAP(userId: number, options?: RawAxiosRequestConfig) {
-        return AdminLdapApiFp(this.configuration).postSyncUserWithLDAP(userId, options).then((request) => request(this.axios, this.basePath));
+    public postSyncUserWithLDAP(requestParameters: AdminLdapApiPostSyncUserWithLDAPRequest, options?: RawAxiosRequestConfig) {
+        return AdminLdapApiFp(this.configuration).postSyncUserWithLDAP(requestParameters.userId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -19286,120 +18582,304 @@ export const AdminUsersApiFactory = function (configuration?: Configuration, bas
         /**
          * If you are running Grafana Enterprise and have Fine-grained access control enabled, you need to have a permission with action `users:create`. Note that OrgId is an optional parameter that can be used to assign a new user to a different organization when `auto_assign_org` is set to `true`.
          * @summary Create new user.
-         * @param {AdminCreateUserForm} body 
+         * @param {AdminUsersApiAdminCreateUserRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        adminCreateUser(body: AdminCreateUserForm, options?: RawAxiosRequestConfig): AxiosPromise<AdminCreateUserResponse> {
-            return localVarFp.adminCreateUser(body, options).then((request) => request(axios, basePath));
+        adminCreateUser(requestParameters: AdminUsersApiAdminCreateUserRequest, options?: RawAxiosRequestConfig): AxiosPromise<AdminCreateUserResponse> {
+            return localVarFp.adminCreateUser(requestParameters.body, options).then((request) => request(axios, basePath));
         },
         /**
          * If you are running Grafana Enterprise and have Fine-grained access control enabled, you need to have a permission with action `users:delete` and scope `global.users:*`.
          * @summary Delete global User.
-         * @param {number} userId 
+         * @param {AdminUsersApiAdminDeleteUserRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        adminDeleteUser(userId: number, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
-            return localVarFp.adminDeleteUser(userId, options).then((request) => request(axios, basePath));
+        adminDeleteUser(requestParameters: AdminUsersApiAdminDeleteUserRequest, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
+            return localVarFp.adminDeleteUser(requestParameters.userId, options).then((request) => request(axios, basePath));
         },
         /**
          * If you are running Grafana Enterprise and have Fine-grained access control enabled, you need to have a permission with action `users:disable` and scope `global.users:1` (userIDScope).
          * @summary Disable user.
-         * @param {number} userId 
+         * @param {AdminUsersApiAdminDisableUserRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        adminDisableUser(userId: number, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
-            return localVarFp.adminDisableUser(userId, options).then((request) => request(axios, basePath));
+        adminDisableUser(requestParameters: AdminUsersApiAdminDisableUserRequest, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
+            return localVarFp.adminDisableUser(requestParameters.userId, options).then((request) => request(axios, basePath));
         },
         /**
          * If you are running Grafana Enterprise and have Fine-grained access control enabled, you need to have a permission with action `users:enable` and scope `global.users:1` (userIDScope).
          * @summary Enable user.
-         * @param {number} userId 
+         * @param {AdminUsersApiAdminEnableUserRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        adminEnableUser(userId: number, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
-            return localVarFp.adminEnableUser(userId, options).then((request) => request(axios, basePath));
+        adminEnableUser(requestParameters: AdminUsersApiAdminEnableUserRequest, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
+            return localVarFp.adminEnableUser(requestParameters.userId, options).then((request) => request(axios, basePath));
         },
         /**
          * If you are running Grafana Enterprise and have Fine-grained access control enabled, you need to have a permission with action `users.authtoken:list` and scope `global.users:*`.
          * @summary Return a list of all auth tokens (devices) that the user currently have logged in from.
-         * @param {number} userId 
+         * @param {AdminUsersApiAdminGetUserAuthTokensRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        adminGetUserAuthTokens(userId: number, options?: RawAxiosRequestConfig): AxiosPromise<Array<UserToken>> {
-            return localVarFp.adminGetUserAuthTokens(userId, options).then((request) => request(axios, basePath));
+        adminGetUserAuthTokens(requestParameters: AdminUsersApiAdminGetUserAuthTokensRequest, options?: RawAxiosRequestConfig): AxiosPromise<Array<UserToken>> {
+            return localVarFp.adminGetUserAuthTokens(requestParameters.userId, options).then((request) => request(axios, basePath));
         },
         /**
          * If you are running Grafana Enterprise and have Fine-grained access control enabled, you need to have a permission with action `users.logout` and scope `global.users:*`.
          * @summary Logout user revokes all auth tokens (devices) for the user. User of issued auth tokens (devices) will no longer be logged in and will be required to authenticate again upon next activity.
-         * @param {number} userId 
+         * @param {AdminUsersApiAdminLogoutUserRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        adminLogoutUser(userId: number, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
-            return localVarFp.adminLogoutUser(userId, options).then((request) => request(axios, basePath));
+        adminLogoutUser(requestParameters: AdminUsersApiAdminLogoutUserRequest, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
+            return localVarFp.adminLogoutUser(requestParameters.userId, options).then((request) => request(axios, basePath));
         },
         /**
          * Revokes the given auth token (device) for the user. User of issued auth token (device) will no longer be logged in and will be required to authenticate again upon next activity. If you are running Grafana Enterprise and have Fine-grained access control enabled, you need to have a permission with action `users.authtoken:update` and scope `global.users:*`.
          * @summary Revoke auth token for user.
-         * @param {number} userId 
-         * @param {RevokeAuthTokenCmd} body 
+         * @param {AdminUsersApiAdminRevokeUserAuthTokenRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        adminRevokeUserAuthToken(userId: number, body: RevokeAuthTokenCmd, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
-            return localVarFp.adminRevokeUserAuthToken(userId, body, options).then((request) => request(axios, basePath));
+        adminRevokeUserAuthToken(requestParameters: AdminUsersApiAdminRevokeUserAuthTokenRequest, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
+            return localVarFp.adminRevokeUserAuthToken(requestParameters.userId, requestParameters.body, options).then((request) => request(axios, basePath));
         },
         /**
          * If you are running Grafana Enterprise and have Fine-grained access control enabled, you need to have a permission with action `users.password:update` and scope `global.users:*`.
          * @summary Set password for user.
-         * @param {number} userId 
-         * @param {AdminUpdateUserPasswordForm} body 
+         * @param {AdminUsersApiAdminUpdateUserPasswordRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        adminUpdateUserPassword(userId: number, body: AdminUpdateUserPasswordForm, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
-            return localVarFp.adminUpdateUserPassword(userId, body, options).then((request) => request(axios, basePath));
+        adminUpdateUserPassword(requestParameters: AdminUsersApiAdminUpdateUserPasswordRequest, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
+            return localVarFp.adminUpdateUserPassword(requestParameters.userId, requestParameters.body, options).then((request) => request(axios, basePath));
         },
         /**
          * Only works with Basic Authentication (username and password). See introduction for an explanation. If you are running Grafana Enterprise and have Fine-grained access control enabled, you need to have a permission with action `users.permissions:update` and scope `global.users:*`.
          * @summary Set permissions for user.
-         * @param {number} userId 
-         * @param {AdminUpdateUserPermissionsForm} body 
+         * @param {AdminUsersApiAdminUpdateUserPermissionsRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        adminUpdateUserPermissions(userId: number, body: AdminUpdateUserPermissionsForm, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
-            return localVarFp.adminUpdateUserPermissions(userId, body, options).then((request) => request(axios, basePath));
+        adminUpdateUserPermissions(requestParameters: AdminUsersApiAdminUpdateUserPermissionsRequest, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
+            return localVarFp.adminUpdateUserPermissions(requestParameters.userId, requestParameters.body, options).then((request) => request(axios, basePath));
         },
         /**
          * If you are running Grafana Enterprise and have Fine-grained access control enabled, you need to have a permission with action `users.quotas:list` and scope `global.users:1` (userIDScope).
          * @summary Fetch user quota.
-         * @param {number} userId 
+         * @param {AdminUsersApiGetUserQuotaRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getUserQuota(userId: number, options?: RawAxiosRequestConfig): AxiosPromise<Array<QuotaDTO>> {
-            return localVarFp.getUserQuota(userId, options).then((request) => request(axios, basePath));
+        getUserQuota(requestParameters: AdminUsersApiGetUserQuotaRequest, options?: RawAxiosRequestConfig): AxiosPromise<Array<QuotaDTO>> {
+            return localVarFp.getUserQuota(requestParameters.userId, options).then((request) => request(axios, basePath));
         },
         /**
          * If you are running Grafana Enterprise and have Fine-grained access control enabled, you need to have a permission with action `users.quotas:update` and scope `global.users:1` (userIDScope).
          * @summary Update user quota.
-         * @param {string} quotaTarget 
-         * @param {number} userId 
-         * @param {UpdateQuotaCmd} body 
+         * @param {AdminUsersApiUpdateUserQuotaRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateUserQuota(quotaTarget: string, userId: number, body: UpdateQuotaCmd, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
-            return localVarFp.updateUserQuota(quotaTarget, userId, body, options).then((request) => request(axios, basePath));
+        updateUserQuota(requestParameters: AdminUsersApiUpdateUserQuotaRequest, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
+            return localVarFp.updateUserQuota(requestParameters.quotaTarget, requestParameters.userId, requestParameters.body, options).then((request) => request(axios, basePath));
         },
     };
 };
+
+/**
+ * Request parameters for adminCreateUser operation in AdminUsersApi.
+ * @export
+ * @interface AdminUsersApiAdminCreateUserRequest
+ */
+export interface AdminUsersApiAdminCreateUserRequest {
+    /**
+     * 
+     * @type {AdminCreateUserForm}
+     * @memberof AdminUsersApiAdminCreateUser
+     */
+    readonly body: AdminCreateUserForm
+}
+
+/**
+ * Request parameters for adminDeleteUser operation in AdminUsersApi.
+ * @export
+ * @interface AdminUsersApiAdminDeleteUserRequest
+ */
+export interface AdminUsersApiAdminDeleteUserRequest {
+    /**
+     * 
+     * @type {number}
+     * @memberof AdminUsersApiAdminDeleteUser
+     */
+    readonly userId: number
+}
+
+/**
+ * Request parameters for adminDisableUser operation in AdminUsersApi.
+ * @export
+ * @interface AdminUsersApiAdminDisableUserRequest
+ */
+export interface AdminUsersApiAdminDisableUserRequest {
+    /**
+     * 
+     * @type {number}
+     * @memberof AdminUsersApiAdminDisableUser
+     */
+    readonly userId: number
+}
+
+/**
+ * Request parameters for adminEnableUser operation in AdminUsersApi.
+ * @export
+ * @interface AdminUsersApiAdminEnableUserRequest
+ */
+export interface AdminUsersApiAdminEnableUserRequest {
+    /**
+     * 
+     * @type {number}
+     * @memberof AdminUsersApiAdminEnableUser
+     */
+    readonly userId: number
+}
+
+/**
+ * Request parameters for adminGetUserAuthTokens operation in AdminUsersApi.
+ * @export
+ * @interface AdminUsersApiAdminGetUserAuthTokensRequest
+ */
+export interface AdminUsersApiAdminGetUserAuthTokensRequest {
+    /**
+     * 
+     * @type {number}
+     * @memberof AdminUsersApiAdminGetUserAuthTokens
+     */
+    readonly userId: number
+}
+
+/**
+ * Request parameters for adminLogoutUser operation in AdminUsersApi.
+ * @export
+ * @interface AdminUsersApiAdminLogoutUserRequest
+ */
+export interface AdminUsersApiAdminLogoutUserRequest {
+    /**
+     * 
+     * @type {number}
+     * @memberof AdminUsersApiAdminLogoutUser
+     */
+    readonly userId: number
+}
+
+/**
+ * Request parameters for adminRevokeUserAuthToken operation in AdminUsersApi.
+ * @export
+ * @interface AdminUsersApiAdminRevokeUserAuthTokenRequest
+ */
+export interface AdminUsersApiAdminRevokeUserAuthTokenRequest {
+    /**
+     * 
+     * @type {number}
+     * @memberof AdminUsersApiAdminRevokeUserAuthToken
+     */
+    readonly userId: number
+
+    /**
+     * 
+     * @type {RevokeAuthTokenCmd}
+     * @memberof AdminUsersApiAdminRevokeUserAuthToken
+     */
+    readonly body: RevokeAuthTokenCmd
+}
+
+/**
+ * Request parameters for adminUpdateUserPassword operation in AdminUsersApi.
+ * @export
+ * @interface AdminUsersApiAdminUpdateUserPasswordRequest
+ */
+export interface AdminUsersApiAdminUpdateUserPasswordRequest {
+    /**
+     * 
+     * @type {number}
+     * @memberof AdminUsersApiAdminUpdateUserPassword
+     */
+    readonly userId: number
+
+    /**
+     * 
+     * @type {AdminUpdateUserPasswordForm}
+     * @memberof AdminUsersApiAdminUpdateUserPassword
+     */
+    readonly body: AdminUpdateUserPasswordForm
+}
+
+/**
+ * Request parameters for adminUpdateUserPermissions operation in AdminUsersApi.
+ * @export
+ * @interface AdminUsersApiAdminUpdateUserPermissionsRequest
+ */
+export interface AdminUsersApiAdminUpdateUserPermissionsRequest {
+    /**
+     * 
+     * @type {number}
+     * @memberof AdminUsersApiAdminUpdateUserPermissions
+     */
+    readonly userId: number
+
+    /**
+     * 
+     * @type {AdminUpdateUserPermissionsForm}
+     * @memberof AdminUsersApiAdminUpdateUserPermissions
+     */
+    readonly body: AdminUpdateUserPermissionsForm
+}
+
+/**
+ * Request parameters for getUserQuota operation in AdminUsersApi.
+ * @export
+ * @interface AdminUsersApiGetUserQuotaRequest
+ */
+export interface AdminUsersApiGetUserQuotaRequest {
+    /**
+     * 
+     * @type {number}
+     * @memberof AdminUsersApiGetUserQuota
+     */
+    readonly userId: number
+}
+
+/**
+ * Request parameters for updateUserQuota operation in AdminUsersApi.
+ * @export
+ * @interface AdminUsersApiUpdateUserQuotaRequest
+ */
+export interface AdminUsersApiUpdateUserQuotaRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof AdminUsersApiUpdateUserQuota
+     */
+    readonly quotaTarget: string
+
+    /**
+     * 
+     * @type {number}
+     * @memberof AdminUsersApiUpdateUserQuota
+     */
+    readonly userId: number
+
+    /**
+     * 
+     * @type {UpdateQuotaCmd}
+     * @memberof AdminUsersApiUpdateUserQuota
+     */
+    readonly body: UpdateQuotaCmd
+}
 
 /**
  * AdminUsersApi - object-oriented interface
@@ -19411,138 +18891,133 @@ export class AdminUsersApi extends BaseAPI {
     /**
      * If you are running Grafana Enterprise and have Fine-grained access control enabled, you need to have a permission with action `users:create`. Note that OrgId is an optional parameter that can be used to assign a new user to a different organization when `auto_assign_org` is set to `true`.
      * @summary Create new user.
-     * @param {AdminCreateUserForm} body 
+     * @param {AdminUsersApiAdminCreateUserRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof AdminUsersApi
      */
-    public adminCreateUser(body: AdminCreateUserForm, options?: RawAxiosRequestConfig) {
-        return AdminUsersApiFp(this.configuration).adminCreateUser(body, options).then((request) => request(this.axios, this.basePath));
+    public adminCreateUser(requestParameters: AdminUsersApiAdminCreateUserRequest, options?: RawAxiosRequestConfig) {
+        return AdminUsersApiFp(this.configuration).adminCreateUser(requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * If you are running Grafana Enterprise and have Fine-grained access control enabled, you need to have a permission with action `users:delete` and scope `global.users:*`.
      * @summary Delete global User.
-     * @param {number} userId 
+     * @param {AdminUsersApiAdminDeleteUserRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof AdminUsersApi
      */
-    public adminDeleteUser(userId: number, options?: RawAxiosRequestConfig) {
-        return AdminUsersApiFp(this.configuration).adminDeleteUser(userId, options).then((request) => request(this.axios, this.basePath));
+    public adminDeleteUser(requestParameters: AdminUsersApiAdminDeleteUserRequest, options?: RawAxiosRequestConfig) {
+        return AdminUsersApiFp(this.configuration).adminDeleteUser(requestParameters.userId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * If you are running Grafana Enterprise and have Fine-grained access control enabled, you need to have a permission with action `users:disable` and scope `global.users:1` (userIDScope).
      * @summary Disable user.
-     * @param {number} userId 
+     * @param {AdminUsersApiAdminDisableUserRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof AdminUsersApi
      */
-    public adminDisableUser(userId: number, options?: RawAxiosRequestConfig) {
-        return AdminUsersApiFp(this.configuration).adminDisableUser(userId, options).then((request) => request(this.axios, this.basePath));
+    public adminDisableUser(requestParameters: AdminUsersApiAdminDisableUserRequest, options?: RawAxiosRequestConfig) {
+        return AdminUsersApiFp(this.configuration).adminDisableUser(requestParameters.userId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * If you are running Grafana Enterprise and have Fine-grained access control enabled, you need to have a permission with action `users:enable` and scope `global.users:1` (userIDScope).
      * @summary Enable user.
-     * @param {number} userId 
+     * @param {AdminUsersApiAdminEnableUserRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof AdminUsersApi
      */
-    public adminEnableUser(userId: number, options?: RawAxiosRequestConfig) {
-        return AdminUsersApiFp(this.configuration).adminEnableUser(userId, options).then((request) => request(this.axios, this.basePath));
+    public adminEnableUser(requestParameters: AdminUsersApiAdminEnableUserRequest, options?: RawAxiosRequestConfig) {
+        return AdminUsersApiFp(this.configuration).adminEnableUser(requestParameters.userId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * If you are running Grafana Enterprise and have Fine-grained access control enabled, you need to have a permission with action `users.authtoken:list` and scope `global.users:*`.
      * @summary Return a list of all auth tokens (devices) that the user currently have logged in from.
-     * @param {number} userId 
+     * @param {AdminUsersApiAdminGetUserAuthTokensRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof AdminUsersApi
      */
-    public adminGetUserAuthTokens(userId: number, options?: RawAxiosRequestConfig) {
-        return AdminUsersApiFp(this.configuration).adminGetUserAuthTokens(userId, options).then((request) => request(this.axios, this.basePath));
+    public adminGetUserAuthTokens(requestParameters: AdminUsersApiAdminGetUserAuthTokensRequest, options?: RawAxiosRequestConfig) {
+        return AdminUsersApiFp(this.configuration).adminGetUserAuthTokens(requestParameters.userId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * If you are running Grafana Enterprise and have Fine-grained access control enabled, you need to have a permission with action `users.logout` and scope `global.users:*`.
      * @summary Logout user revokes all auth tokens (devices) for the user. User of issued auth tokens (devices) will no longer be logged in and will be required to authenticate again upon next activity.
-     * @param {number} userId 
+     * @param {AdminUsersApiAdminLogoutUserRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof AdminUsersApi
      */
-    public adminLogoutUser(userId: number, options?: RawAxiosRequestConfig) {
-        return AdminUsersApiFp(this.configuration).adminLogoutUser(userId, options).then((request) => request(this.axios, this.basePath));
+    public adminLogoutUser(requestParameters: AdminUsersApiAdminLogoutUserRequest, options?: RawAxiosRequestConfig) {
+        return AdminUsersApiFp(this.configuration).adminLogoutUser(requestParameters.userId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Revokes the given auth token (device) for the user. User of issued auth token (device) will no longer be logged in and will be required to authenticate again upon next activity. If you are running Grafana Enterprise and have Fine-grained access control enabled, you need to have a permission with action `users.authtoken:update` and scope `global.users:*`.
      * @summary Revoke auth token for user.
-     * @param {number} userId 
-     * @param {RevokeAuthTokenCmd} body 
+     * @param {AdminUsersApiAdminRevokeUserAuthTokenRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof AdminUsersApi
      */
-    public adminRevokeUserAuthToken(userId: number, body: RevokeAuthTokenCmd, options?: RawAxiosRequestConfig) {
-        return AdminUsersApiFp(this.configuration).adminRevokeUserAuthToken(userId, body, options).then((request) => request(this.axios, this.basePath));
+    public adminRevokeUserAuthToken(requestParameters: AdminUsersApiAdminRevokeUserAuthTokenRequest, options?: RawAxiosRequestConfig) {
+        return AdminUsersApiFp(this.configuration).adminRevokeUserAuthToken(requestParameters.userId, requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * If you are running Grafana Enterprise and have Fine-grained access control enabled, you need to have a permission with action `users.password:update` and scope `global.users:*`.
      * @summary Set password for user.
-     * @param {number} userId 
-     * @param {AdminUpdateUserPasswordForm} body 
+     * @param {AdminUsersApiAdminUpdateUserPasswordRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof AdminUsersApi
      */
-    public adminUpdateUserPassword(userId: number, body: AdminUpdateUserPasswordForm, options?: RawAxiosRequestConfig) {
-        return AdminUsersApiFp(this.configuration).adminUpdateUserPassword(userId, body, options).then((request) => request(this.axios, this.basePath));
+    public adminUpdateUserPassword(requestParameters: AdminUsersApiAdminUpdateUserPasswordRequest, options?: RawAxiosRequestConfig) {
+        return AdminUsersApiFp(this.configuration).adminUpdateUserPassword(requestParameters.userId, requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Only works with Basic Authentication (username and password). See introduction for an explanation. If you are running Grafana Enterprise and have Fine-grained access control enabled, you need to have a permission with action `users.permissions:update` and scope `global.users:*`.
      * @summary Set permissions for user.
-     * @param {number} userId 
-     * @param {AdminUpdateUserPermissionsForm} body 
+     * @param {AdminUsersApiAdminUpdateUserPermissionsRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof AdminUsersApi
      */
-    public adminUpdateUserPermissions(userId: number, body: AdminUpdateUserPermissionsForm, options?: RawAxiosRequestConfig) {
-        return AdminUsersApiFp(this.configuration).adminUpdateUserPermissions(userId, body, options).then((request) => request(this.axios, this.basePath));
+    public adminUpdateUserPermissions(requestParameters: AdminUsersApiAdminUpdateUserPermissionsRequest, options?: RawAxiosRequestConfig) {
+        return AdminUsersApiFp(this.configuration).adminUpdateUserPermissions(requestParameters.userId, requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * If you are running Grafana Enterprise and have Fine-grained access control enabled, you need to have a permission with action `users.quotas:list` and scope `global.users:1` (userIDScope).
      * @summary Fetch user quota.
-     * @param {number} userId 
+     * @param {AdminUsersApiGetUserQuotaRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof AdminUsersApi
      */
-    public getUserQuota(userId: number, options?: RawAxiosRequestConfig) {
-        return AdminUsersApiFp(this.configuration).getUserQuota(userId, options).then((request) => request(this.axios, this.basePath));
+    public getUserQuota(requestParameters: AdminUsersApiGetUserQuotaRequest, options?: RawAxiosRequestConfig) {
+        return AdminUsersApiFp(this.configuration).getUserQuota(requestParameters.userId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * If you are running Grafana Enterprise and have Fine-grained access control enabled, you need to have a permission with action `users.quotas:update` and scope `global.users:1` (userIDScope).
      * @summary Update user quota.
-     * @param {string} quotaTarget 
-     * @param {number} userId 
-     * @param {UpdateQuotaCmd} body 
+     * @param {AdminUsersApiUpdateUserQuotaRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof AdminUsersApi
      */
-    public updateUserQuota(quotaTarget: string, userId: number, body: UpdateQuotaCmd, options?: RawAxiosRequestConfig) {
-        return AdminUsersApiFp(this.configuration).updateUserQuota(quotaTarget, userId, body, options).then((request) => request(this.axios, this.basePath));
+    public updateUserQuota(requestParameters: AdminUsersApiUpdateUserQuotaRequest, options?: RawAxiosRequestConfig) {
+        return AdminUsersApiFp(this.configuration).updateUserQuota(requestParameters.quotaTarget, requestParameters.userId, requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -20151,108 +19626,312 @@ export const AnnotationsApiFactory = function (configuration?: Configuration, ba
         /**
          * Deletes the annotation that matches the specified ID.
          * @summary Delete Annotation By ID.
-         * @param {string} annotationId 
+         * @param {AnnotationsApiDeleteAnnotationByIDRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        deleteAnnotationByID(annotationId: string, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
-            return localVarFp.deleteAnnotationByID(annotationId, options).then((request) => request(axios, basePath));
+        deleteAnnotationByID(requestParameters: AnnotationsApiDeleteAnnotationByIDRequest, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
+            return localVarFp.deleteAnnotationByID(requestParameters.annotationId, options).then((request) => request(axios, basePath));
         },
         /**
          * 
          * @summary Get Annotation by ID.
-         * @param {string} annotationId 
+         * @param {AnnotationsApiGetAnnotationByIDRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getAnnotationByID(annotationId: string, options?: RawAxiosRequestConfig): AxiosPromise<Annotation> {
-            return localVarFp.getAnnotationByID(annotationId, options).then((request) => request(axios, basePath));
+        getAnnotationByID(requestParameters: AnnotationsApiGetAnnotationByIDRequest, options?: RawAxiosRequestConfig): AxiosPromise<Annotation> {
+            return localVarFp.getAnnotationByID(requestParameters.annotationId, options).then((request) => request(axios, basePath));
         },
         /**
          * Find all the event tags created in the annotations.
          * @summary Find Annotations Tags.
-         * @param {string} [tag] Tag is a string that you can use to filter tags.
-         * @param {string} [limit] Max limit for results returned.
+         * @param {AnnotationsApiGetAnnotationTagsRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getAnnotationTags(tag?: string, limit?: string, options?: RawAxiosRequestConfig): AxiosPromise<GetAnnotationTagsResponse> {
-            return localVarFp.getAnnotationTags(tag, limit, options).then((request) => request(axios, basePath));
+        getAnnotationTags(requestParameters: AnnotationsApiGetAnnotationTagsRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<GetAnnotationTagsResponse> {
+            return localVarFp.getAnnotationTags(requestParameters.tag, requestParameters.limit, options).then((request) => request(axios, basePath));
         },
         /**
          * Starting in Grafana v6.4 regions annotations are now returned in one entity that now includes the timeEnd property.
          * @summary Find Annotations.
-         * @param {number} [from] Find annotations created after specific epoch datetime in milliseconds.
-         * @param {number} [to] Find annotations created before specific epoch datetime in milliseconds.
-         * @param {number} [userId] Limit response to annotations created by specific user.
-         * @param {number} [alertId] Find annotations for a specified alert.
-         * @param {number} [dashboardId] Find annotations that are scoped to a specific dashboard
-         * @param {string} [dashboardUID] Find annotations that are scoped to a specific dashboard
-         * @param {number} [panelId] Find annotations that are scoped to a specific panel
-         * @param {number} [limit] Max limit for results returned.
-         * @param {Array<string>} [tags] Use this to filter organization annotations. Organization annotations are annotations from an annotation data source that are not connected specifically to a dashboard or panel. You can filter by multiple tags.
-         * @param {GetAnnotationsTypeEnum} [type] Return alerts or user created annotations
-         * @param {boolean} [matchAny] Match any or all tags
+         * @param {AnnotationsApiGetAnnotationsRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getAnnotations(from?: number, to?: number, userId?: number, alertId?: number, dashboardId?: number, dashboardUID?: string, panelId?: number, limit?: number, tags?: Array<string>, type?: GetAnnotationsTypeEnum, matchAny?: boolean, options?: RawAxiosRequestConfig): AxiosPromise<Array<Annotation>> {
-            return localVarFp.getAnnotations(from, to, userId, alertId, dashboardId, dashboardUID, panelId, limit, tags, type, matchAny, options).then((request) => request(axios, basePath));
+        getAnnotations(requestParameters: AnnotationsApiGetAnnotationsRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<Array<Annotation>> {
+            return localVarFp.getAnnotations(requestParameters.from, requestParameters.to, requestParameters.userId, requestParameters.alertId, requestParameters.dashboardId, requestParameters.dashboardUID, requestParameters.panelId, requestParameters.limit, requestParameters.tags, requestParameters.type, requestParameters.matchAny, options).then((request) => request(axios, basePath));
         },
         /**
          * 
          * @summary Delete multiple annotations.
-         * @param {MassDeleteAnnotationsCmd} body 
+         * @param {AnnotationsApiMassDeleteAnnotationsRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        massDeleteAnnotations(body: MassDeleteAnnotationsCmd, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
-            return localVarFp.massDeleteAnnotations(body, options).then((request) => request(axios, basePath));
+        massDeleteAnnotations(requestParameters: AnnotationsApiMassDeleteAnnotationsRequest, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
+            return localVarFp.massDeleteAnnotations(requestParameters.body, options).then((request) => request(axios, basePath));
         },
         /**
          * Updates one or more properties of an annotation that matches the specified ID. This operation currently supports updating of the `text`, `tags`, `time` and `timeEnd` properties. This is available in Grafana 6.0.0-beta2 and above.
          * @summary Patch Annotation.
-         * @param {string} annotationId 
-         * @param {PatchAnnotationsCmd} body 
+         * @param {AnnotationsApiPatchAnnotationRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        patchAnnotation(annotationId: string, body: PatchAnnotationsCmd, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
-            return localVarFp.patchAnnotation(annotationId, body, options).then((request) => request(axios, basePath));
+        patchAnnotation(requestParameters: AnnotationsApiPatchAnnotationRequest, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
+            return localVarFp.patchAnnotation(requestParameters.annotationId, requestParameters.body, options).then((request) => request(axios, basePath));
         },
         /**
          * Creates an annotation in the Grafana database. The dashboardId and panelId fields are optional. If they are not specified then an organization annotation is created and can be queried in any dashboard that adds the Grafana annotations data source. When creating a region annotation include the timeEnd property. The format for `time` and `timeEnd` should be epoch numbers in millisecond resolution. The response for this HTTP request is slightly different in versions prior to v6.4. In prior versions you would also get an endId if you where creating a region. But in 6.4 regions are represented using a single event with time and timeEnd properties.
          * @summary Create Annotation.
-         * @param {PostAnnotationsCmd} body 
+         * @param {AnnotationsApiPostAnnotationRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        postAnnotation(body: PostAnnotationsCmd, options?: RawAxiosRequestConfig): AxiosPromise<PostAnnotation200Response> {
-            return localVarFp.postAnnotation(body, options).then((request) => request(axios, basePath));
+        postAnnotation(requestParameters: AnnotationsApiPostAnnotationRequest, options?: RawAxiosRequestConfig): AxiosPromise<PostAnnotation200Response> {
+            return localVarFp.postAnnotation(requestParameters.body, options).then((request) => request(axios, basePath));
         },
         /**
          * Creates an annotation by using Graphite-compatible event format. The `when` and `data` fields are optional. If `when` is not specified then the current time will be used as annotation’s timestamp. The `tags` field can also be in prior to Graphite `0.10.0` format (string with multiple tags being separated by a space).
          * @summary Create Annotation in Graphite format.
-         * @param {PostGraphiteAnnotationsCmd} body 
+         * @param {AnnotationsApiPostGraphiteAnnotationRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        postGraphiteAnnotation(body: PostGraphiteAnnotationsCmd, options?: RawAxiosRequestConfig): AxiosPromise<PostAnnotation200Response> {
-            return localVarFp.postGraphiteAnnotation(body, options).then((request) => request(axios, basePath));
+        postGraphiteAnnotation(requestParameters: AnnotationsApiPostGraphiteAnnotationRequest, options?: RawAxiosRequestConfig): AxiosPromise<PostAnnotation200Response> {
+            return localVarFp.postGraphiteAnnotation(requestParameters.body, options).then((request) => request(axios, basePath));
         },
         /**
          * Updates all properties of an annotation that matches the specified id. To only update certain property, consider using the Patch Annotation operation.
          * @summary Update Annotation.
-         * @param {string} annotationId 
-         * @param {UpdateAnnotationsCmd} body 
+         * @param {AnnotationsApiUpdateAnnotationRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateAnnotation(annotationId: string, body: UpdateAnnotationsCmd, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
-            return localVarFp.updateAnnotation(annotationId, body, options).then((request) => request(axios, basePath));
+        updateAnnotation(requestParameters: AnnotationsApiUpdateAnnotationRequest, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
+            return localVarFp.updateAnnotation(requestParameters.annotationId, requestParameters.body, options).then((request) => request(axios, basePath));
         },
     };
 };
+
+/**
+ * Request parameters for deleteAnnotationByID operation in AnnotationsApi.
+ * @export
+ * @interface AnnotationsApiDeleteAnnotationByIDRequest
+ */
+export interface AnnotationsApiDeleteAnnotationByIDRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof AnnotationsApiDeleteAnnotationByID
+     */
+    readonly annotationId: string
+}
+
+/**
+ * Request parameters for getAnnotationByID operation in AnnotationsApi.
+ * @export
+ * @interface AnnotationsApiGetAnnotationByIDRequest
+ */
+export interface AnnotationsApiGetAnnotationByIDRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof AnnotationsApiGetAnnotationByID
+     */
+    readonly annotationId: string
+}
+
+/**
+ * Request parameters for getAnnotationTags operation in AnnotationsApi.
+ * @export
+ * @interface AnnotationsApiGetAnnotationTagsRequest
+ */
+export interface AnnotationsApiGetAnnotationTagsRequest {
+    /**
+     * Tag is a string that you can use to filter tags.
+     * @type {string}
+     * @memberof AnnotationsApiGetAnnotationTags
+     */
+    readonly tag?: string
+
+    /**
+     * Max limit for results returned.
+     * @type {string}
+     * @memberof AnnotationsApiGetAnnotationTags
+     */
+    readonly limit?: string
+}
+
+/**
+ * Request parameters for getAnnotations operation in AnnotationsApi.
+ * @export
+ * @interface AnnotationsApiGetAnnotationsRequest
+ */
+export interface AnnotationsApiGetAnnotationsRequest {
+    /**
+     * Find annotations created after specific epoch datetime in milliseconds.
+     * @type {number}
+     * @memberof AnnotationsApiGetAnnotations
+     */
+    readonly from?: number
+
+    /**
+     * Find annotations created before specific epoch datetime in milliseconds.
+     * @type {number}
+     * @memberof AnnotationsApiGetAnnotations
+     */
+    readonly to?: number
+
+    /**
+     * Limit response to annotations created by specific user.
+     * @type {number}
+     * @memberof AnnotationsApiGetAnnotations
+     */
+    readonly userId?: number
+
+    /**
+     * Find annotations for a specified alert.
+     * @type {number}
+     * @memberof AnnotationsApiGetAnnotations
+     */
+    readonly alertId?: number
+
+    /**
+     * Find annotations that are scoped to a specific dashboard
+     * @type {number}
+     * @memberof AnnotationsApiGetAnnotations
+     */
+    readonly dashboardId?: number
+
+    /**
+     * Find annotations that are scoped to a specific dashboard
+     * @type {string}
+     * @memberof AnnotationsApiGetAnnotations
+     */
+    readonly dashboardUID?: string
+
+    /**
+     * Find annotations that are scoped to a specific panel
+     * @type {number}
+     * @memberof AnnotationsApiGetAnnotations
+     */
+    readonly panelId?: number
+
+    /**
+     * Max limit for results returned.
+     * @type {number}
+     * @memberof AnnotationsApiGetAnnotations
+     */
+    readonly limit?: number
+
+    /**
+     * Use this to filter organization annotations. Organization annotations are annotations from an annotation data source that are not connected specifically to a dashboard or panel. You can filter by multiple tags.
+     * @type {Array<string>}
+     * @memberof AnnotationsApiGetAnnotations
+     */
+    readonly tags?: Array<string>
+
+    /**
+     * Return alerts or user created annotations
+     * @type {'alert' | 'annotation'}
+     * @memberof AnnotationsApiGetAnnotations
+     */
+    readonly type?: GetAnnotationsTypeEnum
+
+    /**
+     * Match any or all tags
+     * @type {boolean}
+     * @memberof AnnotationsApiGetAnnotations
+     */
+    readonly matchAny?: boolean
+}
+
+/**
+ * Request parameters for massDeleteAnnotations operation in AnnotationsApi.
+ * @export
+ * @interface AnnotationsApiMassDeleteAnnotationsRequest
+ */
+export interface AnnotationsApiMassDeleteAnnotationsRequest {
+    /**
+     * 
+     * @type {MassDeleteAnnotationsCmd}
+     * @memberof AnnotationsApiMassDeleteAnnotations
+     */
+    readonly body: MassDeleteAnnotationsCmd
+}
+
+/**
+ * Request parameters for patchAnnotation operation in AnnotationsApi.
+ * @export
+ * @interface AnnotationsApiPatchAnnotationRequest
+ */
+export interface AnnotationsApiPatchAnnotationRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof AnnotationsApiPatchAnnotation
+     */
+    readonly annotationId: string
+
+    /**
+     * 
+     * @type {PatchAnnotationsCmd}
+     * @memberof AnnotationsApiPatchAnnotation
+     */
+    readonly body: PatchAnnotationsCmd
+}
+
+/**
+ * Request parameters for postAnnotation operation in AnnotationsApi.
+ * @export
+ * @interface AnnotationsApiPostAnnotationRequest
+ */
+export interface AnnotationsApiPostAnnotationRequest {
+    /**
+     * 
+     * @type {PostAnnotationsCmd}
+     * @memberof AnnotationsApiPostAnnotation
+     */
+    readonly body: PostAnnotationsCmd
+}
+
+/**
+ * Request parameters for postGraphiteAnnotation operation in AnnotationsApi.
+ * @export
+ * @interface AnnotationsApiPostGraphiteAnnotationRequest
+ */
+export interface AnnotationsApiPostGraphiteAnnotationRequest {
+    /**
+     * 
+     * @type {PostGraphiteAnnotationsCmd}
+     * @memberof AnnotationsApiPostGraphiteAnnotation
+     */
+    readonly body: PostGraphiteAnnotationsCmd
+}
+
+/**
+ * Request parameters for updateAnnotation operation in AnnotationsApi.
+ * @export
+ * @interface AnnotationsApiUpdateAnnotationRequest
+ */
+export interface AnnotationsApiUpdateAnnotationRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof AnnotationsApiUpdateAnnotation
+     */
+    readonly annotationId: string
+
+    /**
+     * 
+     * @type {UpdateAnnotationsCmd}
+     * @memberof AnnotationsApiUpdateAnnotation
+     */
+    readonly body: UpdateAnnotationsCmd
+}
 
 /**
  * AnnotationsApi - object-oriented interface
@@ -20264,122 +19943,109 @@ export class AnnotationsApi extends BaseAPI {
     /**
      * Deletes the annotation that matches the specified ID.
      * @summary Delete Annotation By ID.
-     * @param {string} annotationId 
+     * @param {AnnotationsApiDeleteAnnotationByIDRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof AnnotationsApi
      */
-    public deleteAnnotationByID(annotationId: string, options?: RawAxiosRequestConfig) {
-        return AnnotationsApiFp(this.configuration).deleteAnnotationByID(annotationId, options).then((request) => request(this.axios, this.basePath));
+    public deleteAnnotationByID(requestParameters: AnnotationsApiDeleteAnnotationByIDRequest, options?: RawAxiosRequestConfig) {
+        return AnnotationsApiFp(this.configuration).deleteAnnotationByID(requestParameters.annotationId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
      * @summary Get Annotation by ID.
-     * @param {string} annotationId 
+     * @param {AnnotationsApiGetAnnotationByIDRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof AnnotationsApi
      */
-    public getAnnotationByID(annotationId: string, options?: RawAxiosRequestConfig) {
-        return AnnotationsApiFp(this.configuration).getAnnotationByID(annotationId, options).then((request) => request(this.axios, this.basePath));
+    public getAnnotationByID(requestParameters: AnnotationsApiGetAnnotationByIDRequest, options?: RawAxiosRequestConfig) {
+        return AnnotationsApiFp(this.configuration).getAnnotationByID(requestParameters.annotationId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Find all the event tags created in the annotations.
      * @summary Find Annotations Tags.
-     * @param {string} [tag] Tag is a string that you can use to filter tags.
-     * @param {string} [limit] Max limit for results returned.
+     * @param {AnnotationsApiGetAnnotationTagsRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof AnnotationsApi
      */
-    public getAnnotationTags(tag?: string, limit?: string, options?: RawAxiosRequestConfig) {
-        return AnnotationsApiFp(this.configuration).getAnnotationTags(tag, limit, options).then((request) => request(this.axios, this.basePath));
+    public getAnnotationTags(requestParameters: AnnotationsApiGetAnnotationTagsRequest = {}, options?: RawAxiosRequestConfig) {
+        return AnnotationsApiFp(this.configuration).getAnnotationTags(requestParameters.tag, requestParameters.limit, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Starting in Grafana v6.4 regions annotations are now returned in one entity that now includes the timeEnd property.
      * @summary Find Annotations.
-     * @param {number} [from] Find annotations created after specific epoch datetime in milliseconds.
-     * @param {number} [to] Find annotations created before specific epoch datetime in milliseconds.
-     * @param {number} [userId] Limit response to annotations created by specific user.
-     * @param {number} [alertId] Find annotations for a specified alert.
-     * @param {number} [dashboardId] Find annotations that are scoped to a specific dashboard
-     * @param {string} [dashboardUID] Find annotations that are scoped to a specific dashboard
-     * @param {number} [panelId] Find annotations that are scoped to a specific panel
-     * @param {number} [limit] Max limit for results returned.
-     * @param {Array<string>} [tags] Use this to filter organization annotations. Organization annotations are annotations from an annotation data source that are not connected specifically to a dashboard or panel. You can filter by multiple tags.
-     * @param {GetAnnotationsTypeEnum} [type] Return alerts or user created annotations
-     * @param {boolean} [matchAny] Match any or all tags
+     * @param {AnnotationsApiGetAnnotationsRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof AnnotationsApi
      */
-    public getAnnotations(from?: number, to?: number, userId?: number, alertId?: number, dashboardId?: number, dashboardUID?: string, panelId?: number, limit?: number, tags?: Array<string>, type?: GetAnnotationsTypeEnum, matchAny?: boolean, options?: RawAxiosRequestConfig) {
-        return AnnotationsApiFp(this.configuration).getAnnotations(from, to, userId, alertId, dashboardId, dashboardUID, panelId, limit, tags, type, matchAny, options).then((request) => request(this.axios, this.basePath));
+    public getAnnotations(requestParameters: AnnotationsApiGetAnnotationsRequest = {}, options?: RawAxiosRequestConfig) {
+        return AnnotationsApiFp(this.configuration).getAnnotations(requestParameters.from, requestParameters.to, requestParameters.userId, requestParameters.alertId, requestParameters.dashboardId, requestParameters.dashboardUID, requestParameters.panelId, requestParameters.limit, requestParameters.tags, requestParameters.type, requestParameters.matchAny, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
      * @summary Delete multiple annotations.
-     * @param {MassDeleteAnnotationsCmd} body 
+     * @param {AnnotationsApiMassDeleteAnnotationsRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof AnnotationsApi
      */
-    public massDeleteAnnotations(body: MassDeleteAnnotationsCmd, options?: RawAxiosRequestConfig) {
-        return AnnotationsApiFp(this.configuration).massDeleteAnnotations(body, options).then((request) => request(this.axios, this.basePath));
+    public massDeleteAnnotations(requestParameters: AnnotationsApiMassDeleteAnnotationsRequest, options?: RawAxiosRequestConfig) {
+        return AnnotationsApiFp(this.configuration).massDeleteAnnotations(requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Updates one or more properties of an annotation that matches the specified ID. This operation currently supports updating of the `text`, `tags`, `time` and `timeEnd` properties. This is available in Grafana 6.0.0-beta2 and above.
      * @summary Patch Annotation.
-     * @param {string} annotationId 
-     * @param {PatchAnnotationsCmd} body 
+     * @param {AnnotationsApiPatchAnnotationRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof AnnotationsApi
      */
-    public patchAnnotation(annotationId: string, body: PatchAnnotationsCmd, options?: RawAxiosRequestConfig) {
-        return AnnotationsApiFp(this.configuration).patchAnnotation(annotationId, body, options).then((request) => request(this.axios, this.basePath));
+    public patchAnnotation(requestParameters: AnnotationsApiPatchAnnotationRequest, options?: RawAxiosRequestConfig) {
+        return AnnotationsApiFp(this.configuration).patchAnnotation(requestParameters.annotationId, requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Creates an annotation in the Grafana database. The dashboardId and panelId fields are optional. If they are not specified then an organization annotation is created and can be queried in any dashboard that adds the Grafana annotations data source. When creating a region annotation include the timeEnd property. The format for `time` and `timeEnd` should be epoch numbers in millisecond resolution. The response for this HTTP request is slightly different in versions prior to v6.4. In prior versions you would also get an endId if you where creating a region. But in 6.4 regions are represented using a single event with time and timeEnd properties.
      * @summary Create Annotation.
-     * @param {PostAnnotationsCmd} body 
+     * @param {AnnotationsApiPostAnnotationRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof AnnotationsApi
      */
-    public postAnnotation(body: PostAnnotationsCmd, options?: RawAxiosRequestConfig) {
-        return AnnotationsApiFp(this.configuration).postAnnotation(body, options).then((request) => request(this.axios, this.basePath));
+    public postAnnotation(requestParameters: AnnotationsApiPostAnnotationRequest, options?: RawAxiosRequestConfig) {
+        return AnnotationsApiFp(this.configuration).postAnnotation(requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Creates an annotation by using Graphite-compatible event format. The `when` and `data` fields are optional. If `when` is not specified then the current time will be used as annotation’s timestamp. The `tags` field can also be in prior to Graphite `0.10.0` format (string with multiple tags being separated by a space).
      * @summary Create Annotation in Graphite format.
-     * @param {PostGraphiteAnnotationsCmd} body 
+     * @param {AnnotationsApiPostGraphiteAnnotationRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof AnnotationsApi
      */
-    public postGraphiteAnnotation(body: PostGraphiteAnnotationsCmd, options?: RawAxiosRequestConfig) {
-        return AnnotationsApiFp(this.configuration).postGraphiteAnnotation(body, options).then((request) => request(this.axios, this.basePath));
+    public postGraphiteAnnotation(requestParameters: AnnotationsApiPostGraphiteAnnotationRequest, options?: RawAxiosRequestConfig) {
+        return AnnotationsApiFp(this.configuration).postGraphiteAnnotation(requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Updates all properties of an annotation that matches the specified id. To only update certain property, consider using the Patch Annotation operation.
      * @summary Update Annotation.
-     * @param {string} annotationId 
-     * @param {UpdateAnnotationsCmd} body 
+     * @param {AnnotationsApiUpdateAnnotationRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof AnnotationsApi
      */
-    public updateAnnotation(annotationId: string, body: UpdateAnnotationsCmd, options?: RawAxiosRequestConfig) {
-        return AnnotationsApiFp(this.configuration).updateAnnotation(annotationId, body, options).then((request) => request(this.axios, this.basePath));
+    public updateAnnotation(requestParameters: AnnotationsApiUpdateAnnotationRequest, options?: RawAxiosRequestConfig) {
+        return AnnotationsApiFp(this.configuration).updateAnnotation(requestParameters.annotationId, requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -20402,11 +20068,14 @@ export const ApiKeysApiAxiosParamCreator = function (configuration?: Configurati
         /**
          * Will return details of the created API key.
          * @summary Creates an API key.
+         * @param {AddAPIKeyCommand} body 
          * @param {*} [options] Override http request option.
          * @deprecated
          * @throws {RequiredError}
          */
-        addAPIkey: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        addAPIkey: async (body: AddAPIKeyCommand, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'body' is not null or undefined
+            assertParamExists('addAPIkey', 'body', body)
             const localVarPath = `/auth/keys`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -20428,9 +20097,12 @@ export const ApiKeysApiAxiosParamCreator = function (configuration?: Configurati
 
 
     
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(body, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -20438,7 +20110,7 @@ export const ApiKeysApiAxiosParamCreator = function (configuration?: Configurati
             };
         },
         /**
-         * Deletes an API key. Deprecated. See: https://grafana.com/docs/grafana/next/administration/service-accounts/migrate-api-keys/.
+         * Deletes an API key. Deprecated. See: https://grafana.com/docs/grafana/next/administration/api-keys/#migrate-api-keys-to-grafana-service-accounts-using-the-api.
          * @summary Delete API key.
          * @param {number} id 
          * @param {*} [options] Override http request option.
@@ -20480,7 +20152,7 @@ export const ApiKeysApiAxiosParamCreator = function (configuration?: Configurati
             };
         },
         /**
-         * Will return auth keys.  Deprecated: true.  Deprecated. Please use GET /api/serviceaccounts and GET /api/serviceaccounts/{id}/tokens instead see https://grafana.com/docs/grafana/next/administration/service-accounts/migrate-api-keys/.
+         * Will return auth keys.  Deprecated: true.  Deprecated. Please use GET /api/serviceaccounts and GET /api/serviceaccounts/{id}/tokens instead see https://grafana.com/docs/grafana/next/administration/api-keys/#migrate-api-keys-to-grafana-service-accounts-using-the-api.
          * @summary Get auth keys.
          * @param {boolean} [includeExpired] Show expired keys
          * @param {*} [options] Override http request option.
@@ -20534,18 +20206,19 @@ export const ApiKeysApiFp = function(configuration?: Configuration) {
         /**
          * Will return details of the created API key.
          * @summary Creates an API key.
+         * @param {AddAPIKeyCommand} body 
          * @param {*} [options] Override http request option.
          * @deprecated
          * @throws {RequiredError}
          */
-        async addAPIkey(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.addAPIkey(options);
+        async addAPIkey(body: AddAPIKeyCommand, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<NewApiKeyResult>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.addAPIkey(body, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['ApiKeysApi.addAPIkey']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
-         * Deletes an API key. Deprecated. See: https://grafana.com/docs/grafana/next/administration/service-accounts/migrate-api-keys/.
+         * Deletes an API key. Deprecated. See: https://grafana.com/docs/grafana/next/administration/api-keys/#migrate-api-keys-to-grafana-service-accounts-using-the-api.
          * @summary Delete API key.
          * @param {number} id 
          * @param {*} [options] Override http request option.
@@ -20559,7 +20232,7 @@ export const ApiKeysApiFp = function(configuration?: Configuration) {
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
-         * Will return auth keys.  Deprecated: true.  Deprecated. Please use GET /api/serviceaccounts and GET /api/serviceaccounts/{id}/tokens instead see https://grafana.com/docs/grafana/next/administration/service-accounts/migrate-api-keys/.
+         * Will return auth keys.  Deprecated: true.  Deprecated. Please use GET /api/serviceaccounts and GET /api/serviceaccounts/{id}/tokens instead see https://grafana.com/docs/grafana/next/administration/api-keys/#migrate-api-keys-to-grafana-service-accounts-using-the-api.
          * @summary Get auth keys.
          * @param {boolean} [includeExpired] Show expired keys
          * @param {*} [options] Override http request option.
@@ -20584,36 +20257,79 @@ export const ApiKeysApiFactory = function (configuration?: Configuration, basePa
         /**
          * Will return details of the created API key.
          * @summary Creates an API key.
+         * @param {ApiKeysApiAddAPIkeyRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @deprecated
          * @throws {RequiredError}
          */
-        addAPIkey(options?: RawAxiosRequestConfig): AxiosPromise<void> {
-            return localVarFp.addAPIkey(options).then((request) => request(axios, basePath));
+        addAPIkey(requestParameters: ApiKeysApiAddAPIkeyRequest, options?: RawAxiosRequestConfig): AxiosPromise<NewApiKeyResult> {
+            return localVarFp.addAPIkey(requestParameters.body, options).then((request) => request(axios, basePath));
         },
         /**
-         * Deletes an API key. Deprecated. See: https://grafana.com/docs/grafana/next/administration/service-accounts/migrate-api-keys/.
+         * Deletes an API key. Deprecated. See: https://grafana.com/docs/grafana/next/administration/api-keys/#migrate-api-keys-to-grafana-service-accounts-using-the-api.
          * @summary Delete API key.
-         * @param {number} id 
+         * @param {ApiKeysApiDeleteAPIkeyRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @deprecated
          * @throws {RequiredError}
          */
-        deleteAPIkey(id: number, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
-            return localVarFp.deleteAPIkey(id, options).then((request) => request(axios, basePath));
+        deleteAPIkey(requestParameters: ApiKeysApiDeleteAPIkeyRequest, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
+            return localVarFp.deleteAPIkey(requestParameters.id, options).then((request) => request(axios, basePath));
         },
         /**
-         * Will return auth keys.  Deprecated: true.  Deprecated. Please use GET /api/serviceaccounts and GET /api/serviceaccounts/{id}/tokens instead see https://grafana.com/docs/grafana/next/administration/service-accounts/migrate-api-keys/.
+         * Will return auth keys.  Deprecated: true.  Deprecated. Please use GET /api/serviceaccounts and GET /api/serviceaccounts/{id}/tokens instead see https://grafana.com/docs/grafana/next/administration/api-keys/#migrate-api-keys-to-grafana-service-accounts-using-the-api.
          * @summary Get auth keys.
-         * @param {boolean} [includeExpired] Show expired keys
+         * @param {ApiKeysApiGetAPIkeysRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getAPIkeys(includeExpired?: boolean, options?: RawAxiosRequestConfig): AxiosPromise<Array<ApiKeyDTO>> {
-            return localVarFp.getAPIkeys(includeExpired, options).then((request) => request(axios, basePath));
+        getAPIkeys(requestParameters: ApiKeysApiGetAPIkeysRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<Array<ApiKeyDTO>> {
+            return localVarFp.getAPIkeys(requestParameters.includeExpired, options).then((request) => request(axios, basePath));
         },
     };
 };
+
+/**
+ * Request parameters for addAPIkey operation in ApiKeysApi.
+ * @export
+ * @interface ApiKeysApiAddAPIkeyRequest
+ */
+export interface ApiKeysApiAddAPIkeyRequest {
+    /**
+     * 
+     * @type {AddAPIKeyCommand}
+     * @memberof ApiKeysApiAddAPIkey
+     */
+    readonly body: AddAPIKeyCommand
+}
+
+/**
+ * Request parameters for deleteAPIkey operation in ApiKeysApi.
+ * @export
+ * @interface ApiKeysApiDeleteAPIkeyRequest
+ */
+export interface ApiKeysApiDeleteAPIkeyRequest {
+    /**
+     * 
+     * @type {number}
+     * @memberof ApiKeysApiDeleteAPIkey
+     */
+    readonly id: number
+}
+
+/**
+ * Request parameters for getAPIkeys operation in ApiKeysApi.
+ * @export
+ * @interface ApiKeysApiGetAPIkeysRequest
+ */
+export interface ApiKeysApiGetAPIkeysRequest {
+    /**
+     * Show expired keys
+     * @type {boolean}
+     * @memberof ApiKeysApiGetAPIkeys
+     */
+    readonly includeExpired?: boolean
+}
 
 /**
  * ApiKeysApi - object-oriented interface
@@ -20625,38 +20341,39 @@ export class ApiKeysApi extends BaseAPI {
     /**
      * Will return details of the created API key.
      * @summary Creates an API key.
+     * @param {ApiKeysApiAddAPIkeyRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @deprecated
      * @throws {RequiredError}
      * @memberof ApiKeysApi
      */
-    public addAPIkey(options?: RawAxiosRequestConfig) {
-        return ApiKeysApiFp(this.configuration).addAPIkey(options).then((request) => request(this.axios, this.basePath));
+    public addAPIkey(requestParameters: ApiKeysApiAddAPIkeyRequest, options?: RawAxiosRequestConfig) {
+        return ApiKeysApiFp(this.configuration).addAPIkey(requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
-     * Deletes an API key. Deprecated. See: https://grafana.com/docs/grafana/next/administration/service-accounts/migrate-api-keys/.
+     * Deletes an API key. Deprecated. See: https://grafana.com/docs/grafana/next/administration/api-keys/#migrate-api-keys-to-grafana-service-accounts-using-the-api.
      * @summary Delete API key.
-     * @param {number} id 
+     * @param {ApiKeysApiDeleteAPIkeyRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @deprecated
      * @throws {RequiredError}
      * @memberof ApiKeysApi
      */
-    public deleteAPIkey(id: number, options?: RawAxiosRequestConfig) {
-        return ApiKeysApiFp(this.configuration).deleteAPIkey(id, options).then((request) => request(this.axios, this.basePath));
+    public deleteAPIkey(requestParameters: ApiKeysApiDeleteAPIkeyRequest, options?: RawAxiosRequestConfig) {
+        return ApiKeysApiFp(this.configuration).deleteAPIkey(requestParameters.id, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
-     * Will return auth keys.  Deprecated: true.  Deprecated. Please use GET /api/serviceaccounts and GET /api/serviceaccounts/{id}/tokens instead see https://grafana.com/docs/grafana/next/administration/service-accounts/migrate-api-keys/.
+     * Will return auth keys.  Deprecated: true.  Deprecated. Please use GET /api/serviceaccounts and GET /api/serviceaccounts/{id}/tokens instead see https://grafana.com/docs/grafana/next/administration/api-keys/#migrate-api-keys-to-grafana-service-accounts-using-the-api.
      * @summary Get auth keys.
-     * @param {boolean} [includeExpired] Show expired keys
+     * @param {ApiKeysApiGetAPIkeysRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ApiKeysApi
      */
-    public getAPIkeys(includeExpired?: boolean, options?: RawAxiosRequestConfig) {
-        return ApiKeysApiFp(this.configuration).getAPIkeys(includeExpired, options).then((request) => request(this.axios, this.basePath));
+    public getAPIkeys(requestParameters: ApiKeysApiGetAPIkeysRequest = {}, options?: RawAxiosRequestConfig) {
+        return ApiKeysApiFp(this.configuration).getAPIkeys(requestParameters.includeExpired, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -21055,72 +20772,198 @@ export const CorrelationsApiFactory = function (configuration?: Configuration, b
         /**
          * 
          * @summary Add correlation.
-         * @param {string} sourceUID 
-         * @param {CreateCorrelationCommand} body 
+         * @param {CorrelationsApiCreateCorrelationRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createCorrelation(sourceUID: string, body: CreateCorrelationCommand, options?: RawAxiosRequestConfig): AxiosPromise<CreateCorrelationResponseBody> {
-            return localVarFp.createCorrelation(sourceUID, body, options).then((request) => request(axios, basePath));
+        createCorrelation(requestParameters: CorrelationsApiCreateCorrelationRequest, options?: RawAxiosRequestConfig): AxiosPromise<CreateCorrelationResponseBody> {
+            return localVarFp.createCorrelation(requestParameters.sourceUID, requestParameters.body, options).then((request) => request(axios, basePath));
         },
         /**
          * 
          * @summary Delete a correlation.
-         * @param {string} uid 
-         * @param {string} correlationUID 
+         * @param {CorrelationsApiDeleteCorrelationRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        deleteCorrelation(uid: string, correlationUID: string, options?: RawAxiosRequestConfig): AxiosPromise<DeleteCorrelationResponseBody> {
-            return localVarFp.deleteCorrelation(uid, correlationUID, options).then((request) => request(axios, basePath));
+        deleteCorrelation(requestParameters: CorrelationsApiDeleteCorrelationRequest, options?: RawAxiosRequestConfig): AxiosPromise<DeleteCorrelationResponseBody> {
+            return localVarFp.deleteCorrelation(requestParameters.uid, requestParameters.correlationUID, options).then((request) => request(axios, basePath));
         },
         /**
          * 
          * @summary Gets a correlation.
-         * @param {string} sourceUID 
-         * @param {string} correlationUID 
+         * @param {CorrelationsApiGetCorrelationRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getCorrelation(sourceUID: string, correlationUID: string, options?: RawAxiosRequestConfig): AxiosPromise<Correlation> {
-            return localVarFp.getCorrelation(sourceUID, correlationUID, options).then((request) => request(axios, basePath));
+        getCorrelation(requestParameters: CorrelationsApiGetCorrelationRequest, options?: RawAxiosRequestConfig): AxiosPromise<Correlation> {
+            return localVarFp.getCorrelation(requestParameters.sourceUID, requestParameters.correlationUID, options).then((request) => request(axios, basePath));
         },
         /**
          * 
          * @summary Gets all correlations.
-         * @param {number} [limit] Limit the maximum number of correlations to return per page
-         * @param {number} [page] Page index for starting fetching correlations
-         * @param {Array<string>} [sourceUID] Source datasource UID filter to be applied to correlations
+         * @param {CorrelationsApiGetCorrelationsRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getCorrelations(limit?: number, page?: number, sourceUID?: Array<string>, options?: RawAxiosRequestConfig): AxiosPromise<Array<Correlation>> {
-            return localVarFp.getCorrelations(limit, page, sourceUID, options).then((request) => request(axios, basePath));
+        getCorrelations(requestParameters: CorrelationsApiGetCorrelationsRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<Array<Correlation>> {
+            return localVarFp.getCorrelations(requestParameters.limit, requestParameters.page, requestParameters.sourceUID, options).then((request) => request(axios, basePath));
         },
         /**
          * 
          * @summary Gets all correlations originating from the given data source.
-         * @param {string} sourceUID 
+         * @param {CorrelationsApiGetCorrelationsBySourceUIDRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getCorrelationsBySourceUID(sourceUID: string, options?: RawAxiosRequestConfig): AxiosPromise<Array<Correlation>> {
-            return localVarFp.getCorrelationsBySourceUID(sourceUID, options).then((request) => request(axios, basePath));
+        getCorrelationsBySourceUID(requestParameters: CorrelationsApiGetCorrelationsBySourceUIDRequest, options?: RawAxiosRequestConfig): AxiosPromise<Array<Correlation>> {
+            return localVarFp.getCorrelationsBySourceUID(requestParameters.sourceUID, options).then((request) => request(axios, basePath));
         },
         /**
          * 
          * @summary Updates a correlation.
-         * @param {string} sourceUID 
-         * @param {string} correlationUID 
-         * @param {UpdateCorrelationCommand} [body] 
+         * @param {CorrelationsApiUpdateCorrelationRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateCorrelation(sourceUID: string, correlationUID: string, body?: UpdateCorrelationCommand, options?: RawAxiosRequestConfig): AxiosPromise<UpdateCorrelationResponseBody> {
-            return localVarFp.updateCorrelation(sourceUID, correlationUID, body, options).then((request) => request(axios, basePath));
+        updateCorrelation(requestParameters: CorrelationsApiUpdateCorrelationRequest, options?: RawAxiosRequestConfig): AxiosPromise<UpdateCorrelationResponseBody> {
+            return localVarFp.updateCorrelation(requestParameters.sourceUID, requestParameters.correlationUID, requestParameters.body, options).then((request) => request(axios, basePath));
         },
     };
 };
+
+/**
+ * Request parameters for createCorrelation operation in CorrelationsApi.
+ * @export
+ * @interface CorrelationsApiCreateCorrelationRequest
+ */
+export interface CorrelationsApiCreateCorrelationRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof CorrelationsApiCreateCorrelation
+     */
+    readonly sourceUID: string
+
+    /**
+     * 
+     * @type {CreateCorrelationCommand}
+     * @memberof CorrelationsApiCreateCorrelation
+     */
+    readonly body: CreateCorrelationCommand
+}
+
+/**
+ * Request parameters for deleteCorrelation operation in CorrelationsApi.
+ * @export
+ * @interface CorrelationsApiDeleteCorrelationRequest
+ */
+export interface CorrelationsApiDeleteCorrelationRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof CorrelationsApiDeleteCorrelation
+     */
+    readonly uid: string
+
+    /**
+     * 
+     * @type {string}
+     * @memberof CorrelationsApiDeleteCorrelation
+     */
+    readonly correlationUID: string
+}
+
+/**
+ * Request parameters for getCorrelation operation in CorrelationsApi.
+ * @export
+ * @interface CorrelationsApiGetCorrelationRequest
+ */
+export interface CorrelationsApiGetCorrelationRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof CorrelationsApiGetCorrelation
+     */
+    readonly sourceUID: string
+
+    /**
+     * 
+     * @type {string}
+     * @memberof CorrelationsApiGetCorrelation
+     */
+    readonly correlationUID: string
+}
+
+/**
+ * Request parameters for getCorrelations operation in CorrelationsApi.
+ * @export
+ * @interface CorrelationsApiGetCorrelationsRequest
+ */
+export interface CorrelationsApiGetCorrelationsRequest {
+    /**
+     * Limit the maximum number of correlations to return per page
+     * @type {number}
+     * @memberof CorrelationsApiGetCorrelations
+     */
+    readonly limit?: number
+
+    /**
+     * Page index for starting fetching correlations
+     * @type {number}
+     * @memberof CorrelationsApiGetCorrelations
+     */
+    readonly page?: number
+
+    /**
+     * Source datasource UID filter to be applied to correlations
+     * @type {Array<string>}
+     * @memberof CorrelationsApiGetCorrelations
+     */
+    readonly sourceUID?: Array<string>
+}
+
+/**
+ * Request parameters for getCorrelationsBySourceUID operation in CorrelationsApi.
+ * @export
+ * @interface CorrelationsApiGetCorrelationsBySourceUIDRequest
+ */
+export interface CorrelationsApiGetCorrelationsBySourceUIDRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof CorrelationsApiGetCorrelationsBySourceUID
+     */
+    readonly sourceUID: string
+}
+
+/**
+ * Request parameters for updateCorrelation operation in CorrelationsApi.
+ * @export
+ * @interface CorrelationsApiUpdateCorrelationRequest
+ */
+export interface CorrelationsApiUpdateCorrelationRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof CorrelationsApiUpdateCorrelation
+     */
+    readonly sourceUID: string
+
+    /**
+     * 
+     * @type {string}
+     * @memberof CorrelationsApiUpdateCorrelation
+     */
+    readonly correlationUID: string
+
+    /**
+     * 
+     * @type {UpdateCorrelationCommand}
+     * @memberof CorrelationsApiUpdateCorrelation
+     */
+    readonly body?: UpdateCorrelationCommand
+}
 
 /**
  * CorrelationsApi - object-oriented interface
@@ -21132,80 +20975,73 @@ export class CorrelationsApi extends BaseAPI {
     /**
      * 
      * @summary Add correlation.
-     * @param {string} sourceUID 
-     * @param {CreateCorrelationCommand} body 
+     * @param {CorrelationsApiCreateCorrelationRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof CorrelationsApi
      */
-    public createCorrelation(sourceUID: string, body: CreateCorrelationCommand, options?: RawAxiosRequestConfig) {
-        return CorrelationsApiFp(this.configuration).createCorrelation(sourceUID, body, options).then((request) => request(this.axios, this.basePath));
+    public createCorrelation(requestParameters: CorrelationsApiCreateCorrelationRequest, options?: RawAxiosRequestConfig) {
+        return CorrelationsApiFp(this.configuration).createCorrelation(requestParameters.sourceUID, requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
      * @summary Delete a correlation.
-     * @param {string} uid 
-     * @param {string} correlationUID 
+     * @param {CorrelationsApiDeleteCorrelationRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof CorrelationsApi
      */
-    public deleteCorrelation(uid: string, correlationUID: string, options?: RawAxiosRequestConfig) {
-        return CorrelationsApiFp(this.configuration).deleteCorrelation(uid, correlationUID, options).then((request) => request(this.axios, this.basePath));
+    public deleteCorrelation(requestParameters: CorrelationsApiDeleteCorrelationRequest, options?: RawAxiosRequestConfig) {
+        return CorrelationsApiFp(this.configuration).deleteCorrelation(requestParameters.uid, requestParameters.correlationUID, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
      * @summary Gets a correlation.
-     * @param {string} sourceUID 
-     * @param {string} correlationUID 
+     * @param {CorrelationsApiGetCorrelationRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof CorrelationsApi
      */
-    public getCorrelation(sourceUID: string, correlationUID: string, options?: RawAxiosRequestConfig) {
-        return CorrelationsApiFp(this.configuration).getCorrelation(sourceUID, correlationUID, options).then((request) => request(this.axios, this.basePath));
+    public getCorrelation(requestParameters: CorrelationsApiGetCorrelationRequest, options?: RawAxiosRequestConfig) {
+        return CorrelationsApiFp(this.configuration).getCorrelation(requestParameters.sourceUID, requestParameters.correlationUID, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
      * @summary Gets all correlations.
-     * @param {number} [limit] Limit the maximum number of correlations to return per page
-     * @param {number} [page] Page index for starting fetching correlations
-     * @param {Array<string>} [sourceUID] Source datasource UID filter to be applied to correlations
+     * @param {CorrelationsApiGetCorrelationsRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof CorrelationsApi
      */
-    public getCorrelations(limit?: number, page?: number, sourceUID?: Array<string>, options?: RawAxiosRequestConfig) {
-        return CorrelationsApiFp(this.configuration).getCorrelations(limit, page, sourceUID, options).then((request) => request(this.axios, this.basePath));
+    public getCorrelations(requestParameters: CorrelationsApiGetCorrelationsRequest = {}, options?: RawAxiosRequestConfig) {
+        return CorrelationsApiFp(this.configuration).getCorrelations(requestParameters.limit, requestParameters.page, requestParameters.sourceUID, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
      * @summary Gets all correlations originating from the given data source.
-     * @param {string} sourceUID 
+     * @param {CorrelationsApiGetCorrelationsBySourceUIDRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof CorrelationsApi
      */
-    public getCorrelationsBySourceUID(sourceUID: string, options?: RawAxiosRequestConfig) {
-        return CorrelationsApiFp(this.configuration).getCorrelationsBySourceUID(sourceUID, options).then((request) => request(this.axios, this.basePath));
+    public getCorrelationsBySourceUID(requestParameters: CorrelationsApiGetCorrelationsBySourceUIDRequest, options?: RawAxiosRequestConfig) {
+        return CorrelationsApiFp(this.configuration).getCorrelationsBySourceUID(requestParameters.sourceUID, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
      * @summary Updates a correlation.
-     * @param {string} sourceUID 
-     * @param {string} correlationUID 
-     * @param {UpdateCorrelationCommand} [body] 
+     * @param {CorrelationsApiUpdateCorrelationRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof CorrelationsApi
      */
-    public updateCorrelation(sourceUID: string, correlationUID: string, body?: UpdateCorrelationCommand, options?: RawAxiosRequestConfig) {
-        return CorrelationsApiFp(this.configuration).updateCorrelation(sourceUID, correlationUID, body, options).then((request) => request(this.axios, this.basePath));
+    public updateCorrelation(requestParameters: CorrelationsApiUpdateCorrelationRequest, options?: RawAxiosRequestConfig) {
+        return CorrelationsApiFp(this.configuration).updateCorrelation(requestParameters.sourceUID, requestParameters.correlationUID, requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -21474,49 +21310,117 @@ export const DashboardPermissionsApiFactory = function (configuration?: Configur
         /**
          * Please refer to [updated API](#/dashboard_permissions/getDashboardPermissionsListByUID) instead
          * @summary Gets all existing permissions for the given dashboard.
-         * @param {number} dashboardID 
+         * @param {DashboardPermissionsApiGetDashboardPermissionsListByIDRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @deprecated
          * @throws {RequiredError}
          */
-        getDashboardPermissionsListByID(dashboardID: number, options?: RawAxiosRequestConfig): AxiosPromise<Array<DashboardACLInfoDTO>> {
-            return localVarFp.getDashboardPermissionsListByID(dashboardID, options).then((request) => request(axios, basePath));
+        getDashboardPermissionsListByID(requestParameters: DashboardPermissionsApiGetDashboardPermissionsListByIDRequest, options?: RawAxiosRequestConfig): AxiosPromise<Array<DashboardACLInfoDTO>> {
+            return localVarFp.getDashboardPermissionsListByID(requestParameters.dashboardID, options).then((request) => request(axios, basePath));
         },
         /**
          * 
          * @summary Gets all existing permissions for the given dashboard.
-         * @param {string} uid 
+         * @param {DashboardPermissionsApiGetDashboardPermissionsListByUIDRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getDashboardPermissionsListByUID(uid: string, options?: RawAxiosRequestConfig): AxiosPromise<Array<DashboardACLInfoDTO>> {
-            return localVarFp.getDashboardPermissionsListByUID(uid, options).then((request) => request(axios, basePath));
+        getDashboardPermissionsListByUID(requestParameters: DashboardPermissionsApiGetDashboardPermissionsListByUIDRequest, options?: RawAxiosRequestConfig): AxiosPromise<Array<DashboardACLInfoDTO>> {
+            return localVarFp.getDashboardPermissionsListByUID(requestParameters.uid, options).then((request) => request(axios, basePath));
         },
         /**
          * Please refer to [updated API](#/dashboard_permissions/updateDashboardPermissionsByUID) instead  This operation will remove existing permissions if they’re not included in the request.
          * @summary Updates permissions for a dashboard.
-         * @param {number} dashboardID 
-         * @param {UpdateDashboardACLCommand} body 
+         * @param {DashboardPermissionsApiUpdateDashboardPermissionsByIDRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @deprecated
          * @throws {RequiredError}
          */
-        updateDashboardPermissionsByID(dashboardID: number, body: UpdateDashboardACLCommand, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
-            return localVarFp.updateDashboardPermissionsByID(dashboardID, body, options).then((request) => request(axios, basePath));
+        updateDashboardPermissionsByID(requestParameters: DashboardPermissionsApiUpdateDashboardPermissionsByIDRequest, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
+            return localVarFp.updateDashboardPermissionsByID(requestParameters.dashboardID, requestParameters.body, options).then((request) => request(axios, basePath));
         },
         /**
          * This operation will remove existing permissions if they’re not included in the request.
          * @summary Updates permissions for a dashboard.
-         * @param {string} uid 
-         * @param {UpdateDashboardACLCommand} body 
+         * @param {DashboardPermissionsApiUpdateDashboardPermissionsByUIDRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateDashboardPermissionsByUID(uid: string, body: UpdateDashboardACLCommand, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
-            return localVarFp.updateDashboardPermissionsByUID(uid, body, options).then((request) => request(axios, basePath));
+        updateDashboardPermissionsByUID(requestParameters: DashboardPermissionsApiUpdateDashboardPermissionsByUIDRequest, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
+            return localVarFp.updateDashboardPermissionsByUID(requestParameters.uid, requestParameters.body, options).then((request) => request(axios, basePath));
         },
     };
 };
+
+/**
+ * Request parameters for getDashboardPermissionsListByID operation in DashboardPermissionsApi.
+ * @export
+ * @interface DashboardPermissionsApiGetDashboardPermissionsListByIDRequest
+ */
+export interface DashboardPermissionsApiGetDashboardPermissionsListByIDRequest {
+    /**
+     * 
+     * @type {number}
+     * @memberof DashboardPermissionsApiGetDashboardPermissionsListByID
+     */
+    readonly dashboardID: number
+}
+
+/**
+ * Request parameters for getDashboardPermissionsListByUID operation in DashboardPermissionsApi.
+ * @export
+ * @interface DashboardPermissionsApiGetDashboardPermissionsListByUIDRequest
+ */
+export interface DashboardPermissionsApiGetDashboardPermissionsListByUIDRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof DashboardPermissionsApiGetDashboardPermissionsListByUID
+     */
+    readonly uid: string
+}
+
+/**
+ * Request parameters for updateDashboardPermissionsByID operation in DashboardPermissionsApi.
+ * @export
+ * @interface DashboardPermissionsApiUpdateDashboardPermissionsByIDRequest
+ */
+export interface DashboardPermissionsApiUpdateDashboardPermissionsByIDRequest {
+    /**
+     * 
+     * @type {number}
+     * @memberof DashboardPermissionsApiUpdateDashboardPermissionsByID
+     */
+    readonly dashboardID: number
+
+    /**
+     * 
+     * @type {UpdateDashboardACLCommand}
+     * @memberof DashboardPermissionsApiUpdateDashboardPermissionsByID
+     */
+    readonly body: UpdateDashboardACLCommand
+}
+
+/**
+ * Request parameters for updateDashboardPermissionsByUID operation in DashboardPermissionsApi.
+ * @export
+ * @interface DashboardPermissionsApiUpdateDashboardPermissionsByUIDRequest
+ */
+export interface DashboardPermissionsApiUpdateDashboardPermissionsByUIDRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof DashboardPermissionsApiUpdateDashboardPermissionsByUID
+     */
+    readonly uid: string
+
+    /**
+     * 
+     * @type {UpdateDashboardACLCommand}
+     * @memberof DashboardPermissionsApiUpdateDashboardPermissionsByUID
+     */
+    readonly body: UpdateDashboardACLCommand
+}
 
 /**
  * DashboardPermissionsApi - object-oriented interface
@@ -21528,53 +21432,51 @@ export class DashboardPermissionsApi extends BaseAPI {
     /**
      * Please refer to [updated API](#/dashboard_permissions/getDashboardPermissionsListByUID) instead
      * @summary Gets all existing permissions for the given dashboard.
-     * @param {number} dashboardID 
+     * @param {DashboardPermissionsApiGetDashboardPermissionsListByIDRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @deprecated
      * @throws {RequiredError}
      * @memberof DashboardPermissionsApi
      */
-    public getDashboardPermissionsListByID(dashboardID: number, options?: RawAxiosRequestConfig) {
-        return DashboardPermissionsApiFp(this.configuration).getDashboardPermissionsListByID(dashboardID, options).then((request) => request(this.axios, this.basePath));
+    public getDashboardPermissionsListByID(requestParameters: DashboardPermissionsApiGetDashboardPermissionsListByIDRequest, options?: RawAxiosRequestConfig) {
+        return DashboardPermissionsApiFp(this.configuration).getDashboardPermissionsListByID(requestParameters.dashboardID, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
      * @summary Gets all existing permissions for the given dashboard.
-     * @param {string} uid 
+     * @param {DashboardPermissionsApiGetDashboardPermissionsListByUIDRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof DashboardPermissionsApi
      */
-    public getDashboardPermissionsListByUID(uid: string, options?: RawAxiosRequestConfig) {
-        return DashboardPermissionsApiFp(this.configuration).getDashboardPermissionsListByUID(uid, options).then((request) => request(this.axios, this.basePath));
+    public getDashboardPermissionsListByUID(requestParameters: DashboardPermissionsApiGetDashboardPermissionsListByUIDRequest, options?: RawAxiosRequestConfig) {
+        return DashboardPermissionsApiFp(this.configuration).getDashboardPermissionsListByUID(requestParameters.uid, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Please refer to [updated API](#/dashboard_permissions/updateDashboardPermissionsByUID) instead  This operation will remove existing permissions if they’re not included in the request.
      * @summary Updates permissions for a dashboard.
-     * @param {number} dashboardID 
-     * @param {UpdateDashboardACLCommand} body 
+     * @param {DashboardPermissionsApiUpdateDashboardPermissionsByIDRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @deprecated
      * @throws {RequiredError}
      * @memberof DashboardPermissionsApi
      */
-    public updateDashboardPermissionsByID(dashboardID: number, body: UpdateDashboardACLCommand, options?: RawAxiosRequestConfig) {
-        return DashboardPermissionsApiFp(this.configuration).updateDashboardPermissionsByID(dashboardID, body, options).then((request) => request(this.axios, this.basePath));
+    public updateDashboardPermissionsByID(requestParameters: DashboardPermissionsApiUpdateDashboardPermissionsByIDRequest, options?: RawAxiosRequestConfig) {
+        return DashboardPermissionsApiFp(this.configuration).updateDashboardPermissionsByID(requestParameters.dashboardID, requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * This operation will remove existing permissions if they’re not included in the request.
      * @summary Updates permissions for a dashboard.
-     * @param {string} uid 
-     * @param {UpdateDashboardACLCommand} body 
+     * @param {DashboardPermissionsApiUpdateDashboardPermissionsByUIDRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof DashboardPermissionsApi
      */
-    public updateDashboardPermissionsByUID(uid: string, body: UpdateDashboardACLCommand, options?: RawAxiosRequestConfig) {
-        return DashboardPermissionsApiFp(this.configuration).updateDashboardPermissionsByUID(uid, body, options).then((request) => request(this.axios, this.basePath));
+    public updateDashboardPermissionsByUID(requestParameters: DashboardPermissionsApiUpdateDashboardPermissionsByUIDRequest, options?: RawAxiosRequestConfig) {
+        return DashboardPermissionsApiFp(this.configuration).updateDashboardPermissionsByUID(requestParameters.uid, requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -22048,41 +21950,39 @@ export const DashboardPublicApiFactory = function (configuration?: Configuration
     return {
         /**
          * Create public dashboard for a dashboard
-         * @param {string} dashboardUid 
-         * @param {PublicDashboardDTO} body 
+         * @param {DashboardPublicApiCreatePublicDashboardRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createPublicDashboard(dashboardUid: string, body: PublicDashboardDTO, options?: RawAxiosRequestConfig): AxiosPromise<PublicDashboard> {
-            return localVarFp.createPublicDashboard(dashboardUid, body, options).then((request) => request(axios, basePath));
+        createPublicDashboard(requestParameters: DashboardPublicApiCreatePublicDashboardRequest, options?: RawAxiosRequestConfig): AxiosPromise<PublicDashboard> {
+            return localVarFp.createPublicDashboard(requestParameters.dashboardUid, requestParameters.body, options).then((request) => request(axios, basePath));
         },
         /**
          * Delete public dashboard for a dashboard
-         * @param {string} dashboardUid 
-         * @param {string} uid 
+         * @param {DashboardPublicApiDeletePublicDashboardRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        deletePublicDashboard(dashboardUid: string, uid: string, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
-            return localVarFp.deletePublicDashboard(dashboardUid, uid, options).then((request) => request(axios, basePath));
+        deletePublicDashboard(requestParameters: DashboardPublicApiDeletePublicDashboardRequest, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
+            return localVarFp.deletePublicDashboard(requestParameters.dashboardUid, requestParameters.uid, options).then((request) => request(axios, basePath));
         },
         /**
          * Get annotations for a public dashboard
-         * @param {string} accessToken 
+         * @param {DashboardPublicApiGetPublicAnnotationsRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getPublicAnnotations(accessToken: string, options?: RawAxiosRequestConfig): AxiosPromise<Array<AnnotationEvent>> {
-            return localVarFp.getPublicAnnotations(accessToken, options).then((request) => request(axios, basePath));
+        getPublicAnnotations(requestParameters: DashboardPublicApiGetPublicAnnotationsRequest, options?: RawAxiosRequestConfig): AxiosPromise<Array<AnnotationEvent>> {
+            return localVarFp.getPublicAnnotations(requestParameters.accessToken, options).then((request) => request(axios, basePath));
         },
         /**
          * Get public dashboard by dashboardUid
-         * @param {string} dashboardUid 
+         * @param {DashboardPublicApiGetPublicDashboardRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getPublicDashboard(dashboardUid: string, options?: RawAxiosRequestConfig): AxiosPromise<PublicDashboard> {
-            return localVarFp.getPublicDashboard(dashboardUid, options).then((request) => request(axios, basePath));
+        getPublicDashboard(requestParameters: DashboardPublicApiGetPublicDashboardRequest, options?: RawAxiosRequestConfig): AxiosPromise<PublicDashboard> {
+            return localVarFp.getPublicDashboard(requestParameters.dashboardUid, options).then((request) => request(axios, basePath));
         },
         /**
          * Get list of public dashboards
@@ -22094,36 +21994,166 @@ export const DashboardPublicApiFactory = function (configuration?: Configuration
         },
         /**
          * Get results for a given panel on a public dashboard
-         * @param {string} accessToken 
-         * @param {number} panelId 
+         * @param {DashboardPublicApiQueryPublicDashboardRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        queryPublicDashboard(accessToken: string, panelId: number, options?: RawAxiosRequestConfig): AxiosPromise<QueryDataResponse> {
-            return localVarFp.queryPublicDashboard(accessToken, panelId, options).then((request) => request(axios, basePath));
+        queryPublicDashboard(requestParameters: DashboardPublicApiQueryPublicDashboardRequest, options?: RawAxiosRequestConfig): AxiosPromise<QueryDataResponse> {
+            return localVarFp.queryPublicDashboard(requestParameters.accessToken, requestParameters.panelId, options).then((request) => request(axios, basePath));
         },
         /**
          * Update public dashboard for a dashboard
-         * @param {string} dashboardUid 
-         * @param {string} uid 
-         * @param {PublicDashboardDTO} body 
+         * @param {DashboardPublicApiUpdatePublicDashboardRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updatePublicDashboard(dashboardUid: string, uid: string, body: PublicDashboardDTO, options?: RawAxiosRequestConfig): AxiosPromise<PublicDashboard> {
-            return localVarFp.updatePublicDashboard(dashboardUid, uid, body, options).then((request) => request(axios, basePath));
+        updatePublicDashboard(requestParameters: DashboardPublicApiUpdatePublicDashboardRequest, options?: RawAxiosRequestConfig): AxiosPromise<PublicDashboard> {
+            return localVarFp.updatePublicDashboard(requestParameters.dashboardUid, requestParameters.uid, requestParameters.body, options).then((request) => request(axios, basePath));
         },
         /**
          * Get public dashboard for view
-         * @param {string} accessToken 
+         * @param {DashboardPublicApiViewPublicDashboardRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        viewPublicDashboard(accessToken: string, options?: RawAxiosRequestConfig): AxiosPromise<DashboardFullWithMeta> {
-            return localVarFp.viewPublicDashboard(accessToken, options).then((request) => request(axios, basePath));
+        viewPublicDashboard(requestParameters: DashboardPublicApiViewPublicDashboardRequest, options?: RawAxiosRequestConfig): AxiosPromise<DashboardFullWithMeta> {
+            return localVarFp.viewPublicDashboard(requestParameters.accessToken, options).then((request) => request(axios, basePath));
         },
     };
 };
+
+/**
+ * Request parameters for createPublicDashboard operation in DashboardPublicApi.
+ * @export
+ * @interface DashboardPublicApiCreatePublicDashboardRequest
+ */
+export interface DashboardPublicApiCreatePublicDashboardRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof DashboardPublicApiCreatePublicDashboard
+     */
+    readonly dashboardUid: string
+
+    /**
+     * 
+     * @type {PublicDashboardDTO}
+     * @memberof DashboardPublicApiCreatePublicDashboard
+     */
+    readonly body: PublicDashboardDTO
+}
+
+/**
+ * Request parameters for deletePublicDashboard operation in DashboardPublicApi.
+ * @export
+ * @interface DashboardPublicApiDeletePublicDashboardRequest
+ */
+export interface DashboardPublicApiDeletePublicDashboardRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof DashboardPublicApiDeletePublicDashboard
+     */
+    readonly dashboardUid: string
+
+    /**
+     * 
+     * @type {string}
+     * @memberof DashboardPublicApiDeletePublicDashboard
+     */
+    readonly uid: string
+}
+
+/**
+ * Request parameters for getPublicAnnotations operation in DashboardPublicApi.
+ * @export
+ * @interface DashboardPublicApiGetPublicAnnotationsRequest
+ */
+export interface DashboardPublicApiGetPublicAnnotationsRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof DashboardPublicApiGetPublicAnnotations
+     */
+    readonly accessToken: string
+}
+
+/**
+ * Request parameters for getPublicDashboard operation in DashboardPublicApi.
+ * @export
+ * @interface DashboardPublicApiGetPublicDashboardRequest
+ */
+export interface DashboardPublicApiGetPublicDashboardRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof DashboardPublicApiGetPublicDashboard
+     */
+    readonly dashboardUid: string
+}
+
+/**
+ * Request parameters for queryPublicDashboard operation in DashboardPublicApi.
+ * @export
+ * @interface DashboardPublicApiQueryPublicDashboardRequest
+ */
+export interface DashboardPublicApiQueryPublicDashboardRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof DashboardPublicApiQueryPublicDashboard
+     */
+    readonly accessToken: string
+
+    /**
+     * 
+     * @type {number}
+     * @memberof DashboardPublicApiQueryPublicDashboard
+     */
+    readonly panelId: number
+}
+
+/**
+ * Request parameters for updatePublicDashboard operation in DashboardPublicApi.
+ * @export
+ * @interface DashboardPublicApiUpdatePublicDashboardRequest
+ */
+export interface DashboardPublicApiUpdatePublicDashboardRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof DashboardPublicApiUpdatePublicDashboard
+     */
+    readonly dashboardUid: string
+
+    /**
+     * 
+     * @type {string}
+     * @memberof DashboardPublicApiUpdatePublicDashboard
+     */
+    readonly uid: string
+
+    /**
+     * 
+     * @type {PublicDashboardDTO}
+     * @memberof DashboardPublicApiUpdatePublicDashboard
+     */
+    readonly body: PublicDashboardDTO
+}
+
+/**
+ * Request parameters for viewPublicDashboard operation in DashboardPublicApi.
+ * @export
+ * @interface DashboardPublicApiViewPublicDashboardRequest
+ */
+export interface DashboardPublicApiViewPublicDashboardRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof DashboardPublicApiViewPublicDashboard
+     */
+    readonly accessToken: string
+}
 
 /**
  * DashboardPublicApi - object-oriented interface
@@ -22134,48 +22164,46 @@ export const DashboardPublicApiFactory = function (configuration?: Configuration
 export class DashboardPublicApi extends BaseAPI {
     /**
      * Create public dashboard for a dashboard
-     * @param {string} dashboardUid 
-     * @param {PublicDashboardDTO} body 
+     * @param {DashboardPublicApiCreatePublicDashboardRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof DashboardPublicApi
      */
-    public createPublicDashboard(dashboardUid: string, body: PublicDashboardDTO, options?: RawAxiosRequestConfig) {
-        return DashboardPublicApiFp(this.configuration).createPublicDashboard(dashboardUid, body, options).then((request) => request(this.axios, this.basePath));
+    public createPublicDashboard(requestParameters: DashboardPublicApiCreatePublicDashboardRequest, options?: RawAxiosRequestConfig) {
+        return DashboardPublicApiFp(this.configuration).createPublicDashboard(requestParameters.dashboardUid, requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Delete public dashboard for a dashboard
-     * @param {string} dashboardUid 
-     * @param {string} uid 
+     * @param {DashboardPublicApiDeletePublicDashboardRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof DashboardPublicApi
      */
-    public deletePublicDashboard(dashboardUid: string, uid: string, options?: RawAxiosRequestConfig) {
-        return DashboardPublicApiFp(this.configuration).deletePublicDashboard(dashboardUid, uid, options).then((request) => request(this.axios, this.basePath));
+    public deletePublicDashboard(requestParameters: DashboardPublicApiDeletePublicDashboardRequest, options?: RawAxiosRequestConfig) {
+        return DashboardPublicApiFp(this.configuration).deletePublicDashboard(requestParameters.dashboardUid, requestParameters.uid, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Get annotations for a public dashboard
-     * @param {string} accessToken 
+     * @param {DashboardPublicApiGetPublicAnnotationsRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof DashboardPublicApi
      */
-    public getPublicAnnotations(accessToken: string, options?: RawAxiosRequestConfig) {
-        return DashboardPublicApiFp(this.configuration).getPublicAnnotations(accessToken, options).then((request) => request(this.axios, this.basePath));
+    public getPublicAnnotations(requestParameters: DashboardPublicApiGetPublicAnnotationsRequest, options?: RawAxiosRequestConfig) {
+        return DashboardPublicApiFp(this.configuration).getPublicAnnotations(requestParameters.accessToken, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Get public dashboard by dashboardUid
-     * @param {string} dashboardUid 
+     * @param {DashboardPublicApiGetPublicDashboardRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof DashboardPublicApi
      */
-    public getPublicDashboard(dashboardUid: string, options?: RawAxiosRequestConfig) {
-        return DashboardPublicApiFp(this.configuration).getPublicDashboard(dashboardUid, options).then((request) => request(this.axios, this.basePath));
+    public getPublicDashboard(requestParameters: DashboardPublicApiGetPublicDashboardRequest, options?: RawAxiosRequestConfig) {
+        return DashboardPublicApiFp(this.configuration).getPublicDashboard(requestParameters.dashboardUid, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -22190,38 +22218,35 @@ export class DashboardPublicApi extends BaseAPI {
 
     /**
      * Get results for a given panel on a public dashboard
-     * @param {string} accessToken 
-     * @param {number} panelId 
+     * @param {DashboardPublicApiQueryPublicDashboardRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof DashboardPublicApi
      */
-    public queryPublicDashboard(accessToken: string, panelId: number, options?: RawAxiosRequestConfig) {
-        return DashboardPublicApiFp(this.configuration).queryPublicDashboard(accessToken, panelId, options).then((request) => request(this.axios, this.basePath));
+    public queryPublicDashboard(requestParameters: DashboardPublicApiQueryPublicDashboardRequest, options?: RawAxiosRequestConfig) {
+        return DashboardPublicApiFp(this.configuration).queryPublicDashboard(requestParameters.accessToken, requestParameters.panelId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Update public dashboard for a dashboard
-     * @param {string} dashboardUid 
-     * @param {string} uid 
-     * @param {PublicDashboardDTO} body 
+     * @param {DashboardPublicApiUpdatePublicDashboardRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof DashboardPublicApi
      */
-    public updatePublicDashboard(dashboardUid: string, uid: string, body: PublicDashboardDTO, options?: RawAxiosRequestConfig) {
-        return DashboardPublicApiFp(this.configuration).updatePublicDashboard(dashboardUid, uid, body, options).then((request) => request(this.axios, this.basePath));
+    public updatePublicDashboard(requestParameters: DashboardPublicApiUpdatePublicDashboardRequest, options?: RawAxiosRequestConfig) {
+        return DashboardPublicApiFp(this.configuration).updatePublicDashboard(requestParameters.dashboardUid, requestParameters.uid, requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Get public dashboard for view
-     * @param {string} accessToken 
+     * @param {DashboardPublicApiViewPublicDashboardRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof DashboardPublicApi
      */
-    public viewPublicDashboard(accessToken: string, options?: RawAxiosRequestConfig) {
-        return DashboardPublicApiFp(this.configuration).viewPublicDashboard(accessToken, options).then((request) => request(this.axios, this.basePath));
+    public viewPublicDashboard(requestParameters: DashboardPublicApiViewPublicDashboardRequest, options?: RawAxiosRequestConfig) {
+        return DashboardPublicApiFp(this.configuration).viewPublicDashboard(requestParameters.accessToken, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -22622,74 +22647,194 @@ export const DashboardVersionsApiFactory = function (configuration?: Configurati
         /**
          * Please refer to [updated API](#/dashboard_versions/getDashboardVersionByUID) instead
          * @summary Get a specific dashboard version.
-         * @param {number} dashboardID 
-         * @param {number} dashboardVersionID 
+         * @param {DashboardVersionsApiGetDashboardVersionByIDRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @deprecated
          * @throws {RequiredError}
          */
-        getDashboardVersionByID(dashboardID: number, dashboardVersionID: number, options?: RawAxiosRequestConfig): AxiosPromise<DashboardVersionMeta> {
-            return localVarFp.getDashboardVersionByID(dashboardID, dashboardVersionID, options).then((request) => request(axios, basePath));
+        getDashboardVersionByID(requestParameters: DashboardVersionsApiGetDashboardVersionByIDRequest, options?: RawAxiosRequestConfig): AxiosPromise<DashboardVersionMeta> {
+            return localVarFp.getDashboardVersionByID(requestParameters.dashboardID, requestParameters.dashboardVersionID, options).then((request) => request(axios, basePath));
         },
         /**
          * 
          * @summary Get a specific dashboard version using UID.
-         * @param {number} dashboardVersionID 
-         * @param {string} uid 
+         * @param {DashboardVersionsApiGetDashboardVersionByUIDRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getDashboardVersionByUID(dashboardVersionID: number, uid: string, options?: RawAxiosRequestConfig): AxiosPromise<DashboardVersionMeta> {
-            return localVarFp.getDashboardVersionByUID(dashboardVersionID, uid, options).then((request) => request(axios, basePath));
+        getDashboardVersionByUID(requestParameters: DashboardVersionsApiGetDashboardVersionByUIDRequest, options?: RawAxiosRequestConfig): AxiosPromise<DashboardVersionMeta> {
+            return localVarFp.getDashboardVersionByUID(requestParameters.dashboardVersionID, requestParameters.uid, options).then((request) => request(axios, basePath));
         },
         /**
          * Please refer to [updated API](#/dashboard_versions/getDashboardVersionsByUID) instead
          * @summary Gets all existing versions for the dashboard.
-         * @param {number} dashboardID 
+         * @param {DashboardVersionsApiGetDashboardVersionsByIDRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @deprecated
          * @throws {RequiredError}
          */
-        getDashboardVersionsByID(dashboardID: number, options?: RawAxiosRequestConfig): AxiosPromise<Array<DashboardVersionMeta>> {
-            return localVarFp.getDashboardVersionsByID(dashboardID, options).then((request) => request(axios, basePath));
+        getDashboardVersionsByID(requestParameters: DashboardVersionsApiGetDashboardVersionsByIDRequest, options?: RawAxiosRequestConfig): AxiosPromise<Array<DashboardVersionMeta>> {
+            return localVarFp.getDashboardVersionsByID(requestParameters.dashboardID, options).then((request) => request(axios, basePath));
         },
         /**
          * 
          * @summary Gets all existing versions for the dashboard using UID.
-         * @param {string} uid 
-         * @param {number} [limit] Maximum number of results to return
-         * @param {number} [start] Version to start from when returning queries
+         * @param {DashboardVersionsApiGetDashboardVersionsByUIDRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getDashboardVersionsByUID(uid: string, limit?: number, start?: number, options?: RawAxiosRequestConfig): AxiosPromise<Array<DashboardVersionMeta>> {
-            return localVarFp.getDashboardVersionsByUID(uid, limit, start, options).then((request) => request(axios, basePath));
+        getDashboardVersionsByUID(requestParameters: DashboardVersionsApiGetDashboardVersionsByUIDRequest, options?: RawAxiosRequestConfig): AxiosPromise<Array<DashboardVersionMeta>> {
+            return localVarFp.getDashboardVersionsByUID(requestParameters.uid, requestParameters.limit, requestParameters.start, options).then((request) => request(axios, basePath));
         },
         /**
          * Please refer to [updated API](#/dashboard_versions/restoreDashboardVersionByUID) instead
          * @summary Restore a dashboard to a given dashboard version.
-         * @param {number} dashboardID 
-         * @param {RestoreDashboardVersionCommand} body 
+         * @param {DashboardVersionsApiRestoreDashboardVersionByIDRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @deprecated
          * @throws {RequiredError}
          */
-        restoreDashboardVersionByID(dashboardID: number, body: RestoreDashboardVersionCommand, options?: RawAxiosRequestConfig): AxiosPromise<PostDashboard200Response> {
-            return localVarFp.restoreDashboardVersionByID(dashboardID, body, options).then((request) => request(axios, basePath));
+        restoreDashboardVersionByID(requestParameters: DashboardVersionsApiRestoreDashboardVersionByIDRequest, options?: RawAxiosRequestConfig): AxiosPromise<PostDashboard200Response> {
+            return localVarFp.restoreDashboardVersionByID(requestParameters.dashboardID, requestParameters.body, options).then((request) => request(axios, basePath));
         },
         /**
          * 
          * @summary Restore a dashboard to a given dashboard version using UID.
-         * @param {string} uid 
-         * @param {RestoreDashboardVersionCommand} body 
+         * @param {DashboardVersionsApiRestoreDashboardVersionByUIDRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        restoreDashboardVersionByUID(uid: string, body: RestoreDashboardVersionCommand, options?: RawAxiosRequestConfig): AxiosPromise<PostDashboard200Response> {
-            return localVarFp.restoreDashboardVersionByUID(uid, body, options).then((request) => request(axios, basePath));
+        restoreDashboardVersionByUID(requestParameters: DashboardVersionsApiRestoreDashboardVersionByUIDRequest, options?: RawAxiosRequestConfig): AxiosPromise<PostDashboard200Response> {
+            return localVarFp.restoreDashboardVersionByUID(requestParameters.uid, requestParameters.body, options).then((request) => request(axios, basePath));
         },
     };
 };
+
+/**
+ * Request parameters for getDashboardVersionByID operation in DashboardVersionsApi.
+ * @export
+ * @interface DashboardVersionsApiGetDashboardVersionByIDRequest
+ */
+export interface DashboardVersionsApiGetDashboardVersionByIDRequest {
+    /**
+     * 
+     * @type {number}
+     * @memberof DashboardVersionsApiGetDashboardVersionByID
+     */
+    readonly dashboardID: number
+
+    /**
+     * 
+     * @type {number}
+     * @memberof DashboardVersionsApiGetDashboardVersionByID
+     */
+    readonly dashboardVersionID: number
+}
+
+/**
+ * Request parameters for getDashboardVersionByUID operation in DashboardVersionsApi.
+ * @export
+ * @interface DashboardVersionsApiGetDashboardVersionByUIDRequest
+ */
+export interface DashboardVersionsApiGetDashboardVersionByUIDRequest {
+    /**
+     * 
+     * @type {number}
+     * @memberof DashboardVersionsApiGetDashboardVersionByUID
+     */
+    readonly dashboardVersionID: number
+
+    /**
+     * 
+     * @type {string}
+     * @memberof DashboardVersionsApiGetDashboardVersionByUID
+     */
+    readonly uid: string
+}
+
+/**
+ * Request parameters for getDashboardVersionsByID operation in DashboardVersionsApi.
+ * @export
+ * @interface DashboardVersionsApiGetDashboardVersionsByIDRequest
+ */
+export interface DashboardVersionsApiGetDashboardVersionsByIDRequest {
+    /**
+     * 
+     * @type {number}
+     * @memberof DashboardVersionsApiGetDashboardVersionsByID
+     */
+    readonly dashboardID: number
+}
+
+/**
+ * Request parameters for getDashboardVersionsByUID operation in DashboardVersionsApi.
+ * @export
+ * @interface DashboardVersionsApiGetDashboardVersionsByUIDRequest
+ */
+export interface DashboardVersionsApiGetDashboardVersionsByUIDRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof DashboardVersionsApiGetDashboardVersionsByUID
+     */
+    readonly uid: string
+
+    /**
+     * Maximum number of results to return
+     * @type {number}
+     * @memberof DashboardVersionsApiGetDashboardVersionsByUID
+     */
+    readonly limit?: number
+
+    /**
+     * Version to start from when returning queries
+     * @type {number}
+     * @memberof DashboardVersionsApiGetDashboardVersionsByUID
+     */
+    readonly start?: number
+}
+
+/**
+ * Request parameters for restoreDashboardVersionByID operation in DashboardVersionsApi.
+ * @export
+ * @interface DashboardVersionsApiRestoreDashboardVersionByIDRequest
+ */
+export interface DashboardVersionsApiRestoreDashboardVersionByIDRequest {
+    /**
+     * 
+     * @type {number}
+     * @memberof DashboardVersionsApiRestoreDashboardVersionByID
+     */
+    readonly dashboardID: number
+
+    /**
+     * 
+     * @type {RestoreDashboardVersionCommand}
+     * @memberof DashboardVersionsApiRestoreDashboardVersionByID
+     */
+    readonly body: RestoreDashboardVersionCommand
+}
+
+/**
+ * Request parameters for restoreDashboardVersionByUID operation in DashboardVersionsApi.
+ * @export
+ * @interface DashboardVersionsApiRestoreDashboardVersionByUIDRequest
+ */
+export interface DashboardVersionsApiRestoreDashboardVersionByUIDRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof DashboardVersionsApiRestoreDashboardVersionByUID
+     */
+    readonly uid: string
+
+    /**
+     * 
+     * @type {RestoreDashboardVersionCommand}
+     * @memberof DashboardVersionsApiRestoreDashboardVersionByUID
+     */
+    readonly body: RestoreDashboardVersionCommand
+}
 
 /**
  * DashboardVersionsApi - object-oriented interface
@@ -22701,82 +22846,76 @@ export class DashboardVersionsApi extends BaseAPI {
     /**
      * Please refer to [updated API](#/dashboard_versions/getDashboardVersionByUID) instead
      * @summary Get a specific dashboard version.
-     * @param {number} dashboardID 
-     * @param {number} dashboardVersionID 
+     * @param {DashboardVersionsApiGetDashboardVersionByIDRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @deprecated
      * @throws {RequiredError}
      * @memberof DashboardVersionsApi
      */
-    public getDashboardVersionByID(dashboardID: number, dashboardVersionID: number, options?: RawAxiosRequestConfig) {
-        return DashboardVersionsApiFp(this.configuration).getDashboardVersionByID(dashboardID, dashboardVersionID, options).then((request) => request(this.axios, this.basePath));
+    public getDashboardVersionByID(requestParameters: DashboardVersionsApiGetDashboardVersionByIDRequest, options?: RawAxiosRequestConfig) {
+        return DashboardVersionsApiFp(this.configuration).getDashboardVersionByID(requestParameters.dashboardID, requestParameters.dashboardVersionID, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
      * @summary Get a specific dashboard version using UID.
-     * @param {number} dashboardVersionID 
-     * @param {string} uid 
+     * @param {DashboardVersionsApiGetDashboardVersionByUIDRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof DashboardVersionsApi
      */
-    public getDashboardVersionByUID(dashboardVersionID: number, uid: string, options?: RawAxiosRequestConfig) {
-        return DashboardVersionsApiFp(this.configuration).getDashboardVersionByUID(dashboardVersionID, uid, options).then((request) => request(this.axios, this.basePath));
+    public getDashboardVersionByUID(requestParameters: DashboardVersionsApiGetDashboardVersionByUIDRequest, options?: RawAxiosRequestConfig) {
+        return DashboardVersionsApiFp(this.configuration).getDashboardVersionByUID(requestParameters.dashboardVersionID, requestParameters.uid, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Please refer to [updated API](#/dashboard_versions/getDashboardVersionsByUID) instead
      * @summary Gets all existing versions for the dashboard.
-     * @param {number} dashboardID 
+     * @param {DashboardVersionsApiGetDashboardVersionsByIDRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @deprecated
      * @throws {RequiredError}
      * @memberof DashboardVersionsApi
      */
-    public getDashboardVersionsByID(dashboardID: number, options?: RawAxiosRequestConfig) {
-        return DashboardVersionsApiFp(this.configuration).getDashboardVersionsByID(dashboardID, options).then((request) => request(this.axios, this.basePath));
+    public getDashboardVersionsByID(requestParameters: DashboardVersionsApiGetDashboardVersionsByIDRequest, options?: RawAxiosRequestConfig) {
+        return DashboardVersionsApiFp(this.configuration).getDashboardVersionsByID(requestParameters.dashboardID, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
      * @summary Gets all existing versions for the dashboard using UID.
-     * @param {string} uid 
-     * @param {number} [limit] Maximum number of results to return
-     * @param {number} [start] Version to start from when returning queries
+     * @param {DashboardVersionsApiGetDashboardVersionsByUIDRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof DashboardVersionsApi
      */
-    public getDashboardVersionsByUID(uid: string, limit?: number, start?: number, options?: RawAxiosRequestConfig) {
-        return DashboardVersionsApiFp(this.configuration).getDashboardVersionsByUID(uid, limit, start, options).then((request) => request(this.axios, this.basePath));
+    public getDashboardVersionsByUID(requestParameters: DashboardVersionsApiGetDashboardVersionsByUIDRequest, options?: RawAxiosRequestConfig) {
+        return DashboardVersionsApiFp(this.configuration).getDashboardVersionsByUID(requestParameters.uid, requestParameters.limit, requestParameters.start, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Please refer to [updated API](#/dashboard_versions/restoreDashboardVersionByUID) instead
      * @summary Restore a dashboard to a given dashboard version.
-     * @param {number} dashboardID 
-     * @param {RestoreDashboardVersionCommand} body 
+     * @param {DashboardVersionsApiRestoreDashboardVersionByIDRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @deprecated
      * @throws {RequiredError}
      * @memberof DashboardVersionsApi
      */
-    public restoreDashboardVersionByID(dashboardID: number, body: RestoreDashboardVersionCommand, options?: RawAxiosRequestConfig) {
-        return DashboardVersionsApiFp(this.configuration).restoreDashboardVersionByID(dashboardID, body, options).then((request) => request(this.axios, this.basePath));
+    public restoreDashboardVersionByID(requestParameters: DashboardVersionsApiRestoreDashboardVersionByIDRequest, options?: RawAxiosRequestConfig) {
+        return DashboardVersionsApiFp(this.configuration).restoreDashboardVersionByID(requestParameters.dashboardID, requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
      * @summary Restore a dashboard to a given dashboard version using UID.
-     * @param {string} uid 
-     * @param {RestoreDashboardVersionCommand} body 
+     * @param {DashboardVersionsApiRestoreDashboardVersionByUIDRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof DashboardVersionsApi
      */
-    public restoreDashboardVersionByUID(uid: string, body: RestoreDashboardVersionCommand, options?: RawAxiosRequestConfig) {
-        return DashboardVersionsApiFp(this.configuration).restoreDashboardVersionByUID(uid, body, options).then((request) => request(this.axios, this.basePath));
+    public restoreDashboardVersionByUID(requestParameters: DashboardVersionsApiRestoreDashboardVersionByUIDRequest, options?: RawAxiosRequestConfig) {
+        return DashboardVersionsApiFp(this.configuration).restoreDashboardVersionByUID(requestParameters.uid, requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -22988,47 +23127,6 @@ export const DashboardsApiAxiosParamCreator = function (configuration?: Configur
             };
         },
         /**
-         * Will delete the dashboard given the specified unique identifier (uid).
-         * @summary Hard delete dashboard by uid.
-         * @param {string} uid 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        hardDeleteDashboardByUID: async (uid: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'uid' is not null or undefined
-            assertParamExists('hardDeleteDashboardByUID', 'uid', uid)
-            const localVarPath = `/dashboards/uid/{uid}/trash`
-                .replace(`{${"uid"}}`, encodeURIComponent(String(uid)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication api_key required
-            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
-
-            // authentication basic required
-            // http basic authentication required
-            setBasicAuthToObject(localVarRequestOptions, configuration)
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
          * 
          * @summary Import dashboard.
          * @param {ImportDashboardRequest} body 
@@ -23090,53 +23188,6 @@ export const DashboardsApiAxiosParamCreator = function (configuration?: Configur
             }
 
             const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication api_key required
-            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
-
-            // authentication basic required
-            // http basic authentication required
-            setBasicAuthToObject(localVarRequestOptions, configuration)
-
-
-    
-            localVarHeaderParameter['Content-Type'] = 'application/json';
-
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(body, localVarRequestOptions, configuration)
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @summary Restore a dashboard to a given dashboard version using UID.
-         * @param {string} uid 
-         * @param {RestoreDeletedDashboardCommand} body 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        restoreDeletedDashboardByUID: async (uid: string, body: RestoreDeletedDashboardCommand, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'uid' is not null or undefined
-            assertParamExists('restoreDeletedDashboardByUID', 'uid', uid)
-            // verify required parameter 'body' is not null or undefined
-            assertParamExists('restoreDeletedDashboardByUID', 'body', body)
-            const localVarPath = `/dashboards/uid/{uid}/trash`
-                .replace(`{${"uid"}}`, encodeURIComponent(String(uid)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'PATCH', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
@@ -23235,19 +23286,6 @@ export const DashboardsApiFp = function(configuration?: Configuration) {
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
-         * Will delete the dashboard given the specified unique identifier (uid).
-         * @summary Hard delete dashboard by uid.
-         * @param {string} uid 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async hardDeleteDashboardByUID(uid: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<DeleteDashboardByUID200Response>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.hardDeleteDashboardByUID(uid, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['DashboardsApi.hardDeleteDashboardByUID']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
-        /**
          * 
          * @summary Import dashboard.
          * @param {ImportDashboardRequest} body 
@@ -23273,20 +23311,6 @@ export const DashboardsApiFp = function(configuration?: Configuration) {
             const localVarOperationServerBasePath = operationServerMap['DashboardsApi.postDashboard']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
-        /**
-         * 
-         * @summary Restore a dashboard to a given dashboard version using UID.
-         * @param {string} uid 
-         * @param {RestoreDeletedDashboardCommand} body 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async restoreDeletedDashboardByUID(uid: string, body: RestoreDeletedDashboardCommand, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PostDashboard200Response>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.restoreDeletedDashboardByUID(uid, body, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['DashboardsApi.restoreDeletedDashboardByUID']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
     }
 };
 
@@ -23300,32 +23324,32 @@ export const DashboardsApiFactory = function (configuration?: Configuration, bas
         /**
          * 
          * @summary Perform diff on two dashboards.
-         * @param {CalculateDashboardDiffRequest} body 
+         * @param {DashboardsApiCalculateDashboardDiffRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        calculateDashboardDiff(body: CalculateDashboardDiffRequest, options?: RawAxiosRequestConfig): AxiosPromise<Array<number>> {
-            return localVarFp.calculateDashboardDiff(body, options).then((request) => request(axios, basePath));
+        calculateDashboardDiff(requestParameters: DashboardsApiCalculateDashboardDiffRequest, options?: RawAxiosRequestConfig): AxiosPromise<Array<number>> {
+            return localVarFp.calculateDashboardDiff(requestParameters.body, options).then((request) => request(axios, basePath));
         },
         /**
          * Will delete the dashboard given the specified unique identifier (uid).
          * @summary Delete dashboard by uid.
-         * @param {string} uid 
+         * @param {DashboardsApiDeleteDashboardByUIDRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        deleteDashboardByUID(uid: string, options?: RawAxiosRequestConfig): AxiosPromise<DeleteDashboardByUID200Response> {
-            return localVarFp.deleteDashboardByUID(uid, options).then((request) => request(axios, basePath));
+        deleteDashboardByUID(requestParameters: DashboardsApiDeleteDashboardByUIDRequest, options?: RawAxiosRequestConfig): AxiosPromise<DeleteDashboardByUID200Response> {
+            return localVarFp.deleteDashboardByUID(requestParameters.uid, options).then((request) => request(axios, basePath));
         },
         /**
          * Will return the dashboard given the dashboard unique identifier (uid).
          * @summary Get dashboard by uid.
-         * @param {string} uid 
+         * @param {DashboardsApiGetDashboardByUIDRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getDashboardByUID(uid: string, options?: RawAxiosRequestConfig): AxiosPromise<DashboardFullWithMeta> {
-            return localVarFp.getDashboardByUID(uid, options).then((request) => request(axios, basePath));
+        getDashboardByUID(requestParameters: DashboardsApiGetDashboardByUIDRequest, options?: RawAxiosRequestConfig): AxiosPromise<DashboardFullWithMeta> {
+            return localVarFp.getDashboardByUID(requestParameters.uid, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -23346,48 +23370,97 @@ export const DashboardsApiFactory = function (configuration?: Configuration, bas
             return localVarFp.getHomeDashboard(options).then((request) => request(axios, basePath));
         },
         /**
-         * Will delete the dashboard given the specified unique identifier (uid).
-         * @summary Hard delete dashboard by uid.
-         * @param {string} uid 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        hardDeleteDashboardByUID(uid: string, options?: RawAxiosRequestConfig): AxiosPromise<DeleteDashboardByUID200Response> {
-            return localVarFp.hardDeleteDashboardByUID(uid, options).then((request) => request(axios, basePath));
-        },
-        /**
          * 
          * @summary Import dashboard.
-         * @param {ImportDashboardRequest} body 
+         * @param {DashboardsApiImportDashboardRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        importDashboard(body: ImportDashboardRequest, options?: RawAxiosRequestConfig): AxiosPromise<ImportDashboardResponse> {
-            return localVarFp.importDashboard(body, options).then((request) => request(axios, basePath));
+        importDashboard(requestParameters: DashboardsApiImportDashboardRequest, options?: RawAxiosRequestConfig): AxiosPromise<ImportDashboardResponse> {
+            return localVarFp.importDashboard(requestParameters.body, options).then((request) => request(axios, basePath));
         },
         /**
          * Creates a new dashboard or updates an existing dashboard. Note: This endpoint is not intended for creating folders, use `POST /api/folders` for that.
          * @summary Create / Update dashboard
-         * @param {SaveDashboardCommand} body 
+         * @param {DashboardsApiPostDashboardRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        postDashboard(body: SaveDashboardCommand, options?: RawAxiosRequestConfig): AxiosPromise<PostDashboard200Response> {
-            return localVarFp.postDashboard(body, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @summary Restore a dashboard to a given dashboard version using UID.
-         * @param {string} uid 
-         * @param {RestoreDeletedDashboardCommand} body 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        restoreDeletedDashboardByUID(uid: string, body: RestoreDeletedDashboardCommand, options?: RawAxiosRequestConfig): AxiosPromise<PostDashboard200Response> {
-            return localVarFp.restoreDeletedDashboardByUID(uid, body, options).then((request) => request(axios, basePath));
+        postDashboard(requestParameters: DashboardsApiPostDashboardRequest, options?: RawAxiosRequestConfig): AxiosPromise<PostDashboard200Response> {
+            return localVarFp.postDashboard(requestParameters.body, options).then((request) => request(axios, basePath));
         },
     };
 };
+
+/**
+ * Request parameters for calculateDashboardDiff operation in DashboardsApi.
+ * @export
+ * @interface DashboardsApiCalculateDashboardDiffRequest
+ */
+export interface DashboardsApiCalculateDashboardDiffRequest {
+    /**
+     * 
+     * @type {CalculateDashboardDiffRequest}
+     * @memberof DashboardsApiCalculateDashboardDiff
+     */
+    readonly body: CalculateDashboardDiffRequest
+}
+
+/**
+ * Request parameters for deleteDashboardByUID operation in DashboardsApi.
+ * @export
+ * @interface DashboardsApiDeleteDashboardByUIDRequest
+ */
+export interface DashboardsApiDeleteDashboardByUIDRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof DashboardsApiDeleteDashboardByUID
+     */
+    readonly uid: string
+}
+
+/**
+ * Request parameters for getDashboardByUID operation in DashboardsApi.
+ * @export
+ * @interface DashboardsApiGetDashboardByUIDRequest
+ */
+export interface DashboardsApiGetDashboardByUIDRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof DashboardsApiGetDashboardByUID
+     */
+    readonly uid: string
+}
+
+/**
+ * Request parameters for importDashboard operation in DashboardsApi.
+ * @export
+ * @interface DashboardsApiImportDashboardRequest
+ */
+export interface DashboardsApiImportDashboardRequest {
+    /**
+     * 
+     * @type {ImportDashboardRequest}
+     * @memberof DashboardsApiImportDashboard
+     */
+    readonly body: ImportDashboardRequest
+}
+
+/**
+ * Request parameters for postDashboard operation in DashboardsApi.
+ * @export
+ * @interface DashboardsApiPostDashboardRequest
+ */
+export interface DashboardsApiPostDashboardRequest {
+    /**
+     * 
+     * @type {SaveDashboardCommand}
+     * @memberof DashboardsApiPostDashboard
+     */
+    readonly body: SaveDashboardCommand
+}
 
 /**
  * DashboardsApi - object-oriented interface
@@ -23399,37 +23472,37 @@ export class DashboardsApi extends BaseAPI {
     /**
      * 
      * @summary Perform diff on two dashboards.
-     * @param {CalculateDashboardDiffRequest} body 
+     * @param {DashboardsApiCalculateDashboardDiffRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof DashboardsApi
      */
-    public calculateDashboardDiff(body: CalculateDashboardDiffRequest, options?: RawAxiosRequestConfig) {
-        return DashboardsApiFp(this.configuration).calculateDashboardDiff(body, options).then((request) => request(this.axios, this.basePath));
+    public calculateDashboardDiff(requestParameters: DashboardsApiCalculateDashboardDiffRequest, options?: RawAxiosRequestConfig) {
+        return DashboardsApiFp(this.configuration).calculateDashboardDiff(requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Will delete the dashboard given the specified unique identifier (uid).
      * @summary Delete dashboard by uid.
-     * @param {string} uid 
+     * @param {DashboardsApiDeleteDashboardByUIDRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof DashboardsApi
      */
-    public deleteDashboardByUID(uid: string, options?: RawAxiosRequestConfig) {
-        return DashboardsApiFp(this.configuration).deleteDashboardByUID(uid, options).then((request) => request(this.axios, this.basePath));
+    public deleteDashboardByUID(requestParameters: DashboardsApiDeleteDashboardByUIDRequest, options?: RawAxiosRequestConfig) {
+        return DashboardsApiFp(this.configuration).deleteDashboardByUID(requestParameters.uid, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Will return the dashboard given the dashboard unique identifier (uid).
      * @summary Get dashboard by uid.
-     * @param {string} uid 
+     * @param {DashboardsApiGetDashboardByUIDRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof DashboardsApi
      */
-    public getDashboardByUID(uid: string, options?: RawAxiosRequestConfig) {
-        return DashboardsApiFp(this.configuration).getDashboardByUID(uid, options).then((request) => request(this.axios, this.basePath));
+    public getDashboardByUID(requestParameters: DashboardsApiGetDashboardByUIDRequest, options?: RawAxiosRequestConfig) {
+        return DashboardsApiFp(this.configuration).getDashboardByUID(requestParameters.uid, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -23455,52 +23528,27 @@ export class DashboardsApi extends BaseAPI {
     }
 
     /**
-     * Will delete the dashboard given the specified unique identifier (uid).
-     * @summary Hard delete dashboard by uid.
-     * @param {string} uid 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof DashboardsApi
-     */
-    public hardDeleteDashboardByUID(uid: string, options?: RawAxiosRequestConfig) {
-        return DashboardsApiFp(this.configuration).hardDeleteDashboardByUID(uid, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
      * 
      * @summary Import dashboard.
-     * @param {ImportDashboardRequest} body 
+     * @param {DashboardsApiImportDashboardRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof DashboardsApi
      */
-    public importDashboard(body: ImportDashboardRequest, options?: RawAxiosRequestConfig) {
-        return DashboardsApiFp(this.configuration).importDashboard(body, options).then((request) => request(this.axios, this.basePath));
+    public importDashboard(requestParameters: DashboardsApiImportDashboardRequest, options?: RawAxiosRequestConfig) {
+        return DashboardsApiFp(this.configuration).importDashboard(requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Creates a new dashboard or updates an existing dashboard. Note: This endpoint is not intended for creating folders, use `POST /api/folders` for that.
      * @summary Create / Update dashboard
-     * @param {SaveDashboardCommand} body 
+     * @param {DashboardsApiPostDashboardRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof DashboardsApi
      */
-    public postDashboard(body: SaveDashboardCommand, options?: RawAxiosRequestConfig) {
-        return DashboardsApiFp(this.configuration).postDashboard(body, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * 
-     * @summary Restore a dashboard to a given dashboard version using UID.
-     * @param {string} uid 
-     * @param {RestoreDeletedDashboardCommand} body 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof DashboardsApi
-     */
-    public restoreDeletedDashboardByUID(uid: string, body: RestoreDeletedDashboardCommand, options?: RawAxiosRequestConfig) {
-        return DashboardsApiFp(this.configuration).restoreDeletedDashboardByUID(uid, body, options).then((request) => request(this.axios, this.basePath));
+    public postDashboard(requestParameters: DashboardsApiPostDashboardRequest, options?: RawAxiosRequestConfig) {
+        return DashboardsApiFp(this.configuration).postDashboard(requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -24750,199 +24798,189 @@ export const DatasourcesApiFactory = function (configuration?: Configuration, ba
         /**
          * By defining `password` and `basicAuthPassword` under secureJsonData property Grafana encrypts them securely as an encrypted blob in the database. The response then lists the encrypted fields under secureJsonFields.  If you are running Grafana Enterprise and have Fine-grained access control enabled you need to have a permission with action: `datasources:create`
          * @summary Create a data source.
-         * @param {AddDataSourceCommand} body 
+         * @param {DatasourcesApiAddDataSourceRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        addDataSource(body: AddDataSourceCommand, options?: RawAxiosRequestConfig): AxiosPromise<AddDataSource200Response> {
-            return localVarFp.addDataSource(body, options).then((request) => request(axios, basePath));
+        addDataSource(requestParameters: DatasourcesApiAddDataSourceRequest, options?: RawAxiosRequestConfig): AxiosPromise<AddDataSource200Response> {
+            return localVarFp.addDataSource(requestParameters.body, options).then((request) => request(axios, basePath));
         },
         /**
          * Please refer to [updated API](#/datasources/callDatasourceResourceWithUID) instead
          * @summary Fetch data source resources by Id.
-         * @param {string} datasourceProxyRoute 
-         * @param {string} id 
+         * @param {DatasourcesApiCallDatasourceResourceByIDRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @deprecated
          * @throws {RequiredError}
          */
-        callDatasourceResourceByID(datasourceProxyRoute: string, id: string, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
-            return localVarFp.callDatasourceResourceByID(datasourceProxyRoute, id, options).then((request) => request(axios, basePath));
+        callDatasourceResourceByID(requestParameters: DatasourcesApiCallDatasourceResourceByIDRequest, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
+            return localVarFp.callDatasourceResourceByID(requestParameters.datasourceProxyRoute, requestParameters.id, options).then((request) => request(axios, basePath));
         },
         /**
          * 
          * @summary Fetch data source resources.
-         * @param {string} datasourceProxyRoute 
-         * @param {string} uid 
+         * @param {DatasourcesApiCallDatasourceResourceWithUIDRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        callDatasourceResourceWithUID(datasourceProxyRoute: string, uid: string, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
-            return localVarFp.callDatasourceResourceWithUID(datasourceProxyRoute, uid, options).then((request) => request(axios, basePath));
+        callDatasourceResourceWithUID(requestParameters: DatasourcesApiCallDatasourceResourceWithUIDRequest, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
+            return localVarFp.callDatasourceResourceWithUID(requestParameters.datasourceProxyRoute, requestParameters.uid, options).then((request) => request(axios, basePath));
         },
         /**
          * Please refer to [updated API](#/datasources/checkDatasourceHealthWithUID) instead
          * @summary Sends a health check request to the plugin datasource identified by the ID.
-         * @param {string} id 
+         * @param {DatasourcesApiCheckDatasourceHealthByIDRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @deprecated
          * @throws {RequiredError}
          */
-        checkDatasourceHealthByID(id: string, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
-            return localVarFp.checkDatasourceHealthByID(id, options).then((request) => request(axios, basePath));
+        checkDatasourceHealthByID(requestParameters: DatasourcesApiCheckDatasourceHealthByIDRequest, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
+            return localVarFp.checkDatasourceHealthByID(requestParameters.id, options).then((request) => request(axios, basePath));
         },
         /**
          * 
          * @summary Sends a health check request to the plugin datasource identified by the UID.
-         * @param {string} uid 
+         * @param {DatasourcesApiCheckDatasourceHealthWithUIDRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        checkDatasourceHealthWithUID(uid: string, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
-            return localVarFp.checkDatasourceHealthWithUID(uid, options).then((request) => request(axios, basePath));
+        checkDatasourceHealthWithUID(requestParameters: DatasourcesApiCheckDatasourceHealthWithUIDRequest, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
+            return localVarFp.checkDatasourceHealthWithUID(requestParameters.uid, options).then((request) => request(axios, basePath));
         },
         /**
          * Proxies all calls to the actual data source.
          * @summary Data source proxy DELETE calls.
-         * @param {string} uid 
-         * @param {string} datasourceProxyRoute 
+         * @param {DatasourcesApiDatasourceProxyDELETEByUIDcallsRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        datasourceProxyDELETEByUIDcalls(uid: string, datasourceProxyRoute: string, options?: RawAxiosRequestConfig): AxiosPromise<void> {
-            return localVarFp.datasourceProxyDELETEByUIDcalls(uid, datasourceProxyRoute, options).then((request) => request(axios, basePath));
+        datasourceProxyDELETEByUIDcalls(requestParameters: DatasourcesApiDatasourceProxyDELETEByUIDcallsRequest, options?: RawAxiosRequestConfig): AxiosPromise<void> {
+            return localVarFp.datasourceProxyDELETEByUIDcalls(requestParameters.uid, requestParameters.datasourceProxyRoute, options).then((request) => request(axios, basePath));
         },
         /**
          * Proxies all calls to the actual data source.  Please refer to [updated API](#/datasources/datasourceProxyDELETEByUIDcalls) instead
          * @summary Data source proxy DELETE calls.
-         * @param {string} id 
-         * @param {string} datasourceProxyRoute 
+         * @param {DatasourcesApiDatasourceProxyDELETEcallsRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @deprecated
          * @throws {RequiredError}
          */
-        datasourceProxyDELETEcalls(id: string, datasourceProxyRoute: string, options?: RawAxiosRequestConfig): AxiosPromise<void> {
-            return localVarFp.datasourceProxyDELETEcalls(id, datasourceProxyRoute, options).then((request) => request(axios, basePath));
+        datasourceProxyDELETEcalls(requestParameters: DatasourcesApiDatasourceProxyDELETEcallsRequest, options?: RawAxiosRequestConfig): AxiosPromise<void> {
+            return localVarFp.datasourceProxyDELETEcalls(requestParameters.id, requestParameters.datasourceProxyRoute, options).then((request) => request(axios, basePath));
         },
         /**
          * Proxies all calls to the actual data source.
          * @summary Data source proxy GET calls.
-         * @param {string} datasourceProxyRoute 
-         * @param {string} uid 
+         * @param {DatasourcesApiDatasourceProxyGETByUIDcallsRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        datasourceProxyGETByUIDcalls(datasourceProxyRoute: string, uid: string, options?: RawAxiosRequestConfig): AxiosPromise<void> {
-            return localVarFp.datasourceProxyGETByUIDcalls(datasourceProxyRoute, uid, options).then((request) => request(axios, basePath));
+        datasourceProxyGETByUIDcalls(requestParameters: DatasourcesApiDatasourceProxyGETByUIDcallsRequest, options?: RawAxiosRequestConfig): AxiosPromise<void> {
+            return localVarFp.datasourceProxyGETByUIDcalls(requestParameters.datasourceProxyRoute, requestParameters.uid, options).then((request) => request(axios, basePath));
         },
         /**
          * Proxies all calls to the actual data source.  Please refer to [updated API](#/datasources/datasourceProxyGETByUIDcalls) instead
          * @summary Data source proxy GET calls.
-         * @param {string} datasourceProxyRoute 
-         * @param {string} id 
+         * @param {DatasourcesApiDatasourceProxyGETcallsRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @deprecated
          * @throws {RequiredError}
          */
-        datasourceProxyGETcalls(datasourceProxyRoute: string, id: string, options?: RawAxiosRequestConfig): AxiosPromise<void> {
-            return localVarFp.datasourceProxyGETcalls(datasourceProxyRoute, id, options).then((request) => request(axios, basePath));
+        datasourceProxyGETcalls(requestParameters: DatasourcesApiDatasourceProxyGETcallsRequest, options?: RawAxiosRequestConfig): AxiosPromise<void> {
+            return localVarFp.datasourceProxyGETcalls(requestParameters.datasourceProxyRoute, requestParameters.id, options).then((request) => request(axios, basePath));
         },
         /**
          * Proxies all calls to the actual data source. The data source should support POST methods for the specific path and role as defined
          * @summary Data source proxy POST calls.
-         * @param {string} datasourceProxyRoute 
-         * @param {string} uid 
-         * @param {object} datasourceProxyParam 
+         * @param {DatasourcesApiDatasourceProxyPOSTByUIDcallsRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        datasourceProxyPOSTByUIDcalls(datasourceProxyRoute: string, uid: string, datasourceProxyParam: object, options?: RawAxiosRequestConfig): AxiosPromise<void> {
-            return localVarFp.datasourceProxyPOSTByUIDcalls(datasourceProxyRoute, uid, datasourceProxyParam, options).then((request) => request(axios, basePath));
+        datasourceProxyPOSTByUIDcalls(requestParameters: DatasourcesApiDatasourceProxyPOSTByUIDcallsRequest, options?: RawAxiosRequestConfig): AxiosPromise<void> {
+            return localVarFp.datasourceProxyPOSTByUIDcalls(requestParameters.datasourceProxyRoute, requestParameters.uid, requestParameters.datasourceProxyParam, options).then((request) => request(axios, basePath));
         },
         /**
          * Proxies all calls to the actual data source. The data source should support POST methods for the specific path and role as defined  Please refer to [updated API](#/datasources/datasourceProxyPOSTByUIDcalls) instead
          * @summary Data source proxy POST calls.
-         * @param {string} datasourceProxyRoute 
-         * @param {string} id 
-         * @param {object} datasourceProxyParam 
+         * @param {DatasourcesApiDatasourceProxyPOSTcallsRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @deprecated
          * @throws {RequiredError}
          */
-        datasourceProxyPOSTcalls(datasourceProxyRoute: string, id: string, datasourceProxyParam: object, options?: RawAxiosRequestConfig): AxiosPromise<void> {
-            return localVarFp.datasourceProxyPOSTcalls(datasourceProxyRoute, id, datasourceProxyParam, options).then((request) => request(axios, basePath));
+        datasourceProxyPOSTcalls(requestParameters: DatasourcesApiDatasourceProxyPOSTcallsRequest, options?: RawAxiosRequestConfig): AxiosPromise<void> {
+            return localVarFp.datasourceProxyPOSTcalls(requestParameters.datasourceProxyRoute, requestParameters.id, requestParameters.datasourceProxyParam, options).then((request) => request(axios, basePath));
         },
         /**
          * If you are running Grafana Enterprise and have Fine-grained access control enabled you need to have a permission with action: `datasources:delete` and scopes: `datasources:*`, `datasources:id:*` and `datasources:id:1` (single data source).  Please refer to [updated API](#/datasources/deleteDataSourceByUID) instead
          * @summary Delete an existing data source by id.
-         * @param {string} id 
+         * @param {DatasourcesApiDeleteDataSourceByIDRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @deprecated
          * @throws {RequiredError}
          */
-        deleteDataSourceByID(id: string, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
-            return localVarFp.deleteDataSourceByID(id, options).then((request) => request(axios, basePath));
+        deleteDataSourceByID(requestParameters: DatasourcesApiDeleteDataSourceByIDRequest, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
+            return localVarFp.deleteDataSourceByID(requestParameters.id, options).then((request) => request(axios, basePath));
         },
         /**
          * If you are running Grafana Enterprise and have Fine-grained access control enabled you need to have a permission with action: `datasources:delete` and scopes: `datasources:*`, `datasources:name:*` and `datasources:name:test_datasource` (single data source).
          * @summary Delete an existing data source by name.
-         * @param {string} name 
+         * @param {DatasourcesApiDeleteDataSourceByNameRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        deleteDataSourceByName(name: string, options?: RawAxiosRequestConfig): AxiosPromise<DeleteDataSourceByName200Response> {
-            return localVarFp.deleteDataSourceByName(name, options).then((request) => request(axios, basePath));
+        deleteDataSourceByName(requestParameters: DatasourcesApiDeleteDataSourceByNameRequest, options?: RawAxiosRequestConfig): AxiosPromise<DeleteDataSourceByName200Response> {
+            return localVarFp.deleteDataSourceByName(requestParameters.name, options).then((request) => request(axios, basePath));
         },
         /**
          * If you are running Grafana Enterprise and have Fine-grained access control enabled you need to have a permission with action: `datasources:delete` and scopes: `datasources:*`, `datasources:uid:*` and `datasources:uid:kLtEtcRGk` (single data source).
          * @summary Delete an existing data source by UID.
-         * @param {string} uid 
+         * @param {DatasourcesApiDeleteDataSourceByUIDRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        deleteDataSourceByUID(uid: string, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
-            return localVarFp.deleteDataSourceByUID(uid, options).then((request) => request(axios, basePath));
+        deleteDataSourceByUID(requestParameters: DatasourcesApiDeleteDataSourceByUIDRequest, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
+            return localVarFp.deleteDataSourceByUID(requestParameters.uid, options).then((request) => request(axios, basePath));
         },
         /**
          * If you are running Grafana Enterprise and have Fine-grained access control enabled you need to have a permission with action: `datasources:read` and scopes: `datasources:*`, `datasources:id:*` and `datasources:id:1` (single data source).  Please refer to [updated API](#/datasources/getDataSourceByUID) instead
          * @summary Get a single data source by Id.
-         * @param {string} id 
+         * @param {DatasourcesApiGetDataSourceByIDRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @deprecated
          * @throws {RequiredError}
          */
-        getDataSourceByID(id: string, options?: RawAxiosRequestConfig): AxiosPromise<DataSource> {
-            return localVarFp.getDataSourceByID(id, options).then((request) => request(axios, basePath));
+        getDataSourceByID(requestParameters: DatasourcesApiGetDataSourceByIDRequest, options?: RawAxiosRequestConfig): AxiosPromise<DataSource> {
+            return localVarFp.getDataSourceByID(requestParameters.id, options).then((request) => request(axios, basePath));
         },
         /**
          * If you are running Grafana Enterprise and have Fine-grained access control enabled you need to have a permission with action: `datasources:read` and scopes: `datasources:*`, `datasources:name:*` and `datasources:name:test_datasource` (single data source).
          * @summary Get a single data source by Name.
-         * @param {string} name 
+         * @param {DatasourcesApiGetDataSourceByNameRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getDataSourceByName(name: string, options?: RawAxiosRequestConfig): AxiosPromise<DataSource> {
-            return localVarFp.getDataSourceByName(name, options).then((request) => request(axios, basePath));
+        getDataSourceByName(requestParameters: DatasourcesApiGetDataSourceByNameRequest, options?: RawAxiosRequestConfig): AxiosPromise<DataSource> {
+            return localVarFp.getDataSourceByName(requestParameters.name, options).then((request) => request(axios, basePath));
         },
         /**
          * If you are running Grafana Enterprise and have Fine-grained access control enabled you need to have a permission with action: `datasources:read` and scopes: `datasources:*`, `datasources:uid:*` and `datasources:uid:kLtEtcRGk` (single data source).
          * @summary Get a single data source by UID.
-         * @param {string} uid 
+         * @param {DatasourcesApiGetDataSourceByUIDRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getDataSourceByUID(uid: string, options?: RawAxiosRequestConfig): AxiosPromise<DataSource> {
-            return localVarFp.getDataSourceByUID(uid, options).then((request) => request(axios, basePath));
+        getDataSourceByUID(requestParameters: DatasourcesApiGetDataSourceByUIDRequest, options?: RawAxiosRequestConfig): AxiosPromise<DataSource> {
+            return localVarFp.getDataSourceByUID(requestParameters.uid, options).then((request) => request(axios, basePath));
         },
         /**
          * If you are running Grafana Enterprise and have Fine-grained access control enabled you need to have a permission with action: `datasources:read` and scopes: `datasources:*`, `datasources:name:*` and `datasources:name:test_datasource` (single data source).
          * @summary Get data source Id by Name.
-         * @param {string} name 
+         * @param {DatasourcesApiGetDataSourceIdByNameRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getDataSourceIdByName(name: string, options?: RawAxiosRequestConfig): AxiosPromise<GetDataSourceIdByName200Response> {
-            return localVarFp.getDataSourceIdByName(name, options).then((request) => request(axios, basePath));
+        getDataSourceIdByName(requestParameters: DatasourcesApiGetDataSourceIdByNameRequest, options?: RawAxiosRequestConfig): AxiosPromise<GetDataSourceIdByName200Response> {
+            return localVarFp.getDataSourceIdByName(requestParameters.name, options).then((request) => request(axios, basePath));
         },
         /**
          * If you are running Grafana Enterprise and have Fine-grained access control enabled you need to have a permission with action: `datasources:read` and scope: `datasources:*`.
@@ -24956,28 +24994,390 @@ export const DatasourcesApiFactory = function (configuration?: Configuration, ba
         /**
          * Similar to creating a data source, `password` and `basicAuthPassword` should be defined under secureJsonData in order to be stored securely as an encrypted blob in the database. Then, the encrypted fields are listed under secureJsonFields section in the response.  If you are running Grafana Enterprise and have Fine-grained access control enabled you need to have a permission with action: `datasources:write` and scopes: `datasources:*`, `datasources:id:*` and `datasources:id:1` (single data source).  Please refer to [updated API](#/datasources/updateDataSourceByUID) instead
          * @summary Update an existing data source by its sequential ID.
-         * @param {string} id 
-         * @param {UpdateDataSourceCommand} body 
+         * @param {DatasourcesApiUpdateDataSourceByIDRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @deprecated
          * @throws {RequiredError}
          */
-        updateDataSourceByID(id: string, body: UpdateDataSourceCommand, options?: RawAxiosRequestConfig): AxiosPromise<AddDataSource200Response> {
-            return localVarFp.updateDataSourceByID(id, body, options).then((request) => request(axios, basePath));
+        updateDataSourceByID(requestParameters: DatasourcesApiUpdateDataSourceByIDRequest, options?: RawAxiosRequestConfig): AxiosPromise<AddDataSource200Response> {
+            return localVarFp.updateDataSourceByID(requestParameters.id, requestParameters.body, options).then((request) => request(axios, basePath));
         },
         /**
          * Similar to creating a data source, `password` and `basicAuthPassword` should be defined under secureJsonData in order to be stored securely as an encrypted blob in the database. Then, the encrypted fields are listed under secureJsonFields section in the response.  If you are running Grafana Enterprise and have Fine-grained access control enabled you need to have a permission with action: `datasources:write` and scopes: `datasources:*`, `datasources:uid:*` and `datasources:uid:1` (single data source).
          * @summary Update an existing data source.
-         * @param {string} uid 
-         * @param {UpdateDataSourceCommand} body 
+         * @param {DatasourcesApiUpdateDataSourceByUIDRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateDataSourceByUID(uid: string, body: UpdateDataSourceCommand, options?: RawAxiosRequestConfig): AxiosPromise<AddDataSource200Response> {
-            return localVarFp.updateDataSourceByUID(uid, body, options).then((request) => request(axios, basePath));
+        updateDataSourceByUID(requestParameters: DatasourcesApiUpdateDataSourceByUIDRequest, options?: RawAxiosRequestConfig): AxiosPromise<AddDataSource200Response> {
+            return localVarFp.updateDataSourceByUID(requestParameters.uid, requestParameters.body, options).then((request) => request(axios, basePath));
         },
     };
 };
+
+/**
+ * Request parameters for addDataSource operation in DatasourcesApi.
+ * @export
+ * @interface DatasourcesApiAddDataSourceRequest
+ */
+export interface DatasourcesApiAddDataSourceRequest {
+    /**
+     * 
+     * @type {AddDataSourceCommand}
+     * @memberof DatasourcesApiAddDataSource
+     */
+    readonly body: AddDataSourceCommand
+}
+
+/**
+ * Request parameters for callDatasourceResourceByID operation in DatasourcesApi.
+ * @export
+ * @interface DatasourcesApiCallDatasourceResourceByIDRequest
+ */
+export interface DatasourcesApiCallDatasourceResourceByIDRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof DatasourcesApiCallDatasourceResourceByID
+     */
+    readonly datasourceProxyRoute: string
+
+    /**
+     * 
+     * @type {string}
+     * @memberof DatasourcesApiCallDatasourceResourceByID
+     */
+    readonly id: string
+}
+
+/**
+ * Request parameters for callDatasourceResourceWithUID operation in DatasourcesApi.
+ * @export
+ * @interface DatasourcesApiCallDatasourceResourceWithUIDRequest
+ */
+export interface DatasourcesApiCallDatasourceResourceWithUIDRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof DatasourcesApiCallDatasourceResourceWithUID
+     */
+    readonly datasourceProxyRoute: string
+
+    /**
+     * 
+     * @type {string}
+     * @memberof DatasourcesApiCallDatasourceResourceWithUID
+     */
+    readonly uid: string
+}
+
+/**
+ * Request parameters for checkDatasourceHealthByID operation in DatasourcesApi.
+ * @export
+ * @interface DatasourcesApiCheckDatasourceHealthByIDRequest
+ */
+export interface DatasourcesApiCheckDatasourceHealthByIDRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof DatasourcesApiCheckDatasourceHealthByID
+     */
+    readonly id: string
+}
+
+/**
+ * Request parameters for checkDatasourceHealthWithUID operation in DatasourcesApi.
+ * @export
+ * @interface DatasourcesApiCheckDatasourceHealthWithUIDRequest
+ */
+export interface DatasourcesApiCheckDatasourceHealthWithUIDRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof DatasourcesApiCheckDatasourceHealthWithUID
+     */
+    readonly uid: string
+}
+
+/**
+ * Request parameters for datasourceProxyDELETEByUIDcalls operation in DatasourcesApi.
+ * @export
+ * @interface DatasourcesApiDatasourceProxyDELETEByUIDcallsRequest
+ */
+export interface DatasourcesApiDatasourceProxyDELETEByUIDcallsRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof DatasourcesApiDatasourceProxyDELETEByUIDcalls
+     */
+    readonly uid: string
+
+    /**
+     * 
+     * @type {string}
+     * @memberof DatasourcesApiDatasourceProxyDELETEByUIDcalls
+     */
+    readonly datasourceProxyRoute: string
+}
+
+/**
+ * Request parameters for datasourceProxyDELETEcalls operation in DatasourcesApi.
+ * @export
+ * @interface DatasourcesApiDatasourceProxyDELETEcallsRequest
+ */
+export interface DatasourcesApiDatasourceProxyDELETEcallsRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof DatasourcesApiDatasourceProxyDELETEcalls
+     */
+    readonly id: string
+
+    /**
+     * 
+     * @type {string}
+     * @memberof DatasourcesApiDatasourceProxyDELETEcalls
+     */
+    readonly datasourceProxyRoute: string
+}
+
+/**
+ * Request parameters for datasourceProxyGETByUIDcalls operation in DatasourcesApi.
+ * @export
+ * @interface DatasourcesApiDatasourceProxyGETByUIDcallsRequest
+ */
+export interface DatasourcesApiDatasourceProxyGETByUIDcallsRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof DatasourcesApiDatasourceProxyGETByUIDcalls
+     */
+    readonly datasourceProxyRoute: string
+
+    /**
+     * 
+     * @type {string}
+     * @memberof DatasourcesApiDatasourceProxyGETByUIDcalls
+     */
+    readonly uid: string
+}
+
+/**
+ * Request parameters for datasourceProxyGETcalls operation in DatasourcesApi.
+ * @export
+ * @interface DatasourcesApiDatasourceProxyGETcallsRequest
+ */
+export interface DatasourcesApiDatasourceProxyGETcallsRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof DatasourcesApiDatasourceProxyGETcalls
+     */
+    readonly datasourceProxyRoute: string
+
+    /**
+     * 
+     * @type {string}
+     * @memberof DatasourcesApiDatasourceProxyGETcalls
+     */
+    readonly id: string
+}
+
+/**
+ * Request parameters for datasourceProxyPOSTByUIDcalls operation in DatasourcesApi.
+ * @export
+ * @interface DatasourcesApiDatasourceProxyPOSTByUIDcallsRequest
+ */
+export interface DatasourcesApiDatasourceProxyPOSTByUIDcallsRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof DatasourcesApiDatasourceProxyPOSTByUIDcalls
+     */
+    readonly datasourceProxyRoute: string
+
+    /**
+     * 
+     * @type {string}
+     * @memberof DatasourcesApiDatasourceProxyPOSTByUIDcalls
+     */
+    readonly uid: string
+
+    /**
+     * 
+     * @type {object}
+     * @memberof DatasourcesApiDatasourceProxyPOSTByUIDcalls
+     */
+    readonly datasourceProxyParam: object
+}
+
+/**
+ * Request parameters for datasourceProxyPOSTcalls operation in DatasourcesApi.
+ * @export
+ * @interface DatasourcesApiDatasourceProxyPOSTcallsRequest
+ */
+export interface DatasourcesApiDatasourceProxyPOSTcallsRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof DatasourcesApiDatasourceProxyPOSTcalls
+     */
+    readonly datasourceProxyRoute: string
+
+    /**
+     * 
+     * @type {string}
+     * @memberof DatasourcesApiDatasourceProxyPOSTcalls
+     */
+    readonly id: string
+
+    /**
+     * 
+     * @type {object}
+     * @memberof DatasourcesApiDatasourceProxyPOSTcalls
+     */
+    readonly datasourceProxyParam: object
+}
+
+/**
+ * Request parameters for deleteDataSourceByID operation in DatasourcesApi.
+ * @export
+ * @interface DatasourcesApiDeleteDataSourceByIDRequest
+ */
+export interface DatasourcesApiDeleteDataSourceByIDRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof DatasourcesApiDeleteDataSourceByID
+     */
+    readonly id: string
+}
+
+/**
+ * Request parameters for deleteDataSourceByName operation in DatasourcesApi.
+ * @export
+ * @interface DatasourcesApiDeleteDataSourceByNameRequest
+ */
+export interface DatasourcesApiDeleteDataSourceByNameRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof DatasourcesApiDeleteDataSourceByName
+     */
+    readonly name: string
+}
+
+/**
+ * Request parameters for deleteDataSourceByUID operation in DatasourcesApi.
+ * @export
+ * @interface DatasourcesApiDeleteDataSourceByUIDRequest
+ */
+export interface DatasourcesApiDeleteDataSourceByUIDRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof DatasourcesApiDeleteDataSourceByUID
+     */
+    readonly uid: string
+}
+
+/**
+ * Request parameters for getDataSourceByID operation in DatasourcesApi.
+ * @export
+ * @interface DatasourcesApiGetDataSourceByIDRequest
+ */
+export interface DatasourcesApiGetDataSourceByIDRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof DatasourcesApiGetDataSourceByID
+     */
+    readonly id: string
+}
+
+/**
+ * Request parameters for getDataSourceByName operation in DatasourcesApi.
+ * @export
+ * @interface DatasourcesApiGetDataSourceByNameRequest
+ */
+export interface DatasourcesApiGetDataSourceByNameRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof DatasourcesApiGetDataSourceByName
+     */
+    readonly name: string
+}
+
+/**
+ * Request parameters for getDataSourceByUID operation in DatasourcesApi.
+ * @export
+ * @interface DatasourcesApiGetDataSourceByUIDRequest
+ */
+export interface DatasourcesApiGetDataSourceByUIDRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof DatasourcesApiGetDataSourceByUID
+     */
+    readonly uid: string
+}
+
+/**
+ * Request parameters for getDataSourceIdByName operation in DatasourcesApi.
+ * @export
+ * @interface DatasourcesApiGetDataSourceIdByNameRequest
+ */
+export interface DatasourcesApiGetDataSourceIdByNameRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof DatasourcesApiGetDataSourceIdByName
+     */
+    readonly name: string
+}
+
+/**
+ * Request parameters for updateDataSourceByID operation in DatasourcesApi.
+ * @export
+ * @interface DatasourcesApiUpdateDataSourceByIDRequest
+ */
+export interface DatasourcesApiUpdateDataSourceByIDRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof DatasourcesApiUpdateDataSourceByID
+     */
+    readonly id: string
+
+    /**
+     * 
+     * @type {UpdateDataSourceCommand}
+     * @memberof DatasourcesApiUpdateDataSourceByID
+     */
+    readonly body: UpdateDataSourceCommand
+}
+
+/**
+ * Request parameters for updateDataSourceByUID operation in DatasourcesApi.
+ * @export
+ * @interface DatasourcesApiUpdateDataSourceByUIDRequest
+ */
+export interface DatasourcesApiUpdateDataSourceByUIDRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof DatasourcesApiUpdateDataSourceByUID
+     */
+    readonly uid: string
+
+    /**
+     * 
+     * @type {UpdateDataSourceCommand}
+     * @memberof DatasourcesApiUpdateDataSourceByUID
+     */
+    readonly body: UpdateDataSourceCommand
+}
 
 /**
  * DatasourcesApi - object-oriented interface
@@ -24989,234 +25389,224 @@ export class DatasourcesApi extends BaseAPI {
     /**
      * By defining `password` and `basicAuthPassword` under secureJsonData property Grafana encrypts them securely as an encrypted blob in the database. The response then lists the encrypted fields under secureJsonFields.  If you are running Grafana Enterprise and have Fine-grained access control enabled you need to have a permission with action: `datasources:create`
      * @summary Create a data source.
-     * @param {AddDataSourceCommand} body 
+     * @param {DatasourcesApiAddDataSourceRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof DatasourcesApi
      */
-    public addDataSource(body: AddDataSourceCommand, options?: RawAxiosRequestConfig) {
-        return DatasourcesApiFp(this.configuration).addDataSource(body, options).then((request) => request(this.axios, this.basePath));
+    public addDataSource(requestParameters: DatasourcesApiAddDataSourceRequest, options?: RawAxiosRequestConfig) {
+        return DatasourcesApiFp(this.configuration).addDataSource(requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Please refer to [updated API](#/datasources/callDatasourceResourceWithUID) instead
      * @summary Fetch data source resources by Id.
-     * @param {string} datasourceProxyRoute 
-     * @param {string} id 
+     * @param {DatasourcesApiCallDatasourceResourceByIDRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @deprecated
      * @throws {RequiredError}
      * @memberof DatasourcesApi
      */
-    public callDatasourceResourceByID(datasourceProxyRoute: string, id: string, options?: RawAxiosRequestConfig) {
-        return DatasourcesApiFp(this.configuration).callDatasourceResourceByID(datasourceProxyRoute, id, options).then((request) => request(this.axios, this.basePath));
+    public callDatasourceResourceByID(requestParameters: DatasourcesApiCallDatasourceResourceByIDRequest, options?: RawAxiosRequestConfig) {
+        return DatasourcesApiFp(this.configuration).callDatasourceResourceByID(requestParameters.datasourceProxyRoute, requestParameters.id, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
      * @summary Fetch data source resources.
-     * @param {string} datasourceProxyRoute 
-     * @param {string} uid 
+     * @param {DatasourcesApiCallDatasourceResourceWithUIDRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof DatasourcesApi
      */
-    public callDatasourceResourceWithUID(datasourceProxyRoute: string, uid: string, options?: RawAxiosRequestConfig) {
-        return DatasourcesApiFp(this.configuration).callDatasourceResourceWithUID(datasourceProxyRoute, uid, options).then((request) => request(this.axios, this.basePath));
+    public callDatasourceResourceWithUID(requestParameters: DatasourcesApiCallDatasourceResourceWithUIDRequest, options?: RawAxiosRequestConfig) {
+        return DatasourcesApiFp(this.configuration).callDatasourceResourceWithUID(requestParameters.datasourceProxyRoute, requestParameters.uid, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Please refer to [updated API](#/datasources/checkDatasourceHealthWithUID) instead
      * @summary Sends a health check request to the plugin datasource identified by the ID.
-     * @param {string} id 
+     * @param {DatasourcesApiCheckDatasourceHealthByIDRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @deprecated
      * @throws {RequiredError}
      * @memberof DatasourcesApi
      */
-    public checkDatasourceHealthByID(id: string, options?: RawAxiosRequestConfig) {
-        return DatasourcesApiFp(this.configuration).checkDatasourceHealthByID(id, options).then((request) => request(this.axios, this.basePath));
+    public checkDatasourceHealthByID(requestParameters: DatasourcesApiCheckDatasourceHealthByIDRequest, options?: RawAxiosRequestConfig) {
+        return DatasourcesApiFp(this.configuration).checkDatasourceHealthByID(requestParameters.id, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
      * @summary Sends a health check request to the plugin datasource identified by the UID.
-     * @param {string} uid 
+     * @param {DatasourcesApiCheckDatasourceHealthWithUIDRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof DatasourcesApi
      */
-    public checkDatasourceHealthWithUID(uid: string, options?: RawAxiosRequestConfig) {
-        return DatasourcesApiFp(this.configuration).checkDatasourceHealthWithUID(uid, options).then((request) => request(this.axios, this.basePath));
+    public checkDatasourceHealthWithUID(requestParameters: DatasourcesApiCheckDatasourceHealthWithUIDRequest, options?: RawAxiosRequestConfig) {
+        return DatasourcesApiFp(this.configuration).checkDatasourceHealthWithUID(requestParameters.uid, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Proxies all calls to the actual data source.
      * @summary Data source proxy DELETE calls.
-     * @param {string} uid 
-     * @param {string} datasourceProxyRoute 
+     * @param {DatasourcesApiDatasourceProxyDELETEByUIDcallsRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof DatasourcesApi
      */
-    public datasourceProxyDELETEByUIDcalls(uid: string, datasourceProxyRoute: string, options?: RawAxiosRequestConfig) {
-        return DatasourcesApiFp(this.configuration).datasourceProxyDELETEByUIDcalls(uid, datasourceProxyRoute, options).then((request) => request(this.axios, this.basePath));
+    public datasourceProxyDELETEByUIDcalls(requestParameters: DatasourcesApiDatasourceProxyDELETEByUIDcallsRequest, options?: RawAxiosRequestConfig) {
+        return DatasourcesApiFp(this.configuration).datasourceProxyDELETEByUIDcalls(requestParameters.uid, requestParameters.datasourceProxyRoute, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Proxies all calls to the actual data source.  Please refer to [updated API](#/datasources/datasourceProxyDELETEByUIDcalls) instead
      * @summary Data source proxy DELETE calls.
-     * @param {string} id 
-     * @param {string} datasourceProxyRoute 
+     * @param {DatasourcesApiDatasourceProxyDELETEcallsRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @deprecated
      * @throws {RequiredError}
      * @memberof DatasourcesApi
      */
-    public datasourceProxyDELETEcalls(id: string, datasourceProxyRoute: string, options?: RawAxiosRequestConfig) {
-        return DatasourcesApiFp(this.configuration).datasourceProxyDELETEcalls(id, datasourceProxyRoute, options).then((request) => request(this.axios, this.basePath));
+    public datasourceProxyDELETEcalls(requestParameters: DatasourcesApiDatasourceProxyDELETEcallsRequest, options?: RawAxiosRequestConfig) {
+        return DatasourcesApiFp(this.configuration).datasourceProxyDELETEcalls(requestParameters.id, requestParameters.datasourceProxyRoute, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Proxies all calls to the actual data source.
      * @summary Data source proxy GET calls.
-     * @param {string} datasourceProxyRoute 
-     * @param {string} uid 
+     * @param {DatasourcesApiDatasourceProxyGETByUIDcallsRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof DatasourcesApi
      */
-    public datasourceProxyGETByUIDcalls(datasourceProxyRoute: string, uid: string, options?: RawAxiosRequestConfig) {
-        return DatasourcesApiFp(this.configuration).datasourceProxyGETByUIDcalls(datasourceProxyRoute, uid, options).then((request) => request(this.axios, this.basePath));
+    public datasourceProxyGETByUIDcalls(requestParameters: DatasourcesApiDatasourceProxyGETByUIDcallsRequest, options?: RawAxiosRequestConfig) {
+        return DatasourcesApiFp(this.configuration).datasourceProxyGETByUIDcalls(requestParameters.datasourceProxyRoute, requestParameters.uid, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Proxies all calls to the actual data source.  Please refer to [updated API](#/datasources/datasourceProxyGETByUIDcalls) instead
      * @summary Data source proxy GET calls.
-     * @param {string} datasourceProxyRoute 
-     * @param {string} id 
+     * @param {DatasourcesApiDatasourceProxyGETcallsRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @deprecated
      * @throws {RequiredError}
      * @memberof DatasourcesApi
      */
-    public datasourceProxyGETcalls(datasourceProxyRoute: string, id: string, options?: RawAxiosRequestConfig) {
-        return DatasourcesApiFp(this.configuration).datasourceProxyGETcalls(datasourceProxyRoute, id, options).then((request) => request(this.axios, this.basePath));
+    public datasourceProxyGETcalls(requestParameters: DatasourcesApiDatasourceProxyGETcallsRequest, options?: RawAxiosRequestConfig) {
+        return DatasourcesApiFp(this.configuration).datasourceProxyGETcalls(requestParameters.datasourceProxyRoute, requestParameters.id, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Proxies all calls to the actual data source. The data source should support POST methods for the specific path and role as defined
      * @summary Data source proxy POST calls.
-     * @param {string} datasourceProxyRoute 
-     * @param {string} uid 
-     * @param {object} datasourceProxyParam 
+     * @param {DatasourcesApiDatasourceProxyPOSTByUIDcallsRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof DatasourcesApi
      */
-    public datasourceProxyPOSTByUIDcalls(datasourceProxyRoute: string, uid: string, datasourceProxyParam: object, options?: RawAxiosRequestConfig) {
-        return DatasourcesApiFp(this.configuration).datasourceProxyPOSTByUIDcalls(datasourceProxyRoute, uid, datasourceProxyParam, options).then((request) => request(this.axios, this.basePath));
+    public datasourceProxyPOSTByUIDcalls(requestParameters: DatasourcesApiDatasourceProxyPOSTByUIDcallsRequest, options?: RawAxiosRequestConfig) {
+        return DatasourcesApiFp(this.configuration).datasourceProxyPOSTByUIDcalls(requestParameters.datasourceProxyRoute, requestParameters.uid, requestParameters.datasourceProxyParam, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Proxies all calls to the actual data source. The data source should support POST methods for the specific path and role as defined  Please refer to [updated API](#/datasources/datasourceProxyPOSTByUIDcalls) instead
      * @summary Data source proxy POST calls.
-     * @param {string} datasourceProxyRoute 
-     * @param {string} id 
-     * @param {object} datasourceProxyParam 
+     * @param {DatasourcesApiDatasourceProxyPOSTcallsRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @deprecated
      * @throws {RequiredError}
      * @memberof DatasourcesApi
      */
-    public datasourceProxyPOSTcalls(datasourceProxyRoute: string, id: string, datasourceProxyParam: object, options?: RawAxiosRequestConfig) {
-        return DatasourcesApiFp(this.configuration).datasourceProxyPOSTcalls(datasourceProxyRoute, id, datasourceProxyParam, options).then((request) => request(this.axios, this.basePath));
+    public datasourceProxyPOSTcalls(requestParameters: DatasourcesApiDatasourceProxyPOSTcallsRequest, options?: RawAxiosRequestConfig) {
+        return DatasourcesApiFp(this.configuration).datasourceProxyPOSTcalls(requestParameters.datasourceProxyRoute, requestParameters.id, requestParameters.datasourceProxyParam, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * If you are running Grafana Enterprise and have Fine-grained access control enabled you need to have a permission with action: `datasources:delete` and scopes: `datasources:*`, `datasources:id:*` and `datasources:id:1` (single data source).  Please refer to [updated API](#/datasources/deleteDataSourceByUID) instead
      * @summary Delete an existing data source by id.
-     * @param {string} id 
+     * @param {DatasourcesApiDeleteDataSourceByIDRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @deprecated
      * @throws {RequiredError}
      * @memberof DatasourcesApi
      */
-    public deleteDataSourceByID(id: string, options?: RawAxiosRequestConfig) {
-        return DatasourcesApiFp(this.configuration).deleteDataSourceByID(id, options).then((request) => request(this.axios, this.basePath));
+    public deleteDataSourceByID(requestParameters: DatasourcesApiDeleteDataSourceByIDRequest, options?: RawAxiosRequestConfig) {
+        return DatasourcesApiFp(this.configuration).deleteDataSourceByID(requestParameters.id, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * If you are running Grafana Enterprise and have Fine-grained access control enabled you need to have a permission with action: `datasources:delete` and scopes: `datasources:*`, `datasources:name:*` and `datasources:name:test_datasource` (single data source).
      * @summary Delete an existing data source by name.
-     * @param {string} name 
+     * @param {DatasourcesApiDeleteDataSourceByNameRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof DatasourcesApi
      */
-    public deleteDataSourceByName(name: string, options?: RawAxiosRequestConfig) {
-        return DatasourcesApiFp(this.configuration).deleteDataSourceByName(name, options).then((request) => request(this.axios, this.basePath));
+    public deleteDataSourceByName(requestParameters: DatasourcesApiDeleteDataSourceByNameRequest, options?: RawAxiosRequestConfig) {
+        return DatasourcesApiFp(this.configuration).deleteDataSourceByName(requestParameters.name, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * If you are running Grafana Enterprise and have Fine-grained access control enabled you need to have a permission with action: `datasources:delete` and scopes: `datasources:*`, `datasources:uid:*` and `datasources:uid:kLtEtcRGk` (single data source).
      * @summary Delete an existing data source by UID.
-     * @param {string} uid 
+     * @param {DatasourcesApiDeleteDataSourceByUIDRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof DatasourcesApi
      */
-    public deleteDataSourceByUID(uid: string, options?: RawAxiosRequestConfig) {
-        return DatasourcesApiFp(this.configuration).deleteDataSourceByUID(uid, options).then((request) => request(this.axios, this.basePath));
+    public deleteDataSourceByUID(requestParameters: DatasourcesApiDeleteDataSourceByUIDRequest, options?: RawAxiosRequestConfig) {
+        return DatasourcesApiFp(this.configuration).deleteDataSourceByUID(requestParameters.uid, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * If you are running Grafana Enterprise and have Fine-grained access control enabled you need to have a permission with action: `datasources:read` and scopes: `datasources:*`, `datasources:id:*` and `datasources:id:1` (single data source).  Please refer to [updated API](#/datasources/getDataSourceByUID) instead
      * @summary Get a single data source by Id.
-     * @param {string} id 
+     * @param {DatasourcesApiGetDataSourceByIDRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @deprecated
      * @throws {RequiredError}
      * @memberof DatasourcesApi
      */
-    public getDataSourceByID(id: string, options?: RawAxiosRequestConfig) {
-        return DatasourcesApiFp(this.configuration).getDataSourceByID(id, options).then((request) => request(this.axios, this.basePath));
+    public getDataSourceByID(requestParameters: DatasourcesApiGetDataSourceByIDRequest, options?: RawAxiosRequestConfig) {
+        return DatasourcesApiFp(this.configuration).getDataSourceByID(requestParameters.id, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * If you are running Grafana Enterprise and have Fine-grained access control enabled you need to have a permission with action: `datasources:read` and scopes: `datasources:*`, `datasources:name:*` and `datasources:name:test_datasource` (single data source).
      * @summary Get a single data source by Name.
-     * @param {string} name 
+     * @param {DatasourcesApiGetDataSourceByNameRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof DatasourcesApi
      */
-    public getDataSourceByName(name: string, options?: RawAxiosRequestConfig) {
-        return DatasourcesApiFp(this.configuration).getDataSourceByName(name, options).then((request) => request(this.axios, this.basePath));
+    public getDataSourceByName(requestParameters: DatasourcesApiGetDataSourceByNameRequest, options?: RawAxiosRequestConfig) {
+        return DatasourcesApiFp(this.configuration).getDataSourceByName(requestParameters.name, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * If you are running Grafana Enterprise and have Fine-grained access control enabled you need to have a permission with action: `datasources:read` and scopes: `datasources:*`, `datasources:uid:*` and `datasources:uid:kLtEtcRGk` (single data source).
      * @summary Get a single data source by UID.
-     * @param {string} uid 
+     * @param {DatasourcesApiGetDataSourceByUIDRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof DatasourcesApi
      */
-    public getDataSourceByUID(uid: string, options?: RawAxiosRequestConfig) {
-        return DatasourcesApiFp(this.configuration).getDataSourceByUID(uid, options).then((request) => request(this.axios, this.basePath));
+    public getDataSourceByUID(requestParameters: DatasourcesApiGetDataSourceByUIDRequest, options?: RawAxiosRequestConfig) {
+        return DatasourcesApiFp(this.configuration).getDataSourceByUID(requestParameters.uid, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * If you are running Grafana Enterprise and have Fine-grained access control enabled you need to have a permission with action: `datasources:read` and scopes: `datasources:*`, `datasources:name:*` and `datasources:name:test_datasource` (single data source).
      * @summary Get data source Id by Name.
-     * @param {string} name 
+     * @param {DatasourcesApiGetDataSourceIdByNameRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof DatasourcesApi
      */
-    public getDataSourceIdByName(name: string, options?: RawAxiosRequestConfig) {
-        return DatasourcesApiFp(this.configuration).getDataSourceIdByName(name, options).then((request) => request(this.axios, this.basePath));
+    public getDataSourceIdByName(requestParameters: DatasourcesApiGetDataSourceIdByNameRequest, options?: RawAxiosRequestConfig) {
+        return DatasourcesApiFp(this.configuration).getDataSourceIdByName(requestParameters.name, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -25233,28 +25623,26 @@ export class DatasourcesApi extends BaseAPI {
     /**
      * Similar to creating a data source, `password` and `basicAuthPassword` should be defined under secureJsonData in order to be stored securely as an encrypted blob in the database. Then, the encrypted fields are listed under secureJsonFields section in the response.  If you are running Grafana Enterprise and have Fine-grained access control enabled you need to have a permission with action: `datasources:write` and scopes: `datasources:*`, `datasources:id:*` and `datasources:id:1` (single data source).  Please refer to [updated API](#/datasources/updateDataSourceByUID) instead
      * @summary Update an existing data source by its sequential ID.
-     * @param {string} id 
-     * @param {UpdateDataSourceCommand} body 
+     * @param {DatasourcesApiUpdateDataSourceByIDRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @deprecated
      * @throws {RequiredError}
      * @memberof DatasourcesApi
      */
-    public updateDataSourceByID(id: string, body: UpdateDataSourceCommand, options?: RawAxiosRequestConfig) {
-        return DatasourcesApiFp(this.configuration).updateDataSourceByID(id, body, options).then((request) => request(this.axios, this.basePath));
+    public updateDataSourceByID(requestParameters: DatasourcesApiUpdateDataSourceByIDRequest, options?: RawAxiosRequestConfig) {
+        return DatasourcesApiFp(this.configuration).updateDataSourceByID(requestParameters.id, requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Similar to creating a data source, `password` and `basicAuthPassword` should be defined under secureJsonData in order to be stored securely as an encrypted blob in the database. Then, the encrypted fields are listed under secureJsonFields section in the response.  If you are running Grafana Enterprise and have Fine-grained access control enabled you need to have a permission with action: `datasources:write` and scopes: `datasources:*`, `datasources:uid:*` and `datasources:uid:1` (single data source).
      * @summary Update an existing data source.
-     * @param {string} uid 
-     * @param {UpdateDataSourceCommand} body 
+     * @param {DatasourcesApiUpdateDataSourceByUIDRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof DatasourcesApi
      */
-    public updateDataSourceByUID(uid: string, body: UpdateDataSourceCommand, options?: RawAxiosRequestConfig) {
-        return DatasourcesApiFp(this.configuration).updateDataSourceByUID(uid, body, options).then((request) => request(this.axios, this.basePath));
+    public updateDataSourceByUID(requestParameters: DatasourcesApiUpdateDataSourceByUIDRequest, options?: RawAxiosRequestConfig) {
+        return DatasourcesApiFp(this.configuration).updateDataSourceByUID(requestParameters.uid, requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -25522,15 +25910,29 @@ export const DsApiFactory = function (configuration?: Configuration, basePath?: 
         /**
          * If you are running Grafana Enterprise and have Fine-grained access control enabled you need to have a permission with action: `datasources:query`.
          * @summary DataSource query metrics with expressions.
-         * @param {MetricRequest} body 
+         * @param {DsApiQueryMetricsWithExpressionsRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        queryMetricsWithExpressions(body: MetricRequest, options?: RawAxiosRequestConfig): AxiosPromise<QueryDataResponse> {
-            return localVarFp.queryMetricsWithExpressions(body, options).then((request) => request(axios, basePath));
+        queryMetricsWithExpressions(requestParameters: DsApiQueryMetricsWithExpressionsRequest, options?: RawAxiosRequestConfig): AxiosPromise<QueryDataResponse> {
+            return localVarFp.queryMetricsWithExpressions(requestParameters.body, options).then((request) => request(axios, basePath));
         },
     };
 };
+
+/**
+ * Request parameters for queryMetricsWithExpressions operation in DsApi.
+ * @export
+ * @interface DsApiQueryMetricsWithExpressionsRequest
+ */
+export interface DsApiQueryMetricsWithExpressionsRequest {
+    /**
+     * 
+     * @type {MetricRequest}
+     * @memberof DsApiQueryMetricsWithExpressions
+     */
+    readonly body: MetricRequest
+}
 
 /**
  * DsApi - object-oriented interface
@@ -25542,13 +25944,13 @@ export class DsApi extends BaseAPI {
     /**
      * If you are running Grafana Enterprise and have Fine-grained access control enabled you need to have a permission with action: `datasources:query`.
      * @summary DataSource query metrics with expressions.
-     * @param {MetricRequest} body 
+     * @param {DsApiQueryMetricsWithExpressionsRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof DsApi
      */
-    public queryMetricsWithExpressions(body: MetricRequest, options?: RawAxiosRequestConfig) {
-        return DsApiFp(this.configuration).queryMetricsWithExpressions(body, options).then((request) => request(this.axios, this.basePath));
+    public queryMetricsWithExpressions(requestParameters: DsApiQueryMetricsWithExpressionsRequest, options?: RawAxiosRequestConfig) {
+        return DsApiFp(this.configuration).queryMetricsWithExpressions(requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -25739,46 +26141,6 @@ export const EnterpriseApiAxiosParamCreator = function (configuration?: Configur
             };
         },
         /**
-         * clean cache for a single data source
-         * @param {string} dataSourceUID 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        cleanDataSourceCache: async (dataSourceUID: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'dataSourceUID' is not null or undefined
-            assertParamExists('cleanDataSourceCache', 'dataSourceUID', dataSourceUID)
-            const localVarPath = `/datasources/{dataSourceUID}/cache/clean`
-                .replace(`{${"dataSourceUID"}}`, encodeURIComponent(String(dataSourceUID)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication api_key required
-            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
-
-            // authentication basic required
-            // http basic authentication required
-            setBasicAuthToObject(localVarRequestOptions, configuration)
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
          * 
          * @summary Create a recording rule that is then registered and started.
          * @param {RecordingRuleJSON} body 
@@ -25867,11 +26229,11 @@ export const EnterpriseApiAxiosParamCreator = function (configuration?: Configur
         /**
          * Available to org admins only and with a valid license.  You need to have a permission with action `reports.admin:create`.
          * @summary Create a report.
-         * @param {CreateOrUpdateReport} body 
+         * @param {CreateOrUpdateReportConfig} body 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createReport: async (body: CreateOrUpdateReport, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        createReport: async (body: CreateOrUpdateReportConfig, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'body' is not null or undefined
             assertParamExists('createReport', 'body', body)
             const localVarPath = `/reports`;
@@ -26164,86 +26526,6 @@ export const EnterpriseApiAxiosParamCreator = function (configuration?: Configur
             };
         },
         /**
-         * disable cache for a single data source
-         * @param {string} dataSourceUID 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        disableDataSourceCache: async (dataSourceUID: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'dataSourceUID' is not null or undefined
-            assertParamExists('disableDataSourceCache', 'dataSourceUID', dataSourceUID)
-            const localVarPath = `/datasources/{dataSourceUID}/cache/disable`
-                .replace(`{${"dataSourceUID"}}`, encodeURIComponent(String(dataSourceUID)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication api_key required
-            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
-
-            // authentication basic required
-            // http basic authentication required
-            setBasicAuthToObject(localVarRequestOptions, configuration)
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * enable cache for a single data source
-         * @param {string} dataSourceUID 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        enableDataSourceCache: async (dataSourceUID: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'dataSourceUID' is not null or undefined
-            assertParamExists('enableDataSourceCache', 'dataSourceUID', dataSourceUID)
-            const localVarPath = `/datasources/{dataSourceUID}/cache/enable`
-                .replace(`{${"dataSourceUID"}}`, encodeURIComponent(String(dataSourceUID)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication api_key required
-            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
-
-            // authentication basic required
-            // http basic authentication required
-            setBasicAuthToObject(localVarRequestOptions, configuration)
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
          * Returns an indicator to check if fine-grained access control is enabled or not.  You need to have a permission with action `status:accesscontrol` and scope `services:accesscontrol`.
          * @summary Get status.
          * @param {*} [options] Override http request option.
@@ -26327,46 +26609,6 @@ export const EnterpriseApiAxiosParamCreator = function (configuration?: Configur
          */
         getCustomPermissionsReport: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/licensing/custom-permissions`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication api_key required
-            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
-
-            // authentication basic required
-            // http basic authentication required
-            setBasicAuthToObject(localVarRequestOptions, configuration)
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * get cache config for a single data source
-         * @param {string} dataSourceUID 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        getDataSourceCacheConfig: async (dataSourceUID: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'dataSourceUID' is not null or undefined
-            assertParamExists('getDataSourceCacheConfig', 'dataSourceUID', dataSourceUID)
-            const localVarPath = `/datasources/{dataSourceUID}/cache`
-                .replace(`{${"dataSourceUID"}}`, encodeURIComponent(String(dataSourceUID)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -26550,7 +26792,7 @@ export const EnterpriseApiAxiosParamCreator = function (configuration?: Configur
         },
         /**
          * Available to org admins only and with a valid or expired license.  You need to have a permission with action `reports.settings:read`x.
-         * @summary Get report settings.
+         * @summary Get settings.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -26664,7 +26906,7 @@ export const EnterpriseApiAxiosParamCreator = function (configuration?: Configur
             };
         },
         /**
-         * Get role assignments for the role with the given UID. Does not include role assignments mapped through group attribute sync.  You need to have a permission with action `teams.roles:list` and scope `teams:id:*` and `users.roles:list` and scope `users:id:*`.
+         * Get role assignments for the role with the given UID.  You need to have a permission with action `teams.roles:list` and scope `teams:id:*` and `users.roles:list` and scope `users:id:*`.
          * @summary Get role assignments.
          * @param {string} roleUID 
          * @param {*} [options] Override http request option.
@@ -26749,43 +26991,6 @@ export const EnterpriseApiAxiosParamCreator = function (configuration?: Configur
          */
         getSLO: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/saml/slo`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication api_key required
-            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
-
-            // authentication basic required
-            // http basic authentication required
-            setBasicAuthToObject(localVarRequestOptions, configuration)
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * Available to org admins only and with a valid or expired license.  You need to have a permission with action `reports.settings:read`.
-         * @summary Get custom branding report image.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        getSettingsImage: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/reports/images/:image`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -26932,47 +27137,6 @@ export const EnterpriseApiAxiosParamCreator = function (configuration?: Configur
         },
         /**
          * 
-         * @summary Retrieves LBAC rules for a team.
-         * @param {string} uid 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        getTeamLBACRulesApi: async (uid: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'uid' is not null or undefined
-            assertParamExists('getTeamLBACRulesApi', 'uid', uid)
-            const localVarPath = `/datasources/uid/{uid}/lbac/teams`
-                .replace(`{${"uid"}}`, encodeURIComponent(String(uid)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication api_key required
-            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
-
-            // authentication basic required
-            // http basic authentication required
-            setBasicAuthToObject(localVarRequestOptions, configuration)
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
          * @summary Lists all rules in the database: active or deleted.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -27009,14 +27173,13 @@ export const EnterpriseApiAxiosParamCreator = function (configuration?: Configur
             };
         },
         /**
-         * Gets all existing roles. The response contains all global and organization local roles, for the organization which user is signed in.  You need to have a permission with action `roles:read` and scope `roles:*`.  The `delegatable` flag reduces the set of roles to only those for which the signed-in user has permissions to assign.
+         * Gets all existing roles. The response contains all global and organization local roles, for the organization which user is signed in.  You need to have a permission with action `roles:read` and scope `roles:*`.
          * @summary Get all roles.
          * @param {boolean} [delegatable] 
-         * @param {boolean} [includeHidden] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        listRoles: async (delegatable?: boolean, includeHidden?: boolean, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        listRoles: async (delegatable?: boolean, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/access-control/roles`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -27038,10 +27201,6 @@ export const EnterpriseApiAxiosParamCreator = function (configuration?: Configur
 
             if (delegatable !== undefined) {
                 localVarQueryParameter['delegatable'] = delegatable;
-            }
-
-            if (includeHidden !== undefined) {
-                localVarQueryParameter['includeHidden'] = includeHidden;
             }
 
 
@@ -27578,55 +27737,8 @@ export const EnterpriseApiAxiosParamCreator = function (configuration?: Configur
         },
         /**
          * Available to all users and with a valid license.
-         * @summary Download a CSV report.
-         * @param {string} [dashboards] 
-         * @param {string} [title] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        renderReportCSVs: async (dashboards?: string, title?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/reports/render/csvs`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication api_key required
-            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
-
-            // authentication basic required
-            // http basic authentication required
-            setBasicAuthToObject(localVarRequestOptions, configuration)
-
-            if (dashboards !== undefined) {
-                localVarQueryParameter['dashboards'] = dashboards;
-            }
-
-            if (title !== undefined) {
-                localVarQueryParameter['title'] = title;
-            }
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * Available to all users and with a valid license.
          * @summary Render report for multiple dashboards.
-         * @param {string} [dashboards] 
+         * @param {string} [dashboardID] 
          * @param {string} [orientation] 
          * @param {string} [layout] 
          * @param {string} [title] 
@@ -27635,7 +27747,7 @@ export const EnterpriseApiAxiosParamCreator = function (configuration?: Configur
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        renderReportPDFs: async (dashboards?: string, orientation?: string, layout?: string, title?: string, scaleFactor?: string, includeTables?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        renderReportPDFs: async (dashboardID?: string, orientation?: string, layout?: string, title?: string, scaleFactor?: string, includeTables?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/reports/render/pdfs`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -27655,8 +27767,8 @@ export const EnterpriseApiAxiosParamCreator = function (configuration?: Configur
             // http basic authentication required
             setBasicAuthToObject(localVarRequestOptions, configuration)
 
-            if (dashboards !== undefined) {
-                localVarQueryParameter['dashboards'] = dashboards;
+            if (dashboardID !== undefined) {
+                localVarQueryParameter['dashboardID'] = dashboardID;
             }
 
             if (orientation !== undefined) {
@@ -27816,60 +27928,14 @@ export const EnterpriseApiAxiosParamCreator = function (configuration?: Configur
         /**
          * Available to org admins only and with a valid license.  You need to have a permission with action `reports:send`.
          * @summary Send test report via email.
-         * @param {CreateOrUpdateReport} body 
+         * @param {CreateOrUpdateReportConfig} body 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        sendTestEmail: async (body: CreateOrUpdateReport, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        sendTestEmail: async (body: CreateOrUpdateReportConfig, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'body' is not null or undefined
             assertParamExists('sendTestEmail', 'body', body)
             const localVarPath = `/reports/test-email`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication api_key required
-            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
-
-            // authentication basic required
-            // http basic authentication required
-            setBasicAuthToObject(localVarRequestOptions, configuration)
-
-
-    
-            localVarHeaderParameter['Content-Type'] = 'application/json';
-
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(body, localVarRequestOptions, configuration)
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * set cache config for a single data source
-         * @param {string} dataSourceUID 
-         * @param {CacheConfigSetter} body 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        setDataSourceCacheConfig: async (dataSourceUID: string, body: CacheConfigSetter, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'dataSourceUID' is not null or undefined
-            assertParamExists('setDataSourceCacheConfig', 'dataSourceUID', dataSourceUID)
-            // verify required parameter 'body' is not null or undefined
-            assertParamExists('setDataSourceCacheConfig', 'body', body)
-            const localVarPath = `/datasources/{dataSourceUID}/cache`
-                .replace(`{${"dataSourceUID"}}`, encodeURIComponent(String(dataSourceUID)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -27991,7 +28057,7 @@ export const EnterpriseApiAxiosParamCreator = function (configuration?: Configur
             };
         },
         /**
-         * Update the user’s role assignments to match the provided set of UIDs. This will remove any assigned roles that aren’t in the request and add roles that are in the set but are not already assigned to the user. Roles mapped through group attribute sync are not impacted. If you want to add or remove a single role, consider using Add a user role assignment or Remove a user role assignment instead.  You need to have a permission with action `users.roles:add` and `users.roles:remove` and scope `permissions:type:delegate` for each. `permissions:type:delegate`  scope ensures that users can only assign or unassign roles which have same, or a subset of permissions which the user has. For example, if a user does not have required permissions for creating users, they won’t be able to assign or unassign a role which will allow to do that. This is done to prevent escalation of privileges.
+         * Update the user’s role assignments to match the provided set of UIDs. This will remove any assigned roles that aren’t in the request and add roles that are in the set but are not already assigned to the user. If you want to add or remove a single role, consider using Add a user role assignment or Remove a user role assignment instead.  You need to have a permission with action `users.roles:add` and `users.roles:remove` and scope `permissions:type:delegate` for each. `permissions:type:delegate`  scope ensures that users can only assign or unassign roles which have same, or a subset of permissions which the user has. For example, if a user does not have required permissions for creating users, they won’t be able to assign or unassign a role which will allow to do that. This is done to prevent escalation of privileges.
          * @summary Set user role assignments.
          * @param {number} userId 
          * @param {SetUserRolesCommand} body 
@@ -28127,11 +28193,11 @@ export const EnterpriseApiAxiosParamCreator = function (configuration?: Configur
          * Available to org admins only and with a valid or expired license.  You need to have a permission with action `reports.admin:write` with scope `reports:id:<report ID>`.
          * @summary Update a report.
          * @param {number} id 
-         * @param {CreateOrUpdateReport} body 
+         * @param {CreateOrUpdateReportConfig} body 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateReport: async (id: number, body: CreateOrUpdateReport, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        updateReport: async (id: number, body: CreateOrUpdateReportConfig, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('updateReport', 'id', id)
             // verify required parameter 'body' is not null or undefined
@@ -28185,51 +28251,6 @@ export const EnterpriseApiAxiosParamCreator = function (configuration?: Configur
             assertParamExists('updateRole', 'body', body)
             const localVarPath = `/access-control/roles/{roleUID}`
                 .replace(`{${"roleUID"}}`, encodeURIComponent(String(roleUID)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication api_key required
-            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
-
-            // authentication basic required
-            // http basic authentication required
-            setBasicAuthToObject(localVarRequestOptions, configuration)
-
-
-    
-            localVarHeaderParameter['Content-Type'] = 'application/json';
-
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(body, localVarRequestOptions, configuration)
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @summary Updates LBAC rules for a team.
-         * @param {string} uid 
-         * @param {UpdateTeamLBACCommand} [body] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        updateTeamLBACRulesApi: async (uid: string, body?: UpdateTeamLBACCommand, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'uid' is not null or undefined
-            assertParamExists('updateTeamLBACRulesApi', 'uid', uid)
-            const localVarPath = `/datasources/uid/{uid}/lbac/teams`
-                .replace(`{${"uid"}}`, encodeURIComponent(String(uid)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -28327,18 +28348,6 @@ export const EnterpriseApiFp = function(configuration?: Configuration) {
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
-         * clean cache for a single data source
-         * @param {string} dataSourceUID 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async cleanDataSourceCache(dataSourceUID: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CacheConfigResponse>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.cleanDataSourceCache(dataSourceUID, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['EnterpriseApi.cleanDataSourceCache']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
-        /**
          * 
          * @summary Create a recording rule that is then registered and started.
          * @param {RecordingRuleJSON} body 
@@ -28367,11 +28376,11 @@ export const EnterpriseApiFp = function(configuration?: Configuration) {
         /**
          * Available to org admins only and with a valid license.  You need to have a permission with action `reports.admin:create`.
          * @summary Create a report.
-         * @param {CreateOrUpdateReport} body 
+         * @param {CreateOrUpdateReportConfig} body 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async createReport(body: CreateOrUpdateReport, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CreateReport200Response>> {
+        async createReport(body: CreateOrUpdateReportConfig, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CreateReport200Response>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.createReport(body, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['EnterpriseApi.createReport']?.[localVarOperationServerIndex]?.url;
@@ -28457,30 +28466,6 @@ export const EnterpriseApiFp = function(configuration?: Configuration) {
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
-         * disable cache for a single data source
-         * @param {string} dataSourceUID 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async disableDataSourceCache(dataSourceUID: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CacheConfigResponse>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.disableDataSourceCache(dataSourceUID, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['EnterpriseApi.disableDataSourceCache']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
-        /**
-         * enable cache for a single data source
-         * @param {string} dataSourceUID 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async enableDataSourceCache(dataSourceUID: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CacheConfigResponse>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.enableDataSourceCache(dataSourceUID, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['EnterpriseApi.enableDataSourceCache']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
-        /**
          * Returns an indicator to check if fine-grained access control is enabled or not.  You need to have a permission with action `status:accesscontrol` and scope `services:accesscontrol`.
          * @summary Get status.
          * @param {*} [options] Override http request option.
@@ -28516,18 +28501,6 @@ export const EnterpriseApiFp = function(configuration?: Configuration) {
             const localVarAxiosArgs = await localVarAxiosParamCreator.getCustomPermissionsReport(options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['EnterpriseApi.getCustomPermissionsReport']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
-        /**
-         * get cache config for a single data source
-         * @param {string} dataSourceUID 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async getDataSourceCacheConfig(dataSourceUID: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CacheConfigResponse>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getDataSourceCacheConfig(dataSourceUID, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['EnterpriseApi.getDataSourceCacheConfig']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
@@ -28581,7 +28554,7 @@ export const EnterpriseApiFp = function(configuration?: Configuration) {
         },
         /**
          * Available to org admins only and with a valid or expired license.  You need to have a permission with action `reports.settings:read`x.
-         * @summary Get report settings.
+         * @summary Get settings.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -28617,7 +28590,7 @@ export const EnterpriseApiFp = function(configuration?: Configuration) {
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
-         * Get role assignments for the role with the given UID. Does not include role assignments mapped through group attribute sync.  You need to have a permission with action `teams.roles:list` and scope `teams:id:*` and `users.roles:list` and scope `users:id:*`.
+         * Get role assignments for the role with the given UID.  You need to have a permission with action `teams.roles:list` and scope `teams:id:*` and `users.roles:list` and scope `users:id:*`.
          * @summary Get role assignments.
          * @param {string} roleUID 
          * @param {*} [options] Override http request option.
@@ -28651,18 +28624,6 @@ export const EnterpriseApiFp = function(configuration?: Configuration) {
             const localVarAxiosArgs = await localVarAxiosParamCreator.getSLO(options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['EnterpriseApi.getSLO']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
-        /**
-         * Available to org admins only and with a valid or expired license.  You need to have a permission with action `reports.settings:read`.
-         * @summary Get custom branding report image.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async getSettingsImage(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<number>>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getSettingsImage(options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['EnterpriseApi.getSettingsImage']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
@@ -28704,19 +28665,6 @@ export const EnterpriseApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
-         * @summary Retrieves LBAC rules for a team.
-         * @param {string} uid 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async getTeamLBACRulesApi(uid: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<TeamLBACRules>>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getTeamLBACRulesApi(uid, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['EnterpriseApi.getTeamLBACRulesApi']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
-        /**
-         * 
          * @summary Lists all rules in the database: active or deleted.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -28728,15 +28676,14 @@ export const EnterpriseApiFp = function(configuration?: Configuration) {
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
-         * Gets all existing roles. The response contains all global and organization local roles, for the organization which user is signed in.  You need to have a permission with action `roles:read` and scope `roles:*`.  The `delegatable` flag reduces the set of roles to only those for which the signed-in user has permissions to assign.
+         * Gets all existing roles. The response contains all global and organization local roles, for the organization which user is signed in.  You need to have a permission with action `roles:read` and scope `roles:*`.
          * @summary Get all roles.
          * @param {boolean} [delegatable] 
-         * @param {boolean} [includeHidden] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async listRoles(delegatable?: boolean, includeHidden?: boolean, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<RoleDTO>>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.listRoles(delegatable, includeHidden, options);
+        async listRoles(delegatable?: boolean, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<RoleDTO>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.listRoles(delegatable, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['EnterpriseApi.listRoles']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -28903,22 +28850,8 @@ export const EnterpriseApiFp = function(configuration?: Configuration) {
         },
         /**
          * Available to all users and with a valid license.
-         * @summary Download a CSV report.
-         * @param {string} [dashboards] 
-         * @param {string} [title] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async renderReportCSVs(dashboards?: string, title?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<number>>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.renderReportCSVs(dashboards, title, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['EnterpriseApi.renderReportCSVs']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
-        /**
-         * Available to all users and with a valid license.
          * @summary Render report for multiple dashboards.
-         * @param {string} [dashboards] 
+         * @param {string} [dashboardID] 
          * @param {string} [orientation] 
          * @param {string} [layout] 
          * @param {string} [title] 
@@ -28927,8 +28860,8 @@ export const EnterpriseApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async renderReportPDFs(dashboards?: string, orientation?: string, layout?: string, title?: string, scaleFactor?: string, includeTables?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<number>>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.renderReportPDFs(dashboards, orientation, layout, title, scaleFactor, includeTables, options);
+        async renderReportPDFs(dashboardID?: string, orientation?: string, layout?: string, title?: string, scaleFactor?: string, includeTables?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<number>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.renderReportPDFs(dashboardID, orientation, layout, title, scaleFactor, includeTables, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['EnterpriseApi.renderReportPDFs']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -28974,27 +28907,14 @@ export const EnterpriseApiFp = function(configuration?: Configuration) {
         /**
          * Available to org admins only and with a valid license.  You need to have a permission with action `reports:send`.
          * @summary Send test report via email.
-         * @param {CreateOrUpdateReport} body 
+         * @param {CreateOrUpdateReportConfig} body 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sendTestEmail(body: CreateOrUpdateReport, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<SuccessResponseBody>> {
+        async sendTestEmail(body: CreateOrUpdateReportConfig, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<SuccessResponseBody>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.sendTestEmail(body, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['EnterpriseApi.sendTestEmail']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
-        /**
-         * set cache config for a single data source
-         * @param {string} dataSourceUID 
-         * @param {CacheConfigSetter} body 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async setDataSourceCacheConfig(dataSourceUID: string, body: CacheConfigSetter, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CacheConfigResponse>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.setDataSourceCacheConfig(dataSourceUID, body, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['EnterpriseApi.setDataSourceCacheConfig']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
@@ -29025,7 +28945,7 @@ export const EnterpriseApiFp = function(configuration?: Configuration) {
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
-         * Update the user’s role assignments to match the provided set of UIDs. This will remove any assigned roles that aren’t in the request and add roles that are in the set but are not already assigned to the user. Roles mapped through group attribute sync are not impacted. If you want to add or remove a single role, consider using Add a user role assignment or Remove a user role assignment instead.  You need to have a permission with action `users.roles:add` and `users.roles:remove` and scope `permissions:type:delegate` for each. `permissions:type:delegate`  scope ensures that users can only assign or unassign roles which have same, or a subset of permissions which the user has. For example, if a user does not have required permissions for creating users, they won’t be able to assign or unassign a role which will allow to do that. This is done to prevent escalation of privileges.
+         * Update the user’s role assignments to match the provided set of UIDs. This will remove any assigned roles that aren’t in the request and add roles that are in the set but are not already assigned to the user. If you want to add or remove a single role, consider using Add a user role assignment or Remove a user role assignment instead.  You need to have a permission with action `users.roles:add` and `users.roles:remove` and scope `permissions:type:delegate` for each. `permissions:type:delegate`  scope ensures that users can only assign or unassign roles which have same, or a subset of permissions which the user has. For example, if a user does not have required permissions for creating users, they won’t be able to assign or unassign a role which will allow to do that. This is done to prevent escalation of privileges.
          * @summary Set user role assignments.
          * @param {number} userId 
          * @param {SetUserRolesCommand} body 
@@ -29068,11 +28988,11 @@ export const EnterpriseApiFp = function(configuration?: Configuration) {
          * Available to org admins only and with a valid or expired license.  You need to have a permission with action `reports.admin:write` with scope `reports:id:<report ID>`.
          * @summary Update a report.
          * @param {number} id 
-         * @param {CreateOrUpdateReport} body 
+         * @param {CreateOrUpdateReportConfig} body 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async updateReport(id: number, body: CreateOrUpdateReport, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<SuccessResponseBody>> {
+        async updateReport(id: number, body: CreateOrUpdateReportConfig, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<SuccessResponseBody>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.updateReport(id, body, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['EnterpriseApi.updateReport']?.[localVarOperationServerIndex]?.url;
@@ -29092,20 +29012,6 @@ export const EnterpriseApiFp = function(configuration?: Configuration) {
             const localVarOperationServerBasePath = operationServerMap['EnterpriseApi.updateRole']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
-        /**
-         * 
-         * @summary Updates LBAC rules for a team.
-         * @param {string} uid 
-         * @param {UpdateTeamLBACCommand} [body] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async updateTeamLBACRulesApi(uid: string, body?: UpdateTeamLBACCommand, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UpdateTeamLBACRulesApi200Response>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.updateTeamLBACRulesApi(uid, body, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['EnterpriseApi.updateTeamLBACRulesApi']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
     }
 };
 
@@ -29119,35 +29025,32 @@ export const EnterpriseApiFactory = function (configuration?: Configuration, bas
         /**
          * 
          * @summary Add External Group.
-         * @param {number} teamId 
-         * @param {TeamGroupMapping} body 
+         * @param {EnterpriseApiAddTeamGroupApiRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        addTeamGroupApi(teamId: number, body: TeamGroupMapping, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
-            return localVarFp.addTeamGroupApi(teamId, body, options).then((request) => request(axios, basePath));
+        addTeamGroupApi(requestParameters: EnterpriseApiAddTeamGroupApiRequest, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
+            return localVarFp.addTeamGroupApi(requestParameters.teamId, requestParameters.body, options).then((request) => request(axios, basePath));
         },
         /**
          * You need to have a permission with action `teams.roles:add` and scope `permissions:type:delegate`.
          * @summary Add team role.
-         * @param {number} teamId 
-         * @param {AddTeamRoleCommand} body 
+         * @param {EnterpriseApiAddTeamRoleRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        addTeamRole(teamId: number, body: AddTeamRoleCommand, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
-            return localVarFp.addTeamRole(teamId, body, options).then((request) => request(axios, basePath));
+        addTeamRole(requestParameters: EnterpriseApiAddTeamRoleRequest, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
+            return localVarFp.addTeamRole(requestParameters.teamId, requestParameters.body, options).then((request) => request(axios, basePath));
         },
         /**
          * Assign a role to a specific user. For bulk updates consider Set user role assignments.  You need to have a permission with action `users.roles:add` and scope `permissions:type:delegate`. `permissions:type:delegate` scope ensures that users can only assign roles which have same, or a subset of permissions which the user has. For example, if a user does not have required permissions for creating users, they won’t be able to assign a role which will allow to do that. This is done to prevent escalation of privileges.
          * @summary Add a user role assignment.
-         * @param {number} userId 
-         * @param {AddUserRoleCommand} body 
+         * @param {EnterpriseApiAddUserRoleRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        addUserRole(userId: number, body: AddUserRoleCommand, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
-            return localVarFp.addUserRole(userId, body, options).then((request) => request(axios, basePath));
+        addUserRole(requestParameters: EnterpriseApiAddUserRoleRequest, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
+            return localVarFp.addUserRole(requestParameters.userId, requestParameters.body, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -29159,73 +29062,64 @@ export const EnterpriseApiFactory = function (configuration?: Configuration, bas
             return localVarFp.adminProvisioningReloadAccessControl(options).then((request) => request(axios, basePath));
         },
         /**
-         * clean cache for a single data source
-         * @param {string} dataSourceUID 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        cleanDataSourceCache(dataSourceUID: string, options?: RawAxiosRequestConfig): AxiosPromise<CacheConfigResponse> {
-            return localVarFp.cleanDataSourceCache(dataSourceUID, options).then((request) => request(axios, basePath));
-        },
-        /**
          * 
          * @summary Create a recording rule that is then registered and started.
-         * @param {RecordingRuleJSON} body 
+         * @param {EnterpriseApiCreateRecordingRuleRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createRecordingRule(body: RecordingRuleJSON, options?: RawAxiosRequestConfig): AxiosPromise<RecordingRuleJSON> {
-            return localVarFp.createRecordingRule(body, options).then((request) => request(axios, basePath));
+        createRecordingRule(requestParameters: EnterpriseApiCreateRecordingRuleRequest, options?: RawAxiosRequestConfig): AxiosPromise<RecordingRuleJSON> {
+            return localVarFp.createRecordingRule(requestParameters.body, options).then((request) => request(axios, basePath));
         },
         /**
          * It returns a 422 if there is not an existing prometheus data source configured.
          * @summary Create a remote write target.
-         * @param {PrometheusRemoteWriteTargetJSON} body 
+         * @param {EnterpriseApiCreateRecordingRuleWriteTargetRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createRecordingRuleWriteTarget(body: PrometheusRemoteWriteTargetJSON, options?: RawAxiosRequestConfig): AxiosPromise<PrometheusRemoteWriteTargetJSON> {
-            return localVarFp.createRecordingRuleWriteTarget(body, options).then((request) => request(axios, basePath));
+        createRecordingRuleWriteTarget(requestParameters: EnterpriseApiCreateRecordingRuleWriteTargetRequest, options?: RawAxiosRequestConfig): AxiosPromise<PrometheusRemoteWriteTargetJSON> {
+            return localVarFp.createRecordingRuleWriteTarget(requestParameters.body, options).then((request) => request(axios, basePath));
         },
         /**
          * Available to org admins only and with a valid license.  You need to have a permission with action `reports.admin:create`.
          * @summary Create a report.
-         * @param {CreateOrUpdateReport} body 
+         * @param {EnterpriseApiCreateReportRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createReport(body: CreateOrUpdateReport, options?: RawAxiosRequestConfig): AxiosPromise<CreateReport200Response> {
-            return localVarFp.createReport(body, options).then((request) => request(axios, basePath));
+        createReport(requestParameters: EnterpriseApiCreateReportRequest, options?: RawAxiosRequestConfig): AxiosPromise<CreateReport200Response> {
+            return localVarFp.createReport(requestParameters.body, options).then((request) => request(axios, basePath));
         },
         /**
          * Creates a new custom role and maps given permissions to that role. Note that roles with the same prefix as Fixed Roles can’t be created.  You need to have a permission with action `roles:write` and scope `permissions:type:delegate`. `permissions:type:delegate` scope ensures that users can only create custom roles with the same, or a subset of permissions which the user has. For example, if a user does not have required permissions for creating users, they won’t be able to create a custom role which allows to do that. This is done to prevent escalation of privileges.
          * @summary Create a new custom role.
-         * @param {CreateRoleForm} body 
+         * @param {EnterpriseApiCreateRoleRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createRole(body: CreateRoleForm, options?: RawAxiosRequestConfig): AxiosPromise<RoleDTO> {
-            return localVarFp.createRole(body, options).then((request) => request(axios, basePath));
+        createRole(requestParameters: EnterpriseApiCreateRoleRequest, options?: RawAxiosRequestConfig): AxiosPromise<RoleDTO> {
+            return localVarFp.createRole(requestParameters.body, options).then((request) => request(axios, basePath));
         },
         /**
          * Removes the license stored in the Grafana database. Available in Grafana Enterprise v7.4+.  You need to have a permission with action `licensing:delete`.
          * @summary Remove license from database.
-         * @param {DeleteTokenCommand} body 
+         * @param {EnterpriseApiDeleteLicenseTokenRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        deleteLicenseToken(body: DeleteTokenCommand, options?: RawAxiosRequestConfig): AxiosPromise<ErrorResponseBody> {
-            return localVarFp.deleteLicenseToken(body, options).then((request) => request(axios, basePath));
+        deleteLicenseToken(requestParameters: EnterpriseApiDeleteLicenseTokenRequest, options?: RawAxiosRequestConfig): AxiosPromise<ErrorResponseBody> {
+            return localVarFp.deleteLicenseToken(requestParameters.body, options).then((request) => request(axios, basePath));
         },
         /**
          * 
          * @summary Delete removes the rule from the registry and stops it.
-         * @param {number} recordingRuleID 
+         * @param {EnterpriseApiDeleteRecordingRuleRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        deleteRecordingRule(recordingRuleID: number, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
-            return localVarFp.deleteRecordingRule(recordingRuleID, options).then((request) => request(axios, basePath));
+        deleteRecordingRule(requestParameters: EnterpriseApiDeleteRecordingRuleRequest, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
+            return localVarFp.deleteRecordingRule(requestParameters.recordingRuleID, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -29239,42 +29133,22 @@ export const EnterpriseApiFactory = function (configuration?: Configuration, bas
         /**
          * Available to org admins only and with a valid or expired license.  You need to have a permission with action `reports.delete` with scope `reports:id:<report ID>`.
          * @summary Delete a report.
-         * @param {number} id 
+         * @param {EnterpriseApiDeleteReportRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        deleteReport(id: number, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
-            return localVarFp.deleteReport(id, options).then((request) => request(axios, basePath));
+        deleteReport(requestParameters: EnterpriseApiDeleteReportRequest, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
+            return localVarFp.deleteReport(requestParameters.id, options).then((request) => request(axios, basePath));
         },
         /**
          * Delete a role with the given UID, and it’s permissions. If the role is assigned to a built-in role, the deletion operation will fail, unless force query param is set to true, and in that case all assignments will also be deleted.  You need to have a permission with action `roles:delete` and scope `permissions:type:delegate`. `permissions:type:delegate` scope ensures that users can only delete a custom role with the same, or a subset of permissions which the user has. For example, if a user does not have required permissions for creating users, they won’t be able to delete a custom role which allows to do that.
          * @summary Delete a custom role.
-         * @param {string} roleUID 
-         * @param {boolean} [force] 
-         * @param {boolean} [global] 
+         * @param {EnterpriseApiDeleteRoleRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        deleteRole(roleUID: string, force?: boolean, global?: boolean, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
-            return localVarFp.deleteRole(roleUID, force, global, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * disable cache for a single data source
-         * @param {string} dataSourceUID 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        disableDataSourceCache(dataSourceUID: string, options?: RawAxiosRequestConfig): AxiosPromise<CacheConfigResponse> {
-            return localVarFp.disableDataSourceCache(dataSourceUID, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * enable cache for a single data source
-         * @param {string} dataSourceUID 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        enableDataSourceCache(dataSourceUID: string, options?: RawAxiosRequestConfig): AxiosPromise<CacheConfigResponse> {
-            return localVarFp.enableDataSourceCache(dataSourceUID, options).then((request) => request(axios, basePath));
+        deleteRole(requestParameters: EnterpriseApiDeleteRoleRequest, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
+            return localVarFp.deleteRole(requestParameters.roleUID, requestParameters.force, requestParameters.global, options).then((request) => request(axios, basePath));
         },
         /**
          * Returns an indicator to check if fine-grained access control is enabled or not.  You need to have a permission with action `status:accesscontrol` and scope `services:accesscontrol`.
@@ -29306,15 +29180,6 @@ export const EnterpriseApiFactory = function (configuration?: Configuration, bas
             return localVarFp.getCustomPermissionsReport(options).then((request) => request(axios, basePath));
         },
         /**
-         * get cache config for a single data source
-         * @param {string} dataSourceUID 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        getDataSourceCacheConfig(dataSourceUID: string, options?: RawAxiosRequestConfig): AxiosPromise<CacheConfigResponse> {
-            return localVarFp.getDataSourceCacheConfig(dataSourceUID, options).then((request) => request(axios, basePath));
-        },
-        /**
          * You need to have a permission with action `licensing:read`.
          * @summary Get license token.
          * @param {*} [options] Override http request option.
@@ -29344,16 +29209,16 @@ export const EnterpriseApiFactory = function (configuration?: Configuration, bas
         /**
          * Available to org admins only and with a valid or expired license.  You need to have a permission with action `reports:read` with scope `reports:id:<report ID>`.
          * @summary Get a report.
-         * @param {number} id 
+         * @param {EnterpriseApiGetReportRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getReport(id: number, options?: RawAxiosRequestConfig): AxiosPromise<Report> {
-            return localVarFp.getReport(id, options).then((request) => request(axios, basePath));
+        getReport(requestParameters: EnterpriseApiGetReportRequest, options?: RawAxiosRequestConfig): AxiosPromise<Report> {
+            return localVarFp.getReport(requestParameters.id, options).then((request) => request(axios, basePath));
         },
         /**
          * Available to org admins only and with a valid or expired license.  You need to have a permission with action `reports.settings:read`x.
-         * @summary Get report settings.
+         * @summary Get settings.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -29372,22 +29237,22 @@ export const EnterpriseApiFactory = function (configuration?: Configuration, bas
         /**
          * Get a role for the given UID.  You need to have a permission with action `roles:read` and scope `roles:*`.
          * @summary Get a role.
-         * @param {string} roleUID 
+         * @param {EnterpriseApiGetRoleRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getRole(roleUID: string, options?: RawAxiosRequestConfig): AxiosPromise<RoleDTO> {
-            return localVarFp.getRole(roleUID, options).then((request) => request(axios, basePath));
+        getRole(requestParameters: EnterpriseApiGetRoleRequest, options?: RawAxiosRequestConfig): AxiosPromise<RoleDTO> {
+            return localVarFp.getRole(requestParameters.roleUID, options).then((request) => request(axios, basePath));
         },
         /**
-         * Get role assignments for the role with the given UID. Does not include role assignments mapped through group attribute sync.  You need to have a permission with action `teams.roles:list` and scope `teams:id:*` and `users.roles:list` and scope `users:id:*`.
+         * Get role assignments for the role with the given UID.  You need to have a permission with action `teams.roles:list` and scope `teams:id:*` and `users.roles:list` and scope `users:id:*`.
          * @summary Get role assignments.
-         * @param {string} roleUID 
+         * @param {EnterpriseApiGetRoleAssignmentsRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getRoleAssignments(roleUID: string, options?: RawAxiosRequestConfig): AxiosPromise<RoleAssignmentsDTO> {
-            return localVarFp.getRoleAssignments(roleUID, options).then((request) => request(axios, basePath));
+        getRoleAssignments(requestParameters: EnterpriseApiGetRoleAssignmentsRequest, options?: RawAxiosRequestConfig): AxiosPromise<RoleAssignmentsDTO> {
+            return localVarFp.getRoleAssignments(requestParameters.roleUID, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -29406,15 +29271,6 @@ export const EnterpriseApiFactory = function (configuration?: Configuration, bas
          */
         getSLO(options?: RawAxiosRequestConfig): AxiosPromise<void> {
             return localVarFp.getSLO(options).then((request) => request(axios, basePath));
-        },
-        /**
-         * Available to org admins only and with a valid or expired license.  You need to have a permission with action `reports.settings:read`.
-         * @summary Get custom branding report image.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        getSettingsImage(options?: RawAxiosRequestConfig): AxiosPromise<Array<number>> {
-            return localVarFp.getSettingsImage(options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -29437,22 +29293,12 @@ export const EnterpriseApiFactory = function (configuration?: Configuration, bas
         /**
          * 
          * @summary Get External Groups.
-         * @param {number} teamId 
+         * @param {EnterpriseApiGetTeamGroupsApiRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getTeamGroupsApi(teamId: number, options?: RawAxiosRequestConfig): AxiosPromise<Array<TeamGroupDTO>> {
-            return localVarFp.getTeamGroupsApi(teamId, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @summary Retrieves LBAC rules for a team.
-         * @param {string} uid 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        getTeamLBACRulesApi(uid: string, options?: RawAxiosRequestConfig): AxiosPromise<Array<TeamLBACRules>> {
-            return localVarFp.getTeamLBACRulesApi(uid, options).then((request) => request(axios, basePath));
+        getTeamGroupsApi(requestParameters: EnterpriseApiGetTeamGroupsApiRequest, options?: RawAxiosRequestConfig): AxiosPromise<Array<TeamGroupDTO>> {
+            return localVarFp.getTeamGroupsApi(requestParameters.teamId, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -29464,96 +29310,94 @@ export const EnterpriseApiFactory = function (configuration?: Configuration, bas
             return localVarFp.listRecordingRules(options).then((request) => request(axios, basePath));
         },
         /**
-         * Gets all existing roles. The response contains all global and organization local roles, for the organization which user is signed in.  You need to have a permission with action `roles:read` and scope `roles:*`.  The `delegatable` flag reduces the set of roles to only those for which the signed-in user has permissions to assign.
+         * Gets all existing roles. The response contains all global and organization local roles, for the organization which user is signed in.  You need to have a permission with action `roles:read` and scope `roles:*`.
          * @summary Get all roles.
-         * @param {boolean} [delegatable] 
-         * @param {boolean} [includeHidden] 
+         * @param {EnterpriseApiListRolesRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        listRoles(delegatable?: boolean, includeHidden?: boolean, options?: RawAxiosRequestConfig): AxiosPromise<Array<RoleDTO>> {
-            return localVarFp.listRoles(delegatable, includeHidden, options).then((request) => request(axios, basePath));
+        listRoles(requestParameters: EnterpriseApiListRolesRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<Array<RoleDTO>> {
+            return localVarFp.listRoles(requestParameters.delegatable, options).then((request) => request(axios, basePath));
         },
         /**
          * You need to have a permission with action `teams.roles:read` and scope `teams:id:<team ID>`.
          * @summary Get team roles.
-         * @param {number} teamId 
+         * @param {EnterpriseApiListTeamRolesRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        listTeamRoles(teamId: number, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
-            return localVarFp.listTeamRoles(teamId, options).then((request) => request(axios, basePath));
+        listTeamRoles(requestParameters: EnterpriseApiListTeamRolesRequest, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
+            return localVarFp.listTeamRoles(requestParameters.teamId, options).then((request) => request(axios, basePath));
         },
         /**
          * Lists the roles that have been directly assigned to the given teams.  You need to have a permission with action `teams.roles:read` and scope `teams:id:*`.
          * @summary List roles assigned to multiple teams.
-         * @param {RolesSearchQuery} body 
+         * @param {EnterpriseApiListTeamsRolesRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        listTeamsRoles(body: RolesSearchQuery, options?: RawAxiosRequestConfig): AxiosPromise<{ [key: string]: Array<RoleDTO>; }> {
-            return localVarFp.listTeamsRoles(body, options).then((request) => request(axios, basePath));
+        listTeamsRoles(requestParameters: EnterpriseApiListTeamsRolesRequest, options?: RawAxiosRequestConfig): AxiosPromise<{ [key: string]: Array<RoleDTO>; }> {
+            return localVarFp.listTeamsRoles(requestParameters.body, options).then((request) => request(axios, basePath));
         },
         /**
          * Lists the roles that have been directly assigned to a given user. The list does not include built-in roles (Viewer, Editor, Admin or Grafana Admin), and it does not include roles that have been inherited from a team.  You need to have a permission with action `users.roles:read` and scope `users:id:<user ID>`.
          * @summary List roles assigned to a user.
-         * @param {number} userId 
+         * @param {EnterpriseApiListUserRolesRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        listUserRoles(userId: number, options?: RawAxiosRequestConfig): AxiosPromise<Array<RoleDTO>> {
-            return localVarFp.listUserRoles(userId, options).then((request) => request(axios, basePath));
+        listUserRoles(requestParameters: EnterpriseApiListUserRolesRequest, options?: RawAxiosRequestConfig): AxiosPromise<Array<RoleDTO>> {
+            return localVarFp.listUserRoles(requestParameters.userId, options).then((request) => request(axios, basePath));
         },
         /**
          * Lists the roles that have been directly assigned to the given users. The list does not include built-in roles (Viewer, Editor, Admin or Grafana Admin), and it does not include roles that have been inherited from a team.  You need to have a permission with action `users.roles:read` and scope `users:id:*`.
          * @summary List roles assigned to multiple users.
-         * @param {RolesSearchQuery} body 
+         * @param {EnterpriseApiListUsersRolesRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        listUsersRoles(body: RolesSearchQuery, options?: RawAxiosRequestConfig): AxiosPromise<{ [key: string]: Array<RoleDTO>; }> {
-            return localVarFp.listUsersRoles(body, options).then((request) => request(axios, basePath));
+        listUsersRoles(requestParameters: EnterpriseApiListUsersRolesRequest, options?: RawAxiosRequestConfig): AxiosPromise<{ [key: string]: Array<RoleDTO>; }> {
+            return localVarFp.listUsersRoles(requestParameters.body, options).then((request) => request(axios, basePath));
         },
         /**
          * 
          * @summary It performs Assertion Consumer Service (ACS).
-         * @param {string} [relayState] 
+         * @param {EnterpriseApiPostACSRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        postACS(relayState?: string, options?: RawAxiosRequestConfig): AxiosPromise<void> {
-            return localVarFp.postACS(relayState, options).then((request) => request(axios, basePath));
+        postACS(requestParameters: EnterpriseApiPostACSRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<void> {
+            return localVarFp.postACS(requestParameters.relayState, options).then((request) => request(axios, basePath));
         },
         /**
          * You need to have a permission with action `licensing:update`.
          * @summary Create license token.
-         * @param {DeleteTokenCommand} body 
+         * @param {EnterpriseApiPostLicenseTokenRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        postLicenseToken(body: DeleteTokenCommand, options?: RawAxiosRequestConfig): AxiosPromise<Token> {
-            return localVarFp.postLicenseToken(body, options).then((request) => request(axios, basePath));
+        postLicenseToken(requestParameters: EnterpriseApiPostLicenseTokenRequest, options?: RawAxiosRequestConfig): AxiosPromise<Token> {
+            return localVarFp.postLicenseToken(requestParameters.body, options).then((request) => request(axios, basePath));
         },
         /**
          * Manually ask license issuer for a new token. Available in Grafana Enterprise v7.4+.  You need to have a permission with action `licensing:update`.
          * @summary Manually force license refresh.
-         * @param {object} body 
+         * @param {EnterpriseApiPostRenewLicenseTokenRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        postRenewLicenseToken(body: object, options?: RawAxiosRequestConfig): AxiosPromise<void> {
-            return localVarFp.postRenewLicenseToken(body, options).then((request) => request(axios, basePath));
+        postRenewLicenseToken(requestParameters: EnterpriseApiPostRenewLicenseTokenRequest, options?: RawAxiosRequestConfig): AxiosPromise<void> {
+            return localVarFp.postRenewLicenseToken(requestParameters.body, options).then((request) => request(axios, basePath));
         },
         /**
          * There might be two possible requests: 1. Logout response (callback) when Grafana initiates single logout and IdP returns response to logout request. 2. Logout request when another SP initiates single logout and IdP sends logout request to the Grafana, or in case of IdP-initiated logout.
          * @summary It performs Single Logout (SLO) callback.
-         * @param {string} [sAMLRequest] 
-         * @param {string} [sAMLResponse] 
+         * @param {EnterpriseApiPostSLORequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        postSLO(sAMLRequest?: string, sAMLResponse?: string, options?: RawAxiosRequestConfig): AxiosPromise<void> {
-            return localVarFp.postSLO(sAMLRequest, sAMLResponse, options).then((request) => request(axios, basePath));
+        postSLO(requestParameters: EnterpriseApiPostSLORequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<void> {
+            return localVarFp.postSLO(requestParameters.sAMLRequest, requestParameters.sAMLResponse, options).then((request) => request(axios, basePath));
         },
         /**
          * You need to have a permission with action `licensing:read`.
@@ -29567,72 +29411,52 @@ export const EnterpriseApiFactory = function (configuration?: Configuration, bas
         /**
          * 
          * @summary Remove External Group.
-         * @param {number} teamId 
-         * @param {string} [groupId] 
+         * @param {EnterpriseApiRemoveTeamGroupApiQueryRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        removeTeamGroupApiQuery(teamId: number, groupId?: string, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
-            return localVarFp.removeTeamGroupApiQuery(teamId, groupId, options).then((request) => request(axios, basePath));
+        removeTeamGroupApiQuery(requestParameters: EnterpriseApiRemoveTeamGroupApiQueryRequest, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
+            return localVarFp.removeTeamGroupApiQuery(requestParameters.teamId, requestParameters.groupId, options).then((request) => request(axios, basePath));
         },
         /**
          * You need to have a permission with action `teams.roles:remove` and scope `permissions:type:delegate`.
          * @summary Remove team role.
-         * @param {string} roleUID 
-         * @param {number} teamId 
+         * @param {EnterpriseApiRemoveTeamRoleRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        removeTeamRole(roleUID: string, teamId: number, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
-            return localVarFp.removeTeamRole(roleUID, teamId, options).then((request) => request(axios, basePath));
+        removeTeamRole(requestParameters: EnterpriseApiRemoveTeamRoleRequest, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
+            return localVarFp.removeTeamRole(requestParameters.roleUID, requestParameters.teamId, options).then((request) => request(axios, basePath));
         },
         /**
          * Revoke a role from a user. For bulk updates consider Set user role assignments.  You need to have a permission with action `users.roles:remove` and scope `permissions:type:delegate`. `permissions:type:delegate` scope ensures that users can only unassign roles which have same, or a subset of permissions which the user has. For example, if a user does not have required permissions for creating users, they won’t be able to unassign a role which will allow to do that. This is done to prevent escalation of privileges.
          * @summary Remove a user role assignment.
-         * @param {string} roleUID 
-         * @param {number} userId 
-         * @param {boolean} [global] A flag indicating if the assignment is global or not. If set to false, the default org ID of the authenticated user will be used from the request to remove assignment.
+         * @param {EnterpriseApiRemoveUserRoleRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        removeUserRole(roleUID: string, userId: number, global?: boolean, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
-            return localVarFp.removeUserRole(roleUID, userId, global, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * Available to all users and with a valid license.
-         * @summary Download a CSV report.
-         * @param {string} [dashboards] 
-         * @param {string} [title] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        renderReportCSVs(dashboards?: string, title?: string, options?: RawAxiosRequestConfig): AxiosPromise<Array<number>> {
-            return localVarFp.renderReportCSVs(dashboards, title, options).then((request) => request(axios, basePath));
+        removeUserRole(requestParameters: EnterpriseApiRemoveUserRoleRequest, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
+            return localVarFp.removeUserRole(requestParameters.roleUID, requestParameters.userId, requestParameters.global, options).then((request) => request(axios, basePath));
         },
         /**
          * Available to all users and with a valid license.
          * @summary Render report for multiple dashboards.
-         * @param {string} [dashboards] 
-         * @param {string} [orientation] 
-         * @param {string} [layout] 
-         * @param {string} [title] 
-         * @param {string} [scaleFactor] 
-         * @param {string} [includeTables] 
+         * @param {EnterpriseApiRenderReportPDFsRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        renderReportPDFs(dashboards?: string, orientation?: string, layout?: string, title?: string, scaleFactor?: string, includeTables?: string, options?: RawAxiosRequestConfig): AxiosPromise<Array<number>> {
-            return localVarFp.renderReportPDFs(dashboards, orientation, layout, title, scaleFactor, includeTables, options).then((request) => request(axios, basePath));
+        renderReportPDFs(requestParameters: EnterpriseApiRenderReportPDFsRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<Array<number>> {
+            return localVarFp.renderReportPDFs(requestParameters.dashboardID, requestParameters.orientation, requestParameters.layout, requestParameters.title, requestParameters.scaleFactor, requestParameters.includeTables, options).then((request) => request(axios, basePath));
         },
         /**
          * Available to org admins only and with a valid or expired license.  You need to have a permission with action `reports.settings:write`xx.
          * @summary Save settings.
-         * @param {ReportSettings} body 
+         * @param {EnterpriseApiSaveReportSettingsRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        saveReportSettings(body: ReportSettings, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
-            return localVarFp.saveReportSettings(body, options).then((request) => request(axios, basePath));
+        saveReportSettings(requestParameters: EnterpriseApiSaveReportSettingsRequest, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
+            return localVarFp.saveReportSettings(requestParameters.body, options).then((request) => request(axios, basePath));
         },
         /**
          * Returns the result of the search through access-control role assignments.  You need to have a permission with action `teams.roles:read` on scope `teams:*` and a permission with action `users.roles:read` on scope `users:*`.
@@ -29646,120 +29470,760 @@ export const EnterpriseApiFactory = function (configuration?: Configuration, bas
         /**
          * Generate and send a report. This API waits for the report to be generated before returning. We recommend that you set the client’s timeout to at least 60 seconds. Available to org admins only and with a valid license.  Only available in Grafana Enterprise v7.0+. This API endpoint is experimental and may be deprecated in a future release. On deprecation, a migration strategy will be provided and the endpoint will remain functional until the next major release of Grafana.  You need to have a permission with action `reports:send`.
          * @summary Send a report.
-         * @param {ReportEmail} body 
+         * @param {EnterpriseApiSendReportRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        sendReport(body: ReportEmail, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
-            return localVarFp.sendReport(body, options).then((request) => request(axios, basePath));
+        sendReport(requestParameters: EnterpriseApiSendReportRequest, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
+            return localVarFp.sendReport(requestParameters.body, options).then((request) => request(axios, basePath));
         },
         /**
          * Available to org admins only and with a valid license.  You need to have a permission with action `reports:send`.
          * @summary Send test report via email.
-         * @param {CreateOrUpdateReport} body 
+         * @param {EnterpriseApiSendTestEmailRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        sendTestEmail(body: CreateOrUpdateReport, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
-            return localVarFp.sendTestEmail(body, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * set cache config for a single data source
-         * @param {string} dataSourceUID 
-         * @param {CacheConfigSetter} body 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        setDataSourceCacheConfig(dataSourceUID: string, body: CacheConfigSetter, options?: RawAxiosRequestConfig): AxiosPromise<CacheConfigResponse> {
-            return localVarFp.setDataSourceCacheConfig(dataSourceUID, body, options).then((request) => request(axios, basePath));
+        sendTestEmail(requestParameters: EnterpriseApiSendTestEmailRequest, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
+            return localVarFp.sendTestEmail(requestParameters.body, options).then((request) => request(axios, basePath));
         },
         /**
          * Set role assignments for the role with the given UID.  You need to have a permission with action `teams.roles:add` and `teams.roles:remove` and scope `permissions:type:delegate`, and `users.roles:add` and `users.roles:remove` and scope `permissions:type:delegate`.
          * @summary Set role assignments.
-         * @param {string} roleUID 
-         * @param {SetRoleAssignmentsCommand} body 
+         * @param {EnterpriseApiSetRoleAssignmentsRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        setRoleAssignments(roleUID: string, body: SetRoleAssignmentsCommand, options?: RawAxiosRequestConfig): AxiosPromise<RoleAssignmentsDTO> {
-            return localVarFp.setRoleAssignments(roleUID, body, options).then((request) => request(axios, basePath));
+        setRoleAssignments(requestParameters: EnterpriseApiSetRoleAssignmentsRequest, options?: RawAxiosRequestConfig): AxiosPromise<RoleAssignmentsDTO> {
+            return localVarFp.setRoleAssignments(requestParameters.roleUID, requestParameters.body, options).then((request) => request(axios, basePath));
         },
         /**
          * You need to have a permission with action `teams.roles:add` and `teams.roles:remove` and scope `permissions:type:delegate` for each.
          * @summary Update team role.
-         * @param {number} teamId 
+         * @param {EnterpriseApiSetTeamRolesRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        setTeamRoles(teamId: number, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
-            return localVarFp.setTeamRoles(teamId, options).then((request) => request(axios, basePath));
+        setTeamRoles(requestParameters: EnterpriseApiSetTeamRolesRequest, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
+            return localVarFp.setTeamRoles(requestParameters.teamId, options).then((request) => request(axios, basePath));
         },
         /**
-         * Update the user’s role assignments to match the provided set of UIDs. This will remove any assigned roles that aren’t in the request and add roles that are in the set but are not already assigned to the user. Roles mapped through group attribute sync are not impacted. If you want to add or remove a single role, consider using Add a user role assignment or Remove a user role assignment instead.  You need to have a permission with action `users.roles:add` and `users.roles:remove` and scope `permissions:type:delegate` for each. `permissions:type:delegate`  scope ensures that users can only assign or unassign roles which have same, or a subset of permissions which the user has. For example, if a user does not have required permissions for creating users, they won’t be able to assign or unassign a role which will allow to do that. This is done to prevent escalation of privileges.
+         * Update the user’s role assignments to match the provided set of UIDs. This will remove any assigned roles that aren’t in the request and add roles that are in the set but are not already assigned to the user. If you want to add or remove a single role, consider using Add a user role assignment or Remove a user role assignment instead.  You need to have a permission with action `users.roles:add` and `users.roles:remove` and scope `permissions:type:delegate` for each. `permissions:type:delegate`  scope ensures that users can only assign or unassign roles which have same, or a subset of permissions which the user has. For example, if a user does not have required permissions for creating users, they won’t be able to assign or unassign a role which will allow to do that. This is done to prevent escalation of privileges.
          * @summary Set user role assignments.
-         * @param {number} userId 
-         * @param {SetUserRolesCommand} body 
+         * @param {EnterpriseApiSetUserRolesRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        setUserRoles(userId: number, body: SetUserRolesCommand, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
-            return localVarFp.setUserRoles(userId, body, options).then((request) => request(axios, basePath));
+        setUserRoles(requestParameters: EnterpriseApiSetUserRolesRequest, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
+            return localVarFp.setUserRoles(requestParameters.userId, requestParameters.body, options).then((request) => request(axios, basePath));
         },
         /**
          * 
          * @summary Test a recording rule.
-         * @param {RecordingRuleJSON} body 
+         * @param {EnterpriseApiTestCreateRecordingRuleRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        testCreateRecordingRule(body: RecordingRuleJSON, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
-            return localVarFp.testCreateRecordingRule(body, options).then((request) => request(axios, basePath));
+        testCreateRecordingRule(requestParameters: EnterpriseApiTestCreateRecordingRuleRequest, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
+            return localVarFp.testCreateRecordingRule(requestParameters.body, options).then((request) => request(axios, basePath));
         },
         /**
          * 
          * @summary Update the active status of a rule.
-         * @param {RecordingRuleJSON} body 
+         * @param {EnterpriseApiUpdateRecordingRuleRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateRecordingRule(body: RecordingRuleJSON, options?: RawAxiosRequestConfig): AxiosPromise<RecordingRuleJSON> {
-            return localVarFp.updateRecordingRule(body, options).then((request) => request(axios, basePath));
+        updateRecordingRule(requestParameters: EnterpriseApiUpdateRecordingRuleRequest, options?: RawAxiosRequestConfig): AxiosPromise<RecordingRuleJSON> {
+            return localVarFp.updateRecordingRule(requestParameters.body, options).then((request) => request(axios, basePath));
         },
         /**
          * Available to org admins only and with a valid or expired license.  You need to have a permission with action `reports.admin:write` with scope `reports:id:<report ID>`.
          * @summary Update a report.
-         * @param {number} id 
-         * @param {CreateOrUpdateReport} body 
+         * @param {EnterpriseApiUpdateReportRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateReport(id: number, body: CreateOrUpdateReport, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
-            return localVarFp.updateReport(id, body, options).then((request) => request(axios, basePath));
+        updateReport(requestParameters: EnterpriseApiUpdateReportRequest, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
+            return localVarFp.updateReport(requestParameters.id, requestParameters.body, options).then((request) => request(axios, basePath));
         },
         /**
          * You need to have a permission with action `roles:write` and scope `permissions:type:delegate`. `permissions:type:delegate` scope ensures that users can only create custom roles with the same, or a subset of permissions which the user has.
          * @summary Update a custom role.
-         * @param {string} roleUID 
-         * @param {UpdateRoleCommand} body 
+         * @param {EnterpriseApiUpdateRoleRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateRole(roleUID: string, body: UpdateRoleCommand, options?: RawAxiosRequestConfig): AxiosPromise<RoleDTO> {
-            return localVarFp.updateRole(roleUID, body, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @summary Updates LBAC rules for a team.
-         * @param {string} uid 
-         * @param {UpdateTeamLBACCommand} [body] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        updateTeamLBACRulesApi(uid: string, body?: UpdateTeamLBACCommand, options?: RawAxiosRequestConfig): AxiosPromise<UpdateTeamLBACRulesApi200Response> {
-            return localVarFp.updateTeamLBACRulesApi(uid, body, options).then((request) => request(axios, basePath));
+        updateRole(requestParameters: EnterpriseApiUpdateRoleRequest, options?: RawAxiosRequestConfig): AxiosPromise<RoleDTO> {
+            return localVarFp.updateRole(requestParameters.roleUID, requestParameters.body, options).then((request) => request(axios, basePath));
         },
     };
 };
+
+/**
+ * Request parameters for addTeamGroupApi operation in EnterpriseApi.
+ * @export
+ * @interface EnterpriseApiAddTeamGroupApiRequest
+ */
+export interface EnterpriseApiAddTeamGroupApiRequest {
+    /**
+     * 
+     * @type {number}
+     * @memberof EnterpriseApiAddTeamGroupApi
+     */
+    readonly teamId: number
+
+    /**
+     * 
+     * @type {TeamGroupMapping}
+     * @memberof EnterpriseApiAddTeamGroupApi
+     */
+    readonly body: TeamGroupMapping
+}
+
+/**
+ * Request parameters for addTeamRole operation in EnterpriseApi.
+ * @export
+ * @interface EnterpriseApiAddTeamRoleRequest
+ */
+export interface EnterpriseApiAddTeamRoleRequest {
+    /**
+     * 
+     * @type {number}
+     * @memberof EnterpriseApiAddTeamRole
+     */
+    readonly teamId: number
+
+    /**
+     * 
+     * @type {AddTeamRoleCommand}
+     * @memberof EnterpriseApiAddTeamRole
+     */
+    readonly body: AddTeamRoleCommand
+}
+
+/**
+ * Request parameters for addUserRole operation in EnterpriseApi.
+ * @export
+ * @interface EnterpriseApiAddUserRoleRequest
+ */
+export interface EnterpriseApiAddUserRoleRequest {
+    /**
+     * 
+     * @type {number}
+     * @memberof EnterpriseApiAddUserRole
+     */
+    readonly userId: number
+
+    /**
+     * 
+     * @type {AddUserRoleCommand}
+     * @memberof EnterpriseApiAddUserRole
+     */
+    readonly body: AddUserRoleCommand
+}
+
+/**
+ * Request parameters for createRecordingRule operation in EnterpriseApi.
+ * @export
+ * @interface EnterpriseApiCreateRecordingRuleRequest
+ */
+export interface EnterpriseApiCreateRecordingRuleRequest {
+    /**
+     * 
+     * @type {RecordingRuleJSON}
+     * @memberof EnterpriseApiCreateRecordingRule
+     */
+    readonly body: RecordingRuleJSON
+}
+
+/**
+ * Request parameters for createRecordingRuleWriteTarget operation in EnterpriseApi.
+ * @export
+ * @interface EnterpriseApiCreateRecordingRuleWriteTargetRequest
+ */
+export interface EnterpriseApiCreateRecordingRuleWriteTargetRequest {
+    /**
+     * 
+     * @type {PrometheusRemoteWriteTargetJSON}
+     * @memberof EnterpriseApiCreateRecordingRuleWriteTarget
+     */
+    readonly body: PrometheusRemoteWriteTargetJSON
+}
+
+/**
+ * Request parameters for createReport operation in EnterpriseApi.
+ * @export
+ * @interface EnterpriseApiCreateReportRequest
+ */
+export interface EnterpriseApiCreateReportRequest {
+    /**
+     * 
+     * @type {CreateOrUpdateReportConfig}
+     * @memberof EnterpriseApiCreateReport
+     */
+    readonly body: CreateOrUpdateReportConfig
+}
+
+/**
+ * Request parameters for createRole operation in EnterpriseApi.
+ * @export
+ * @interface EnterpriseApiCreateRoleRequest
+ */
+export interface EnterpriseApiCreateRoleRequest {
+    /**
+     * 
+     * @type {CreateRoleForm}
+     * @memberof EnterpriseApiCreateRole
+     */
+    readonly body: CreateRoleForm
+}
+
+/**
+ * Request parameters for deleteLicenseToken operation in EnterpriseApi.
+ * @export
+ * @interface EnterpriseApiDeleteLicenseTokenRequest
+ */
+export interface EnterpriseApiDeleteLicenseTokenRequest {
+    /**
+     * 
+     * @type {DeleteTokenCommand}
+     * @memberof EnterpriseApiDeleteLicenseToken
+     */
+    readonly body: DeleteTokenCommand
+}
+
+/**
+ * Request parameters for deleteRecordingRule operation in EnterpriseApi.
+ * @export
+ * @interface EnterpriseApiDeleteRecordingRuleRequest
+ */
+export interface EnterpriseApiDeleteRecordingRuleRequest {
+    /**
+     * 
+     * @type {number}
+     * @memberof EnterpriseApiDeleteRecordingRule
+     */
+    readonly recordingRuleID: number
+}
+
+/**
+ * Request parameters for deleteReport operation in EnterpriseApi.
+ * @export
+ * @interface EnterpriseApiDeleteReportRequest
+ */
+export interface EnterpriseApiDeleteReportRequest {
+    /**
+     * 
+     * @type {number}
+     * @memberof EnterpriseApiDeleteReport
+     */
+    readonly id: number
+}
+
+/**
+ * Request parameters for deleteRole operation in EnterpriseApi.
+ * @export
+ * @interface EnterpriseApiDeleteRoleRequest
+ */
+export interface EnterpriseApiDeleteRoleRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof EnterpriseApiDeleteRole
+     */
+    readonly roleUID: string
+
+    /**
+     * 
+     * @type {boolean}
+     * @memberof EnterpriseApiDeleteRole
+     */
+    readonly force?: boolean
+
+    /**
+     * 
+     * @type {boolean}
+     * @memberof EnterpriseApiDeleteRole
+     */
+    readonly global?: boolean
+}
+
+/**
+ * Request parameters for getReport operation in EnterpriseApi.
+ * @export
+ * @interface EnterpriseApiGetReportRequest
+ */
+export interface EnterpriseApiGetReportRequest {
+    /**
+     * 
+     * @type {number}
+     * @memberof EnterpriseApiGetReport
+     */
+    readonly id: number
+}
+
+/**
+ * Request parameters for getRole operation in EnterpriseApi.
+ * @export
+ * @interface EnterpriseApiGetRoleRequest
+ */
+export interface EnterpriseApiGetRoleRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof EnterpriseApiGetRole
+     */
+    readonly roleUID: string
+}
+
+/**
+ * Request parameters for getRoleAssignments operation in EnterpriseApi.
+ * @export
+ * @interface EnterpriseApiGetRoleAssignmentsRequest
+ */
+export interface EnterpriseApiGetRoleAssignmentsRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof EnterpriseApiGetRoleAssignments
+     */
+    readonly roleUID: string
+}
+
+/**
+ * Request parameters for getTeamGroupsApi operation in EnterpriseApi.
+ * @export
+ * @interface EnterpriseApiGetTeamGroupsApiRequest
+ */
+export interface EnterpriseApiGetTeamGroupsApiRequest {
+    /**
+     * 
+     * @type {number}
+     * @memberof EnterpriseApiGetTeamGroupsApi
+     */
+    readonly teamId: number
+}
+
+/**
+ * Request parameters for listRoles operation in EnterpriseApi.
+ * @export
+ * @interface EnterpriseApiListRolesRequest
+ */
+export interface EnterpriseApiListRolesRequest {
+    /**
+     * 
+     * @type {boolean}
+     * @memberof EnterpriseApiListRoles
+     */
+    readonly delegatable?: boolean
+}
+
+/**
+ * Request parameters for listTeamRoles operation in EnterpriseApi.
+ * @export
+ * @interface EnterpriseApiListTeamRolesRequest
+ */
+export interface EnterpriseApiListTeamRolesRequest {
+    /**
+     * 
+     * @type {number}
+     * @memberof EnterpriseApiListTeamRoles
+     */
+    readonly teamId: number
+}
+
+/**
+ * Request parameters for listTeamsRoles operation in EnterpriseApi.
+ * @export
+ * @interface EnterpriseApiListTeamsRolesRequest
+ */
+export interface EnterpriseApiListTeamsRolesRequest {
+    /**
+     * 
+     * @type {RolesSearchQuery}
+     * @memberof EnterpriseApiListTeamsRoles
+     */
+    readonly body: RolesSearchQuery
+}
+
+/**
+ * Request parameters for listUserRoles operation in EnterpriseApi.
+ * @export
+ * @interface EnterpriseApiListUserRolesRequest
+ */
+export interface EnterpriseApiListUserRolesRequest {
+    /**
+     * 
+     * @type {number}
+     * @memberof EnterpriseApiListUserRoles
+     */
+    readonly userId: number
+}
+
+/**
+ * Request parameters for listUsersRoles operation in EnterpriseApi.
+ * @export
+ * @interface EnterpriseApiListUsersRolesRequest
+ */
+export interface EnterpriseApiListUsersRolesRequest {
+    /**
+     * 
+     * @type {RolesSearchQuery}
+     * @memberof EnterpriseApiListUsersRoles
+     */
+    readonly body: RolesSearchQuery
+}
+
+/**
+ * Request parameters for postACS operation in EnterpriseApi.
+ * @export
+ * @interface EnterpriseApiPostACSRequest
+ */
+export interface EnterpriseApiPostACSRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof EnterpriseApiPostACS
+     */
+    readonly relayState?: string
+}
+
+/**
+ * Request parameters for postLicenseToken operation in EnterpriseApi.
+ * @export
+ * @interface EnterpriseApiPostLicenseTokenRequest
+ */
+export interface EnterpriseApiPostLicenseTokenRequest {
+    /**
+     * 
+     * @type {DeleteTokenCommand}
+     * @memberof EnterpriseApiPostLicenseToken
+     */
+    readonly body: DeleteTokenCommand
+}
+
+/**
+ * Request parameters for postRenewLicenseToken operation in EnterpriseApi.
+ * @export
+ * @interface EnterpriseApiPostRenewLicenseTokenRequest
+ */
+export interface EnterpriseApiPostRenewLicenseTokenRequest {
+    /**
+     * 
+     * @type {object}
+     * @memberof EnterpriseApiPostRenewLicenseToken
+     */
+    readonly body: object
+}
+
+/**
+ * Request parameters for postSLO operation in EnterpriseApi.
+ * @export
+ * @interface EnterpriseApiPostSLORequest
+ */
+export interface EnterpriseApiPostSLORequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof EnterpriseApiPostSLO
+     */
+    readonly sAMLRequest?: string
+
+    /**
+     * 
+     * @type {string}
+     * @memberof EnterpriseApiPostSLO
+     */
+    readonly sAMLResponse?: string
+}
+
+/**
+ * Request parameters for removeTeamGroupApiQuery operation in EnterpriseApi.
+ * @export
+ * @interface EnterpriseApiRemoveTeamGroupApiQueryRequest
+ */
+export interface EnterpriseApiRemoveTeamGroupApiQueryRequest {
+    /**
+     * 
+     * @type {number}
+     * @memberof EnterpriseApiRemoveTeamGroupApiQuery
+     */
+    readonly teamId: number
+
+    /**
+     * 
+     * @type {string}
+     * @memberof EnterpriseApiRemoveTeamGroupApiQuery
+     */
+    readonly groupId?: string
+}
+
+/**
+ * Request parameters for removeTeamRole operation in EnterpriseApi.
+ * @export
+ * @interface EnterpriseApiRemoveTeamRoleRequest
+ */
+export interface EnterpriseApiRemoveTeamRoleRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof EnterpriseApiRemoveTeamRole
+     */
+    readonly roleUID: string
+
+    /**
+     * 
+     * @type {number}
+     * @memberof EnterpriseApiRemoveTeamRole
+     */
+    readonly teamId: number
+}
+
+/**
+ * Request parameters for removeUserRole operation in EnterpriseApi.
+ * @export
+ * @interface EnterpriseApiRemoveUserRoleRequest
+ */
+export interface EnterpriseApiRemoveUserRoleRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof EnterpriseApiRemoveUserRole
+     */
+    readonly roleUID: string
+
+    /**
+     * 
+     * @type {number}
+     * @memberof EnterpriseApiRemoveUserRole
+     */
+    readonly userId: number
+
+    /**
+     * A flag indicating if the assignment is global or not. If set to false, the default org ID of the authenticated user will be used from the request to remove assignment.
+     * @type {boolean}
+     * @memberof EnterpriseApiRemoveUserRole
+     */
+    readonly global?: boolean
+}
+
+/**
+ * Request parameters for renderReportPDFs operation in EnterpriseApi.
+ * @export
+ * @interface EnterpriseApiRenderReportPDFsRequest
+ */
+export interface EnterpriseApiRenderReportPDFsRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof EnterpriseApiRenderReportPDFs
+     */
+    readonly dashboardID?: string
+
+    /**
+     * 
+     * @type {string}
+     * @memberof EnterpriseApiRenderReportPDFs
+     */
+    readonly orientation?: string
+
+    /**
+     * 
+     * @type {string}
+     * @memberof EnterpriseApiRenderReportPDFs
+     */
+    readonly layout?: string
+
+    /**
+     * 
+     * @type {string}
+     * @memberof EnterpriseApiRenderReportPDFs
+     */
+    readonly title?: string
+
+    /**
+     * 
+     * @type {string}
+     * @memberof EnterpriseApiRenderReportPDFs
+     */
+    readonly scaleFactor?: string
+
+    /**
+     * 
+     * @type {string}
+     * @memberof EnterpriseApiRenderReportPDFs
+     */
+    readonly includeTables?: string
+}
+
+/**
+ * Request parameters for saveReportSettings operation in EnterpriseApi.
+ * @export
+ * @interface EnterpriseApiSaveReportSettingsRequest
+ */
+export interface EnterpriseApiSaveReportSettingsRequest {
+    /**
+     * 
+     * @type {ReportSettings}
+     * @memberof EnterpriseApiSaveReportSettings
+     */
+    readonly body: ReportSettings
+}
+
+/**
+ * Request parameters for sendReport operation in EnterpriseApi.
+ * @export
+ * @interface EnterpriseApiSendReportRequest
+ */
+export interface EnterpriseApiSendReportRequest {
+    /**
+     * 
+     * @type {ReportEmail}
+     * @memberof EnterpriseApiSendReport
+     */
+    readonly body: ReportEmail
+}
+
+/**
+ * Request parameters for sendTestEmail operation in EnterpriseApi.
+ * @export
+ * @interface EnterpriseApiSendTestEmailRequest
+ */
+export interface EnterpriseApiSendTestEmailRequest {
+    /**
+     * 
+     * @type {CreateOrUpdateReportConfig}
+     * @memberof EnterpriseApiSendTestEmail
+     */
+    readonly body: CreateOrUpdateReportConfig
+}
+
+/**
+ * Request parameters for setRoleAssignments operation in EnterpriseApi.
+ * @export
+ * @interface EnterpriseApiSetRoleAssignmentsRequest
+ */
+export interface EnterpriseApiSetRoleAssignmentsRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof EnterpriseApiSetRoleAssignments
+     */
+    readonly roleUID: string
+
+    /**
+     * 
+     * @type {SetRoleAssignmentsCommand}
+     * @memberof EnterpriseApiSetRoleAssignments
+     */
+    readonly body: SetRoleAssignmentsCommand
+}
+
+/**
+ * Request parameters for setTeamRoles operation in EnterpriseApi.
+ * @export
+ * @interface EnterpriseApiSetTeamRolesRequest
+ */
+export interface EnterpriseApiSetTeamRolesRequest {
+    /**
+     * 
+     * @type {number}
+     * @memberof EnterpriseApiSetTeamRoles
+     */
+    readonly teamId: number
+}
+
+/**
+ * Request parameters for setUserRoles operation in EnterpriseApi.
+ * @export
+ * @interface EnterpriseApiSetUserRolesRequest
+ */
+export interface EnterpriseApiSetUserRolesRequest {
+    /**
+     * 
+     * @type {number}
+     * @memberof EnterpriseApiSetUserRoles
+     */
+    readonly userId: number
+
+    /**
+     * 
+     * @type {SetUserRolesCommand}
+     * @memberof EnterpriseApiSetUserRoles
+     */
+    readonly body: SetUserRolesCommand
+}
+
+/**
+ * Request parameters for testCreateRecordingRule operation in EnterpriseApi.
+ * @export
+ * @interface EnterpriseApiTestCreateRecordingRuleRequest
+ */
+export interface EnterpriseApiTestCreateRecordingRuleRequest {
+    /**
+     * 
+     * @type {RecordingRuleJSON}
+     * @memberof EnterpriseApiTestCreateRecordingRule
+     */
+    readonly body: RecordingRuleJSON
+}
+
+/**
+ * Request parameters for updateRecordingRule operation in EnterpriseApi.
+ * @export
+ * @interface EnterpriseApiUpdateRecordingRuleRequest
+ */
+export interface EnterpriseApiUpdateRecordingRuleRequest {
+    /**
+     * 
+     * @type {RecordingRuleJSON}
+     * @memberof EnterpriseApiUpdateRecordingRule
+     */
+    readonly body: RecordingRuleJSON
+}
+
+/**
+ * Request parameters for updateReport operation in EnterpriseApi.
+ * @export
+ * @interface EnterpriseApiUpdateReportRequest
+ */
+export interface EnterpriseApiUpdateReportRequest {
+    /**
+     * 
+     * @type {number}
+     * @memberof EnterpriseApiUpdateReport
+     */
+    readonly id: number
+
+    /**
+     * 
+     * @type {CreateOrUpdateReportConfig}
+     * @memberof EnterpriseApiUpdateReport
+     */
+    readonly body: CreateOrUpdateReportConfig
+}
+
+/**
+ * Request parameters for updateRole operation in EnterpriseApi.
+ * @export
+ * @interface EnterpriseApiUpdateRoleRequest
+ */
+export interface EnterpriseApiUpdateRoleRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof EnterpriseApiUpdateRole
+     */
+    readonly roleUID: string
+
+    /**
+     * 
+     * @type {UpdateRoleCommand}
+     * @memberof EnterpriseApiUpdateRole
+     */
+    readonly body: UpdateRoleCommand
+}
 
 /**
  * EnterpriseApi - object-oriented interface
@@ -29771,40 +30235,37 @@ export class EnterpriseApi extends BaseAPI {
     /**
      * 
      * @summary Add External Group.
-     * @param {number} teamId 
-     * @param {TeamGroupMapping} body 
+     * @param {EnterpriseApiAddTeamGroupApiRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof EnterpriseApi
      */
-    public addTeamGroupApi(teamId: number, body: TeamGroupMapping, options?: RawAxiosRequestConfig) {
-        return EnterpriseApiFp(this.configuration).addTeamGroupApi(teamId, body, options).then((request) => request(this.axios, this.basePath));
+    public addTeamGroupApi(requestParameters: EnterpriseApiAddTeamGroupApiRequest, options?: RawAxiosRequestConfig) {
+        return EnterpriseApiFp(this.configuration).addTeamGroupApi(requestParameters.teamId, requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * You need to have a permission with action `teams.roles:add` and scope `permissions:type:delegate`.
      * @summary Add team role.
-     * @param {number} teamId 
-     * @param {AddTeamRoleCommand} body 
+     * @param {EnterpriseApiAddTeamRoleRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof EnterpriseApi
      */
-    public addTeamRole(teamId: number, body: AddTeamRoleCommand, options?: RawAxiosRequestConfig) {
-        return EnterpriseApiFp(this.configuration).addTeamRole(teamId, body, options).then((request) => request(this.axios, this.basePath));
+    public addTeamRole(requestParameters: EnterpriseApiAddTeamRoleRequest, options?: RawAxiosRequestConfig) {
+        return EnterpriseApiFp(this.configuration).addTeamRole(requestParameters.teamId, requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Assign a role to a specific user. For bulk updates consider Set user role assignments.  You need to have a permission with action `users.roles:add` and scope `permissions:type:delegate`. `permissions:type:delegate` scope ensures that users can only assign roles which have same, or a subset of permissions which the user has. For example, if a user does not have required permissions for creating users, they won’t be able to assign a role which will allow to do that. This is done to prevent escalation of privileges.
      * @summary Add a user role assignment.
-     * @param {number} userId 
-     * @param {AddUserRoleCommand} body 
+     * @param {EnterpriseApiAddUserRoleRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof EnterpriseApi
      */
-    public addUserRole(userId: number, body: AddUserRoleCommand, options?: RawAxiosRequestConfig) {
-        return EnterpriseApiFp(this.configuration).addUserRole(userId, body, options).then((request) => request(this.axios, this.basePath));
+    public addUserRole(requestParameters: EnterpriseApiAddUserRoleRequest, options?: RawAxiosRequestConfig) {
+        return EnterpriseApiFp(this.configuration).addUserRole(requestParameters.userId, requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -29819,86 +30280,75 @@ export class EnterpriseApi extends BaseAPI {
     }
 
     /**
-     * clean cache for a single data source
-     * @param {string} dataSourceUID 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof EnterpriseApi
-     */
-    public cleanDataSourceCache(dataSourceUID: string, options?: RawAxiosRequestConfig) {
-        return EnterpriseApiFp(this.configuration).cleanDataSourceCache(dataSourceUID, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
      * 
      * @summary Create a recording rule that is then registered and started.
-     * @param {RecordingRuleJSON} body 
+     * @param {EnterpriseApiCreateRecordingRuleRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof EnterpriseApi
      */
-    public createRecordingRule(body: RecordingRuleJSON, options?: RawAxiosRequestConfig) {
-        return EnterpriseApiFp(this.configuration).createRecordingRule(body, options).then((request) => request(this.axios, this.basePath));
+    public createRecordingRule(requestParameters: EnterpriseApiCreateRecordingRuleRequest, options?: RawAxiosRequestConfig) {
+        return EnterpriseApiFp(this.configuration).createRecordingRule(requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * It returns a 422 if there is not an existing prometheus data source configured.
      * @summary Create a remote write target.
-     * @param {PrometheusRemoteWriteTargetJSON} body 
+     * @param {EnterpriseApiCreateRecordingRuleWriteTargetRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof EnterpriseApi
      */
-    public createRecordingRuleWriteTarget(body: PrometheusRemoteWriteTargetJSON, options?: RawAxiosRequestConfig) {
-        return EnterpriseApiFp(this.configuration).createRecordingRuleWriteTarget(body, options).then((request) => request(this.axios, this.basePath));
+    public createRecordingRuleWriteTarget(requestParameters: EnterpriseApiCreateRecordingRuleWriteTargetRequest, options?: RawAxiosRequestConfig) {
+        return EnterpriseApiFp(this.configuration).createRecordingRuleWriteTarget(requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Available to org admins only and with a valid license.  You need to have a permission with action `reports.admin:create`.
      * @summary Create a report.
-     * @param {CreateOrUpdateReport} body 
+     * @param {EnterpriseApiCreateReportRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof EnterpriseApi
      */
-    public createReport(body: CreateOrUpdateReport, options?: RawAxiosRequestConfig) {
-        return EnterpriseApiFp(this.configuration).createReport(body, options).then((request) => request(this.axios, this.basePath));
+    public createReport(requestParameters: EnterpriseApiCreateReportRequest, options?: RawAxiosRequestConfig) {
+        return EnterpriseApiFp(this.configuration).createReport(requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Creates a new custom role and maps given permissions to that role. Note that roles with the same prefix as Fixed Roles can’t be created.  You need to have a permission with action `roles:write` and scope `permissions:type:delegate`. `permissions:type:delegate` scope ensures that users can only create custom roles with the same, or a subset of permissions which the user has. For example, if a user does not have required permissions for creating users, they won’t be able to create a custom role which allows to do that. This is done to prevent escalation of privileges.
      * @summary Create a new custom role.
-     * @param {CreateRoleForm} body 
+     * @param {EnterpriseApiCreateRoleRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof EnterpriseApi
      */
-    public createRole(body: CreateRoleForm, options?: RawAxiosRequestConfig) {
-        return EnterpriseApiFp(this.configuration).createRole(body, options).then((request) => request(this.axios, this.basePath));
+    public createRole(requestParameters: EnterpriseApiCreateRoleRequest, options?: RawAxiosRequestConfig) {
+        return EnterpriseApiFp(this.configuration).createRole(requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Removes the license stored in the Grafana database. Available in Grafana Enterprise v7.4+.  You need to have a permission with action `licensing:delete`.
      * @summary Remove license from database.
-     * @param {DeleteTokenCommand} body 
+     * @param {EnterpriseApiDeleteLicenseTokenRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof EnterpriseApi
      */
-    public deleteLicenseToken(body: DeleteTokenCommand, options?: RawAxiosRequestConfig) {
-        return EnterpriseApiFp(this.configuration).deleteLicenseToken(body, options).then((request) => request(this.axios, this.basePath));
+    public deleteLicenseToken(requestParameters: EnterpriseApiDeleteLicenseTokenRequest, options?: RawAxiosRequestConfig) {
+        return EnterpriseApiFp(this.configuration).deleteLicenseToken(requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
      * @summary Delete removes the rule from the registry and stops it.
-     * @param {number} recordingRuleID 
+     * @param {EnterpriseApiDeleteRecordingRuleRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof EnterpriseApi
      */
-    public deleteRecordingRule(recordingRuleID: number, options?: RawAxiosRequestConfig) {
-        return EnterpriseApiFp(this.configuration).deleteRecordingRule(recordingRuleID, options).then((request) => request(this.axios, this.basePath));
+    public deleteRecordingRule(requestParameters: EnterpriseApiDeleteRecordingRuleRequest, options?: RawAxiosRequestConfig) {
+        return EnterpriseApiFp(this.configuration).deleteRecordingRule(requestParameters.recordingRuleID, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -29915,49 +30365,25 @@ export class EnterpriseApi extends BaseAPI {
     /**
      * Available to org admins only and with a valid or expired license.  You need to have a permission with action `reports.delete` with scope `reports:id:<report ID>`.
      * @summary Delete a report.
-     * @param {number} id 
+     * @param {EnterpriseApiDeleteReportRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof EnterpriseApi
      */
-    public deleteReport(id: number, options?: RawAxiosRequestConfig) {
-        return EnterpriseApiFp(this.configuration).deleteReport(id, options).then((request) => request(this.axios, this.basePath));
+    public deleteReport(requestParameters: EnterpriseApiDeleteReportRequest, options?: RawAxiosRequestConfig) {
+        return EnterpriseApiFp(this.configuration).deleteReport(requestParameters.id, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Delete a role with the given UID, and it’s permissions. If the role is assigned to a built-in role, the deletion operation will fail, unless force query param is set to true, and in that case all assignments will also be deleted.  You need to have a permission with action `roles:delete` and scope `permissions:type:delegate`. `permissions:type:delegate` scope ensures that users can only delete a custom role with the same, or a subset of permissions which the user has. For example, if a user does not have required permissions for creating users, they won’t be able to delete a custom role which allows to do that.
      * @summary Delete a custom role.
-     * @param {string} roleUID 
-     * @param {boolean} [force] 
-     * @param {boolean} [global] 
+     * @param {EnterpriseApiDeleteRoleRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof EnterpriseApi
      */
-    public deleteRole(roleUID: string, force?: boolean, global?: boolean, options?: RawAxiosRequestConfig) {
-        return EnterpriseApiFp(this.configuration).deleteRole(roleUID, force, global, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * disable cache for a single data source
-     * @param {string} dataSourceUID 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof EnterpriseApi
-     */
-    public disableDataSourceCache(dataSourceUID: string, options?: RawAxiosRequestConfig) {
-        return EnterpriseApiFp(this.configuration).disableDataSourceCache(dataSourceUID, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * enable cache for a single data source
-     * @param {string} dataSourceUID 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof EnterpriseApi
-     */
-    public enableDataSourceCache(dataSourceUID: string, options?: RawAxiosRequestConfig) {
-        return EnterpriseApiFp(this.configuration).enableDataSourceCache(dataSourceUID, options).then((request) => request(this.axios, this.basePath));
+    public deleteRole(requestParameters: EnterpriseApiDeleteRoleRequest, options?: RawAxiosRequestConfig) {
+        return EnterpriseApiFp(this.configuration).deleteRole(requestParameters.roleUID, requestParameters.force, requestParameters.global, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -29996,17 +30422,6 @@ export class EnterpriseApi extends BaseAPI {
     }
 
     /**
-     * get cache config for a single data source
-     * @param {string} dataSourceUID 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof EnterpriseApi
-     */
-    public getDataSourceCacheConfig(dataSourceUID: string, options?: RawAxiosRequestConfig) {
-        return EnterpriseApiFp(this.configuration).getDataSourceCacheConfig(dataSourceUID, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
      * You need to have a permission with action `licensing:read`.
      * @summary Get license token.
      * @param {*} [options] Override http request option.
@@ -30042,18 +30457,18 @@ export class EnterpriseApi extends BaseAPI {
     /**
      * Available to org admins only and with a valid or expired license.  You need to have a permission with action `reports:read` with scope `reports:id:<report ID>`.
      * @summary Get a report.
-     * @param {number} id 
+     * @param {EnterpriseApiGetReportRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof EnterpriseApi
      */
-    public getReport(id: number, options?: RawAxiosRequestConfig) {
-        return EnterpriseApiFp(this.configuration).getReport(id, options).then((request) => request(this.axios, this.basePath));
+    public getReport(requestParameters: EnterpriseApiGetReportRequest, options?: RawAxiosRequestConfig) {
+        return EnterpriseApiFp(this.configuration).getReport(requestParameters.id, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Available to org admins only and with a valid or expired license.  You need to have a permission with action `reports.settings:read`x.
-     * @summary Get report settings.
+     * @summary Get settings.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof EnterpriseApi
@@ -30076,25 +30491,25 @@ export class EnterpriseApi extends BaseAPI {
     /**
      * Get a role for the given UID.  You need to have a permission with action `roles:read` and scope `roles:*`.
      * @summary Get a role.
-     * @param {string} roleUID 
+     * @param {EnterpriseApiGetRoleRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof EnterpriseApi
      */
-    public getRole(roleUID: string, options?: RawAxiosRequestConfig) {
-        return EnterpriseApiFp(this.configuration).getRole(roleUID, options).then((request) => request(this.axios, this.basePath));
+    public getRole(requestParameters: EnterpriseApiGetRoleRequest, options?: RawAxiosRequestConfig) {
+        return EnterpriseApiFp(this.configuration).getRole(requestParameters.roleUID, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
-     * Get role assignments for the role with the given UID. Does not include role assignments mapped through group attribute sync.  You need to have a permission with action `teams.roles:list` and scope `teams:id:*` and `users.roles:list` and scope `users:id:*`.
+     * Get role assignments for the role with the given UID.  You need to have a permission with action `teams.roles:list` and scope `teams:id:*` and `users.roles:list` and scope `users:id:*`.
      * @summary Get role assignments.
-     * @param {string} roleUID 
+     * @param {EnterpriseApiGetRoleAssignmentsRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof EnterpriseApi
      */
-    public getRoleAssignments(roleUID: string, options?: RawAxiosRequestConfig) {
-        return EnterpriseApiFp(this.configuration).getRoleAssignments(roleUID, options).then((request) => request(this.axios, this.basePath));
+    public getRoleAssignments(requestParameters: EnterpriseApiGetRoleAssignmentsRequest, options?: RawAxiosRequestConfig) {
+        return EnterpriseApiFp(this.configuration).getRoleAssignments(requestParameters.roleUID, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -30117,17 +30532,6 @@ export class EnterpriseApi extends BaseAPI {
      */
     public getSLO(options?: RawAxiosRequestConfig) {
         return EnterpriseApiFp(this.configuration).getSLO(options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * Available to org admins only and with a valid or expired license.  You need to have a permission with action `reports.settings:read`.
-     * @summary Get custom branding report image.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof EnterpriseApi
-     */
-    public getSettingsImage(options?: RawAxiosRequestConfig) {
-        return EnterpriseApiFp(this.configuration).getSettingsImage(options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -30155,25 +30559,13 @@ export class EnterpriseApi extends BaseAPI {
     /**
      * 
      * @summary Get External Groups.
-     * @param {number} teamId 
+     * @param {EnterpriseApiGetTeamGroupsApiRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof EnterpriseApi
      */
-    public getTeamGroupsApi(teamId: number, options?: RawAxiosRequestConfig) {
-        return EnterpriseApiFp(this.configuration).getTeamGroupsApi(teamId, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * 
-     * @summary Retrieves LBAC rules for a team.
-     * @param {string} uid 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof EnterpriseApi
-     */
-    public getTeamLBACRulesApi(uid: string, options?: RawAxiosRequestConfig) {
-        return EnterpriseApiFp(this.configuration).getTeamLBACRulesApi(uid, options).then((request) => request(this.axios, this.basePath));
+    public getTeamGroupsApi(requestParameters: EnterpriseApiGetTeamGroupsApiRequest, options?: RawAxiosRequestConfig) {
+        return EnterpriseApiFp(this.configuration).getTeamGroupsApi(requestParameters.teamId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -30188,113 +30580,111 @@ export class EnterpriseApi extends BaseAPI {
     }
 
     /**
-     * Gets all existing roles. The response contains all global and organization local roles, for the organization which user is signed in.  You need to have a permission with action `roles:read` and scope `roles:*`.  The `delegatable` flag reduces the set of roles to only those for which the signed-in user has permissions to assign.
+     * Gets all existing roles. The response contains all global and organization local roles, for the organization which user is signed in.  You need to have a permission with action `roles:read` and scope `roles:*`.
      * @summary Get all roles.
-     * @param {boolean} [delegatable] 
-     * @param {boolean} [includeHidden] 
+     * @param {EnterpriseApiListRolesRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof EnterpriseApi
      */
-    public listRoles(delegatable?: boolean, includeHidden?: boolean, options?: RawAxiosRequestConfig) {
-        return EnterpriseApiFp(this.configuration).listRoles(delegatable, includeHidden, options).then((request) => request(this.axios, this.basePath));
+    public listRoles(requestParameters: EnterpriseApiListRolesRequest = {}, options?: RawAxiosRequestConfig) {
+        return EnterpriseApiFp(this.configuration).listRoles(requestParameters.delegatable, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * You need to have a permission with action `teams.roles:read` and scope `teams:id:<team ID>`.
      * @summary Get team roles.
-     * @param {number} teamId 
+     * @param {EnterpriseApiListTeamRolesRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof EnterpriseApi
      */
-    public listTeamRoles(teamId: number, options?: RawAxiosRequestConfig) {
-        return EnterpriseApiFp(this.configuration).listTeamRoles(teamId, options).then((request) => request(this.axios, this.basePath));
+    public listTeamRoles(requestParameters: EnterpriseApiListTeamRolesRequest, options?: RawAxiosRequestConfig) {
+        return EnterpriseApiFp(this.configuration).listTeamRoles(requestParameters.teamId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Lists the roles that have been directly assigned to the given teams.  You need to have a permission with action `teams.roles:read` and scope `teams:id:*`.
      * @summary List roles assigned to multiple teams.
-     * @param {RolesSearchQuery} body 
+     * @param {EnterpriseApiListTeamsRolesRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof EnterpriseApi
      */
-    public listTeamsRoles(body: RolesSearchQuery, options?: RawAxiosRequestConfig) {
-        return EnterpriseApiFp(this.configuration).listTeamsRoles(body, options).then((request) => request(this.axios, this.basePath));
+    public listTeamsRoles(requestParameters: EnterpriseApiListTeamsRolesRequest, options?: RawAxiosRequestConfig) {
+        return EnterpriseApiFp(this.configuration).listTeamsRoles(requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Lists the roles that have been directly assigned to a given user. The list does not include built-in roles (Viewer, Editor, Admin or Grafana Admin), and it does not include roles that have been inherited from a team.  You need to have a permission with action `users.roles:read` and scope `users:id:<user ID>`.
      * @summary List roles assigned to a user.
-     * @param {number} userId 
+     * @param {EnterpriseApiListUserRolesRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof EnterpriseApi
      */
-    public listUserRoles(userId: number, options?: RawAxiosRequestConfig) {
-        return EnterpriseApiFp(this.configuration).listUserRoles(userId, options).then((request) => request(this.axios, this.basePath));
+    public listUserRoles(requestParameters: EnterpriseApiListUserRolesRequest, options?: RawAxiosRequestConfig) {
+        return EnterpriseApiFp(this.configuration).listUserRoles(requestParameters.userId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Lists the roles that have been directly assigned to the given users. The list does not include built-in roles (Viewer, Editor, Admin or Grafana Admin), and it does not include roles that have been inherited from a team.  You need to have a permission with action `users.roles:read` and scope `users:id:*`.
      * @summary List roles assigned to multiple users.
-     * @param {RolesSearchQuery} body 
+     * @param {EnterpriseApiListUsersRolesRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof EnterpriseApi
      */
-    public listUsersRoles(body: RolesSearchQuery, options?: RawAxiosRequestConfig) {
-        return EnterpriseApiFp(this.configuration).listUsersRoles(body, options).then((request) => request(this.axios, this.basePath));
+    public listUsersRoles(requestParameters: EnterpriseApiListUsersRolesRequest, options?: RawAxiosRequestConfig) {
+        return EnterpriseApiFp(this.configuration).listUsersRoles(requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
      * @summary It performs Assertion Consumer Service (ACS).
-     * @param {string} [relayState] 
+     * @param {EnterpriseApiPostACSRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof EnterpriseApi
      */
-    public postACS(relayState?: string, options?: RawAxiosRequestConfig) {
-        return EnterpriseApiFp(this.configuration).postACS(relayState, options).then((request) => request(this.axios, this.basePath));
+    public postACS(requestParameters: EnterpriseApiPostACSRequest = {}, options?: RawAxiosRequestConfig) {
+        return EnterpriseApiFp(this.configuration).postACS(requestParameters.relayState, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * You need to have a permission with action `licensing:update`.
      * @summary Create license token.
-     * @param {DeleteTokenCommand} body 
+     * @param {EnterpriseApiPostLicenseTokenRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof EnterpriseApi
      */
-    public postLicenseToken(body: DeleteTokenCommand, options?: RawAxiosRequestConfig) {
-        return EnterpriseApiFp(this.configuration).postLicenseToken(body, options).then((request) => request(this.axios, this.basePath));
+    public postLicenseToken(requestParameters: EnterpriseApiPostLicenseTokenRequest, options?: RawAxiosRequestConfig) {
+        return EnterpriseApiFp(this.configuration).postLicenseToken(requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Manually ask license issuer for a new token. Available in Grafana Enterprise v7.4+.  You need to have a permission with action `licensing:update`.
      * @summary Manually force license refresh.
-     * @param {object} body 
+     * @param {EnterpriseApiPostRenewLicenseTokenRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof EnterpriseApi
      */
-    public postRenewLicenseToken(body: object, options?: RawAxiosRequestConfig) {
-        return EnterpriseApiFp(this.configuration).postRenewLicenseToken(body, options).then((request) => request(this.axios, this.basePath));
+    public postRenewLicenseToken(requestParameters: EnterpriseApiPostRenewLicenseTokenRequest, options?: RawAxiosRequestConfig) {
+        return EnterpriseApiFp(this.configuration).postRenewLicenseToken(requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * There might be two possible requests: 1. Logout response (callback) when Grafana initiates single logout and IdP returns response to logout request. 2. Logout request when another SP initiates single logout and IdP sends logout request to the Grafana, or in case of IdP-initiated logout.
      * @summary It performs Single Logout (SLO) callback.
-     * @param {string} [sAMLRequest] 
-     * @param {string} [sAMLResponse] 
+     * @param {EnterpriseApiPostSLORequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof EnterpriseApi
      */
-    public postSLO(sAMLRequest?: string, sAMLResponse?: string, options?: RawAxiosRequestConfig) {
-        return EnterpriseApiFp(this.configuration).postSLO(sAMLRequest, sAMLResponse, options).then((request) => request(this.axios, this.basePath));
+    public postSLO(requestParameters: EnterpriseApiPostSLORequest = {}, options?: RawAxiosRequestConfig) {
+        return EnterpriseApiFp(this.configuration).postSLO(requestParameters.sAMLRequest, requestParameters.sAMLResponse, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -30311,83 +30701,61 @@ export class EnterpriseApi extends BaseAPI {
     /**
      * 
      * @summary Remove External Group.
-     * @param {number} teamId 
-     * @param {string} [groupId] 
+     * @param {EnterpriseApiRemoveTeamGroupApiQueryRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof EnterpriseApi
      */
-    public removeTeamGroupApiQuery(teamId: number, groupId?: string, options?: RawAxiosRequestConfig) {
-        return EnterpriseApiFp(this.configuration).removeTeamGroupApiQuery(teamId, groupId, options).then((request) => request(this.axios, this.basePath));
+    public removeTeamGroupApiQuery(requestParameters: EnterpriseApiRemoveTeamGroupApiQueryRequest, options?: RawAxiosRequestConfig) {
+        return EnterpriseApiFp(this.configuration).removeTeamGroupApiQuery(requestParameters.teamId, requestParameters.groupId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * You need to have a permission with action `teams.roles:remove` and scope `permissions:type:delegate`.
      * @summary Remove team role.
-     * @param {string} roleUID 
-     * @param {number} teamId 
+     * @param {EnterpriseApiRemoveTeamRoleRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof EnterpriseApi
      */
-    public removeTeamRole(roleUID: string, teamId: number, options?: RawAxiosRequestConfig) {
-        return EnterpriseApiFp(this.configuration).removeTeamRole(roleUID, teamId, options).then((request) => request(this.axios, this.basePath));
+    public removeTeamRole(requestParameters: EnterpriseApiRemoveTeamRoleRequest, options?: RawAxiosRequestConfig) {
+        return EnterpriseApiFp(this.configuration).removeTeamRole(requestParameters.roleUID, requestParameters.teamId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Revoke a role from a user. For bulk updates consider Set user role assignments.  You need to have a permission with action `users.roles:remove` and scope `permissions:type:delegate`. `permissions:type:delegate` scope ensures that users can only unassign roles which have same, or a subset of permissions which the user has. For example, if a user does not have required permissions for creating users, they won’t be able to unassign a role which will allow to do that. This is done to prevent escalation of privileges.
      * @summary Remove a user role assignment.
-     * @param {string} roleUID 
-     * @param {number} userId 
-     * @param {boolean} [global] A flag indicating if the assignment is global or not. If set to false, the default org ID of the authenticated user will be used from the request to remove assignment.
+     * @param {EnterpriseApiRemoveUserRoleRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof EnterpriseApi
      */
-    public removeUserRole(roleUID: string, userId: number, global?: boolean, options?: RawAxiosRequestConfig) {
-        return EnterpriseApiFp(this.configuration).removeUserRole(roleUID, userId, global, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * Available to all users and with a valid license.
-     * @summary Download a CSV report.
-     * @param {string} [dashboards] 
-     * @param {string} [title] 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof EnterpriseApi
-     */
-    public renderReportCSVs(dashboards?: string, title?: string, options?: RawAxiosRequestConfig) {
-        return EnterpriseApiFp(this.configuration).renderReportCSVs(dashboards, title, options).then((request) => request(this.axios, this.basePath));
+    public removeUserRole(requestParameters: EnterpriseApiRemoveUserRoleRequest, options?: RawAxiosRequestConfig) {
+        return EnterpriseApiFp(this.configuration).removeUserRole(requestParameters.roleUID, requestParameters.userId, requestParameters.global, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Available to all users and with a valid license.
      * @summary Render report for multiple dashboards.
-     * @param {string} [dashboards] 
-     * @param {string} [orientation] 
-     * @param {string} [layout] 
-     * @param {string} [title] 
-     * @param {string} [scaleFactor] 
-     * @param {string} [includeTables] 
+     * @param {EnterpriseApiRenderReportPDFsRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof EnterpriseApi
      */
-    public renderReportPDFs(dashboards?: string, orientation?: string, layout?: string, title?: string, scaleFactor?: string, includeTables?: string, options?: RawAxiosRequestConfig) {
-        return EnterpriseApiFp(this.configuration).renderReportPDFs(dashboards, orientation, layout, title, scaleFactor, includeTables, options).then((request) => request(this.axios, this.basePath));
+    public renderReportPDFs(requestParameters: EnterpriseApiRenderReportPDFsRequest = {}, options?: RawAxiosRequestConfig) {
+        return EnterpriseApiFp(this.configuration).renderReportPDFs(requestParameters.dashboardID, requestParameters.orientation, requestParameters.layout, requestParameters.title, requestParameters.scaleFactor, requestParameters.includeTables, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Available to org admins only and with a valid or expired license.  You need to have a permission with action `reports.settings:write`xx.
      * @summary Save settings.
-     * @param {ReportSettings} body 
+     * @param {EnterpriseApiSaveReportSettingsRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof EnterpriseApi
      */
-    public saveReportSettings(body: ReportSettings, options?: RawAxiosRequestConfig) {
-        return EnterpriseApiFp(this.configuration).saveReportSettings(body, options).then((request) => request(this.axios, this.basePath));
+    public saveReportSettings(requestParameters: EnterpriseApiSaveReportSettingsRequest, options?: RawAxiosRequestConfig) {
+        return EnterpriseApiFp(this.configuration).saveReportSettings(requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -30404,138 +30772,109 @@ export class EnterpriseApi extends BaseAPI {
     /**
      * Generate and send a report. This API waits for the report to be generated before returning. We recommend that you set the client’s timeout to at least 60 seconds. Available to org admins only and with a valid license.  Only available in Grafana Enterprise v7.0+. This API endpoint is experimental and may be deprecated in a future release. On deprecation, a migration strategy will be provided and the endpoint will remain functional until the next major release of Grafana.  You need to have a permission with action `reports:send`.
      * @summary Send a report.
-     * @param {ReportEmail} body 
+     * @param {EnterpriseApiSendReportRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof EnterpriseApi
      */
-    public sendReport(body: ReportEmail, options?: RawAxiosRequestConfig) {
-        return EnterpriseApiFp(this.configuration).sendReport(body, options).then((request) => request(this.axios, this.basePath));
+    public sendReport(requestParameters: EnterpriseApiSendReportRequest, options?: RawAxiosRequestConfig) {
+        return EnterpriseApiFp(this.configuration).sendReport(requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Available to org admins only and with a valid license.  You need to have a permission with action `reports:send`.
      * @summary Send test report via email.
-     * @param {CreateOrUpdateReport} body 
+     * @param {EnterpriseApiSendTestEmailRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof EnterpriseApi
      */
-    public sendTestEmail(body: CreateOrUpdateReport, options?: RawAxiosRequestConfig) {
-        return EnterpriseApiFp(this.configuration).sendTestEmail(body, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * set cache config for a single data source
-     * @param {string} dataSourceUID 
-     * @param {CacheConfigSetter} body 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof EnterpriseApi
-     */
-    public setDataSourceCacheConfig(dataSourceUID: string, body: CacheConfigSetter, options?: RawAxiosRequestConfig) {
-        return EnterpriseApiFp(this.configuration).setDataSourceCacheConfig(dataSourceUID, body, options).then((request) => request(this.axios, this.basePath));
+    public sendTestEmail(requestParameters: EnterpriseApiSendTestEmailRequest, options?: RawAxiosRequestConfig) {
+        return EnterpriseApiFp(this.configuration).sendTestEmail(requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Set role assignments for the role with the given UID.  You need to have a permission with action `teams.roles:add` and `teams.roles:remove` and scope `permissions:type:delegate`, and `users.roles:add` and `users.roles:remove` and scope `permissions:type:delegate`.
      * @summary Set role assignments.
-     * @param {string} roleUID 
-     * @param {SetRoleAssignmentsCommand} body 
+     * @param {EnterpriseApiSetRoleAssignmentsRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof EnterpriseApi
      */
-    public setRoleAssignments(roleUID: string, body: SetRoleAssignmentsCommand, options?: RawAxiosRequestConfig) {
-        return EnterpriseApiFp(this.configuration).setRoleAssignments(roleUID, body, options).then((request) => request(this.axios, this.basePath));
+    public setRoleAssignments(requestParameters: EnterpriseApiSetRoleAssignmentsRequest, options?: RawAxiosRequestConfig) {
+        return EnterpriseApiFp(this.configuration).setRoleAssignments(requestParameters.roleUID, requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * You need to have a permission with action `teams.roles:add` and `teams.roles:remove` and scope `permissions:type:delegate` for each.
      * @summary Update team role.
-     * @param {number} teamId 
+     * @param {EnterpriseApiSetTeamRolesRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof EnterpriseApi
      */
-    public setTeamRoles(teamId: number, options?: RawAxiosRequestConfig) {
-        return EnterpriseApiFp(this.configuration).setTeamRoles(teamId, options).then((request) => request(this.axios, this.basePath));
+    public setTeamRoles(requestParameters: EnterpriseApiSetTeamRolesRequest, options?: RawAxiosRequestConfig) {
+        return EnterpriseApiFp(this.configuration).setTeamRoles(requestParameters.teamId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
-     * Update the user’s role assignments to match the provided set of UIDs. This will remove any assigned roles that aren’t in the request and add roles that are in the set but are not already assigned to the user. Roles mapped through group attribute sync are not impacted. If you want to add or remove a single role, consider using Add a user role assignment or Remove a user role assignment instead.  You need to have a permission with action `users.roles:add` and `users.roles:remove` and scope `permissions:type:delegate` for each. `permissions:type:delegate`  scope ensures that users can only assign or unassign roles which have same, or a subset of permissions which the user has. For example, if a user does not have required permissions for creating users, they won’t be able to assign or unassign a role which will allow to do that. This is done to prevent escalation of privileges.
+     * Update the user’s role assignments to match the provided set of UIDs. This will remove any assigned roles that aren’t in the request and add roles that are in the set but are not already assigned to the user. If you want to add or remove a single role, consider using Add a user role assignment or Remove a user role assignment instead.  You need to have a permission with action `users.roles:add` and `users.roles:remove` and scope `permissions:type:delegate` for each. `permissions:type:delegate`  scope ensures that users can only assign or unassign roles which have same, or a subset of permissions which the user has. For example, if a user does not have required permissions for creating users, they won’t be able to assign or unassign a role which will allow to do that. This is done to prevent escalation of privileges.
      * @summary Set user role assignments.
-     * @param {number} userId 
-     * @param {SetUserRolesCommand} body 
+     * @param {EnterpriseApiSetUserRolesRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof EnterpriseApi
      */
-    public setUserRoles(userId: number, body: SetUserRolesCommand, options?: RawAxiosRequestConfig) {
-        return EnterpriseApiFp(this.configuration).setUserRoles(userId, body, options).then((request) => request(this.axios, this.basePath));
+    public setUserRoles(requestParameters: EnterpriseApiSetUserRolesRequest, options?: RawAxiosRequestConfig) {
+        return EnterpriseApiFp(this.configuration).setUserRoles(requestParameters.userId, requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
      * @summary Test a recording rule.
-     * @param {RecordingRuleJSON} body 
+     * @param {EnterpriseApiTestCreateRecordingRuleRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof EnterpriseApi
      */
-    public testCreateRecordingRule(body: RecordingRuleJSON, options?: RawAxiosRequestConfig) {
-        return EnterpriseApiFp(this.configuration).testCreateRecordingRule(body, options).then((request) => request(this.axios, this.basePath));
+    public testCreateRecordingRule(requestParameters: EnterpriseApiTestCreateRecordingRuleRequest, options?: RawAxiosRequestConfig) {
+        return EnterpriseApiFp(this.configuration).testCreateRecordingRule(requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
      * @summary Update the active status of a rule.
-     * @param {RecordingRuleJSON} body 
+     * @param {EnterpriseApiUpdateRecordingRuleRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof EnterpriseApi
      */
-    public updateRecordingRule(body: RecordingRuleJSON, options?: RawAxiosRequestConfig) {
-        return EnterpriseApiFp(this.configuration).updateRecordingRule(body, options).then((request) => request(this.axios, this.basePath));
+    public updateRecordingRule(requestParameters: EnterpriseApiUpdateRecordingRuleRequest, options?: RawAxiosRequestConfig) {
+        return EnterpriseApiFp(this.configuration).updateRecordingRule(requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Available to org admins only and with a valid or expired license.  You need to have a permission with action `reports.admin:write` with scope `reports:id:<report ID>`.
      * @summary Update a report.
-     * @param {number} id 
-     * @param {CreateOrUpdateReport} body 
+     * @param {EnterpriseApiUpdateReportRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof EnterpriseApi
      */
-    public updateReport(id: number, body: CreateOrUpdateReport, options?: RawAxiosRequestConfig) {
-        return EnterpriseApiFp(this.configuration).updateReport(id, body, options).then((request) => request(this.axios, this.basePath));
+    public updateReport(requestParameters: EnterpriseApiUpdateReportRequest, options?: RawAxiosRequestConfig) {
+        return EnterpriseApiFp(this.configuration).updateReport(requestParameters.id, requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * You need to have a permission with action `roles:write` and scope `permissions:type:delegate`. `permissions:type:delegate` scope ensures that users can only create custom roles with the same, or a subset of permissions which the user has.
      * @summary Update a custom role.
-     * @param {string} roleUID 
-     * @param {UpdateRoleCommand} body 
+     * @param {EnterpriseApiUpdateRoleRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof EnterpriseApi
      */
-    public updateRole(roleUID: string, body: UpdateRoleCommand, options?: RawAxiosRequestConfig) {
-        return EnterpriseApiFp(this.configuration).updateRole(roleUID, body, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * 
-     * @summary Updates LBAC rules for a team.
-     * @param {string} uid 
-     * @param {UpdateTeamLBACCommand} [body] 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof EnterpriseApi
-     */
-    public updateTeamLBACRulesApi(uid: string, body?: UpdateTeamLBACCommand, options?: RawAxiosRequestConfig) {
-        return EnterpriseApiFp(this.configuration).updateTeamLBACRulesApi(uid, body, options).then((request) => request(this.axios, this.basePath));
+    public updateRole(requestParameters: EnterpriseApiUpdateRoleRequest, options?: RawAxiosRequestConfig) {
+        return EnterpriseApiFp(this.configuration).updateRole(requestParameters.roleUID, requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -30685,26 +31024,60 @@ export const FolderPermissionsApiFactory = function (configuration?: Configurati
         /**
          * 
          * @summary Gets all existing permissions for the folder with the given `uid`.
-         * @param {string} folderUid 
+         * @param {FolderPermissionsApiGetFolderPermissionListRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getFolderPermissionList(folderUid: string, options?: RawAxiosRequestConfig): AxiosPromise<Array<DashboardACLInfoDTO>> {
-            return localVarFp.getFolderPermissionList(folderUid, options).then((request) => request(axios, basePath));
+        getFolderPermissionList(requestParameters: FolderPermissionsApiGetFolderPermissionListRequest, options?: RawAxiosRequestConfig): AxiosPromise<Array<DashboardACLInfoDTO>> {
+            return localVarFp.getFolderPermissionList(requestParameters.folderUid, options).then((request) => request(axios, basePath));
         },
         /**
          * 
          * @summary Updates permissions for a folder. This operation will remove existing permissions if they’re not included in the request.
-         * @param {string} folderUid 
-         * @param {UpdateDashboardACLCommand} body 
+         * @param {FolderPermissionsApiUpdateFolderPermissionsRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateFolderPermissions(folderUid: string, body: UpdateDashboardACLCommand, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
-            return localVarFp.updateFolderPermissions(folderUid, body, options).then((request) => request(axios, basePath));
+        updateFolderPermissions(requestParameters: FolderPermissionsApiUpdateFolderPermissionsRequest, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
+            return localVarFp.updateFolderPermissions(requestParameters.folderUid, requestParameters.body, options).then((request) => request(axios, basePath));
         },
     };
 };
+
+/**
+ * Request parameters for getFolderPermissionList operation in FolderPermissionsApi.
+ * @export
+ * @interface FolderPermissionsApiGetFolderPermissionListRequest
+ */
+export interface FolderPermissionsApiGetFolderPermissionListRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof FolderPermissionsApiGetFolderPermissionList
+     */
+    readonly folderUid: string
+}
+
+/**
+ * Request parameters for updateFolderPermissions operation in FolderPermissionsApi.
+ * @export
+ * @interface FolderPermissionsApiUpdateFolderPermissionsRequest
+ */
+export interface FolderPermissionsApiUpdateFolderPermissionsRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof FolderPermissionsApiUpdateFolderPermissions
+     */
+    readonly folderUid: string
+
+    /**
+     * 
+     * @type {UpdateDashboardACLCommand}
+     * @memberof FolderPermissionsApiUpdateFolderPermissions
+     */
+    readonly body: UpdateDashboardACLCommand
+}
 
 /**
  * FolderPermissionsApi - object-oriented interface
@@ -30716,26 +31089,25 @@ export class FolderPermissionsApi extends BaseAPI {
     /**
      * 
      * @summary Gets all existing permissions for the folder with the given `uid`.
-     * @param {string} folderUid 
+     * @param {FolderPermissionsApiGetFolderPermissionListRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof FolderPermissionsApi
      */
-    public getFolderPermissionList(folderUid: string, options?: RawAxiosRequestConfig) {
-        return FolderPermissionsApiFp(this.configuration).getFolderPermissionList(folderUid, options).then((request) => request(this.axios, this.basePath));
+    public getFolderPermissionList(requestParameters: FolderPermissionsApiGetFolderPermissionListRequest, options?: RawAxiosRequestConfig) {
+        return FolderPermissionsApiFp(this.configuration).getFolderPermissionList(requestParameters.folderUid, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
      * @summary Updates permissions for a folder. This operation will remove existing permissions if they’re not included in the request.
-     * @param {string} folderUid 
-     * @param {UpdateDashboardACLCommand} body 
+     * @param {FolderPermissionsApiUpdateFolderPermissionsRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof FolderPermissionsApi
      */
-    public updateFolderPermissions(folderUid: string, body: UpdateDashboardACLCommand, options?: RawAxiosRequestConfig) {
-        return FolderPermissionsApiFp(this.configuration).updateFolderPermissions(folderUid, body, options).then((request) => request(this.axios, this.basePath));
+    public updateFolderPermissions(requestParameters: FolderPermissionsApiUpdateFolderPermissionsRequest, options?: RawAxiosRequestConfig) {
+        return FolderPermissionsApiFp(this.configuration).updateFolderPermissions(requestParameters.folderUid, requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -31245,92 +31617,240 @@ export const FoldersApiFactory = function (configuration?: Configuration, basePa
         /**
          * If nested folders are enabled then it additionally expects the parent folder UID.
          * @summary Create folder.
-         * @param {CreateFolderCommand} body 
+         * @param {FoldersApiCreateFolderRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createFolder(body: CreateFolderCommand, options?: RawAxiosRequestConfig): AxiosPromise<Folder> {
-            return localVarFp.createFolder(body, options).then((request) => request(axios, basePath));
+        createFolder(requestParameters: FoldersApiCreateFolderRequest, options?: RawAxiosRequestConfig): AxiosPromise<Folder> {
+            return localVarFp.createFolder(requestParameters.body, options).then((request) => request(axios, basePath));
         },
         /**
          * Deletes an existing folder identified by UID along with all dashboards (and their alerts) stored in the folder. This operation cannot be reverted. If nested folders are enabled then it also deletes all the subfolders.
          * @summary Delete folder.
-         * @param {string} folderUid 
-         * @param {boolean} [forceDeleteRules] If &#x60;true&#x60; any Grafana 8 Alerts under this folder will be deleted. Set to &#x60;false&#x60; so that the request will fail if the folder contains any Grafana 8 Alerts.
+         * @param {FoldersApiDeleteFolderRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        deleteFolder(folderUid: string, forceDeleteRules?: boolean, options?: RawAxiosRequestConfig): AxiosPromise<DeleteFolder200Response> {
-            return localVarFp.deleteFolder(folderUid, forceDeleteRules, options).then((request) => request(axios, basePath));
+        deleteFolder(requestParameters: FoldersApiDeleteFolderRequest, options?: RawAxiosRequestConfig): AxiosPromise<DeleteFolder200Response> {
+            return localVarFp.deleteFolder(requestParameters.folderUid, requestParameters.forceDeleteRules, options).then((request) => request(axios, basePath));
         },
         /**
          * Returns the folder identified by id. This is deprecated. Please refer to [updated API](#/folders/getFolderByUID) instead
          * @summary Get folder by id.
-         * @param {number} folderId 
+         * @param {FoldersApiGetFolderByIDRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @deprecated
          * @throws {RequiredError}
          */
-        getFolderByID(folderId: number, options?: RawAxiosRequestConfig): AxiosPromise<Folder> {
-            return localVarFp.getFolderByID(folderId, options).then((request) => request(axios, basePath));
+        getFolderByID(requestParameters: FoldersApiGetFolderByIDRequest, options?: RawAxiosRequestConfig): AxiosPromise<Folder> {
+            return localVarFp.getFolderByID(requestParameters.folderId, options).then((request) => request(axios, basePath));
         },
         /**
          * 
          * @summary Get folder by uid.
-         * @param {string} folderUid 
+         * @param {FoldersApiGetFolderByUIDRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getFolderByUID(folderUid: string, options?: RawAxiosRequestConfig): AxiosPromise<Folder> {
-            return localVarFp.getFolderByUID(folderUid, options).then((request) => request(axios, basePath));
+        getFolderByUID(requestParameters: FoldersApiGetFolderByUIDRequest, options?: RawAxiosRequestConfig): AxiosPromise<Folder> {
+            return localVarFp.getFolderByUID(requestParameters.folderUid, options).then((request) => request(axios, basePath));
         },
         /**
          * 
          * @summary Gets the count of each descendant of a folder by kind. The folder is identified by UID.
-         * @param {string} folderUid 
+         * @param {FoldersApiGetFolderDescendantCountsRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getFolderDescendantCounts(folderUid: string, options?: RawAxiosRequestConfig): AxiosPromise<{ [key: string]: number; }> {
-            return localVarFp.getFolderDescendantCounts(folderUid, options).then((request) => request(axios, basePath));
+        getFolderDescendantCounts(requestParameters: FoldersApiGetFolderDescendantCountsRequest, options?: RawAxiosRequestConfig): AxiosPromise<{ [key: string]: number; }> {
+            return localVarFp.getFolderDescendantCounts(requestParameters.folderUid, options).then((request) => request(axios, basePath));
         },
         /**
          * It returns all folders that the authenticated user has permission to view. If nested folders are enabled, it expects an additional query parameter with the parent folder UID and returns the immediate subfolders that the authenticated user has permission to view. If the parameter is not supplied then it returns immediate subfolders under the root that the authenticated user has permission to view.
          * @summary Get all folders.
-         * @param {number} [limit] Limit the maximum number of folders to return
-         * @param {number} [page] Page index for starting fetching folders
-         * @param {string} [parentUid] The parent folder UID
-         * @param {GetFoldersPermissionEnum} [permission] Set to &#x60;Edit&#x60; to return folders that the user can edit
+         * @param {FoldersApiGetFoldersRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getFolders(limit?: number, page?: number, parentUid?: string, permission?: GetFoldersPermissionEnum, options?: RawAxiosRequestConfig): AxiosPromise<Array<FolderSearchHit>> {
-            return localVarFp.getFolders(limit, page, parentUid, permission, options).then((request) => request(axios, basePath));
+        getFolders(requestParameters: FoldersApiGetFoldersRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<Array<FolderSearchHit>> {
+            return localVarFp.getFolders(requestParameters.limit, requestParameters.page, requestParameters.parentUid, requestParameters.permission, options).then((request) => request(axios, basePath));
         },
         /**
          * 
          * @summary Move folder.
-         * @param {string} folderUid 
-         * @param {MoveFolderCommand} body 
+         * @param {FoldersApiMoveFolderRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        moveFolder(folderUid: string, body: MoveFolderCommand, options?: RawAxiosRequestConfig): AxiosPromise<Folder> {
-            return localVarFp.moveFolder(folderUid, body, options).then((request) => request(axios, basePath));
+        moveFolder(requestParameters: FoldersApiMoveFolderRequest, options?: RawAxiosRequestConfig): AxiosPromise<Folder> {
+            return localVarFp.moveFolder(requestParameters.folderUid, requestParameters.body, options).then((request) => request(axios, basePath));
         },
         /**
          * 
          * @summary Update folder.
-         * @param {string} folderUid 
-         * @param {UpdateFolderCommand} body To change the unique identifier (uid), provide another one. To overwrite an existing folder with newer version, set &#x60;overwrite&#x60; to &#x60;true&#x60;. Provide the current version to safelly update the folder: if the provided version differs from the stored one the request will fail, unless &#x60;overwrite&#x60; is &#x60;true&#x60;.
+         * @param {FoldersApiUpdateFolderRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateFolder(folderUid: string, body: UpdateFolderCommand, options?: RawAxiosRequestConfig): AxiosPromise<Folder> {
-            return localVarFp.updateFolder(folderUid, body, options).then((request) => request(axios, basePath));
+        updateFolder(requestParameters: FoldersApiUpdateFolderRequest, options?: RawAxiosRequestConfig): AxiosPromise<Folder> {
+            return localVarFp.updateFolder(requestParameters.folderUid, requestParameters.body, options).then((request) => request(axios, basePath));
         },
     };
 };
+
+/**
+ * Request parameters for createFolder operation in FoldersApi.
+ * @export
+ * @interface FoldersApiCreateFolderRequest
+ */
+export interface FoldersApiCreateFolderRequest {
+    /**
+     * 
+     * @type {CreateFolderCommand}
+     * @memberof FoldersApiCreateFolder
+     */
+    readonly body: CreateFolderCommand
+}
+
+/**
+ * Request parameters for deleteFolder operation in FoldersApi.
+ * @export
+ * @interface FoldersApiDeleteFolderRequest
+ */
+export interface FoldersApiDeleteFolderRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof FoldersApiDeleteFolder
+     */
+    readonly folderUid: string
+
+    /**
+     * If &#x60;true&#x60; any Grafana 8 Alerts under this folder will be deleted. Set to &#x60;false&#x60; so that the request will fail if the folder contains any Grafana 8 Alerts.
+     * @type {boolean}
+     * @memberof FoldersApiDeleteFolder
+     */
+    readonly forceDeleteRules?: boolean
+}
+
+/**
+ * Request parameters for getFolderByID operation in FoldersApi.
+ * @export
+ * @interface FoldersApiGetFolderByIDRequest
+ */
+export interface FoldersApiGetFolderByIDRequest {
+    /**
+     * 
+     * @type {number}
+     * @memberof FoldersApiGetFolderByID
+     */
+    readonly folderId: number
+}
+
+/**
+ * Request parameters for getFolderByUID operation in FoldersApi.
+ * @export
+ * @interface FoldersApiGetFolderByUIDRequest
+ */
+export interface FoldersApiGetFolderByUIDRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof FoldersApiGetFolderByUID
+     */
+    readonly folderUid: string
+}
+
+/**
+ * Request parameters for getFolderDescendantCounts operation in FoldersApi.
+ * @export
+ * @interface FoldersApiGetFolderDescendantCountsRequest
+ */
+export interface FoldersApiGetFolderDescendantCountsRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof FoldersApiGetFolderDescendantCounts
+     */
+    readonly folderUid: string
+}
+
+/**
+ * Request parameters for getFolders operation in FoldersApi.
+ * @export
+ * @interface FoldersApiGetFoldersRequest
+ */
+export interface FoldersApiGetFoldersRequest {
+    /**
+     * Limit the maximum number of folders to return
+     * @type {number}
+     * @memberof FoldersApiGetFolders
+     */
+    readonly limit?: number
+
+    /**
+     * Page index for starting fetching folders
+     * @type {number}
+     * @memberof FoldersApiGetFolders
+     */
+    readonly page?: number
+
+    /**
+     * The parent folder UID
+     * @type {string}
+     * @memberof FoldersApiGetFolders
+     */
+    readonly parentUid?: string
+
+    /**
+     * Set to &#x60;Edit&#x60; to return folders that the user can edit
+     * @type {'Edit' | 'View'}
+     * @memberof FoldersApiGetFolders
+     */
+    readonly permission?: GetFoldersPermissionEnum
+}
+
+/**
+ * Request parameters for moveFolder operation in FoldersApi.
+ * @export
+ * @interface FoldersApiMoveFolderRequest
+ */
+export interface FoldersApiMoveFolderRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof FoldersApiMoveFolder
+     */
+    readonly folderUid: string
+
+    /**
+     * 
+     * @type {MoveFolderCommand}
+     * @memberof FoldersApiMoveFolder
+     */
+    readonly body: MoveFolderCommand
+}
+
+/**
+ * Request parameters for updateFolder operation in FoldersApi.
+ * @export
+ * @interface FoldersApiUpdateFolderRequest
+ */
+export interface FoldersApiUpdateFolderRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof FoldersApiUpdateFolder
+     */
+    readonly folderUid: string
+
+    /**
+     * To change the unique identifier (uid), provide another one. To overwrite an existing folder with newer version, set &#x60;overwrite&#x60; to &#x60;true&#x60;. Provide the current version to safelly update the folder: if the provided version differs from the stored one the request will fail, unless &#x60;overwrite&#x60; is &#x60;true&#x60;.
+     * @type {UpdateFolderCommand}
+     * @memberof FoldersApiUpdateFolder
+     */
+    readonly body: UpdateFolderCommand
+}
 
 /**
  * FoldersApi - object-oriented interface
@@ -31342,104 +31862,98 @@ export class FoldersApi extends BaseAPI {
     /**
      * If nested folders are enabled then it additionally expects the parent folder UID.
      * @summary Create folder.
-     * @param {CreateFolderCommand} body 
+     * @param {FoldersApiCreateFolderRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof FoldersApi
      */
-    public createFolder(body: CreateFolderCommand, options?: RawAxiosRequestConfig) {
-        return FoldersApiFp(this.configuration).createFolder(body, options).then((request) => request(this.axios, this.basePath));
+    public createFolder(requestParameters: FoldersApiCreateFolderRequest, options?: RawAxiosRequestConfig) {
+        return FoldersApiFp(this.configuration).createFolder(requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Deletes an existing folder identified by UID along with all dashboards (and their alerts) stored in the folder. This operation cannot be reverted. If nested folders are enabled then it also deletes all the subfolders.
      * @summary Delete folder.
-     * @param {string} folderUid 
-     * @param {boolean} [forceDeleteRules] If &#x60;true&#x60; any Grafana 8 Alerts under this folder will be deleted. Set to &#x60;false&#x60; so that the request will fail if the folder contains any Grafana 8 Alerts.
+     * @param {FoldersApiDeleteFolderRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof FoldersApi
      */
-    public deleteFolder(folderUid: string, forceDeleteRules?: boolean, options?: RawAxiosRequestConfig) {
-        return FoldersApiFp(this.configuration).deleteFolder(folderUid, forceDeleteRules, options).then((request) => request(this.axios, this.basePath));
+    public deleteFolder(requestParameters: FoldersApiDeleteFolderRequest, options?: RawAxiosRequestConfig) {
+        return FoldersApiFp(this.configuration).deleteFolder(requestParameters.folderUid, requestParameters.forceDeleteRules, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Returns the folder identified by id. This is deprecated. Please refer to [updated API](#/folders/getFolderByUID) instead
      * @summary Get folder by id.
-     * @param {number} folderId 
+     * @param {FoldersApiGetFolderByIDRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @deprecated
      * @throws {RequiredError}
      * @memberof FoldersApi
      */
-    public getFolderByID(folderId: number, options?: RawAxiosRequestConfig) {
-        return FoldersApiFp(this.configuration).getFolderByID(folderId, options).then((request) => request(this.axios, this.basePath));
+    public getFolderByID(requestParameters: FoldersApiGetFolderByIDRequest, options?: RawAxiosRequestConfig) {
+        return FoldersApiFp(this.configuration).getFolderByID(requestParameters.folderId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
      * @summary Get folder by uid.
-     * @param {string} folderUid 
+     * @param {FoldersApiGetFolderByUIDRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof FoldersApi
      */
-    public getFolderByUID(folderUid: string, options?: RawAxiosRequestConfig) {
-        return FoldersApiFp(this.configuration).getFolderByUID(folderUid, options).then((request) => request(this.axios, this.basePath));
+    public getFolderByUID(requestParameters: FoldersApiGetFolderByUIDRequest, options?: RawAxiosRequestConfig) {
+        return FoldersApiFp(this.configuration).getFolderByUID(requestParameters.folderUid, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
      * @summary Gets the count of each descendant of a folder by kind. The folder is identified by UID.
-     * @param {string} folderUid 
+     * @param {FoldersApiGetFolderDescendantCountsRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof FoldersApi
      */
-    public getFolderDescendantCounts(folderUid: string, options?: RawAxiosRequestConfig) {
-        return FoldersApiFp(this.configuration).getFolderDescendantCounts(folderUid, options).then((request) => request(this.axios, this.basePath));
+    public getFolderDescendantCounts(requestParameters: FoldersApiGetFolderDescendantCountsRequest, options?: RawAxiosRequestConfig) {
+        return FoldersApiFp(this.configuration).getFolderDescendantCounts(requestParameters.folderUid, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * It returns all folders that the authenticated user has permission to view. If nested folders are enabled, it expects an additional query parameter with the parent folder UID and returns the immediate subfolders that the authenticated user has permission to view. If the parameter is not supplied then it returns immediate subfolders under the root that the authenticated user has permission to view.
      * @summary Get all folders.
-     * @param {number} [limit] Limit the maximum number of folders to return
-     * @param {number} [page] Page index for starting fetching folders
-     * @param {string} [parentUid] The parent folder UID
-     * @param {GetFoldersPermissionEnum} [permission] Set to &#x60;Edit&#x60; to return folders that the user can edit
+     * @param {FoldersApiGetFoldersRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof FoldersApi
      */
-    public getFolders(limit?: number, page?: number, parentUid?: string, permission?: GetFoldersPermissionEnum, options?: RawAxiosRequestConfig) {
-        return FoldersApiFp(this.configuration).getFolders(limit, page, parentUid, permission, options).then((request) => request(this.axios, this.basePath));
+    public getFolders(requestParameters: FoldersApiGetFoldersRequest = {}, options?: RawAxiosRequestConfig) {
+        return FoldersApiFp(this.configuration).getFolders(requestParameters.limit, requestParameters.page, requestParameters.parentUid, requestParameters.permission, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
      * @summary Move folder.
-     * @param {string} folderUid 
-     * @param {MoveFolderCommand} body 
+     * @param {FoldersApiMoveFolderRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof FoldersApi
      */
-    public moveFolder(folderUid: string, body: MoveFolderCommand, options?: RawAxiosRequestConfig) {
-        return FoldersApiFp(this.configuration).moveFolder(folderUid, body, options).then((request) => request(this.axios, this.basePath));
+    public moveFolder(requestParameters: FoldersApiMoveFolderRequest, options?: RawAxiosRequestConfig) {
+        return FoldersApiFp(this.configuration).moveFolder(requestParameters.folderUid, requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
      * @summary Update folder.
-     * @param {string} folderUid 
-     * @param {UpdateFolderCommand} body To change the unique identifier (uid), provide another one. To overwrite an existing folder with newer version, set &#x60;overwrite&#x60; to &#x60;true&#x60;. Provide the current version to safelly update the folder: if the provided version differs from the stored one the request will fail, unless &#x60;overwrite&#x60; is &#x60;true&#x60;.
+     * @param {FoldersApiUpdateFolderRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof FoldersApi
      */
-    public updateFolder(folderUid: string, body: UpdateFolderCommand, options?: RawAxiosRequestConfig) {
-        return FoldersApiFp(this.configuration).updateFolder(folderUid, body, options).then((request) => request(this.axios, this.basePath));
+    public updateFolder(requestParameters: FoldersApiUpdateFolderRequest, options?: RawAxiosRequestConfig) {
+        return FoldersApiFp(this.configuration).updateFolder(requestParameters.folderUid, requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -31556,110 +32070,6 @@ export class GetCurrentOrgApi extends BaseAPI {
      */
     public getCurrentOrgQuota(options?: RawAxiosRequestConfig) {
         return GetCurrentOrgApiFp(this.configuration).getCurrentOrgQuota(options).then((request) => request(this.axios, this.basePath));
-    }
-}
-
-
-
-/**
- * HealthApi - axios parameter creator
- * @export
- */
-export const HealthApiAxiosParamCreator = function (configuration?: Configuration) {
-    return {
-        /**
-         * apiHealthHandler will return ok if Grafana\'s web server is running and it can access the database. If the database cannot be accessed it will return http status code 503.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        getHealth: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/health`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication api_key required
-            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
-
-            // authentication basic required
-            // http basic authentication required
-            setBasicAuthToObject(localVarRequestOptions, configuration)
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-    }
-};
-
-/**
- * HealthApi - functional programming interface
- * @export
- */
-export const HealthApiFp = function(configuration?: Configuration) {
-    const localVarAxiosParamCreator = HealthApiAxiosParamCreator(configuration)
-    return {
-        /**
-         * apiHealthHandler will return ok if Grafana\'s web server is running and it can access the database. If the database cannot be accessed it will return http status code 503.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async getHealth(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<HealthResponse>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getHealth(options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['HealthApi.getHealth']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
-    }
-};
-
-/**
- * HealthApi - factory interface
- * @export
- */
-export const HealthApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
-    const localVarFp = HealthApiFp(configuration)
-    return {
-        /**
-         * apiHealthHandler will return ok if Grafana\'s web server is running and it can access the database. If the database cannot be accessed it will return http status code 503.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        getHealth(options?: RawAxiosRequestConfig): AxiosPromise<HealthResponse> {
-            return localVarFp.getHealth(options).then((request) => request(axios, basePath));
-        },
-    };
-};
-
-/**
- * HealthApi - object-oriented interface
- * @export
- * @class HealthApi
- * @extends {BaseAPI}
- */
-export class HealthApi extends BaseAPI {
-    /**
-     * apiHealthHandler will return ok if Grafana\'s web server is running and it can access the database. If the database cannot be accessed it will return http status code 503.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof HealthApi
-     */
-    public getHealth(options?: RawAxiosRequestConfig) {
-        return HealthApiFp(this.configuration).getHealth(options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -32232,83 +32642,229 @@ export const LibraryElementsApiFactory = function (configuration?: Configuration
         /**
          * Creates a new library element.
          * @summary Create library element.
-         * @param {CreateLibraryElementCommand} body 
+         * @param {LibraryElementsApiCreateLibraryElementRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createLibraryElement(body: CreateLibraryElementCommand, options?: RawAxiosRequestConfig): AxiosPromise<LibraryElementResponse> {
-            return localVarFp.createLibraryElement(body, options).then((request) => request(axios, basePath));
+        createLibraryElement(requestParameters: LibraryElementsApiCreateLibraryElementRequest, options?: RawAxiosRequestConfig): AxiosPromise<LibraryElementResponse> {
+            return localVarFp.createLibraryElement(requestParameters.body, options).then((request) => request(axios, basePath));
         },
         /**
          * Deletes an existing library element as specified by the UID. This operation cannot be reverted. You cannot delete a library element that is connected. This operation cannot be reverted.
          * @summary Delete library element.
-         * @param {string} libraryElementUid 
+         * @param {LibraryElementsApiDeleteLibraryElementByUIDRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        deleteLibraryElementByUID(libraryElementUid: string, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
-            return localVarFp.deleteLibraryElementByUID(libraryElementUid, options).then((request) => request(axios, basePath));
+        deleteLibraryElementByUID(requestParameters: LibraryElementsApiDeleteLibraryElementByUIDRequest, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
+            return localVarFp.deleteLibraryElementByUID(requestParameters.libraryElementUid, options).then((request) => request(axios, basePath));
         },
         /**
          * Returns a library element with the given name.
          * @summary Get library element by name.
-         * @param {string} libraryElementName 
+         * @param {LibraryElementsApiGetLibraryElementByNameRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getLibraryElementByName(libraryElementName: string, options?: RawAxiosRequestConfig): AxiosPromise<LibraryElementArrayResponse> {
-            return localVarFp.getLibraryElementByName(libraryElementName, options).then((request) => request(axios, basePath));
+        getLibraryElementByName(requestParameters: LibraryElementsApiGetLibraryElementByNameRequest, options?: RawAxiosRequestConfig): AxiosPromise<LibraryElementArrayResponse> {
+            return localVarFp.getLibraryElementByName(requestParameters.libraryElementName, options).then((request) => request(axios, basePath));
         },
         /**
          * Returns a library element with the given UID.
          * @summary Get library element by UID.
-         * @param {string} libraryElementUid 
+         * @param {LibraryElementsApiGetLibraryElementByUIDRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getLibraryElementByUID(libraryElementUid: string, options?: RawAxiosRequestConfig): AxiosPromise<LibraryElementResponse> {
-            return localVarFp.getLibraryElementByUID(libraryElementUid, options).then((request) => request(axios, basePath));
+        getLibraryElementByUID(requestParameters: LibraryElementsApiGetLibraryElementByUIDRequest, options?: RawAxiosRequestConfig): AxiosPromise<LibraryElementResponse> {
+            return localVarFp.getLibraryElementByUID(requestParameters.libraryElementUid, options).then((request) => request(axios, basePath));
         },
         /**
          * Returns a list of connections for a library element based on the UID specified.
          * @summary Get library element connections.
-         * @param {string} libraryElementUid 
+         * @param {LibraryElementsApiGetLibraryElementConnectionsRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getLibraryElementConnections(libraryElementUid: string, options?: RawAxiosRequestConfig): AxiosPromise<LibraryElementConnectionsResponse> {
-            return localVarFp.getLibraryElementConnections(libraryElementUid, options).then((request) => request(axios, basePath));
+        getLibraryElementConnections(requestParameters: LibraryElementsApiGetLibraryElementConnectionsRequest, options?: RawAxiosRequestConfig): AxiosPromise<LibraryElementConnectionsResponse> {
+            return localVarFp.getLibraryElementConnections(requestParameters.libraryElementUid, options).then((request) => request(axios, basePath));
         },
         /**
          * Returns a list of all library elements the authenticated user has permission to view. Use the `perPage` query parameter to control the maximum number of library elements returned; the default limit is `100`. You can also use the `page` query parameter to fetch library elements from any page other than the first one.
          * @summary Get all library elements.
-         * @param {string} [searchString] Part of the name or description searched for.
-         * @param {GetLibraryElementsKindEnum} [kind] Kind of element to search for.
-         * @param {GetLibraryElementsSortDirectionEnum} [sortDirection] Sort order of elements.
-         * @param {string} [typeFilter] A comma separated list of types to filter the elements by
-         * @param {string} [excludeUid] Element UID to exclude from search results.
-         * @param {string} [folderFilter] A comma separated list of folder ID(s) to filter the elements by.
-         * @param {number} [perPage] The number of results per page.
-         * @param {number} [page] The page for a set of records, given that only perPage records are returned at a time. Numbering starts at 1.
+         * @param {LibraryElementsApiGetLibraryElementsRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getLibraryElements(searchString?: string, kind?: GetLibraryElementsKindEnum, sortDirection?: GetLibraryElementsSortDirectionEnum, typeFilter?: string, excludeUid?: string, folderFilter?: string, perPage?: number, page?: number, options?: RawAxiosRequestConfig): AxiosPromise<LibraryElementSearchResponse> {
-            return localVarFp.getLibraryElements(searchString, kind, sortDirection, typeFilter, excludeUid, folderFilter, perPage, page, options).then((request) => request(axios, basePath));
+        getLibraryElements(requestParameters: LibraryElementsApiGetLibraryElementsRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<LibraryElementSearchResponse> {
+            return localVarFp.getLibraryElements(requestParameters.searchString, requestParameters.kind, requestParameters.sortDirection, requestParameters.typeFilter, requestParameters.excludeUid, requestParameters.folderFilter, requestParameters.perPage, requestParameters.page, options).then((request) => request(axios, basePath));
         },
         /**
          * Updates an existing library element identified by uid.
          * @summary Update library element.
-         * @param {string} libraryElementUid 
-         * @param {PatchLibraryElementCommand} body 
+         * @param {LibraryElementsApiUpdateLibraryElementRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateLibraryElement(libraryElementUid: string, body: PatchLibraryElementCommand, options?: RawAxiosRequestConfig): AxiosPromise<LibraryElementResponse> {
-            return localVarFp.updateLibraryElement(libraryElementUid, body, options).then((request) => request(axios, basePath));
+        updateLibraryElement(requestParameters: LibraryElementsApiUpdateLibraryElementRequest, options?: RawAxiosRequestConfig): AxiosPromise<LibraryElementResponse> {
+            return localVarFp.updateLibraryElement(requestParameters.libraryElementUid, requestParameters.body, options).then((request) => request(axios, basePath));
         },
     };
 };
+
+/**
+ * Request parameters for createLibraryElement operation in LibraryElementsApi.
+ * @export
+ * @interface LibraryElementsApiCreateLibraryElementRequest
+ */
+export interface LibraryElementsApiCreateLibraryElementRequest {
+    /**
+     * 
+     * @type {CreateLibraryElementCommand}
+     * @memberof LibraryElementsApiCreateLibraryElement
+     */
+    readonly body: CreateLibraryElementCommand
+}
+
+/**
+ * Request parameters for deleteLibraryElementByUID operation in LibraryElementsApi.
+ * @export
+ * @interface LibraryElementsApiDeleteLibraryElementByUIDRequest
+ */
+export interface LibraryElementsApiDeleteLibraryElementByUIDRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof LibraryElementsApiDeleteLibraryElementByUID
+     */
+    readonly libraryElementUid: string
+}
+
+/**
+ * Request parameters for getLibraryElementByName operation in LibraryElementsApi.
+ * @export
+ * @interface LibraryElementsApiGetLibraryElementByNameRequest
+ */
+export interface LibraryElementsApiGetLibraryElementByNameRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof LibraryElementsApiGetLibraryElementByName
+     */
+    readonly libraryElementName: string
+}
+
+/**
+ * Request parameters for getLibraryElementByUID operation in LibraryElementsApi.
+ * @export
+ * @interface LibraryElementsApiGetLibraryElementByUIDRequest
+ */
+export interface LibraryElementsApiGetLibraryElementByUIDRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof LibraryElementsApiGetLibraryElementByUID
+     */
+    readonly libraryElementUid: string
+}
+
+/**
+ * Request parameters for getLibraryElementConnections operation in LibraryElementsApi.
+ * @export
+ * @interface LibraryElementsApiGetLibraryElementConnectionsRequest
+ */
+export interface LibraryElementsApiGetLibraryElementConnectionsRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof LibraryElementsApiGetLibraryElementConnections
+     */
+    readonly libraryElementUid: string
+}
+
+/**
+ * Request parameters for getLibraryElements operation in LibraryElementsApi.
+ * @export
+ * @interface LibraryElementsApiGetLibraryElementsRequest
+ */
+export interface LibraryElementsApiGetLibraryElementsRequest {
+    /**
+     * Part of the name or description searched for.
+     * @type {string}
+     * @memberof LibraryElementsApiGetLibraryElements
+     */
+    readonly searchString?: string
+
+    /**
+     * Kind of element to search for.
+     * @type {1 | 2}
+     * @memberof LibraryElementsApiGetLibraryElements
+     */
+    readonly kind?: GetLibraryElementsKindEnum
+
+    /**
+     * Sort order of elements.
+     * @type {'alpha-asc' | 'alpha-desc'}
+     * @memberof LibraryElementsApiGetLibraryElements
+     */
+    readonly sortDirection?: GetLibraryElementsSortDirectionEnum
+
+    /**
+     * A comma separated list of types to filter the elements by
+     * @type {string}
+     * @memberof LibraryElementsApiGetLibraryElements
+     */
+    readonly typeFilter?: string
+
+    /**
+     * Element UID to exclude from search results.
+     * @type {string}
+     * @memberof LibraryElementsApiGetLibraryElements
+     */
+    readonly excludeUid?: string
+
+    /**
+     * A comma separated list of folder ID(s) to filter the elements by.
+     * @type {string}
+     * @memberof LibraryElementsApiGetLibraryElements
+     */
+    readonly folderFilter?: string
+
+    /**
+     * The number of results per page.
+     * @type {number}
+     * @memberof LibraryElementsApiGetLibraryElements
+     */
+    readonly perPage?: number
+
+    /**
+     * The page for a set of records, given that only perPage records are returned at a time. Numbering starts at 1.
+     * @type {number}
+     * @memberof LibraryElementsApiGetLibraryElements
+     */
+    readonly page?: number
+}
+
+/**
+ * Request parameters for updateLibraryElement operation in LibraryElementsApi.
+ * @export
+ * @interface LibraryElementsApiUpdateLibraryElementRequest
+ */
+export interface LibraryElementsApiUpdateLibraryElementRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof LibraryElementsApiUpdateLibraryElement
+     */
+    readonly libraryElementUid: string
+
+    /**
+     * 
+     * @type {PatchLibraryElementCommand}
+     * @memberof LibraryElementsApiUpdateLibraryElement
+     */
+    readonly body: PatchLibraryElementCommand
+}
 
 /**
  * LibraryElementsApi - object-oriented interface
@@ -32320,93 +32876,85 @@ export class LibraryElementsApi extends BaseAPI {
     /**
      * Creates a new library element.
      * @summary Create library element.
-     * @param {CreateLibraryElementCommand} body 
+     * @param {LibraryElementsApiCreateLibraryElementRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof LibraryElementsApi
      */
-    public createLibraryElement(body: CreateLibraryElementCommand, options?: RawAxiosRequestConfig) {
-        return LibraryElementsApiFp(this.configuration).createLibraryElement(body, options).then((request) => request(this.axios, this.basePath));
+    public createLibraryElement(requestParameters: LibraryElementsApiCreateLibraryElementRequest, options?: RawAxiosRequestConfig) {
+        return LibraryElementsApiFp(this.configuration).createLibraryElement(requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Deletes an existing library element as specified by the UID. This operation cannot be reverted. You cannot delete a library element that is connected. This operation cannot be reverted.
      * @summary Delete library element.
-     * @param {string} libraryElementUid 
+     * @param {LibraryElementsApiDeleteLibraryElementByUIDRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof LibraryElementsApi
      */
-    public deleteLibraryElementByUID(libraryElementUid: string, options?: RawAxiosRequestConfig) {
-        return LibraryElementsApiFp(this.configuration).deleteLibraryElementByUID(libraryElementUid, options).then((request) => request(this.axios, this.basePath));
+    public deleteLibraryElementByUID(requestParameters: LibraryElementsApiDeleteLibraryElementByUIDRequest, options?: RawAxiosRequestConfig) {
+        return LibraryElementsApiFp(this.configuration).deleteLibraryElementByUID(requestParameters.libraryElementUid, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Returns a library element with the given name.
      * @summary Get library element by name.
-     * @param {string} libraryElementName 
+     * @param {LibraryElementsApiGetLibraryElementByNameRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof LibraryElementsApi
      */
-    public getLibraryElementByName(libraryElementName: string, options?: RawAxiosRequestConfig) {
-        return LibraryElementsApiFp(this.configuration).getLibraryElementByName(libraryElementName, options).then((request) => request(this.axios, this.basePath));
+    public getLibraryElementByName(requestParameters: LibraryElementsApiGetLibraryElementByNameRequest, options?: RawAxiosRequestConfig) {
+        return LibraryElementsApiFp(this.configuration).getLibraryElementByName(requestParameters.libraryElementName, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Returns a library element with the given UID.
      * @summary Get library element by UID.
-     * @param {string} libraryElementUid 
+     * @param {LibraryElementsApiGetLibraryElementByUIDRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof LibraryElementsApi
      */
-    public getLibraryElementByUID(libraryElementUid: string, options?: RawAxiosRequestConfig) {
-        return LibraryElementsApiFp(this.configuration).getLibraryElementByUID(libraryElementUid, options).then((request) => request(this.axios, this.basePath));
+    public getLibraryElementByUID(requestParameters: LibraryElementsApiGetLibraryElementByUIDRequest, options?: RawAxiosRequestConfig) {
+        return LibraryElementsApiFp(this.configuration).getLibraryElementByUID(requestParameters.libraryElementUid, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Returns a list of connections for a library element based on the UID specified.
      * @summary Get library element connections.
-     * @param {string} libraryElementUid 
+     * @param {LibraryElementsApiGetLibraryElementConnectionsRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof LibraryElementsApi
      */
-    public getLibraryElementConnections(libraryElementUid: string, options?: RawAxiosRequestConfig) {
-        return LibraryElementsApiFp(this.configuration).getLibraryElementConnections(libraryElementUid, options).then((request) => request(this.axios, this.basePath));
+    public getLibraryElementConnections(requestParameters: LibraryElementsApiGetLibraryElementConnectionsRequest, options?: RawAxiosRequestConfig) {
+        return LibraryElementsApiFp(this.configuration).getLibraryElementConnections(requestParameters.libraryElementUid, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Returns a list of all library elements the authenticated user has permission to view. Use the `perPage` query parameter to control the maximum number of library elements returned; the default limit is `100`. You can also use the `page` query parameter to fetch library elements from any page other than the first one.
      * @summary Get all library elements.
-     * @param {string} [searchString] Part of the name or description searched for.
-     * @param {GetLibraryElementsKindEnum} [kind] Kind of element to search for.
-     * @param {GetLibraryElementsSortDirectionEnum} [sortDirection] Sort order of elements.
-     * @param {string} [typeFilter] A comma separated list of types to filter the elements by
-     * @param {string} [excludeUid] Element UID to exclude from search results.
-     * @param {string} [folderFilter] A comma separated list of folder ID(s) to filter the elements by.
-     * @param {number} [perPage] The number of results per page.
-     * @param {number} [page] The page for a set of records, given that only perPage records are returned at a time. Numbering starts at 1.
+     * @param {LibraryElementsApiGetLibraryElementsRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof LibraryElementsApi
      */
-    public getLibraryElements(searchString?: string, kind?: GetLibraryElementsKindEnum, sortDirection?: GetLibraryElementsSortDirectionEnum, typeFilter?: string, excludeUid?: string, folderFilter?: string, perPage?: number, page?: number, options?: RawAxiosRequestConfig) {
-        return LibraryElementsApiFp(this.configuration).getLibraryElements(searchString, kind, sortDirection, typeFilter, excludeUid, folderFilter, perPage, page, options).then((request) => request(this.axios, this.basePath));
+    public getLibraryElements(requestParameters: LibraryElementsApiGetLibraryElementsRequest = {}, options?: RawAxiosRequestConfig) {
+        return LibraryElementsApiFp(this.configuration).getLibraryElements(requestParameters.searchString, requestParameters.kind, requestParameters.sortDirection, requestParameters.typeFilter, requestParameters.excludeUid, requestParameters.folderFilter, requestParameters.perPage, requestParameters.page, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Updates an existing library element identified by uid.
      * @summary Update library element.
-     * @param {string} libraryElementUid 
-     * @param {PatchLibraryElementCommand} body 
+     * @param {LibraryElementsApiUpdateLibraryElementRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof LibraryElementsApi
      */
-    public updateLibraryElement(libraryElementUid: string, body: PatchLibraryElementCommand, options?: RawAxiosRequestConfig) {
-        return LibraryElementsApiFp(this.configuration).updateLibraryElement(libraryElementUid, body, options).then((request) => request(this.axios, this.basePath));
+    public updateLibraryElement(requestParameters: LibraryElementsApiUpdateLibraryElementRequest, options?: RawAxiosRequestConfig) {
+        return LibraryElementsApiFp(this.configuration).updateLibraryElement(requestParameters.libraryElementUid, requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -32874,12 +33422,12 @@ export const LicensingApiFactory = function (configuration?: Configuration, base
         /**
          * Removes the license stored in the Grafana database. Available in Grafana Enterprise v7.4+.  You need to have a permission with action `licensing:delete`.
          * @summary Remove license from database.
-         * @param {DeleteTokenCommand} body 
+         * @param {LicensingApiDeleteLicenseTokenRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        deleteLicenseToken(body: DeleteTokenCommand, options?: RawAxiosRequestConfig): AxiosPromise<ErrorResponseBody> {
-            return localVarFp.deleteLicenseToken(body, options).then((request) => request(axios, basePath));
+        deleteLicenseToken(requestParameters: LicensingApiDeleteLicenseTokenRequest, options?: RawAxiosRequestConfig): AxiosPromise<ErrorResponseBody> {
+            return localVarFp.deleteLicenseToken(requestParameters.body, options).then((request) => request(axios, basePath));
         },
         /**
          * You need to have a permission with action `licensing.reports:read`.
@@ -32922,22 +33470,22 @@ export const LicensingApiFactory = function (configuration?: Configuration, base
         /**
          * You need to have a permission with action `licensing:update`.
          * @summary Create license token.
-         * @param {DeleteTokenCommand} body 
+         * @param {LicensingApiPostLicenseTokenRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        postLicenseToken(body: DeleteTokenCommand, options?: RawAxiosRequestConfig): AxiosPromise<Token> {
-            return localVarFp.postLicenseToken(body, options).then((request) => request(axios, basePath));
+        postLicenseToken(requestParameters: LicensingApiPostLicenseTokenRequest, options?: RawAxiosRequestConfig): AxiosPromise<Token> {
+            return localVarFp.postLicenseToken(requestParameters.body, options).then((request) => request(axios, basePath));
         },
         /**
          * Manually ask license issuer for a new token. Available in Grafana Enterprise v7.4+.  You need to have a permission with action `licensing:update`.
          * @summary Manually force license refresh.
-         * @param {object} body 
+         * @param {LicensingApiPostRenewLicenseTokenRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        postRenewLicenseToken(body: object, options?: RawAxiosRequestConfig): AxiosPromise<void> {
-            return localVarFp.postRenewLicenseToken(body, options).then((request) => request(axios, basePath));
+        postRenewLicenseToken(requestParameters: LicensingApiPostRenewLicenseTokenRequest, options?: RawAxiosRequestConfig): AxiosPromise<void> {
+            return localVarFp.postRenewLicenseToken(requestParameters.body, options).then((request) => request(axios, basePath));
         },
         /**
          * You need to have a permission with action `licensing:read`.
@@ -32952,6 +33500,48 @@ export const LicensingApiFactory = function (configuration?: Configuration, base
 };
 
 /**
+ * Request parameters for deleteLicenseToken operation in LicensingApi.
+ * @export
+ * @interface LicensingApiDeleteLicenseTokenRequest
+ */
+export interface LicensingApiDeleteLicenseTokenRequest {
+    /**
+     * 
+     * @type {DeleteTokenCommand}
+     * @memberof LicensingApiDeleteLicenseToken
+     */
+    readonly body: DeleteTokenCommand
+}
+
+/**
+ * Request parameters for postLicenseToken operation in LicensingApi.
+ * @export
+ * @interface LicensingApiPostLicenseTokenRequest
+ */
+export interface LicensingApiPostLicenseTokenRequest {
+    /**
+     * 
+     * @type {DeleteTokenCommand}
+     * @memberof LicensingApiPostLicenseToken
+     */
+    readonly body: DeleteTokenCommand
+}
+
+/**
+ * Request parameters for postRenewLicenseToken operation in LicensingApi.
+ * @export
+ * @interface LicensingApiPostRenewLicenseTokenRequest
+ */
+export interface LicensingApiPostRenewLicenseTokenRequest {
+    /**
+     * 
+     * @type {object}
+     * @memberof LicensingApiPostRenewLicenseToken
+     */
+    readonly body: object
+}
+
+/**
  * LicensingApi - object-oriented interface
  * @export
  * @class LicensingApi
@@ -32961,13 +33551,13 @@ export class LicensingApi extends BaseAPI {
     /**
      * Removes the license stored in the Grafana database. Available in Grafana Enterprise v7.4+.  You need to have a permission with action `licensing:delete`.
      * @summary Remove license from database.
-     * @param {DeleteTokenCommand} body 
+     * @param {LicensingApiDeleteLicenseTokenRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof LicensingApi
      */
-    public deleteLicenseToken(body: DeleteTokenCommand, options?: RawAxiosRequestConfig) {
-        return LicensingApiFp(this.configuration).deleteLicenseToken(body, options).then((request) => request(this.axios, this.basePath));
+    public deleteLicenseToken(requestParameters: LicensingApiDeleteLicenseTokenRequest, options?: RawAxiosRequestConfig) {
+        return LicensingApiFp(this.configuration).deleteLicenseToken(requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -33019,25 +33609,25 @@ export class LicensingApi extends BaseAPI {
     /**
      * You need to have a permission with action `licensing:update`.
      * @summary Create license token.
-     * @param {DeleteTokenCommand} body 
+     * @param {LicensingApiPostLicenseTokenRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof LicensingApi
      */
-    public postLicenseToken(body: DeleteTokenCommand, options?: RawAxiosRequestConfig) {
-        return LicensingApiFp(this.configuration).postLicenseToken(body, options).then((request) => request(this.axios, this.basePath));
+    public postLicenseToken(requestParameters: LicensingApiPostLicenseTokenRequest, options?: RawAxiosRequestConfig) {
+        return LicensingApiFp(this.configuration).postLicenseToken(requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Manually ask license issuer for a new token. Available in Grafana Enterprise v7.4+.  You need to have a permission with action `licensing:update`.
      * @summary Manually force license refresh.
-     * @param {object} body 
+     * @param {LicensingApiPostRenewLicenseTokenRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof LicensingApi
      */
-    public postRenewLicenseToken(body: object, options?: RawAxiosRequestConfig) {
-        return LicensingApiFp(this.configuration).postRenewLicenseToken(body, options).then((request) => request(this.axios, this.basePath));
+    public postRenewLicenseToken(requestParameters: LicensingApiPostRenewLicenseTokenRequest, options?: RawAxiosRequestConfig) {
+        return LicensingApiFp(this.configuration).postRenewLicenseToken(requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -33049,999 +33639,6 @@ export class LicensingApi extends BaseAPI {
      */
     public refreshLicenseStats(options?: RawAxiosRequestConfig) {
         return LicensingApiFp(this.configuration).refreshLicenseStats(options).then((request) => request(this.axios, this.basePath));
-    }
-}
-
-
-
-/**
- * MigrationsApi - axios parameter creator
- * @export
- */
-export const MigrationsApiAxiosParamCreator = function (configuration?: Configuration) {
-    return {
-        /**
-         * TODO: Implement
-         * @summary Cancel a snapshot, wherever it is in its processing chain.
-         * @param {string} uid Session UID of a session
-         * @param {string} snapshotUid UID of a snapshot
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        cancelSnapshot: async (uid: string, snapshotUid: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'uid' is not null or undefined
-            assertParamExists('cancelSnapshot', 'uid', uid)
-            // verify required parameter 'snapshotUid' is not null or undefined
-            assertParamExists('cancelSnapshot', 'snapshotUid', snapshotUid)
-            const localVarPath = `/cloudmigration/migration/{uid}/snapshot/{snapshotUid}/cancel`
-                .replace(`{${"uid"}}`, encodeURIComponent(String(uid)))
-                .replace(`{${"snapshotUid"}}`, encodeURIComponent(String(snapshotUid)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication api_key required
-            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
-
-            // authentication basic required
-            // http basic authentication required
-            setBasicAuthToObject(localVarRequestOptions, configuration)
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @summary Create gcom access token.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        createCloudMigrationToken: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/cloudmigration/token`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication api_key required
-            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
-
-            // authentication basic required
-            // http basic authentication required
-            setBasicAuthToObject(localVarRequestOptions, configuration)
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @summary Create a migration session.
-         * @param {CloudMigrationSessionRequestDTO} body 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        createSession: async (body: CloudMigrationSessionRequestDTO, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'body' is not null or undefined
-            assertParamExists('createSession', 'body', body)
-            const localVarPath = `/cloudmigration/migration`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication api_key required
-            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
-
-            // authentication basic required
-            // http basic authentication required
-            setBasicAuthToObject(localVarRequestOptions, configuration)
-
-
-    
-            localVarHeaderParameter['Content-Type'] = 'application/json';
-
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(body, localVarRequestOptions, configuration)
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * If the snapshot initialization is successful, the snapshot uid is returned.
-         * @summary Trigger the creation of an instance snapshot associated with the provided session.
-         * @param {string} uid UID of a session
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        createSnapshot: async (uid: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'uid' is not null or undefined
-            assertParamExists('createSnapshot', 'uid', uid)
-            const localVarPath = `/cloudmigration/migration/{uid}/snapshot`
-                .replace(`{${"uid"}}`, encodeURIComponent(String(uid)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication api_key required
-            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
-
-            // authentication basic required
-            // http basic authentication required
-            setBasicAuthToObject(localVarRequestOptions, configuration)
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @summary Deletes a cloud migration token.
-         * @param {string} uid UID of a cloud migration token
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        deleteCloudMigrationToken: async (uid: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'uid' is not null or undefined
-            assertParamExists('deleteCloudMigrationToken', 'uid', uid)
-            const localVarPath = `/cloudmigration/token/{uid}`
-                .replace(`{${"uid"}}`, encodeURIComponent(String(uid)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication api_key required
-            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
-
-            // authentication basic required
-            // http basic authentication required
-            setBasicAuthToObject(localVarRequestOptions, configuration)
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @summary Delete a migration session by its uid.
-         * @param {string} uid UID of a migration session
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        deleteSession: async (uid: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'uid' is not null or undefined
-            assertParamExists('deleteSession', 'uid', uid)
-            const localVarPath = `/cloudmigration/migration/{uid}`
-                .replace(`{${"uid"}}`, encodeURIComponent(String(uid)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication api_key required
-            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
-
-            // authentication basic required
-            // http basic authentication required
-            setBasicAuthToObject(localVarRequestOptions, configuration)
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @summary Fetch the cloud migration token if it exists.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        getCloudMigrationToken: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/cloudmigration/token`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication api_key required
-            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
-
-            // authentication basic required
-            // http basic authentication required
-            setBasicAuthToObject(localVarRequestOptions, configuration)
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @summary Get a cloud migration session by its uid.
-         * @param {string} uid UID of a migration session
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        getSession: async (uid: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'uid' is not null or undefined
-            assertParamExists('getSession', 'uid', uid)
-            const localVarPath = `/cloudmigration/migration/{uid}`
-                .replace(`{${"uid"}}`, encodeURIComponent(String(uid)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication api_key required
-            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
-
-            // authentication basic required
-            // http basic authentication required
-            setBasicAuthToObject(localVarRequestOptions, configuration)
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @summary Get a list of all cloud migration sessions that have been created.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        getSessionList: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/cloudmigration/migration`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication api_key required
-            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
-
-            // authentication basic required
-            // http basic authentication required
-            setBasicAuthToObject(localVarRequestOptions, configuration)
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @summary Get a list of snapshots for a session.
-         * @param {string} uid Session UID of a session
-         * @param {number} [page] Page is used for pagination with limit
-         * @param {number} [limit] Max limit for results returned.
-         * @param {string} [sort] Sort with value latest to return results sorted in descending order.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        getShapshotList: async (uid: string, page?: number, limit?: number, sort?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'uid' is not null or undefined
-            assertParamExists('getShapshotList', 'uid', uid)
-            const localVarPath = `/cloudmigration/migration/{uid}/snapshots`
-                .replace(`{${"uid"}}`, encodeURIComponent(String(uid)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication api_key required
-            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
-
-            // authentication basic required
-            // http basic authentication required
-            setBasicAuthToObject(localVarRequestOptions, configuration)
-
-            if (page !== undefined) {
-                localVarQueryParameter['page'] = page;
-            }
-
-            if (limit !== undefined) {
-                localVarQueryParameter['limit'] = limit;
-            }
-
-            if (sort !== undefined) {
-                localVarQueryParameter['sort'] = sort;
-            }
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @summary Get metadata about a snapshot, including where it is in its processing and final results.
-         * @param {string} uid Session UID of a session
-         * @param {string} snapshotUid UID of a snapshot
-         * @param {number} [resultPage] ResultPage is used for pagination with ResultLimit
-         * @param {number} [resultLimit] Max limit for snapshot results returned.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        getSnapshot: async (uid: string, snapshotUid: string, resultPage?: number, resultLimit?: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'uid' is not null or undefined
-            assertParamExists('getSnapshot', 'uid', uid)
-            // verify required parameter 'snapshotUid' is not null or undefined
-            assertParamExists('getSnapshot', 'snapshotUid', snapshotUid)
-            const localVarPath = `/cloudmigration/migration/{uid}/snapshot/{snapshotUid}`
-                .replace(`{${"uid"}}`, encodeURIComponent(String(uid)))
-                .replace(`{${"snapshotUid"}}`, encodeURIComponent(String(snapshotUid)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication api_key required
-            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
-
-            // authentication basic required
-            // http basic authentication required
-            setBasicAuthToObject(localVarRequestOptions, configuration)
-
-            if (resultPage !== undefined) {
-                localVarQueryParameter['resultPage'] = resultPage;
-            }
-
-            if (resultLimit !== undefined) {
-                localVarQueryParameter['resultLimit'] = resultLimit;
-            }
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @summary Upload a snapshot to the Grafana Migration Service for processing.
-         * @param {string} uid Session UID of a session
-         * @param {string} snapshotUid UID of a snapshot
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        uploadSnapshot: async (uid: string, snapshotUid: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'uid' is not null or undefined
-            assertParamExists('uploadSnapshot', 'uid', uid)
-            // verify required parameter 'snapshotUid' is not null or undefined
-            assertParamExists('uploadSnapshot', 'snapshotUid', snapshotUid)
-            const localVarPath = `/cloudmigration/migration/{uid}/snapshot/{snapshotUid}/upload`
-                .replace(`{${"uid"}}`, encodeURIComponent(String(uid)))
-                .replace(`{${"snapshotUid"}}`, encodeURIComponent(String(snapshotUid)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication api_key required
-            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
-
-            // authentication basic required
-            // http basic authentication required
-            setBasicAuthToObject(localVarRequestOptions, configuration)
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-    }
-};
-
-/**
- * MigrationsApi - functional programming interface
- * @export
- */
-export const MigrationsApiFp = function(configuration?: Configuration) {
-    const localVarAxiosParamCreator = MigrationsApiAxiosParamCreator(configuration)
-    return {
-        /**
-         * TODO: Implement
-         * @summary Cancel a snapshot, wherever it is in its processing chain.
-         * @param {string} uid Session UID of a session
-         * @param {string} snapshotUid UID of a snapshot
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async cancelSnapshot(uid: string, snapshotUid: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.cancelSnapshot(uid, snapshotUid, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['MigrationsApi.cancelSnapshot']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
-        /**
-         * 
-         * @summary Create gcom access token.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async createCloudMigrationToken(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CreateAccessTokenResponseDTO>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.createCloudMigrationToken(options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['MigrationsApi.createCloudMigrationToken']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
-        /**
-         * 
-         * @summary Create a migration session.
-         * @param {CloudMigrationSessionRequestDTO} body 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async createSession(body: CloudMigrationSessionRequestDTO, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CloudMigrationSessionResponseDTO>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.createSession(body, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['MigrationsApi.createSession']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
-        /**
-         * If the snapshot initialization is successful, the snapshot uid is returned.
-         * @summary Trigger the creation of an instance snapshot associated with the provided session.
-         * @param {string} uid UID of a session
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async createSnapshot(uid: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CreateSnapshotResponseDTO>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.createSnapshot(uid, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['MigrationsApi.createSnapshot']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
-        /**
-         * 
-         * @summary Deletes a cloud migration token.
-         * @param {string} uid UID of a cloud migration token
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async deleteCloudMigrationToken(uid: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.deleteCloudMigrationToken(uid, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['MigrationsApi.deleteCloudMigrationToken']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
-        /**
-         * 
-         * @summary Delete a migration session by its uid.
-         * @param {string} uid UID of a migration session
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async deleteSession(uid: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.deleteSession(uid, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['MigrationsApi.deleteSession']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
-        /**
-         * 
-         * @summary Fetch the cloud migration token if it exists.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async getCloudMigrationToken(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetAccessTokenResponseDTO>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getCloudMigrationToken(options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['MigrationsApi.getCloudMigrationToken']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
-        /**
-         * 
-         * @summary Get a cloud migration session by its uid.
-         * @param {string} uid UID of a migration session
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async getSession(uid: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CloudMigrationSessionResponseDTO>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getSession(uid, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['MigrationsApi.getSession']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
-        /**
-         * 
-         * @summary Get a list of all cloud migration sessions that have been created.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async getSessionList(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CloudMigrationSessionListResponseDTO>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getSessionList(options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['MigrationsApi.getSessionList']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
-        /**
-         * 
-         * @summary Get a list of snapshots for a session.
-         * @param {string} uid Session UID of a session
-         * @param {number} [page] Page is used for pagination with limit
-         * @param {number} [limit] Max limit for results returned.
-         * @param {string} [sort] Sort with value latest to return results sorted in descending order.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async getShapshotList(uid: string, page?: number, limit?: number, sort?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<SnapshotListResponseDTO>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getShapshotList(uid, page, limit, sort, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['MigrationsApi.getShapshotList']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
-        /**
-         * 
-         * @summary Get metadata about a snapshot, including where it is in its processing and final results.
-         * @param {string} uid Session UID of a session
-         * @param {string} snapshotUid UID of a snapshot
-         * @param {number} [resultPage] ResultPage is used for pagination with ResultLimit
-         * @param {number} [resultLimit] Max limit for snapshot results returned.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async getSnapshot(uid: string, snapshotUid: string, resultPage?: number, resultLimit?: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetSnapshotResponseDTO>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getSnapshot(uid, snapshotUid, resultPage, resultLimit, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['MigrationsApi.getSnapshot']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
-        /**
-         * 
-         * @summary Upload a snapshot to the Grafana Migration Service for processing.
-         * @param {string} uid Session UID of a session
-         * @param {string} snapshotUid UID of a snapshot
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async uploadSnapshot(uid: string, snapshotUid: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.uploadSnapshot(uid, snapshotUid, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['MigrationsApi.uploadSnapshot']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
-    }
-};
-
-/**
- * MigrationsApi - factory interface
- * @export
- */
-export const MigrationsApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
-    const localVarFp = MigrationsApiFp(configuration)
-    return {
-        /**
-         * TODO: Implement
-         * @summary Cancel a snapshot, wherever it is in its processing chain.
-         * @param {string} uid Session UID of a session
-         * @param {string} snapshotUid UID of a snapshot
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        cancelSnapshot(uid: string, snapshotUid: string, options?: RawAxiosRequestConfig): AxiosPromise<void> {
-            return localVarFp.cancelSnapshot(uid, snapshotUid, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @summary Create gcom access token.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        createCloudMigrationToken(options?: RawAxiosRequestConfig): AxiosPromise<CreateAccessTokenResponseDTO> {
-            return localVarFp.createCloudMigrationToken(options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @summary Create a migration session.
-         * @param {CloudMigrationSessionRequestDTO} body 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        createSession(body: CloudMigrationSessionRequestDTO, options?: RawAxiosRequestConfig): AxiosPromise<CloudMigrationSessionResponseDTO> {
-            return localVarFp.createSession(body, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * If the snapshot initialization is successful, the snapshot uid is returned.
-         * @summary Trigger the creation of an instance snapshot associated with the provided session.
-         * @param {string} uid UID of a session
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        createSnapshot(uid: string, options?: RawAxiosRequestConfig): AxiosPromise<CreateSnapshotResponseDTO> {
-            return localVarFp.createSnapshot(uid, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @summary Deletes a cloud migration token.
-         * @param {string} uid UID of a cloud migration token
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        deleteCloudMigrationToken(uid: string, options?: RawAxiosRequestConfig): AxiosPromise<void> {
-            return localVarFp.deleteCloudMigrationToken(uid, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @summary Delete a migration session by its uid.
-         * @param {string} uid UID of a migration session
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        deleteSession(uid: string, options?: RawAxiosRequestConfig): AxiosPromise<void> {
-            return localVarFp.deleteSession(uid, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @summary Fetch the cloud migration token if it exists.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        getCloudMigrationToken(options?: RawAxiosRequestConfig): AxiosPromise<GetAccessTokenResponseDTO> {
-            return localVarFp.getCloudMigrationToken(options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @summary Get a cloud migration session by its uid.
-         * @param {string} uid UID of a migration session
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        getSession(uid: string, options?: RawAxiosRequestConfig): AxiosPromise<CloudMigrationSessionResponseDTO> {
-            return localVarFp.getSession(uid, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @summary Get a list of all cloud migration sessions that have been created.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        getSessionList(options?: RawAxiosRequestConfig): AxiosPromise<CloudMigrationSessionListResponseDTO> {
-            return localVarFp.getSessionList(options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @summary Get a list of snapshots for a session.
-         * @param {string} uid Session UID of a session
-         * @param {number} [page] Page is used for pagination with limit
-         * @param {number} [limit] Max limit for results returned.
-         * @param {string} [sort] Sort with value latest to return results sorted in descending order.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        getShapshotList(uid: string, page?: number, limit?: number, sort?: string, options?: RawAxiosRequestConfig): AxiosPromise<SnapshotListResponseDTO> {
-            return localVarFp.getShapshotList(uid, page, limit, sort, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @summary Get metadata about a snapshot, including where it is in its processing and final results.
-         * @param {string} uid Session UID of a session
-         * @param {string} snapshotUid UID of a snapshot
-         * @param {number} [resultPage] ResultPage is used for pagination with ResultLimit
-         * @param {number} [resultLimit] Max limit for snapshot results returned.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        getSnapshot(uid: string, snapshotUid: string, resultPage?: number, resultLimit?: number, options?: RawAxiosRequestConfig): AxiosPromise<GetSnapshotResponseDTO> {
-            return localVarFp.getSnapshot(uid, snapshotUid, resultPage, resultLimit, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @summary Upload a snapshot to the Grafana Migration Service for processing.
-         * @param {string} uid Session UID of a session
-         * @param {string} snapshotUid UID of a snapshot
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        uploadSnapshot(uid: string, snapshotUid: string, options?: RawAxiosRequestConfig): AxiosPromise<void> {
-            return localVarFp.uploadSnapshot(uid, snapshotUid, options).then((request) => request(axios, basePath));
-        },
-    };
-};
-
-/**
- * MigrationsApi - object-oriented interface
- * @export
- * @class MigrationsApi
- * @extends {BaseAPI}
- */
-export class MigrationsApi extends BaseAPI {
-    /**
-     * TODO: Implement
-     * @summary Cancel a snapshot, wherever it is in its processing chain.
-     * @param {string} uid Session UID of a session
-     * @param {string} snapshotUid UID of a snapshot
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof MigrationsApi
-     */
-    public cancelSnapshot(uid: string, snapshotUid: string, options?: RawAxiosRequestConfig) {
-        return MigrationsApiFp(this.configuration).cancelSnapshot(uid, snapshotUid, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * 
-     * @summary Create gcom access token.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof MigrationsApi
-     */
-    public createCloudMigrationToken(options?: RawAxiosRequestConfig) {
-        return MigrationsApiFp(this.configuration).createCloudMigrationToken(options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * 
-     * @summary Create a migration session.
-     * @param {CloudMigrationSessionRequestDTO} body 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof MigrationsApi
-     */
-    public createSession(body: CloudMigrationSessionRequestDTO, options?: RawAxiosRequestConfig) {
-        return MigrationsApiFp(this.configuration).createSession(body, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * If the snapshot initialization is successful, the snapshot uid is returned.
-     * @summary Trigger the creation of an instance snapshot associated with the provided session.
-     * @param {string} uid UID of a session
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof MigrationsApi
-     */
-    public createSnapshot(uid: string, options?: RawAxiosRequestConfig) {
-        return MigrationsApiFp(this.configuration).createSnapshot(uid, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * 
-     * @summary Deletes a cloud migration token.
-     * @param {string} uid UID of a cloud migration token
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof MigrationsApi
-     */
-    public deleteCloudMigrationToken(uid: string, options?: RawAxiosRequestConfig) {
-        return MigrationsApiFp(this.configuration).deleteCloudMigrationToken(uid, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * 
-     * @summary Delete a migration session by its uid.
-     * @param {string} uid UID of a migration session
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof MigrationsApi
-     */
-    public deleteSession(uid: string, options?: RawAxiosRequestConfig) {
-        return MigrationsApiFp(this.configuration).deleteSession(uid, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * 
-     * @summary Fetch the cloud migration token if it exists.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof MigrationsApi
-     */
-    public getCloudMigrationToken(options?: RawAxiosRequestConfig) {
-        return MigrationsApiFp(this.configuration).getCloudMigrationToken(options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * 
-     * @summary Get a cloud migration session by its uid.
-     * @param {string} uid UID of a migration session
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof MigrationsApi
-     */
-    public getSession(uid: string, options?: RawAxiosRequestConfig) {
-        return MigrationsApiFp(this.configuration).getSession(uid, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * 
-     * @summary Get a list of all cloud migration sessions that have been created.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof MigrationsApi
-     */
-    public getSessionList(options?: RawAxiosRequestConfig) {
-        return MigrationsApiFp(this.configuration).getSessionList(options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * 
-     * @summary Get a list of snapshots for a session.
-     * @param {string} uid Session UID of a session
-     * @param {number} [page] Page is used for pagination with limit
-     * @param {number} [limit] Max limit for results returned.
-     * @param {string} [sort] Sort with value latest to return results sorted in descending order.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof MigrationsApi
-     */
-    public getShapshotList(uid: string, page?: number, limit?: number, sort?: string, options?: RawAxiosRequestConfig) {
-        return MigrationsApiFp(this.configuration).getShapshotList(uid, page, limit, sort, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * 
-     * @summary Get metadata about a snapshot, including where it is in its processing and final results.
-     * @param {string} uid Session UID of a session
-     * @param {string} snapshotUid UID of a snapshot
-     * @param {number} [resultPage] ResultPage is used for pagination with ResultLimit
-     * @param {number} [resultLimit] Max limit for snapshot results returned.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof MigrationsApi
-     */
-    public getSnapshot(uid: string, snapshotUid: string, resultPage?: number, resultLimit?: number, options?: RawAxiosRequestConfig) {
-        return MigrationsApiFp(this.configuration).getSnapshot(uid, snapshotUid, resultPage, resultLimit, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * 
-     * @summary Upload a snapshot to the Grafana Migration Service for processing.
-     * @param {string} uid Session UID of a session
-     * @param {string} snapshotUid UID of a snapshot
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof MigrationsApi
-     */
-    public uploadSnapshot(uid: string, snapshotUid: string, options?: RawAxiosRequestConfig) {
-        return MigrationsApiFp(this.configuration).uploadSnapshot(uid, snapshotUid, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -34518,12 +34115,12 @@ export const OrgApiFactory = function (configuration?: Configuration, basePath?:
         /**
          * Adds a global user to the current organization.  If you are running Grafana Enterprise and have Fine-grained access control enabled you need to have a permission with action: `org.users:add` with scope `users:*`.
          * @summary Add a new user to the current organization.
-         * @param {AddOrgUserCommand} body 
+         * @param {OrgApiAddOrgUserToCurrentOrgRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        addOrgUserToCurrentOrg(body: AddOrgUserCommand, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
-            return localVarFp.addOrgUserToCurrentOrg(body, options).then((request) => request(axios, basePath));
+        addOrgUserToCurrentOrg(requestParameters: OrgApiAddOrgUserToCurrentOrgRequest, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
+            return localVarFp.addOrgUserToCurrentOrg(requestParameters.body, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -34546,57 +34143,153 @@ export const OrgApiFactory = function (configuration?: Configuration, basePath?:
         /**
          * Returns all org users within the current organization, but with less detailed information. Accessible to users with org admin role, admin in any folder or admin of any team. Mainly used by Grafana UI for providing list of users when adding team members and when editing folder/dashboard permissions.
          * @summary Get all users within the current organization (lookup)
-         * @param {string} [query] 
-         * @param {number} [limit] 
+         * @param {OrgApiGetOrgUsersForCurrentOrgLookupRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getOrgUsersForCurrentOrgLookup(query?: string, limit?: number, options?: RawAxiosRequestConfig): AxiosPromise<Array<UserLookupDTO>> {
-            return localVarFp.getOrgUsersForCurrentOrgLookup(query, limit, options).then((request) => request(axios, basePath));
+        getOrgUsersForCurrentOrgLookup(requestParameters: OrgApiGetOrgUsersForCurrentOrgLookupRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<Array<UserLookupDTO>> {
+            return localVarFp.getOrgUsersForCurrentOrgLookup(requestParameters.query, requestParameters.limit, options).then((request) => request(axios, basePath));
         },
         /**
          * If you are running Grafana Enterprise and have Fine-grained access control enabled you need to have a permission with action: `org.users:remove` with scope `users:*`.
          * @summary Delete user in current organization.
-         * @param {number} userId 
+         * @param {OrgApiRemoveOrgUserForCurrentOrgRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        removeOrgUserForCurrentOrg(userId: number, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
-            return localVarFp.removeOrgUserForCurrentOrg(userId, options).then((request) => request(axios, basePath));
+        removeOrgUserForCurrentOrg(requestParameters: OrgApiRemoveOrgUserForCurrentOrgRequest, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
+            return localVarFp.removeOrgUserForCurrentOrg(requestParameters.userId, options).then((request) => request(axios, basePath));
         },
         /**
          * 
          * @summary Update current Organization.
-         * @param {UpdateOrgForm} body 
+         * @param {OrgApiUpdateCurrentOrgRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateCurrentOrg(body: UpdateOrgForm, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
-            return localVarFp.updateCurrentOrg(body, options).then((request) => request(axios, basePath));
+        updateCurrentOrg(requestParameters: OrgApiUpdateCurrentOrgRequest, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
+            return localVarFp.updateCurrentOrg(requestParameters.body, options).then((request) => request(axios, basePath));
         },
         /**
          * 
          * @summary Update current Organization\'s address.
-         * @param {UpdateOrgAddressForm} body 
+         * @param {OrgApiUpdateCurrentOrgAddressRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateCurrentOrgAddress(body: UpdateOrgAddressForm, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
-            return localVarFp.updateCurrentOrgAddress(body, options).then((request) => request(axios, basePath));
+        updateCurrentOrgAddress(requestParameters: OrgApiUpdateCurrentOrgAddressRequest, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
+            return localVarFp.updateCurrentOrgAddress(requestParameters.body, options).then((request) => request(axios, basePath));
         },
         /**
          * If you are running Grafana Enterprise and have Fine-grained access control enabled you need to have a permission with action: `org.users.role:update` with scope `users:*`.
          * @summary Updates the given user.
-         * @param {number} userId 
-         * @param {UpdateOrgUserCommand} body 
+         * @param {OrgApiUpdateOrgUserForCurrentOrgRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateOrgUserForCurrentOrg(userId: number, body: UpdateOrgUserCommand, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
-            return localVarFp.updateOrgUserForCurrentOrg(userId, body, options).then((request) => request(axios, basePath));
+        updateOrgUserForCurrentOrg(requestParameters: OrgApiUpdateOrgUserForCurrentOrgRequest, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
+            return localVarFp.updateOrgUserForCurrentOrg(requestParameters.userId, requestParameters.body, options).then((request) => request(axios, basePath));
         },
     };
 };
+
+/**
+ * Request parameters for addOrgUserToCurrentOrg operation in OrgApi.
+ * @export
+ * @interface OrgApiAddOrgUserToCurrentOrgRequest
+ */
+export interface OrgApiAddOrgUserToCurrentOrgRequest {
+    /**
+     * 
+     * @type {AddOrgUserCommand}
+     * @memberof OrgApiAddOrgUserToCurrentOrg
+     */
+    readonly body: AddOrgUserCommand
+}
+
+/**
+ * Request parameters for getOrgUsersForCurrentOrgLookup operation in OrgApi.
+ * @export
+ * @interface OrgApiGetOrgUsersForCurrentOrgLookupRequest
+ */
+export interface OrgApiGetOrgUsersForCurrentOrgLookupRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof OrgApiGetOrgUsersForCurrentOrgLookup
+     */
+    readonly query?: string
+
+    /**
+     * 
+     * @type {number}
+     * @memberof OrgApiGetOrgUsersForCurrentOrgLookup
+     */
+    readonly limit?: number
+}
+
+/**
+ * Request parameters for removeOrgUserForCurrentOrg operation in OrgApi.
+ * @export
+ * @interface OrgApiRemoveOrgUserForCurrentOrgRequest
+ */
+export interface OrgApiRemoveOrgUserForCurrentOrgRequest {
+    /**
+     * 
+     * @type {number}
+     * @memberof OrgApiRemoveOrgUserForCurrentOrg
+     */
+    readonly userId: number
+}
+
+/**
+ * Request parameters for updateCurrentOrg operation in OrgApi.
+ * @export
+ * @interface OrgApiUpdateCurrentOrgRequest
+ */
+export interface OrgApiUpdateCurrentOrgRequest {
+    /**
+     * 
+     * @type {UpdateOrgForm}
+     * @memberof OrgApiUpdateCurrentOrg
+     */
+    readonly body: UpdateOrgForm
+}
+
+/**
+ * Request parameters for updateCurrentOrgAddress operation in OrgApi.
+ * @export
+ * @interface OrgApiUpdateCurrentOrgAddressRequest
+ */
+export interface OrgApiUpdateCurrentOrgAddressRequest {
+    /**
+     * 
+     * @type {UpdateOrgAddressForm}
+     * @memberof OrgApiUpdateCurrentOrgAddress
+     */
+    readonly body: UpdateOrgAddressForm
+}
+
+/**
+ * Request parameters for updateOrgUserForCurrentOrg operation in OrgApi.
+ * @export
+ * @interface OrgApiUpdateOrgUserForCurrentOrgRequest
+ */
+export interface OrgApiUpdateOrgUserForCurrentOrgRequest {
+    /**
+     * 
+     * @type {number}
+     * @memberof OrgApiUpdateOrgUserForCurrentOrg
+     */
+    readonly userId: number
+
+    /**
+     * 
+     * @type {UpdateOrgUserCommand}
+     * @memberof OrgApiUpdateOrgUserForCurrentOrg
+     */
+    readonly body: UpdateOrgUserCommand
+}
 
 /**
  * OrgApi - object-oriented interface
@@ -34608,13 +34301,13 @@ export class OrgApi extends BaseAPI {
     /**
      * Adds a global user to the current organization.  If you are running Grafana Enterprise and have Fine-grained access control enabled you need to have a permission with action: `org.users:add` with scope `users:*`.
      * @summary Add a new user to the current organization.
-     * @param {AddOrgUserCommand} body 
+     * @param {OrgApiAddOrgUserToCurrentOrgRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof OrgApi
      */
-    public addOrgUserToCurrentOrg(body: AddOrgUserCommand, options?: RawAxiosRequestConfig) {
-        return OrgApiFp(this.configuration).addOrgUserToCurrentOrg(body, options).then((request) => request(this.axios, this.basePath));
+    public addOrgUserToCurrentOrg(requestParameters: OrgApiAddOrgUserToCurrentOrgRequest, options?: RawAxiosRequestConfig) {
+        return OrgApiFp(this.configuration).addOrgUserToCurrentOrg(requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -34642,63 +34335,61 @@ export class OrgApi extends BaseAPI {
     /**
      * Returns all org users within the current organization, but with less detailed information. Accessible to users with org admin role, admin in any folder or admin of any team. Mainly used by Grafana UI for providing list of users when adding team members and when editing folder/dashboard permissions.
      * @summary Get all users within the current organization (lookup)
-     * @param {string} [query] 
-     * @param {number} [limit] 
+     * @param {OrgApiGetOrgUsersForCurrentOrgLookupRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof OrgApi
      */
-    public getOrgUsersForCurrentOrgLookup(query?: string, limit?: number, options?: RawAxiosRequestConfig) {
-        return OrgApiFp(this.configuration).getOrgUsersForCurrentOrgLookup(query, limit, options).then((request) => request(this.axios, this.basePath));
+    public getOrgUsersForCurrentOrgLookup(requestParameters: OrgApiGetOrgUsersForCurrentOrgLookupRequest = {}, options?: RawAxiosRequestConfig) {
+        return OrgApiFp(this.configuration).getOrgUsersForCurrentOrgLookup(requestParameters.query, requestParameters.limit, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * If you are running Grafana Enterprise and have Fine-grained access control enabled you need to have a permission with action: `org.users:remove` with scope `users:*`.
      * @summary Delete user in current organization.
-     * @param {number} userId 
+     * @param {OrgApiRemoveOrgUserForCurrentOrgRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof OrgApi
      */
-    public removeOrgUserForCurrentOrg(userId: number, options?: RawAxiosRequestConfig) {
-        return OrgApiFp(this.configuration).removeOrgUserForCurrentOrg(userId, options).then((request) => request(this.axios, this.basePath));
+    public removeOrgUserForCurrentOrg(requestParameters: OrgApiRemoveOrgUserForCurrentOrgRequest, options?: RawAxiosRequestConfig) {
+        return OrgApiFp(this.configuration).removeOrgUserForCurrentOrg(requestParameters.userId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
      * @summary Update current Organization.
-     * @param {UpdateOrgForm} body 
+     * @param {OrgApiUpdateCurrentOrgRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof OrgApi
      */
-    public updateCurrentOrg(body: UpdateOrgForm, options?: RawAxiosRequestConfig) {
-        return OrgApiFp(this.configuration).updateCurrentOrg(body, options).then((request) => request(this.axios, this.basePath));
+    public updateCurrentOrg(requestParameters: OrgApiUpdateCurrentOrgRequest, options?: RawAxiosRequestConfig) {
+        return OrgApiFp(this.configuration).updateCurrentOrg(requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
      * @summary Update current Organization\'s address.
-     * @param {UpdateOrgAddressForm} body 
+     * @param {OrgApiUpdateCurrentOrgAddressRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof OrgApi
      */
-    public updateCurrentOrgAddress(body: UpdateOrgAddressForm, options?: RawAxiosRequestConfig) {
-        return OrgApiFp(this.configuration).updateCurrentOrgAddress(body, options).then((request) => request(this.axios, this.basePath));
+    public updateCurrentOrgAddress(requestParameters: OrgApiUpdateCurrentOrgAddressRequest, options?: RawAxiosRequestConfig) {
+        return OrgApiFp(this.configuration).updateCurrentOrgAddress(requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * If you are running Grafana Enterprise and have Fine-grained access control enabled you need to have a permission with action: `org.users.role:update` with scope `users:*`.
      * @summary Updates the given user.
-     * @param {number} userId 
-     * @param {UpdateOrgUserCommand} body 
+     * @param {OrgApiUpdateOrgUserForCurrentOrgRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof OrgApi
      */
-    public updateOrgUserForCurrentOrg(userId: number, body: UpdateOrgUserCommand, options?: RawAxiosRequestConfig) {
-        return OrgApiFp(this.configuration).updateOrgUserForCurrentOrg(userId, body, options).then((request) => request(this.axios, this.basePath));
+    public updateOrgUserForCurrentOrg(requestParameters: OrgApiUpdateOrgUserForCurrentOrgRequest, options?: RawAxiosRequestConfig) {
+        return OrgApiFp(this.configuration).updateOrgUserForCurrentOrg(requestParameters.userId, requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -34892,12 +34583,12 @@ export const OrgInvitesApiFactory = function (configuration?: Configuration, bas
         /**
          * 
          * @summary Add invite.
-         * @param {AddInviteForm} body 
+         * @param {OrgInvitesApiAddOrgInviteRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        addOrgInvite(body: AddInviteForm, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
-            return localVarFp.addOrgInvite(body, options).then((request) => request(axios, basePath));
+        addOrgInvite(requestParameters: OrgInvitesApiAddOrgInviteRequest, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
+            return localVarFp.addOrgInvite(requestParameters.body, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -34911,15 +34602,43 @@ export const OrgInvitesApiFactory = function (configuration?: Configuration, bas
         /**
          * 
          * @summary Revoke invite.
-         * @param {string} invitationCode 
+         * @param {OrgInvitesApiRevokeInviteRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        revokeInvite(invitationCode: string, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
-            return localVarFp.revokeInvite(invitationCode, options).then((request) => request(axios, basePath));
+        revokeInvite(requestParameters: OrgInvitesApiRevokeInviteRequest, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
+            return localVarFp.revokeInvite(requestParameters.invitationCode, options).then((request) => request(axios, basePath));
         },
     };
 };
+
+/**
+ * Request parameters for addOrgInvite operation in OrgInvitesApi.
+ * @export
+ * @interface OrgInvitesApiAddOrgInviteRequest
+ */
+export interface OrgInvitesApiAddOrgInviteRequest {
+    /**
+     * 
+     * @type {AddInviteForm}
+     * @memberof OrgInvitesApiAddOrgInvite
+     */
+    readonly body: AddInviteForm
+}
+
+/**
+ * Request parameters for revokeInvite operation in OrgInvitesApi.
+ * @export
+ * @interface OrgInvitesApiRevokeInviteRequest
+ */
+export interface OrgInvitesApiRevokeInviteRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof OrgInvitesApiRevokeInvite
+     */
+    readonly invitationCode: string
+}
 
 /**
  * OrgInvitesApi - object-oriented interface
@@ -34931,13 +34650,13 @@ export class OrgInvitesApi extends BaseAPI {
     /**
      * 
      * @summary Add invite.
-     * @param {AddInviteForm} body 
+     * @param {OrgInvitesApiAddOrgInviteRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof OrgInvitesApi
      */
-    public addOrgInvite(body: AddInviteForm, options?: RawAxiosRequestConfig) {
-        return OrgInvitesApiFp(this.configuration).addOrgInvite(body, options).then((request) => request(this.axios, this.basePath));
+    public addOrgInvite(requestParameters: OrgInvitesApiAddOrgInviteRequest, options?: RawAxiosRequestConfig) {
+        return OrgInvitesApiFp(this.configuration).addOrgInvite(requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -34954,13 +34673,13 @@ export class OrgInvitesApi extends BaseAPI {
     /**
      * 
      * @summary Revoke invite.
-     * @param {string} invitationCode 
+     * @param {OrgInvitesApiRevokeInviteRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof OrgInvitesApi
      */
-    public revokeInvite(invitationCode: string, options?: RawAxiosRequestConfig) {
-        return OrgInvitesApiFp(this.configuration).revokeInvite(invitationCode, options).then((request) => request(this.axios, this.basePath));
+    public revokeInvite(requestParameters: OrgInvitesApiRevokeInviteRequest, options?: RawAxiosRequestConfig) {
+        return OrgInvitesApiFp(this.configuration).revokeInvite(requestParameters.invitationCode, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -35165,25 +34884,53 @@ export const OrgPreferencesApiFactory = function (configuration?: Configuration,
         /**
          * 
          * @summary Patch Current Org Prefs.
-         * @param {PatchPrefsCmd} body 
+         * @param {OrgPreferencesApiPatchOrgPreferencesRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        patchOrgPreferences(body: PatchPrefsCmd, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
-            return localVarFp.patchOrgPreferences(body, options).then((request) => request(axios, basePath));
+        patchOrgPreferences(requestParameters: OrgPreferencesApiPatchOrgPreferencesRequest, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
+            return localVarFp.patchOrgPreferences(requestParameters.body, options).then((request) => request(axios, basePath));
         },
         /**
          * 
          * @summary Update Current Org Prefs.
-         * @param {UpdatePrefsCmd} body 
+         * @param {OrgPreferencesApiUpdateOrgPreferencesRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateOrgPreferences(body: UpdatePrefsCmd, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
-            return localVarFp.updateOrgPreferences(body, options).then((request) => request(axios, basePath));
+        updateOrgPreferences(requestParameters: OrgPreferencesApiUpdateOrgPreferencesRequest, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
+            return localVarFp.updateOrgPreferences(requestParameters.body, options).then((request) => request(axios, basePath));
         },
     };
 };
+
+/**
+ * Request parameters for patchOrgPreferences operation in OrgPreferencesApi.
+ * @export
+ * @interface OrgPreferencesApiPatchOrgPreferencesRequest
+ */
+export interface OrgPreferencesApiPatchOrgPreferencesRequest {
+    /**
+     * 
+     * @type {PatchPrefsCmd}
+     * @memberof OrgPreferencesApiPatchOrgPreferences
+     */
+    readonly body: PatchPrefsCmd
+}
+
+/**
+ * Request parameters for updateOrgPreferences operation in OrgPreferencesApi.
+ * @export
+ * @interface OrgPreferencesApiUpdateOrgPreferencesRequest
+ */
+export interface OrgPreferencesApiUpdateOrgPreferencesRequest {
+    /**
+     * 
+     * @type {UpdatePrefsCmd}
+     * @memberof OrgPreferencesApiUpdateOrgPreferences
+     */
+    readonly body: UpdatePrefsCmd
+}
 
 /**
  * OrgPreferencesApi - object-oriented interface
@@ -35206,25 +34953,25 @@ export class OrgPreferencesApi extends BaseAPI {
     /**
      * 
      * @summary Patch Current Org Prefs.
-     * @param {PatchPrefsCmd} body 
+     * @param {OrgPreferencesApiPatchOrgPreferencesRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof OrgPreferencesApi
      */
-    public patchOrgPreferences(body: PatchPrefsCmd, options?: RawAxiosRequestConfig) {
-        return OrgPreferencesApiFp(this.configuration).patchOrgPreferences(body, options).then((request) => request(this.axios, this.basePath));
+    public patchOrgPreferences(requestParameters: OrgPreferencesApiPatchOrgPreferencesRequest, options?: RawAxiosRequestConfig) {
+        return OrgPreferencesApiFp(this.configuration).patchOrgPreferences(requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
      * @summary Update Current Org Prefs.
-     * @param {UpdatePrefsCmd} body 
+     * @param {OrgPreferencesApiUpdateOrgPreferencesRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof OrgPreferencesApi
      */
-    public updateOrgPreferences(body: UpdatePrefsCmd, options?: RawAxiosRequestConfig) {
-        return OrgPreferencesApiFp(this.configuration).updateOrgPreferences(body, options).then((request) => request(this.axios, this.basePath));
+    public updateOrgPreferences(requestParameters: OrgPreferencesApiUpdateOrgPreferencesRequest, options?: RawAxiosRequestConfig) {
+        return OrgPreferencesApiFp(this.configuration).updateOrgPreferences(requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -36062,156 +35809,418 @@ export const OrgsApiFactory = function (configuration?: Configuration, basePath?
         /**
          * Adds a global user to the current organization.  If you are running Grafana Enterprise and have Fine-grained access control enabled you need to have a permission with action: `org.users:add` with scope `users:*`.
          * @summary Add a new user to the current organization.
-         * @param {number} orgId 
-         * @param {AddOrgUserCommand} body 
+         * @param {OrgsApiAddOrgUserRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        addOrgUser(orgId: number, body: AddOrgUserCommand, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
-            return localVarFp.addOrgUser(orgId, body, options).then((request) => request(axios, basePath));
+        addOrgUser(requestParameters: OrgsApiAddOrgUserRequest, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
+            return localVarFp.addOrgUser(requestParameters.orgId, requestParameters.body, options).then((request) => request(axios, basePath));
         },
         /**
          * Only works if [users.allow_org_create](https://grafana.com/docs/grafana/latest/administration/configuration/#allow_org_create) is set.
          * @summary Create Organization.
-         * @param {CreateOrgCommand} body 
+         * @param {OrgsApiCreateOrgRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createOrg(body: CreateOrgCommand, options?: RawAxiosRequestConfig): AxiosPromise<CreateOrg200Response> {
-            return localVarFp.createOrg(body, options).then((request) => request(axios, basePath));
+        createOrg(requestParameters: OrgsApiCreateOrgRequest, options?: RawAxiosRequestConfig): AxiosPromise<CreateOrg200Response> {
+            return localVarFp.createOrg(requestParameters.body, options).then((request) => request(axios, basePath));
         },
         /**
          * 
          * @summary Delete Organization.
-         * @param {number} orgId 
+         * @param {OrgsApiDeleteOrgByIDRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        deleteOrgByID(orgId: number, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
-            return localVarFp.deleteOrgByID(orgId, options).then((request) => request(axios, basePath));
+        deleteOrgByID(requestParameters: OrgsApiDeleteOrgByIDRequest, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
+            return localVarFp.deleteOrgByID(requestParameters.orgId, options).then((request) => request(axios, basePath));
         },
         /**
          * 
          * @summary Get Organization by ID.
-         * @param {number} orgId 
+         * @param {OrgsApiGetOrgByIDRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getOrgByID(orgId: number, options?: RawAxiosRequestConfig): AxiosPromise<OrgDetailsDTO> {
-            return localVarFp.getOrgByID(orgId, options).then((request) => request(axios, basePath));
+        getOrgByID(requestParameters: OrgsApiGetOrgByIDRequest, options?: RawAxiosRequestConfig): AxiosPromise<OrgDetailsDTO> {
+            return localVarFp.getOrgByID(requestParameters.orgId, options).then((request) => request(axios, basePath));
         },
         /**
          * 
          * @summary Get Organization by ID.
-         * @param {string} orgName 
+         * @param {OrgsApiGetOrgByNameRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getOrgByName(orgName: string, options?: RawAxiosRequestConfig): AxiosPromise<OrgDetailsDTO> {
-            return localVarFp.getOrgByName(orgName, options).then((request) => request(axios, basePath));
+        getOrgByName(requestParameters: OrgsApiGetOrgByNameRequest, options?: RawAxiosRequestConfig): AxiosPromise<OrgDetailsDTO> {
+            return localVarFp.getOrgByName(requestParameters.orgName, options).then((request) => request(axios, basePath));
         },
         /**
          * If you are running Grafana Enterprise and have Fine-grained access control enabled, you need to have a permission with action `orgs.quotas:read` and scope `org:id:1` (orgIDScope).
          * @summary Fetch Organization quota.
-         * @param {number} orgId 
+         * @param {OrgsApiGetOrgQuotaRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getOrgQuota(orgId: number, options?: RawAxiosRequestConfig): AxiosPromise<Array<QuotaDTO>> {
-            return localVarFp.getOrgQuota(orgId, options).then((request) => request(axios, basePath));
+        getOrgQuota(requestParameters: OrgsApiGetOrgQuotaRequest, options?: RawAxiosRequestConfig): AxiosPromise<Array<QuotaDTO>> {
+            return localVarFp.getOrgQuota(requestParameters.orgId, options).then((request) => request(axios, basePath));
         },
         /**
          * If you are running Grafana Enterprise and have Fine-grained access control enabled you need to have a permission with action: `org.users:read` with scope `users:*`.
          * @summary Get Users in Organization.
-         * @param {number} orgId 
+         * @param {OrgsApiGetOrgUsersRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getOrgUsers(orgId: number, options?: RawAxiosRequestConfig): AxiosPromise<Array<OrgUserDTO>> {
-            return localVarFp.getOrgUsers(orgId, options).then((request) => request(axios, basePath));
+        getOrgUsers(requestParameters: OrgsApiGetOrgUsersRequest, options?: RawAxiosRequestConfig): AxiosPromise<Array<OrgUserDTO>> {
+            return localVarFp.getOrgUsers(requestParameters.orgId, options).then((request) => request(axios, basePath));
         },
         /**
          * If you are running Grafana Enterprise and have Fine-grained access control enabled you need to have a permission with action: `org.users:remove` with scope `users:*`.
          * @summary Delete user in current organization.
-         * @param {number} orgId 
-         * @param {number} userId 
+         * @param {OrgsApiRemoveOrgUserRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        removeOrgUser(orgId: number, userId: number, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
-            return localVarFp.removeOrgUser(orgId, userId, options).then((request) => request(axios, basePath));
+        removeOrgUser(requestParameters: OrgsApiRemoveOrgUserRequest, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
+            return localVarFp.removeOrgUser(requestParameters.orgId, requestParameters.userId, options).then((request) => request(axios, basePath));
         },
         /**
          * If you are running Grafana Enterprise and have Fine-grained access control enabled you need to have a permission with action: `org.users:read` with scope `users:*`.
          * @summary Search Users in Organization.
-         * @param {number} orgId 
+         * @param {OrgsApiSearchOrgUsersRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        searchOrgUsers(orgId: number, options?: RawAxiosRequestConfig): AxiosPromise<SearchOrgUsersQueryResult> {
-            return localVarFp.searchOrgUsers(orgId, options).then((request) => request(axios, basePath));
+        searchOrgUsers(requestParameters: OrgsApiSearchOrgUsersRequest, options?: RawAxiosRequestConfig): AxiosPromise<SearchOrgUsersQueryResult> {
+            return localVarFp.searchOrgUsers(requestParameters.orgId, options).then((request) => request(axios, basePath));
         },
         /**
          * 
          * @summary Search all Organizations.
-         * @param {number} [page] 
-         * @param {number} [perpage] Number of items per page The totalCount field in the response can be used for pagination list E.g. if totalCount is equal to 100 teams and the perpage parameter is set to 10 then there are 10 pages of teams.
-         * @param {string} [name] 
-         * @param {string} [query] If set it will return results where the query value is contained in the name field. Query values with spaces need to be URL encoded.
+         * @param {OrgsApiSearchOrgsRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        searchOrgs(page?: number, perpage?: number, name?: string, query?: string, options?: RawAxiosRequestConfig): AxiosPromise<Array<OrgDTO>> {
-            return localVarFp.searchOrgs(page, perpage, name, query, options).then((request) => request(axios, basePath));
+        searchOrgs(requestParameters: OrgsApiSearchOrgsRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<Array<OrgDTO>> {
+            return localVarFp.searchOrgs(requestParameters.page, requestParameters.perpage, requestParameters.name, requestParameters.query, options).then((request) => request(axios, basePath));
         },
         /**
          * 
          * @summary Update Organization.
-         * @param {number} orgId 
-         * @param {UpdateOrgForm} body 
+         * @param {OrgsApiUpdateOrgRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateOrg(orgId: number, body: UpdateOrgForm, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
-            return localVarFp.updateOrg(orgId, body, options).then((request) => request(axios, basePath));
+        updateOrg(requestParameters: OrgsApiUpdateOrgRequest, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
+            return localVarFp.updateOrg(requestParameters.orgId, requestParameters.body, options).then((request) => request(axios, basePath));
         },
         /**
          * 
          * @summary Update Organization\'s address.
-         * @param {number} orgId 
-         * @param {UpdateOrgAddressForm} body 
+         * @param {OrgsApiUpdateOrgAddressRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateOrgAddress(orgId: number, body: UpdateOrgAddressForm, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
-            return localVarFp.updateOrgAddress(orgId, body, options).then((request) => request(axios, basePath));
+        updateOrgAddress(requestParameters: OrgsApiUpdateOrgAddressRequest, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
+            return localVarFp.updateOrgAddress(requestParameters.orgId, requestParameters.body, options).then((request) => request(axios, basePath));
         },
         /**
          * If you are running Grafana Enterprise and have Fine-grained access control enabled, you need to have a permission with action `orgs.quotas:write` and scope `org:id:1` (orgIDScope).
          * @summary Update user quota.
-         * @param {string} quotaTarget 
-         * @param {number} orgId 
-         * @param {UpdateQuotaCmd} body 
+         * @param {OrgsApiUpdateOrgQuotaRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateOrgQuota(quotaTarget: string, orgId: number, body: UpdateQuotaCmd, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
-            return localVarFp.updateOrgQuota(quotaTarget, orgId, body, options).then((request) => request(axios, basePath));
+        updateOrgQuota(requestParameters: OrgsApiUpdateOrgQuotaRequest, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
+            return localVarFp.updateOrgQuota(requestParameters.quotaTarget, requestParameters.orgId, requestParameters.body, options).then((request) => request(axios, basePath));
         },
         /**
          * If you are running Grafana Enterprise and have Fine-grained access control enabled you need to have a permission with action: `org.users.role:update` with scope `users:*`.
          * @summary Update Users in Organization.
-         * @param {number} orgId 
-         * @param {number} userId 
-         * @param {UpdateOrgUserCommand} body 
+         * @param {OrgsApiUpdateOrgUserRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateOrgUser(orgId: number, userId: number, body: UpdateOrgUserCommand, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
-            return localVarFp.updateOrgUser(orgId, userId, body, options).then((request) => request(axios, basePath));
+        updateOrgUser(requestParameters: OrgsApiUpdateOrgUserRequest, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
+            return localVarFp.updateOrgUser(requestParameters.orgId, requestParameters.userId, requestParameters.body, options).then((request) => request(axios, basePath));
         },
     };
 };
+
+/**
+ * Request parameters for addOrgUser operation in OrgsApi.
+ * @export
+ * @interface OrgsApiAddOrgUserRequest
+ */
+export interface OrgsApiAddOrgUserRequest {
+    /**
+     * 
+     * @type {number}
+     * @memberof OrgsApiAddOrgUser
+     */
+    readonly orgId: number
+
+    /**
+     * 
+     * @type {AddOrgUserCommand}
+     * @memberof OrgsApiAddOrgUser
+     */
+    readonly body: AddOrgUserCommand
+}
+
+/**
+ * Request parameters for createOrg operation in OrgsApi.
+ * @export
+ * @interface OrgsApiCreateOrgRequest
+ */
+export interface OrgsApiCreateOrgRequest {
+    /**
+     * 
+     * @type {CreateOrgCommand}
+     * @memberof OrgsApiCreateOrg
+     */
+    readonly body: CreateOrgCommand
+}
+
+/**
+ * Request parameters for deleteOrgByID operation in OrgsApi.
+ * @export
+ * @interface OrgsApiDeleteOrgByIDRequest
+ */
+export interface OrgsApiDeleteOrgByIDRequest {
+    /**
+     * 
+     * @type {number}
+     * @memberof OrgsApiDeleteOrgByID
+     */
+    readonly orgId: number
+}
+
+/**
+ * Request parameters for getOrgByID operation in OrgsApi.
+ * @export
+ * @interface OrgsApiGetOrgByIDRequest
+ */
+export interface OrgsApiGetOrgByIDRequest {
+    /**
+     * 
+     * @type {number}
+     * @memberof OrgsApiGetOrgByID
+     */
+    readonly orgId: number
+}
+
+/**
+ * Request parameters for getOrgByName operation in OrgsApi.
+ * @export
+ * @interface OrgsApiGetOrgByNameRequest
+ */
+export interface OrgsApiGetOrgByNameRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof OrgsApiGetOrgByName
+     */
+    readonly orgName: string
+}
+
+/**
+ * Request parameters for getOrgQuota operation in OrgsApi.
+ * @export
+ * @interface OrgsApiGetOrgQuotaRequest
+ */
+export interface OrgsApiGetOrgQuotaRequest {
+    /**
+     * 
+     * @type {number}
+     * @memberof OrgsApiGetOrgQuota
+     */
+    readonly orgId: number
+}
+
+/**
+ * Request parameters for getOrgUsers operation in OrgsApi.
+ * @export
+ * @interface OrgsApiGetOrgUsersRequest
+ */
+export interface OrgsApiGetOrgUsersRequest {
+    /**
+     * 
+     * @type {number}
+     * @memberof OrgsApiGetOrgUsers
+     */
+    readonly orgId: number
+}
+
+/**
+ * Request parameters for removeOrgUser operation in OrgsApi.
+ * @export
+ * @interface OrgsApiRemoveOrgUserRequest
+ */
+export interface OrgsApiRemoveOrgUserRequest {
+    /**
+     * 
+     * @type {number}
+     * @memberof OrgsApiRemoveOrgUser
+     */
+    readonly orgId: number
+
+    /**
+     * 
+     * @type {number}
+     * @memberof OrgsApiRemoveOrgUser
+     */
+    readonly userId: number
+}
+
+/**
+ * Request parameters for searchOrgUsers operation in OrgsApi.
+ * @export
+ * @interface OrgsApiSearchOrgUsersRequest
+ */
+export interface OrgsApiSearchOrgUsersRequest {
+    /**
+     * 
+     * @type {number}
+     * @memberof OrgsApiSearchOrgUsers
+     */
+    readonly orgId: number
+}
+
+/**
+ * Request parameters for searchOrgs operation in OrgsApi.
+ * @export
+ * @interface OrgsApiSearchOrgsRequest
+ */
+export interface OrgsApiSearchOrgsRequest {
+    /**
+     * 
+     * @type {number}
+     * @memberof OrgsApiSearchOrgs
+     */
+    readonly page?: number
+
+    /**
+     * Number of items per page The totalCount field in the response can be used for pagination list E.g. if totalCount is equal to 100 teams and the perpage parameter is set to 10 then there are 10 pages of teams.
+     * @type {number}
+     * @memberof OrgsApiSearchOrgs
+     */
+    readonly perpage?: number
+
+    /**
+     * 
+     * @type {string}
+     * @memberof OrgsApiSearchOrgs
+     */
+    readonly name?: string
+
+    /**
+     * If set it will return results where the query value is contained in the name field. Query values with spaces need to be URL encoded.
+     * @type {string}
+     * @memberof OrgsApiSearchOrgs
+     */
+    readonly query?: string
+}
+
+/**
+ * Request parameters for updateOrg operation in OrgsApi.
+ * @export
+ * @interface OrgsApiUpdateOrgRequest
+ */
+export interface OrgsApiUpdateOrgRequest {
+    /**
+     * 
+     * @type {number}
+     * @memberof OrgsApiUpdateOrg
+     */
+    readonly orgId: number
+
+    /**
+     * 
+     * @type {UpdateOrgForm}
+     * @memberof OrgsApiUpdateOrg
+     */
+    readonly body: UpdateOrgForm
+}
+
+/**
+ * Request parameters for updateOrgAddress operation in OrgsApi.
+ * @export
+ * @interface OrgsApiUpdateOrgAddressRequest
+ */
+export interface OrgsApiUpdateOrgAddressRequest {
+    /**
+     * 
+     * @type {number}
+     * @memberof OrgsApiUpdateOrgAddress
+     */
+    readonly orgId: number
+
+    /**
+     * 
+     * @type {UpdateOrgAddressForm}
+     * @memberof OrgsApiUpdateOrgAddress
+     */
+    readonly body: UpdateOrgAddressForm
+}
+
+/**
+ * Request parameters for updateOrgQuota operation in OrgsApi.
+ * @export
+ * @interface OrgsApiUpdateOrgQuotaRequest
+ */
+export interface OrgsApiUpdateOrgQuotaRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof OrgsApiUpdateOrgQuota
+     */
+    readonly quotaTarget: string
+
+    /**
+     * 
+     * @type {number}
+     * @memberof OrgsApiUpdateOrgQuota
+     */
+    readonly orgId: number
+
+    /**
+     * 
+     * @type {UpdateQuotaCmd}
+     * @memberof OrgsApiUpdateOrgQuota
+     */
+    readonly body: UpdateQuotaCmd
+}
+
+/**
+ * Request parameters for updateOrgUser operation in OrgsApi.
+ * @export
+ * @interface OrgsApiUpdateOrgUserRequest
+ */
+export interface OrgsApiUpdateOrgUserRequest {
+    /**
+     * 
+     * @type {number}
+     * @memberof OrgsApiUpdateOrgUser
+     */
+    readonly orgId: number
+
+    /**
+     * 
+     * @type {number}
+     * @memberof OrgsApiUpdateOrgUser
+     */
+    readonly userId: number
+
+    /**
+     * 
+     * @type {UpdateOrgUserCommand}
+     * @memberof OrgsApiUpdateOrgUser
+     */
+    readonly body: UpdateOrgUserCommand
+}
 
 /**
  * OrgsApi - object-oriented interface
@@ -36223,180 +36232,169 @@ export class OrgsApi extends BaseAPI {
     /**
      * Adds a global user to the current organization.  If you are running Grafana Enterprise and have Fine-grained access control enabled you need to have a permission with action: `org.users:add` with scope `users:*`.
      * @summary Add a new user to the current organization.
-     * @param {number} orgId 
-     * @param {AddOrgUserCommand} body 
+     * @param {OrgsApiAddOrgUserRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof OrgsApi
      */
-    public addOrgUser(orgId: number, body: AddOrgUserCommand, options?: RawAxiosRequestConfig) {
-        return OrgsApiFp(this.configuration).addOrgUser(orgId, body, options).then((request) => request(this.axios, this.basePath));
+    public addOrgUser(requestParameters: OrgsApiAddOrgUserRequest, options?: RawAxiosRequestConfig) {
+        return OrgsApiFp(this.configuration).addOrgUser(requestParameters.orgId, requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Only works if [users.allow_org_create](https://grafana.com/docs/grafana/latest/administration/configuration/#allow_org_create) is set.
      * @summary Create Organization.
-     * @param {CreateOrgCommand} body 
+     * @param {OrgsApiCreateOrgRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof OrgsApi
      */
-    public createOrg(body: CreateOrgCommand, options?: RawAxiosRequestConfig) {
-        return OrgsApiFp(this.configuration).createOrg(body, options).then((request) => request(this.axios, this.basePath));
+    public createOrg(requestParameters: OrgsApiCreateOrgRequest, options?: RawAxiosRequestConfig) {
+        return OrgsApiFp(this.configuration).createOrg(requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
      * @summary Delete Organization.
-     * @param {number} orgId 
+     * @param {OrgsApiDeleteOrgByIDRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof OrgsApi
      */
-    public deleteOrgByID(orgId: number, options?: RawAxiosRequestConfig) {
-        return OrgsApiFp(this.configuration).deleteOrgByID(orgId, options).then((request) => request(this.axios, this.basePath));
+    public deleteOrgByID(requestParameters: OrgsApiDeleteOrgByIDRequest, options?: RawAxiosRequestConfig) {
+        return OrgsApiFp(this.configuration).deleteOrgByID(requestParameters.orgId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
      * @summary Get Organization by ID.
-     * @param {number} orgId 
+     * @param {OrgsApiGetOrgByIDRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof OrgsApi
      */
-    public getOrgByID(orgId: number, options?: RawAxiosRequestConfig) {
-        return OrgsApiFp(this.configuration).getOrgByID(orgId, options).then((request) => request(this.axios, this.basePath));
+    public getOrgByID(requestParameters: OrgsApiGetOrgByIDRequest, options?: RawAxiosRequestConfig) {
+        return OrgsApiFp(this.configuration).getOrgByID(requestParameters.orgId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
      * @summary Get Organization by ID.
-     * @param {string} orgName 
+     * @param {OrgsApiGetOrgByNameRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof OrgsApi
      */
-    public getOrgByName(orgName: string, options?: RawAxiosRequestConfig) {
-        return OrgsApiFp(this.configuration).getOrgByName(orgName, options).then((request) => request(this.axios, this.basePath));
+    public getOrgByName(requestParameters: OrgsApiGetOrgByNameRequest, options?: RawAxiosRequestConfig) {
+        return OrgsApiFp(this.configuration).getOrgByName(requestParameters.orgName, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * If you are running Grafana Enterprise and have Fine-grained access control enabled, you need to have a permission with action `orgs.quotas:read` and scope `org:id:1` (orgIDScope).
      * @summary Fetch Organization quota.
-     * @param {number} orgId 
+     * @param {OrgsApiGetOrgQuotaRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof OrgsApi
      */
-    public getOrgQuota(orgId: number, options?: RawAxiosRequestConfig) {
-        return OrgsApiFp(this.configuration).getOrgQuota(orgId, options).then((request) => request(this.axios, this.basePath));
+    public getOrgQuota(requestParameters: OrgsApiGetOrgQuotaRequest, options?: RawAxiosRequestConfig) {
+        return OrgsApiFp(this.configuration).getOrgQuota(requestParameters.orgId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * If you are running Grafana Enterprise and have Fine-grained access control enabled you need to have a permission with action: `org.users:read` with scope `users:*`.
      * @summary Get Users in Organization.
-     * @param {number} orgId 
+     * @param {OrgsApiGetOrgUsersRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof OrgsApi
      */
-    public getOrgUsers(orgId: number, options?: RawAxiosRequestConfig) {
-        return OrgsApiFp(this.configuration).getOrgUsers(orgId, options).then((request) => request(this.axios, this.basePath));
+    public getOrgUsers(requestParameters: OrgsApiGetOrgUsersRequest, options?: RawAxiosRequestConfig) {
+        return OrgsApiFp(this.configuration).getOrgUsers(requestParameters.orgId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * If you are running Grafana Enterprise and have Fine-grained access control enabled you need to have a permission with action: `org.users:remove` with scope `users:*`.
      * @summary Delete user in current organization.
-     * @param {number} orgId 
-     * @param {number} userId 
+     * @param {OrgsApiRemoveOrgUserRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof OrgsApi
      */
-    public removeOrgUser(orgId: number, userId: number, options?: RawAxiosRequestConfig) {
-        return OrgsApiFp(this.configuration).removeOrgUser(orgId, userId, options).then((request) => request(this.axios, this.basePath));
+    public removeOrgUser(requestParameters: OrgsApiRemoveOrgUserRequest, options?: RawAxiosRequestConfig) {
+        return OrgsApiFp(this.configuration).removeOrgUser(requestParameters.orgId, requestParameters.userId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * If you are running Grafana Enterprise and have Fine-grained access control enabled you need to have a permission with action: `org.users:read` with scope `users:*`.
      * @summary Search Users in Organization.
-     * @param {number} orgId 
+     * @param {OrgsApiSearchOrgUsersRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof OrgsApi
      */
-    public searchOrgUsers(orgId: number, options?: RawAxiosRequestConfig) {
-        return OrgsApiFp(this.configuration).searchOrgUsers(orgId, options).then((request) => request(this.axios, this.basePath));
+    public searchOrgUsers(requestParameters: OrgsApiSearchOrgUsersRequest, options?: RawAxiosRequestConfig) {
+        return OrgsApiFp(this.configuration).searchOrgUsers(requestParameters.orgId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
      * @summary Search all Organizations.
-     * @param {number} [page] 
-     * @param {number} [perpage] Number of items per page The totalCount field in the response can be used for pagination list E.g. if totalCount is equal to 100 teams and the perpage parameter is set to 10 then there are 10 pages of teams.
-     * @param {string} [name] 
-     * @param {string} [query] If set it will return results where the query value is contained in the name field. Query values with spaces need to be URL encoded.
+     * @param {OrgsApiSearchOrgsRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof OrgsApi
      */
-    public searchOrgs(page?: number, perpage?: number, name?: string, query?: string, options?: RawAxiosRequestConfig) {
-        return OrgsApiFp(this.configuration).searchOrgs(page, perpage, name, query, options).then((request) => request(this.axios, this.basePath));
+    public searchOrgs(requestParameters: OrgsApiSearchOrgsRequest = {}, options?: RawAxiosRequestConfig) {
+        return OrgsApiFp(this.configuration).searchOrgs(requestParameters.page, requestParameters.perpage, requestParameters.name, requestParameters.query, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
      * @summary Update Organization.
-     * @param {number} orgId 
-     * @param {UpdateOrgForm} body 
+     * @param {OrgsApiUpdateOrgRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof OrgsApi
      */
-    public updateOrg(orgId: number, body: UpdateOrgForm, options?: RawAxiosRequestConfig) {
-        return OrgsApiFp(this.configuration).updateOrg(orgId, body, options).then((request) => request(this.axios, this.basePath));
+    public updateOrg(requestParameters: OrgsApiUpdateOrgRequest, options?: RawAxiosRequestConfig) {
+        return OrgsApiFp(this.configuration).updateOrg(requestParameters.orgId, requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
      * @summary Update Organization\'s address.
-     * @param {number} orgId 
-     * @param {UpdateOrgAddressForm} body 
+     * @param {OrgsApiUpdateOrgAddressRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof OrgsApi
      */
-    public updateOrgAddress(orgId: number, body: UpdateOrgAddressForm, options?: RawAxiosRequestConfig) {
-        return OrgsApiFp(this.configuration).updateOrgAddress(orgId, body, options).then((request) => request(this.axios, this.basePath));
+    public updateOrgAddress(requestParameters: OrgsApiUpdateOrgAddressRequest, options?: RawAxiosRequestConfig) {
+        return OrgsApiFp(this.configuration).updateOrgAddress(requestParameters.orgId, requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * If you are running Grafana Enterprise and have Fine-grained access control enabled, you need to have a permission with action `orgs.quotas:write` and scope `org:id:1` (orgIDScope).
      * @summary Update user quota.
-     * @param {string} quotaTarget 
-     * @param {number} orgId 
-     * @param {UpdateQuotaCmd} body 
+     * @param {OrgsApiUpdateOrgQuotaRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof OrgsApi
      */
-    public updateOrgQuota(quotaTarget: string, orgId: number, body: UpdateQuotaCmd, options?: RawAxiosRequestConfig) {
-        return OrgsApiFp(this.configuration).updateOrgQuota(quotaTarget, orgId, body, options).then((request) => request(this.axios, this.basePath));
+    public updateOrgQuota(requestParameters: OrgsApiUpdateOrgQuotaRequest, options?: RawAxiosRequestConfig) {
+        return OrgsApiFp(this.configuration).updateOrgQuota(requestParameters.quotaTarget, requestParameters.orgId, requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * If you are running Grafana Enterprise and have Fine-grained access control enabled you need to have a permission with action: `org.users.role:update` with scope `users:*`.
      * @summary Update Users in Organization.
-     * @param {number} orgId 
-     * @param {number} userId 
-     * @param {UpdateOrgUserCommand} body 
+     * @param {OrgsApiUpdateOrgUserRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof OrgsApi
      */
-    public updateOrgUser(orgId: number, userId: number, body: UpdateOrgUserCommand, options?: RawAxiosRequestConfig) {
-        return OrgsApiFp(this.configuration).updateOrgUser(orgId, userId, body, options).then((request) => request(this.axios, this.basePath));
+    public updateOrgUser(requestParameters: OrgsApiUpdateOrgUserRequest, options?: RawAxiosRequestConfig) {
+        return OrgsApiFp(this.configuration).updateOrgUser(requestParameters.orgId, requestParameters.userId, requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -36771,67 +36769,163 @@ export const PlaylistsApiFactory = function (configuration?: Configuration, base
         /**
          * 
          * @summary Create playlist.
-         * @param {CreatePlaylistCommand} body 
+         * @param {PlaylistsApiCreatePlaylistRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createPlaylist(body: CreatePlaylistCommand, options?: RawAxiosRequestConfig): AxiosPromise<Playlist> {
-            return localVarFp.createPlaylist(body, options).then((request) => request(axios, basePath));
+        createPlaylist(requestParameters: PlaylistsApiCreatePlaylistRequest, options?: RawAxiosRequestConfig): AxiosPromise<Playlist> {
+            return localVarFp.createPlaylist(requestParameters.body, options).then((request) => request(axios, basePath));
         },
         /**
          * 
          * @summary Delete playlist.
-         * @param {string} uid 
+         * @param {PlaylistsApiDeletePlaylistRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        deletePlaylist(uid: string, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
-            return localVarFp.deletePlaylist(uid, options).then((request) => request(axios, basePath));
+        deletePlaylist(requestParameters: PlaylistsApiDeletePlaylistRequest, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
+            return localVarFp.deletePlaylist(requestParameters.uid, options).then((request) => request(axios, basePath));
         },
         /**
          * 
          * @summary Get playlist.
-         * @param {string} uid 
+         * @param {PlaylistsApiGetPlaylistRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getPlaylist(uid: string, options?: RawAxiosRequestConfig): AxiosPromise<PlaylistDTO> {
-            return localVarFp.getPlaylist(uid, options).then((request) => request(axios, basePath));
+        getPlaylist(requestParameters: PlaylistsApiGetPlaylistRequest, options?: RawAxiosRequestConfig): AxiosPromise<PlaylistDTO> {
+            return localVarFp.getPlaylist(requestParameters.uid, options).then((request) => request(axios, basePath));
         },
         /**
          * 
          * @summary Get playlist items.
-         * @param {string} uid 
+         * @param {PlaylistsApiGetPlaylistItemsRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getPlaylistItems(uid: string, options?: RawAxiosRequestConfig): AxiosPromise<Array<PlaylistItemDTO>> {
-            return localVarFp.getPlaylistItems(uid, options).then((request) => request(axios, basePath));
+        getPlaylistItems(requestParameters: PlaylistsApiGetPlaylistItemsRequest, options?: RawAxiosRequestConfig): AxiosPromise<Array<PlaylistItemDTO>> {
+            return localVarFp.getPlaylistItems(requestParameters.uid, options).then((request) => request(axios, basePath));
         },
         /**
          * 
          * @summary Get playlists.
-         * @param {string} [query] 
-         * @param {number} [limit] in:limit
+         * @param {PlaylistsApiSearchPlaylistsRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        searchPlaylists(query?: string, limit?: number, options?: RawAxiosRequestConfig): AxiosPromise<Array<Playlist>> {
-            return localVarFp.searchPlaylists(query, limit, options).then((request) => request(axios, basePath));
+        searchPlaylists(requestParameters: PlaylistsApiSearchPlaylistsRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<Array<Playlist>> {
+            return localVarFp.searchPlaylists(requestParameters.query, requestParameters.limit, options).then((request) => request(axios, basePath));
         },
         /**
          * 
          * @summary Update playlist.
-         * @param {string} uid 
-         * @param {UpdatePlaylistCommand} body 
+         * @param {PlaylistsApiUpdatePlaylistRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updatePlaylist(uid: string, body: UpdatePlaylistCommand, options?: RawAxiosRequestConfig): AxiosPromise<PlaylistDTO> {
-            return localVarFp.updatePlaylist(uid, body, options).then((request) => request(axios, basePath));
+        updatePlaylist(requestParameters: PlaylistsApiUpdatePlaylistRequest, options?: RawAxiosRequestConfig): AxiosPromise<PlaylistDTO> {
+            return localVarFp.updatePlaylist(requestParameters.uid, requestParameters.body, options).then((request) => request(axios, basePath));
         },
     };
 };
+
+/**
+ * Request parameters for createPlaylist operation in PlaylistsApi.
+ * @export
+ * @interface PlaylistsApiCreatePlaylistRequest
+ */
+export interface PlaylistsApiCreatePlaylistRequest {
+    /**
+     * 
+     * @type {CreatePlaylistCommand}
+     * @memberof PlaylistsApiCreatePlaylist
+     */
+    readonly body: CreatePlaylistCommand
+}
+
+/**
+ * Request parameters for deletePlaylist operation in PlaylistsApi.
+ * @export
+ * @interface PlaylistsApiDeletePlaylistRequest
+ */
+export interface PlaylistsApiDeletePlaylistRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof PlaylistsApiDeletePlaylist
+     */
+    readonly uid: string
+}
+
+/**
+ * Request parameters for getPlaylist operation in PlaylistsApi.
+ * @export
+ * @interface PlaylistsApiGetPlaylistRequest
+ */
+export interface PlaylistsApiGetPlaylistRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof PlaylistsApiGetPlaylist
+     */
+    readonly uid: string
+}
+
+/**
+ * Request parameters for getPlaylistItems operation in PlaylistsApi.
+ * @export
+ * @interface PlaylistsApiGetPlaylistItemsRequest
+ */
+export interface PlaylistsApiGetPlaylistItemsRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof PlaylistsApiGetPlaylistItems
+     */
+    readonly uid: string
+}
+
+/**
+ * Request parameters for searchPlaylists operation in PlaylistsApi.
+ * @export
+ * @interface PlaylistsApiSearchPlaylistsRequest
+ */
+export interface PlaylistsApiSearchPlaylistsRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof PlaylistsApiSearchPlaylists
+     */
+    readonly query?: string
+
+    /**
+     * in:limit
+     * @type {number}
+     * @memberof PlaylistsApiSearchPlaylists
+     */
+    readonly limit?: number
+}
+
+/**
+ * Request parameters for updatePlaylist operation in PlaylistsApi.
+ * @export
+ * @interface PlaylistsApiUpdatePlaylistRequest
+ */
+export interface PlaylistsApiUpdatePlaylistRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof PlaylistsApiUpdatePlaylist
+     */
+    readonly uid: string
+
+    /**
+     * 
+     * @type {UpdatePlaylistCommand}
+     * @memberof PlaylistsApiUpdatePlaylist
+     */
+    readonly body: UpdatePlaylistCommand
+}
 
 /**
  * PlaylistsApi - object-oriented interface
@@ -36843,75 +36937,73 @@ export class PlaylistsApi extends BaseAPI {
     /**
      * 
      * @summary Create playlist.
-     * @param {CreatePlaylistCommand} body 
+     * @param {PlaylistsApiCreatePlaylistRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof PlaylistsApi
      */
-    public createPlaylist(body: CreatePlaylistCommand, options?: RawAxiosRequestConfig) {
-        return PlaylistsApiFp(this.configuration).createPlaylist(body, options).then((request) => request(this.axios, this.basePath));
+    public createPlaylist(requestParameters: PlaylistsApiCreatePlaylistRequest, options?: RawAxiosRequestConfig) {
+        return PlaylistsApiFp(this.configuration).createPlaylist(requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
      * @summary Delete playlist.
-     * @param {string} uid 
+     * @param {PlaylistsApiDeletePlaylistRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof PlaylistsApi
      */
-    public deletePlaylist(uid: string, options?: RawAxiosRequestConfig) {
-        return PlaylistsApiFp(this.configuration).deletePlaylist(uid, options).then((request) => request(this.axios, this.basePath));
+    public deletePlaylist(requestParameters: PlaylistsApiDeletePlaylistRequest, options?: RawAxiosRequestConfig) {
+        return PlaylistsApiFp(this.configuration).deletePlaylist(requestParameters.uid, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
      * @summary Get playlist.
-     * @param {string} uid 
+     * @param {PlaylistsApiGetPlaylistRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof PlaylistsApi
      */
-    public getPlaylist(uid: string, options?: RawAxiosRequestConfig) {
-        return PlaylistsApiFp(this.configuration).getPlaylist(uid, options).then((request) => request(this.axios, this.basePath));
+    public getPlaylist(requestParameters: PlaylistsApiGetPlaylistRequest, options?: RawAxiosRequestConfig) {
+        return PlaylistsApiFp(this.configuration).getPlaylist(requestParameters.uid, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
      * @summary Get playlist items.
-     * @param {string} uid 
+     * @param {PlaylistsApiGetPlaylistItemsRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof PlaylistsApi
      */
-    public getPlaylistItems(uid: string, options?: RawAxiosRequestConfig) {
-        return PlaylistsApiFp(this.configuration).getPlaylistItems(uid, options).then((request) => request(this.axios, this.basePath));
+    public getPlaylistItems(requestParameters: PlaylistsApiGetPlaylistItemsRequest, options?: RawAxiosRequestConfig) {
+        return PlaylistsApiFp(this.configuration).getPlaylistItems(requestParameters.uid, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
      * @summary Get playlists.
-     * @param {string} [query] 
-     * @param {number} [limit] in:limit
+     * @param {PlaylistsApiSearchPlaylistsRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof PlaylistsApi
      */
-    public searchPlaylists(query?: string, limit?: number, options?: RawAxiosRequestConfig) {
-        return PlaylistsApiFp(this.configuration).searchPlaylists(query, limit, options).then((request) => request(this.axios, this.basePath));
+    public searchPlaylists(requestParameters: PlaylistsApiSearchPlaylistsRequest = {}, options?: RawAxiosRequestConfig) {
+        return PlaylistsApiFp(this.configuration).searchPlaylists(requestParameters.query, requestParameters.limit, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
      * @summary Update playlist.
-     * @param {string} uid 
-     * @param {UpdatePlaylistCommand} body 
+     * @param {PlaylistsApiUpdatePlaylistRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof PlaylistsApi
      */
-    public updatePlaylist(uid: string, body: UpdatePlaylistCommand, options?: RawAxiosRequestConfig) {
-        return PlaylistsApiFp(this.configuration).updatePlaylist(uid, body, options).then((request) => request(this.axios, this.basePath));
+    public updatePlaylist(requestParameters: PlaylistsApiUpdatePlaylistRequest, options?: RawAxiosRequestConfig) {
+        return PlaylistsApiFp(this.configuration).updatePlaylist(requestParameters.uid, requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -37057,12 +37149,10 @@ export const ProvisioningApiAxiosParamCreator = function (configuration?: Config
          * 
          * @summary Delete a mute timing.
          * @param {string} name Mute timing name
-         * @param {string} [version] Version of mute timing to use for optimistic concurrency. Leave empty to disable validation
-         * @param {string} [xDisableProvenance] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        routeDeleteMuteTiming: async (name: string, version?: string, xDisableProvenance?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        routeDeleteMuteTiming: async (name: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'name' is not null or undefined
             assertParamExists('routeDeleteMuteTiming', 'name', name)
             const localVarPath = `/v1/provisioning/mute-timings/{name}`
@@ -37085,15 +37175,8 @@ export const ProvisioningApiAxiosParamCreator = function (configuration?: Config
             // http basic authentication required
             setBasicAuthToObject(localVarRequestOptions, configuration)
 
-            if (version !== undefined) {
-                localVarQueryParameter['version'] = version;
-            }
-
 
     
-            if (xDisableProvenance != null) {
-                localVarHeaderParameter['X-Disable-Provenance'] = String(xDisableProvenance);
-            }
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
@@ -37106,12 +37189,11 @@ export const ProvisioningApiAxiosParamCreator = function (configuration?: Config
         /**
          * 
          * @summary Delete a template.
-         * @param {string} name Template name
-         * @param {string} [version] Version of template to use for optimistic concurrency. Leave empty to disable validation
+         * @param {string} name Template Name
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        routeDeleteTemplate: async (name: string, version?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        routeDeleteTemplate: async (name: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'name' is not null or undefined
             assertParamExists('routeDeleteTemplate', 'name', name)
             const localVarPath = `/v1/provisioning/templates/{name}`
@@ -37133,10 +37215,6 @@ export const ProvisioningApiAxiosParamCreator = function (configuration?: Config
             // authentication basic required
             // http basic authentication required
             setBasicAuthToObject(localVarRequestOptions, configuration)
-
-            if (version !== undefined) {
-                localVarQueryParameter['version'] = version;
-            }
 
 
     
@@ -38387,13 +38465,11 @@ export const ProvisioningApiFp = function(configuration?: Configuration) {
          * 
          * @summary Delete a mute timing.
          * @param {string} name Mute timing name
-         * @param {string} [version] Version of mute timing to use for optimistic concurrency. Leave empty to disable validation
-         * @param {string} [xDisableProvenance] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async routeDeleteMuteTiming(name: string, version?: string, xDisableProvenance?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.routeDeleteMuteTiming(name, version, xDisableProvenance, options);
+        async routeDeleteMuteTiming(name: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.routeDeleteMuteTiming(name, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['ProvisioningApi.routeDeleteMuteTiming']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -38401,13 +38477,12 @@ export const ProvisioningApiFp = function(configuration?: Configuration) {
         /**
          * 
          * @summary Delete a template.
-         * @param {string} name Template name
-         * @param {string} [version] Version of template to use for optimistic concurrency. Leave empty to disable validation
+         * @param {string} name Template Name
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async routeDeleteTemplate(name: string, version?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.routeDeleteTemplate(name, version, options);
+        async routeDeleteTemplate(name: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.routeDeleteTemplate(name, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['ProvisioningApi.routeDeleteTemplate']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -38788,125 +38863,111 @@ export const ProvisioningApiFactory = function (configuration?: Configuration, b
         /**
          * 
          * @summary Delete a specific alert rule by UID.
-         * @param {string} uID Alert rule UID
-         * @param {string} [xDisableProvenance] 
+         * @param {ProvisioningApiRouteDeleteAlertRuleRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        routeDeleteAlertRule(uID: string, xDisableProvenance?: string, options?: RawAxiosRequestConfig): AxiosPromise<void> {
-            return localVarFp.routeDeleteAlertRule(uID, xDisableProvenance, options).then((request) => request(axios, basePath));
+        routeDeleteAlertRule(requestParameters: ProvisioningApiRouteDeleteAlertRuleRequest, options?: RawAxiosRequestConfig): AxiosPromise<void> {
+            return localVarFp.routeDeleteAlertRule(requestParameters.uID, requestParameters.xDisableProvenance, options).then((request) => request(axios, basePath));
         },
         /**
          * Delete rule group
-         * @param {string} folderUID 
-         * @param {string} group 
+         * @param {ProvisioningApiRouteDeleteAlertRuleGroupRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        routeDeleteAlertRuleGroup(folderUID: string, group: string, options?: RawAxiosRequestConfig): AxiosPromise<void> {
-            return localVarFp.routeDeleteAlertRuleGroup(folderUID, group, options).then((request) => request(axios, basePath));
+        routeDeleteAlertRuleGroup(requestParameters: ProvisioningApiRouteDeleteAlertRuleGroupRequest, options?: RawAxiosRequestConfig): AxiosPromise<void> {
+            return localVarFp.routeDeleteAlertRuleGroup(requestParameters.folderUID, requestParameters.group, options).then((request) => request(axios, basePath));
         },
         /**
          * 
          * @summary Delete a contact point.
-         * @param {string} uID UID is the contact point unique identifier
+         * @param {ProvisioningApiRouteDeleteContactpointsRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        routeDeleteContactpoints(uID: string, options?: RawAxiosRequestConfig): AxiosPromise<void> {
-            return localVarFp.routeDeleteContactpoints(uID, options).then((request) => request(axios, basePath));
+        routeDeleteContactpoints(requestParameters: ProvisioningApiRouteDeleteContactpointsRequest, options?: RawAxiosRequestConfig): AxiosPromise<void> {
+            return localVarFp.routeDeleteContactpoints(requestParameters.uID, options).then((request) => request(axios, basePath));
         },
         /**
          * 
          * @summary Delete a mute timing.
-         * @param {string} name Mute timing name
-         * @param {string} [version] Version of mute timing to use for optimistic concurrency. Leave empty to disable validation
-         * @param {string} [xDisableProvenance] 
+         * @param {ProvisioningApiRouteDeleteMuteTimingRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        routeDeleteMuteTiming(name: string, version?: string, xDisableProvenance?: string, options?: RawAxiosRequestConfig): AxiosPromise<void> {
-            return localVarFp.routeDeleteMuteTiming(name, version, xDisableProvenance, options).then((request) => request(axios, basePath));
+        routeDeleteMuteTiming(requestParameters: ProvisioningApiRouteDeleteMuteTimingRequest, options?: RawAxiosRequestConfig): AxiosPromise<void> {
+            return localVarFp.routeDeleteMuteTiming(requestParameters.name, options).then((request) => request(axios, basePath));
         },
         /**
          * 
          * @summary Delete a template.
-         * @param {string} name Template name
-         * @param {string} [version] Version of template to use for optimistic concurrency. Leave empty to disable validation
+         * @param {ProvisioningApiRouteDeleteTemplateRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        routeDeleteTemplate(name: string, version?: string, options?: RawAxiosRequestConfig): AxiosPromise<void> {
-            return localVarFp.routeDeleteTemplate(name, version, options).then((request) => request(axios, basePath));
+        routeDeleteTemplate(requestParameters: ProvisioningApiRouteDeleteTemplateRequest, options?: RawAxiosRequestConfig): AxiosPromise<void> {
+            return localVarFp.routeDeleteTemplate(requestParameters.name, options).then((request) => request(axios, basePath));
         },
         /**
          * 
          * @summary Export a mute timing in provisioning format.
-         * @param {string} name Mute timing name
-         * @param {boolean} [download] Whether to initiate a download of the file or not.
-         * @param {RouteExportMuteTimingFormatEnum} [format] Format of the downloaded file. Supported yaml, json or hcl. Accept header can also be used, but the query parameter will take precedence.
+         * @param {ProvisioningApiRouteExportMuteTimingRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        routeExportMuteTiming(name: string, download?: boolean, format?: RouteExportMuteTimingFormatEnum, options?: RawAxiosRequestConfig): AxiosPromise<AlertingFileExport> {
-            return localVarFp.routeExportMuteTiming(name, download, format, options).then((request) => request(axios, basePath));
+        routeExportMuteTiming(requestParameters: ProvisioningApiRouteExportMuteTimingRequest, options?: RawAxiosRequestConfig): AxiosPromise<AlertingFileExport> {
+            return localVarFp.routeExportMuteTiming(requestParameters.name, requestParameters.download, requestParameters.format, options).then((request) => request(axios, basePath));
         },
         /**
          * 
          * @summary Export all mute timings in provisioning format.
-         * @param {boolean} [download] Whether to initiate a download of the file or not.
-         * @param {RouteExportMuteTimingsFormatEnum} [format] Format of the downloaded file. Supported yaml, json or hcl. Accept header can also be used, but the query parameter will take precedence.
+         * @param {ProvisioningApiRouteExportMuteTimingsRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        routeExportMuteTimings(download?: boolean, format?: RouteExportMuteTimingsFormatEnum, options?: RawAxiosRequestConfig): AxiosPromise<AlertingFileExport> {
-            return localVarFp.routeExportMuteTimings(download, format, options).then((request) => request(axios, basePath));
+        routeExportMuteTimings(requestParameters: ProvisioningApiRouteExportMuteTimingsRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<AlertingFileExport> {
+            return localVarFp.routeExportMuteTimings(requestParameters.download, requestParameters.format, options).then((request) => request(axios, basePath));
         },
         /**
          * 
          * @summary Get a specific alert rule by UID.
-         * @param {string} uID Alert rule UID
+         * @param {ProvisioningApiRouteGetAlertRuleRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        routeGetAlertRule(uID: string, options?: RawAxiosRequestConfig): AxiosPromise<ProvisionedAlertRule> {
-            return localVarFp.routeGetAlertRule(uID, options).then((request) => request(axios, basePath));
+        routeGetAlertRule(requestParameters: ProvisioningApiRouteGetAlertRuleRequest, options?: RawAxiosRequestConfig): AxiosPromise<ProvisionedAlertRule> {
+            return localVarFp.routeGetAlertRule(requestParameters.uID, options).then((request) => request(axios, basePath));
         },
         /**
          * 
          * @summary Export an alert rule in provisioning file format.
-         * @param {string} uID Alert rule UID
-         * @param {boolean} [download] Whether to initiate a download of the file or not.
-         * @param {RouteGetAlertRuleExportFormatEnum} [format] Format of the downloaded file. Supported yaml, json or hcl. Accept header can also be used, but the query parameter will take precedence.
+         * @param {ProvisioningApiRouteGetAlertRuleExportRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        routeGetAlertRuleExport(uID: string, download?: boolean, format?: RouteGetAlertRuleExportFormatEnum, options?: RawAxiosRequestConfig): AxiosPromise<AlertingFileExport> {
-            return localVarFp.routeGetAlertRuleExport(uID, download, format, options).then((request) => request(axios, basePath));
+        routeGetAlertRuleExport(requestParameters: ProvisioningApiRouteGetAlertRuleExportRequest, options?: RawAxiosRequestConfig): AxiosPromise<AlertingFileExport> {
+            return localVarFp.routeGetAlertRuleExport(requestParameters.uID, requestParameters.download, requestParameters.format, options).then((request) => request(axios, basePath));
         },
         /**
          * 
          * @summary Get a rule group.
-         * @param {string} folderUID 
-         * @param {string} group 
+         * @param {ProvisioningApiRouteGetAlertRuleGroupRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        routeGetAlertRuleGroup(folderUID: string, group: string, options?: RawAxiosRequestConfig): AxiosPromise<AlertRuleGroup> {
-            return localVarFp.routeGetAlertRuleGroup(folderUID, group, options).then((request) => request(axios, basePath));
+        routeGetAlertRuleGroup(requestParameters: ProvisioningApiRouteGetAlertRuleGroupRequest, options?: RawAxiosRequestConfig): AxiosPromise<AlertRuleGroup> {
+            return localVarFp.routeGetAlertRuleGroup(requestParameters.folderUID, requestParameters.group, options).then((request) => request(axios, basePath));
         },
         /**
          * 
          * @summary Export an alert rule group in provisioning file format.
-         * @param {string} folderUID 
-         * @param {string} group 
-         * @param {boolean} [download] Whether to initiate a download of the file or not.
-         * @param {RouteGetAlertRuleGroupExportFormatEnum} [format] Format of the downloaded file. Supported yaml, json or hcl. Accept header can also be used, but the query parameter will take precedence.
+         * @param {ProvisioningApiRouteGetAlertRuleGroupExportRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        routeGetAlertRuleGroupExport(folderUID: string, group: string, download?: boolean, format?: RouteGetAlertRuleGroupExportFormatEnum, options?: RawAxiosRequestConfig): AxiosPromise<AlertingFileExport> {
-            return localVarFp.routeGetAlertRuleGroupExport(folderUID, group, download, format, options).then((request) => request(axios, basePath));
+        routeGetAlertRuleGroupExport(requestParameters: ProvisioningApiRouteGetAlertRuleGroupExportRequest, options?: RawAxiosRequestConfig): AxiosPromise<AlertingFileExport> {
+            return localVarFp.routeGetAlertRuleGroupExport(requestParameters.folderUID, requestParameters.group, requestParameters.download, requestParameters.format, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -38920,49 +38981,42 @@ export const ProvisioningApiFactory = function (configuration?: Configuration, b
         /**
          * 
          * @summary Export all alert rules in provisioning file format.
-         * @param {boolean} [download] Whether to initiate a download of the file or not.
-         * @param {RouteGetAlertRulesExportFormatEnum} [format] Format of the downloaded file. Supported yaml, json or hcl. Accept header can also be used, but the query parameter will take precedence.
-         * @param {Array<string>} [folderUid] UIDs of folders from which to export rules
-         * @param {string} [group] Name of group of rules to export. Must be specified only together with a single folder UID
-         * @param {string} [ruleUid] UID of alert rule to export. If specified, parameters folderUid and group must be empty.
+         * @param {ProvisioningApiRouteGetAlertRulesExportRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        routeGetAlertRulesExport(download?: boolean, format?: RouteGetAlertRulesExportFormatEnum, folderUid?: Array<string>, group?: string, ruleUid?: string, options?: RawAxiosRequestConfig): AxiosPromise<AlertingFileExport> {
-            return localVarFp.routeGetAlertRulesExport(download, format, folderUid, group, ruleUid, options).then((request) => request(axios, basePath));
+        routeGetAlertRulesExport(requestParameters: ProvisioningApiRouteGetAlertRulesExportRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<AlertingFileExport> {
+            return localVarFp.routeGetAlertRulesExport(requestParameters.download, requestParameters.format, requestParameters.folderUid, requestParameters.group, requestParameters.ruleUid, options).then((request) => request(axios, basePath));
         },
         /**
          * 
          * @summary Get all the contact points.
-         * @param {string} [name] Filter by name
+         * @param {ProvisioningApiRouteGetContactpointsRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        routeGetContactpoints(name?: string, options?: RawAxiosRequestConfig): AxiosPromise<Array<EmbeddedContactPoint>> {
-            return localVarFp.routeGetContactpoints(name, options).then((request) => request(axios, basePath));
+        routeGetContactpoints(requestParameters: ProvisioningApiRouteGetContactpointsRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<Array<EmbeddedContactPoint>> {
+            return localVarFp.routeGetContactpoints(requestParameters.name, options).then((request) => request(axios, basePath));
         },
         /**
          * 
          * @summary Export all contact points in provisioning file format.
-         * @param {boolean} [download] Whether to initiate a download of the file or not.
-         * @param {RouteGetContactpointsExportFormatEnum} [format] Format of the downloaded file. Supported yaml, json or hcl. Accept header can also be used, but the query parameter will take precedence.
-         * @param {boolean} [decrypt] Whether any contained secure settings should be decrypted or left redacted. Redacted settings will contain RedactedValue instead. Currently, only org admin can view decrypted secure settings.
-         * @param {string} [name] Filter by name
+         * @param {ProvisioningApiRouteGetContactpointsExportRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        routeGetContactpointsExport(download?: boolean, format?: RouteGetContactpointsExportFormatEnum, decrypt?: boolean, name?: string, options?: RawAxiosRequestConfig): AxiosPromise<AlertingFileExport> {
-            return localVarFp.routeGetContactpointsExport(download, format, decrypt, name, options).then((request) => request(axios, basePath));
+        routeGetContactpointsExport(requestParameters: ProvisioningApiRouteGetContactpointsExportRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<AlertingFileExport> {
+            return localVarFp.routeGetContactpointsExport(requestParameters.download, requestParameters.format, requestParameters.decrypt, requestParameters.name, options).then((request) => request(axios, basePath));
         },
         /**
          * 
          * @summary Get a mute timing.
-         * @param {string} name Mute timing name
+         * @param {ProvisioningApiRouteGetMuteTimingRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        routeGetMuteTiming(name: string, options?: RawAxiosRequestConfig): AxiosPromise<MuteTimeInterval> {
-            return localVarFp.routeGetMuteTiming(name, options).then((request) => request(axios, basePath));
+        routeGetMuteTiming(requestParameters: ProvisioningApiRouteGetMuteTimingRequest, options?: RawAxiosRequestConfig): AxiosPromise<MuteTimeInterval> {
+            return localVarFp.routeGetMuteTiming(requestParameters.name, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -38994,12 +39048,12 @@ export const ProvisioningApiFactory = function (configuration?: Configuration, b
         /**
          * 
          * @summary Get a notification template.
-         * @param {string} name Template Name
+         * @param {ProvisioningApiRouteGetTemplateRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        routeGetTemplate(name: string, options?: RawAxiosRequestConfig): AxiosPromise<NotificationTemplate> {
-            return localVarFp.routeGetTemplate(name, options).then((request) => request(axios, basePath));
+        routeGetTemplate(requestParameters: ProvisioningApiRouteGetTemplateRequest, options?: RawAxiosRequestConfig): AxiosPromise<NotificationTemplate> {
+            return localVarFp.routeGetTemplate(requestParameters.name, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -39013,107 +39067,92 @@ export const ProvisioningApiFactory = function (configuration?: Configuration, b
         /**
          * 
          * @summary Create a new alert rule.
-         * @param {string} [xDisableProvenance] 
-         * @param {ProvisionedAlertRule} [body] 
+         * @param {ProvisioningApiRoutePostAlertRuleRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        routePostAlertRule(xDisableProvenance?: string, body?: ProvisionedAlertRule, options?: RawAxiosRequestConfig): AxiosPromise<ProvisionedAlertRule> {
-            return localVarFp.routePostAlertRule(xDisableProvenance, body, options).then((request) => request(axios, basePath));
+        routePostAlertRule(requestParameters: ProvisioningApiRoutePostAlertRuleRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<ProvisionedAlertRule> {
+            return localVarFp.routePostAlertRule(requestParameters.xDisableProvenance, requestParameters.body, options).then((request) => request(axios, basePath));
         },
         /**
          * 
          * @summary Create a contact point.
-         * @param {string} [xDisableProvenance] 
-         * @param {EmbeddedContactPoint} [body] 
+         * @param {ProvisioningApiRoutePostContactpointsRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        routePostContactpoints(xDisableProvenance?: string, body?: EmbeddedContactPoint, options?: RawAxiosRequestConfig): AxiosPromise<EmbeddedContactPoint> {
-            return localVarFp.routePostContactpoints(xDisableProvenance, body, options).then((request) => request(axios, basePath));
+        routePostContactpoints(requestParameters: ProvisioningApiRoutePostContactpointsRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<EmbeddedContactPoint> {
+            return localVarFp.routePostContactpoints(requestParameters.xDisableProvenance, requestParameters.body, options).then((request) => request(axios, basePath));
         },
         /**
          * 
          * @summary Create a new mute timing.
-         * @param {string} [xDisableProvenance] 
-         * @param {MuteTimeInterval} [body] 
+         * @param {ProvisioningApiRoutePostMuteTimingRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        routePostMuteTiming(xDisableProvenance?: string, body?: MuteTimeInterval, options?: RawAxiosRequestConfig): AxiosPromise<MuteTimeInterval> {
-            return localVarFp.routePostMuteTiming(xDisableProvenance, body, options).then((request) => request(axios, basePath));
+        routePostMuteTiming(requestParameters: ProvisioningApiRoutePostMuteTimingRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<MuteTimeInterval> {
+            return localVarFp.routePostMuteTiming(requestParameters.xDisableProvenance, requestParameters.body, options).then((request) => request(axios, basePath));
         },
         /**
          * 
          * @summary Update an existing alert rule.
-         * @param {string} uID Alert rule UID
-         * @param {string} [xDisableProvenance] 
-         * @param {ProvisionedAlertRule} [body] 
+         * @param {ProvisioningApiRoutePutAlertRuleRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        routePutAlertRule(uID: string, xDisableProvenance?: string, body?: ProvisionedAlertRule, options?: RawAxiosRequestConfig): AxiosPromise<ProvisionedAlertRule> {
-            return localVarFp.routePutAlertRule(uID, xDisableProvenance, body, options).then((request) => request(axios, basePath));
+        routePutAlertRule(requestParameters: ProvisioningApiRoutePutAlertRuleRequest, options?: RawAxiosRequestConfig): AxiosPromise<ProvisionedAlertRule> {
+            return localVarFp.routePutAlertRule(requestParameters.uID, requestParameters.xDisableProvenance, requestParameters.body, options).then((request) => request(axios, basePath));
         },
         /**
          * 
          * @summary Create or update alert rule group.
-         * @param {string} folderUID 
-         * @param {string} group 
-         * @param {string} [xDisableProvenance] 
-         * @param {AlertRuleGroup} [body] 
+         * @param {ProvisioningApiRoutePutAlertRuleGroupRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        routePutAlertRuleGroup(folderUID: string, group: string, xDisableProvenance?: string, body?: AlertRuleGroup, options?: RawAxiosRequestConfig): AxiosPromise<AlertRuleGroup> {
-            return localVarFp.routePutAlertRuleGroup(folderUID, group, xDisableProvenance, body, options).then((request) => request(axios, basePath));
+        routePutAlertRuleGroup(requestParameters: ProvisioningApiRoutePutAlertRuleGroupRequest, options?: RawAxiosRequestConfig): AxiosPromise<AlertRuleGroup> {
+            return localVarFp.routePutAlertRuleGroup(requestParameters.folderUID, requestParameters.group, requestParameters.xDisableProvenance, requestParameters.body, options).then((request) => request(axios, basePath));
         },
         /**
          * 
          * @summary Update an existing contact point.
-         * @param {string} uID UID is the contact point unique identifier
-         * @param {string} [xDisableProvenance] 
-         * @param {EmbeddedContactPoint} [body] 
+         * @param {ProvisioningApiRoutePutContactpointRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        routePutContactpoint(uID: string, xDisableProvenance?: string, body?: EmbeddedContactPoint, options?: RawAxiosRequestConfig): AxiosPromise<object> {
-            return localVarFp.routePutContactpoint(uID, xDisableProvenance, body, options).then((request) => request(axios, basePath));
+        routePutContactpoint(requestParameters: ProvisioningApiRoutePutContactpointRequest, options?: RawAxiosRequestConfig): AxiosPromise<object> {
+            return localVarFp.routePutContactpoint(requestParameters.uID, requestParameters.xDisableProvenance, requestParameters.body, options).then((request) => request(axios, basePath));
         },
         /**
          * 
          * @summary Replace an existing mute timing.
-         * @param {string} name Mute timing name
-         * @param {string} [xDisableProvenance] 
-         * @param {MuteTimeInterval} [body] 
+         * @param {ProvisioningApiRoutePutMuteTimingRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        routePutMuteTiming(name: string, xDisableProvenance?: string, body?: MuteTimeInterval, options?: RawAxiosRequestConfig): AxiosPromise<MuteTimeInterval> {
-            return localVarFp.routePutMuteTiming(name, xDisableProvenance, body, options).then((request) => request(axios, basePath));
+        routePutMuteTiming(requestParameters: ProvisioningApiRoutePutMuteTimingRequest, options?: RawAxiosRequestConfig): AxiosPromise<MuteTimeInterval> {
+            return localVarFp.routePutMuteTiming(requestParameters.name, requestParameters.xDisableProvenance, requestParameters.body, options).then((request) => request(axios, basePath));
         },
         /**
          * 
          * @summary Sets the notification policy tree.
-         * @param {string} [xDisableProvenance] 
-         * @param {Route} [body] The new notification routing tree to use
+         * @param {ProvisioningApiRoutePutPolicyTreeRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        routePutPolicyTree(xDisableProvenance?: string, body?: Route, options?: RawAxiosRequestConfig): AxiosPromise<object> {
-            return localVarFp.routePutPolicyTree(xDisableProvenance, body, options).then((request) => request(axios, basePath));
+        routePutPolicyTree(requestParameters: ProvisioningApiRoutePutPolicyTreeRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<object> {
+            return localVarFp.routePutPolicyTree(requestParameters.xDisableProvenance, requestParameters.body, options).then((request) => request(axios, basePath));
         },
         /**
          * 
          * @summary Updates an existing notification template.
-         * @param {string} name Template Name
-         * @param {string} [xDisableProvenance] 
-         * @param {NotificationTemplateContent} [body] 
+         * @param {ProvisioningApiRoutePutTemplateRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        routePutTemplate(name: string, xDisableProvenance?: string, body?: NotificationTemplateContent, options?: RawAxiosRequestConfig): AxiosPromise<NotificationTemplate> {
-            return localVarFp.routePutTemplate(name, xDisableProvenance, body, options).then((request) => request(axios, basePath));
+        routePutTemplate(requestParameters: ProvisioningApiRoutePutTemplateRequest, options?: RawAxiosRequestConfig): AxiosPromise<NotificationTemplate> {
+            return localVarFp.routePutTemplate(requestParameters.name, requestParameters.xDisableProvenance, requestParameters.body, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -39128,6 +39167,587 @@ export const ProvisioningApiFactory = function (configuration?: Configuration, b
 };
 
 /**
+ * Request parameters for routeDeleteAlertRule operation in ProvisioningApi.
+ * @export
+ * @interface ProvisioningApiRouteDeleteAlertRuleRequest
+ */
+export interface ProvisioningApiRouteDeleteAlertRuleRequest {
+    /**
+     * Alert rule UID
+     * @type {string}
+     * @memberof ProvisioningApiRouteDeleteAlertRule
+     */
+    readonly uID: string
+
+    /**
+     * 
+     * @type {string}
+     * @memberof ProvisioningApiRouteDeleteAlertRule
+     */
+    readonly xDisableProvenance?: string
+}
+
+/**
+ * Request parameters for routeDeleteAlertRuleGroup operation in ProvisioningApi.
+ * @export
+ * @interface ProvisioningApiRouteDeleteAlertRuleGroupRequest
+ */
+export interface ProvisioningApiRouteDeleteAlertRuleGroupRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof ProvisioningApiRouteDeleteAlertRuleGroup
+     */
+    readonly folderUID: string
+
+    /**
+     * 
+     * @type {string}
+     * @memberof ProvisioningApiRouteDeleteAlertRuleGroup
+     */
+    readonly group: string
+}
+
+/**
+ * Request parameters for routeDeleteContactpoints operation in ProvisioningApi.
+ * @export
+ * @interface ProvisioningApiRouteDeleteContactpointsRequest
+ */
+export interface ProvisioningApiRouteDeleteContactpointsRequest {
+    /**
+     * UID is the contact point unique identifier
+     * @type {string}
+     * @memberof ProvisioningApiRouteDeleteContactpoints
+     */
+    readonly uID: string
+}
+
+/**
+ * Request parameters for routeDeleteMuteTiming operation in ProvisioningApi.
+ * @export
+ * @interface ProvisioningApiRouteDeleteMuteTimingRequest
+ */
+export interface ProvisioningApiRouteDeleteMuteTimingRequest {
+    /**
+     * Mute timing name
+     * @type {string}
+     * @memberof ProvisioningApiRouteDeleteMuteTiming
+     */
+    readonly name: string
+}
+
+/**
+ * Request parameters for routeDeleteTemplate operation in ProvisioningApi.
+ * @export
+ * @interface ProvisioningApiRouteDeleteTemplateRequest
+ */
+export interface ProvisioningApiRouteDeleteTemplateRequest {
+    /**
+     * Template Name
+     * @type {string}
+     * @memberof ProvisioningApiRouteDeleteTemplate
+     */
+    readonly name: string
+}
+
+/**
+ * Request parameters for routeExportMuteTiming operation in ProvisioningApi.
+ * @export
+ * @interface ProvisioningApiRouteExportMuteTimingRequest
+ */
+export interface ProvisioningApiRouteExportMuteTimingRequest {
+    /**
+     * Mute timing name
+     * @type {string}
+     * @memberof ProvisioningApiRouteExportMuteTiming
+     */
+    readonly name: string
+
+    /**
+     * Whether to initiate a download of the file or not.
+     * @type {boolean}
+     * @memberof ProvisioningApiRouteExportMuteTiming
+     */
+    readonly download?: boolean
+
+    /**
+     * Format of the downloaded file. Supported yaml, json or hcl. Accept header can also be used, but the query parameter will take precedence.
+     * @type {'yaml' | 'json' | 'hcl'}
+     * @memberof ProvisioningApiRouteExportMuteTiming
+     */
+    readonly format?: RouteExportMuteTimingFormatEnum
+}
+
+/**
+ * Request parameters for routeExportMuteTimings operation in ProvisioningApi.
+ * @export
+ * @interface ProvisioningApiRouteExportMuteTimingsRequest
+ */
+export interface ProvisioningApiRouteExportMuteTimingsRequest {
+    /**
+     * Whether to initiate a download of the file or not.
+     * @type {boolean}
+     * @memberof ProvisioningApiRouteExportMuteTimings
+     */
+    readonly download?: boolean
+
+    /**
+     * Format of the downloaded file. Supported yaml, json or hcl. Accept header can also be used, but the query parameter will take precedence.
+     * @type {'yaml' | 'json' | 'hcl'}
+     * @memberof ProvisioningApiRouteExportMuteTimings
+     */
+    readonly format?: RouteExportMuteTimingsFormatEnum
+}
+
+/**
+ * Request parameters for routeGetAlertRule operation in ProvisioningApi.
+ * @export
+ * @interface ProvisioningApiRouteGetAlertRuleRequest
+ */
+export interface ProvisioningApiRouteGetAlertRuleRequest {
+    /**
+     * Alert rule UID
+     * @type {string}
+     * @memberof ProvisioningApiRouteGetAlertRule
+     */
+    readonly uID: string
+}
+
+/**
+ * Request parameters for routeGetAlertRuleExport operation in ProvisioningApi.
+ * @export
+ * @interface ProvisioningApiRouteGetAlertRuleExportRequest
+ */
+export interface ProvisioningApiRouteGetAlertRuleExportRequest {
+    /**
+     * Alert rule UID
+     * @type {string}
+     * @memberof ProvisioningApiRouteGetAlertRuleExport
+     */
+    readonly uID: string
+
+    /**
+     * Whether to initiate a download of the file or not.
+     * @type {boolean}
+     * @memberof ProvisioningApiRouteGetAlertRuleExport
+     */
+    readonly download?: boolean
+
+    /**
+     * Format of the downloaded file. Supported yaml, json or hcl. Accept header can also be used, but the query parameter will take precedence.
+     * @type {'yaml' | 'json' | 'hcl'}
+     * @memberof ProvisioningApiRouteGetAlertRuleExport
+     */
+    readonly format?: RouteGetAlertRuleExportFormatEnum
+}
+
+/**
+ * Request parameters for routeGetAlertRuleGroup operation in ProvisioningApi.
+ * @export
+ * @interface ProvisioningApiRouteGetAlertRuleGroupRequest
+ */
+export interface ProvisioningApiRouteGetAlertRuleGroupRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof ProvisioningApiRouteGetAlertRuleGroup
+     */
+    readonly folderUID: string
+
+    /**
+     * 
+     * @type {string}
+     * @memberof ProvisioningApiRouteGetAlertRuleGroup
+     */
+    readonly group: string
+}
+
+/**
+ * Request parameters for routeGetAlertRuleGroupExport operation in ProvisioningApi.
+ * @export
+ * @interface ProvisioningApiRouteGetAlertRuleGroupExportRequest
+ */
+export interface ProvisioningApiRouteGetAlertRuleGroupExportRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof ProvisioningApiRouteGetAlertRuleGroupExport
+     */
+    readonly folderUID: string
+
+    /**
+     * 
+     * @type {string}
+     * @memberof ProvisioningApiRouteGetAlertRuleGroupExport
+     */
+    readonly group: string
+
+    /**
+     * Whether to initiate a download of the file or not.
+     * @type {boolean}
+     * @memberof ProvisioningApiRouteGetAlertRuleGroupExport
+     */
+    readonly download?: boolean
+
+    /**
+     * Format of the downloaded file. Supported yaml, json or hcl. Accept header can also be used, but the query parameter will take precedence.
+     * @type {'yaml' | 'json' | 'hcl'}
+     * @memberof ProvisioningApiRouteGetAlertRuleGroupExport
+     */
+    readonly format?: RouteGetAlertRuleGroupExportFormatEnum
+}
+
+/**
+ * Request parameters for routeGetAlertRulesExport operation in ProvisioningApi.
+ * @export
+ * @interface ProvisioningApiRouteGetAlertRulesExportRequest
+ */
+export interface ProvisioningApiRouteGetAlertRulesExportRequest {
+    /**
+     * Whether to initiate a download of the file or not.
+     * @type {boolean}
+     * @memberof ProvisioningApiRouteGetAlertRulesExport
+     */
+    readonly download?: boolean
+
+    /**
+     * Format of the downloaded file. Supported yaml, json or hcl. Accept header can also be used, but the query parameter will take precedence.
+     * @type {'yaml' | 'json' | 'hcl'}
+     * @memberof ProvisioningApiRouteGetAlertRulesExport
+     */
+    readonly format?: RouteGetAlertRulesExportFormatEnum
+
+    /**
+     * UIDs of folders from which to export rules
+     * @type {Array<string>}
+     * @memberof ProvisioningApiRouteGetAlertRulesExport
+     */
+    readonly folderUid?: Array<string>
+
+    /**
+     * Name of group of rules to export. Must be specified only together with a single folder UID
+     * @type {string}
+     * @memberof ProvisioningApiRouteGetAlertRulesExport
+     */
+    readonly group?: string
+
+    /**
+     * UID of alert rule to export. If specified, parameters folderUid and group must be empty.
+     * @type {string}
+     * @memberof ProvisioningApiRouteGetAlertRulesExport
+     */
+    readonly ruleUid?: string
+}
+
+/**
+ * Request parameters for routeGetContactpoints operation in ProvisioningApi.
+ * @export
+ * @interface ProvisioningApiRouteGetContactpointsRequest
+ */
+export interface ProvisioningApiRouteGetContactpointsRequest {
+    /**
+     * Filter by name
+     * @type {string}
+     * @memberof ProvisioningApiRouteGetContactpoints
+     */
+    readonly name?: string
+}
+
+/**
+ * Request parameters for routeGetContactpointsExport operation in ProvisioningApi.
+ * @export
+ * @interface ProvisioningApiRouteGetContactpointsExportRequest
+ */
+export interface ProvisioningApiRouteGetContactpointsExportRequest {
+    /**
+     * Whether to initiate a download of the file or not.
+     * @type {boolean}
+     * @memberof ProvisioningApiRouteGetContactpointsExport
+     */
+    readonly download?: boolean
+
+    /**
+     * Format of the downloaded file. Supported yaml, json or hcl. Accept header can also be used, but the query parameter will take precedence.
+     * @type {'yaml' | 'json' | 'hcl'}
+     * @memberof ProvisioningApiRouteGetContactpointsExport
+     */
+    readonly format?: RouteGetContactpointsExportFormatEnum
+
+    /**
+     * Whether any contained secure settings should be decrypted or left redacted. Redacted settings will contain RedactedValue instead. Currently, only org admin can view decrypted secure settings.
+     * @type {boolean}
+     * @memberof ProvisioningApiRouteGetContactpointsExport
+     */
+    readonly decrypt?: boolean
+
+    /**
+     * Filter by name
+     * @type {string}
+     * @memberof ProvisioningApiRouteGetContactpointsExport
+     */
+    readonly name?: string
+}
+
+/**
+ * Request parameters for routeGetMuteTiming operation in ProvisioningApi.
+ * @export
+ * @interface ProvisioningApiRouteGetMuteTimingRequest
+ */
+export interface ProvisioningApiRouteGetMuteTimingRequest {
+    /**
+     * Mute timing name
+     * @type {string}
+     * @memberof ProvisioningApiRouteGetMuteTiming
+     */
+    readonly name: string
+}
+
+/**
+ * Request parameters for routeGetTemplate operation in ProvisioningApi.
+ * @export
+ * @interface ProvisioningApiRouteGetTemplateRequest
+ */
+export interface ProvisioningApiRouteGetTemplateRequest {
+    /**
+     * Template Name
+     * @type {string}
+     * @memberof ProvisioningApiRouteGetTemplate
+     */
+    readonly name: string
+}
+
+/**
+ * Request parameters for routePostAlertRule operation in ProvisioningApi.
+ * @export
+ * @interface ProvisioningApiRoutePostAlertRuleRequest
+ */
+export interface ProvisioningApiRoutePostAlertRuleRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof ProvisioningApiRoutePostAlertRule
+     */
+    readonly xDisableProvenance?: string
+
+    /**
+     * 
+     * @type {ProvisionedAlertRule}
+     * @memberof ProvisioningApiRoutePostAlertRule
+     */
+    readonly body?: ProvisionedAlertRule
+}
+
+/**
+ * Request parameters for routePostContactpoints operation in ProvisioningApi.
+ * @export
+ * @interface ProvisioningApiRoutePostContactpointsRequest
+ */
+export interface ProvisioningApiRoutePostContactpointsRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof ProvisioningApiRoutePostContactpoints
+     */
+    readonly xDisableProvenance?: string
+
+    /**
+     * 
+     * @type {EmbeddedContactPoint}
+     * @memberof ProvisioningApiRoutePostContactpoints
+     */
+    readonly body?: EmbeddedContactPoint
+}
+
+/**
+ * Request parameters for routePostMuteTiming operation in ProvisioningApi.
+ * @export
+ * @interface ProvisioningApiRoutePostMuteTimingRequest
+ */
+export interface ProvisioningApiRoutePostMuteTimingRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof ProvisioningApiRoutePostMuteTiming
+     */
+    readonly xDisableProvenance?: string
+
+    /**
+     * 
+     * @type {MuteTimeInterval}
+     * @memberof ProvisioningApiRoutePostMuteTiming
+     */
+    readonly body?: MuteTimeInterval
+}
+
+/**
+ * Request parameters for routePutAlertRule operation in ProvisioningApi.
+ * @export
+ * @interface ProvisioningApiRoutePutAlertRuleRequest
+ */
+export interface ProvisioningApiRoutePutAlertRuleRequest {
+    /**
+     * Alert rule UID
+     * @type {string}
+     * @memberof ProvisioningApiRoutePutAlertRule
+     */
+    readonly uID: string
+
+    /**
+     * 
+     * @type {string}
+     * @memberof ProvisioningApiRoutePutAlertRule
+     */
+    readonly xDisableProvenance?: string
+
+    /**
+     * 
+     * @type {ProvisionedAlertRule}
+     * @memberof ProvisioningApiRoutePutAlertRule
+     */
+    readonly body?: ProvisionedAlertRule
+}
+
+/**
+ * Request parameters for routePutAlertRuleGroup operation in ProvisioningApi.
+ * @export
+ * @interface ProvisioningApiRoutePutAlertRuleGroupRequest
+ */
+export interface ProvisioningApiRoutePutAlertRuleGroupRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof ProvisioningApiRoutePutAlertRuleGroup
+     */
+    readonly folderUID: string
+
+    /**
+     * 
+     * @type {string}
+     * @memberof ProvisioningApiRoutePutAlertRuleGroup
+     */
+    readonly group: string
+
+    /**
+     * 
+     * @type {string}
+     * @memberof ProvisioningApiRoutePutAlertRuleGroup
+     */
+    readonly xDisableProvenance?: string
+
+    /**
+     * 
+     * @type {AlertRuleGroup}
+     * @memberof ProvisioningApiRoutePutAlertRuleGroup
+     */
+    readonly body?: AlertRuleGroup
+}
+
+/**
+ * Request parameters for routePutContactpoint operation in ProvisioningApi.
+ * @export
+ * @interface ProvisioningApiRoutePutContactpointRequest
+ */
+export interface ProvisioningApiRoutePutContactpointRequest {
+    /**
+     * UID is the contact point unique identifier
+     * @type {string}
+     * @memberof ProvisioningApiRoutePutContactpoint
+     */
+    readonly uID: string
+
+    /**
+     * 
+     * @type {string}
+     * @memberof ProvisioningApiRoutePutContactpoint
+     */
+    readonly xDisableProvenance?: string
+
+    /**
+     * 
+     * @type {EmbeddedContactPoint}
+     * @memberof ProvisioningApiRoutePutContactpoint
+     */
+    readonly body?: EmbeddedContactPoint
+}
+
+/**
+ * Request parameters for routePutMuteTiming operation in ProvisioningApi.
+ * @export
+ * @interface ProvisioningApiRoutePutMuteTimingRequest
+ */
+export interface ProvisioningApiRoutePutMuteTimingRequest {
+    /**
+     * Mute timing name
+     * @type {string}
+     * @memberof ProvisioningApiRoutePutMuteTiming
+     */
+    readonly name: string
+
+    /**
+     * 
+     * @type {string}
+     * @memberof ProvisioningApiRoutePutMuteTiming
+     */
+    readonly xDisableProvenance?: string
+
+    /**
+     * 
+     * @type {MuteTimeInterval}
+     * @memberof ProvisioningApiRoutePutMuteTiming
+     */
+    readonly body?: MuteTimeInterval
+}
+
+/**
+ * Request parameters for routePutPolicyTree operation in ProvisioningApi.
+ * @export
+ * @interface ProvisioningApiRoutePutPolicyTreeRequest
+ */
+export interface ProvisioningApiRoutePutPolicyTreeRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof ProvisioningApiRoutePutPolicyTree
+     */
+    readonly xDisableProvenance?: string
+
+    /**
+     * The new notification routing tree to use
+     * @type {Route}
+     * @memberof ProvisioningApiRoutePutPolicyTree
+     */
+    readonly body?: Route
+}
+
+/**
+ * Request parameters for routePutTemplate operation in ProvisioningApi.
+ * @export
+ * @interface ProvisioningApiRoutePutTemplateRequest
+ */
+export interface ProvisioningApiRoutePutTemplateRequest {
+    /**
+     * Template Name
+     * @type {string}
+     * @memberof ProvisioningApiRoutePutTemplate
+     */
+    readonly name: string
+
+    /**
+     * 
+     * @type {string}
+     * @memberof ProvisioningApiRoutePutTemplate
+     */
+    readonly xDisableProvenance?: string
+
+    /**
+     * 
+     * @type {NotificationTemplateContent}
+     * @memberof ProvisioningApiRoutePutTemplate
+     */
+    readonly body?: NotificationTemplateContent
+}
+
+/**
  * ProvisioningApi - object-oriented interface
  * @export
  * @class ProvisioningApi
@@ -39137,146 +39757,132 @@ export class ProvisioningApi extends BaseAPI {
     /**
      * 
      * @summary Delete a specific alert rule by UID.
-     * @param {string} uID Alert rule UID
-     * @param {string} [xDisableProvenance] 
+     * @param {ProvisioningApiRouteDeleteAlertRuleRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ProvisioningApi
      */
-    public routeDeleteAlertRule(uID: string, xDisableProvenance?: string, options?: RawAxiosRequestConfig) {
-        return ProvisioningApiFp(this.configuration).routeDeleteAlertRule(uID, xDisableProvenance, options).then((request) => request(this.axios, this.basePath));
+    public routeDeleteAlertRule(requestParameters: ProvisioningApiRouteDeleteAlertRuleRequest, options?: RawAxiosRequestConfig) {
+        return ProvisioningApiFp(this.configuration).routeDeleteAlertRule(requestParameters.uID, requestParameters.xDisableProvenance, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Delete rule group
-     * @param {string} folderUID 
-     * @param {string} group 
+     * @param {ProvisioningApiRouteDeleteAlertRuleGroupRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ProvisioningApi
      */
-    public routeDeleteAlertRuleGroup(folderUID: string, group: string, options?: RawAxiosRequestConfig) {
-        return ProvisioningApiFp(this.configuration).routeDeleteAlertRuleGroup(folderUID, group, options).then((request) => request(this.axios, this.basePath));
+    public routeDeleteAlertRuleGroup(requestParameters: ProvisioningApiRouteDeleteAlertRuleGroupRequest, options?: RawAxiosRequestConfig) {
+        return ProvisioningApiFp(this.configuration).routeDeleteAlertRuleGroup(requestParameters.folderUID, requestParameters.group, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
      * @summary Delete a contact point.
-     * @param {string} uID UID is the contact point unique identifier
+     * @param {ProvisioningApiRouteDeleteContactpointsRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ProvisioningApi
      */
-    public routeDeleteContactpoints(uID: string, options?: RawAxiosRequestConfig) {
-        return ProvisioningApiFp(this.configuration).routeDeleteContactpoints(uID, options).then((request) => request(this.axios, this.basePath));
+    public routeDeleteContactpoints(requestParameters: ProvisioningApiRouteDeleteContactpointsRequest, options?: RawAxiosRequestConfig) {
+        return ProvisioningApiFp(this.configuration).routeDeleteContactpoints(requestParameters.uID, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
      * @summary Delete a mute timing.
-     * @param {string} name Mute timing name
-     * @param {string} [version] Version of mute timing to use for optimistic concurrency. Leave empty to disable validation
-     * @param {string} [xDisableProvenance] 
+     * @param {ProvisioningApiRouteDeleteMuteTimingRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ProvisioningApi
      */
-    public routeDeleteMuteTiming(name: string, version?: string, xDisableProvenance?: string, options?: RawAxiosRequestConfig) {
-        return ProvisioningApiFp(this.configuration).routeDeleteMuteTiming(name, version, xDisableProvenance, options).then((request) => request(this.axios, this.basePath));
+    public routeDeleteMuteTiming(requestParameters: ProvisioningApiRouteDeleteMuteTimingRequest, options?: RawAxiosRequestConfig) {
+        return ProvisioningApiFp(this.configuration).routeDeleteMuteTiming(requestParameters.name, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
      * @summary Delete a template.
-     * @param {string} name Template name
-     * @param {string} [version] Version of template to use for optimistic concurrency. Leave empty to disable validation
+     * @param {ProvisioningApiRouteDeleteTemplateRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ProvisioningApi
      */
-    public routeDeleteTemplate(name: string, version?: string, options?: RawAxiosRequestConfig) {
-        return ProvisioningApiFp(this.configuration).routeDeleteTemplate(name, version, options).then((request) => request(this.axios, this.basePath));
+    public routeDeleteTemplate(requestParameters: ProvisioningApiRouteDeleteTemplateRequest, options?: RawAxiosRequestConfig) {
+        return ProvisioningApiFp(this.configuration).routeDeleteTemplate(requestParameters.name, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
      * @summary Export a mute timing in provisioning format.
-     * @param {string} name Mute timing name
-     * @param {boolean} [download] Whether to initiate a download of the file or not.
-     * @param {RouteExportMuteTimingFormatEnum} [format] Format of the downloaded file. Supported yaml, json or hcl. Accept header can also be used, but the query parameter will take precedence.
+     * @param {ProvisioningApiRouteExportMuteTimingRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ProvisioningApi
      */
-    public routeExportMuteTiming(name: string, download?: boolean, format?: RouteExportMuteTimingFormatEnum, options?: RawAxiosRequestConfig) {
-        return ProvisioningApiFp(this.configuration).routeExportMuteTiming(name, download, format, options).then((request) => request(this.axios, this.basePath));
+    public routeExportMuteTiming(requestParameters: ProvisioningApiRouteExportMuteTimingRequest, options?: RawAxiosRequestConfig) {
+        return ProvisioningApiFp(this.configuration).routeExportMuteTiming(requestParameters.name, requestParameters.download, requestParameters.format, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
      * @summary Export all mute timings in provisioning format.
-     * @param {boolean} [download] Whether to initiate a download of the file or not.
-     * @param {RouteExportMuteTimingsFormatEnum} [format] Format of the downloaded file. Supported yaml, json or hcl. Accept header can also be used, but the query parameter will take precedence.
+     * @param {ProvisioningApiRouteExportMuteTimingsRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ProvisioningApi
      */
-    public routeExportMuteTimings(download?: boolean, format?: RouteExportMuteTimingsFormatEnum, options?: RawAxiosRequestConfig) {
-        return ProvisioningApiFp(this.configuration).routeExportMuteTimings(download, format, options).then((request) => request(this.axios, this.basePath));
+    public routeExportMuteTimings(requestParameters: ProvisioningApiRouteExportMuteTimingsRequest = {}, options?: RawAxiosRequestConfig) {
+        return ProvisioningApiFp(this.configuration).routeExportMuteTimings(requestParameters.download, requestParameters.format, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
      * @summary Get a specific alert rule by UID.
-     * @param {string} uID Alert rule UID
+     * @param {ProvisioningApiRouteGetAlertRuleRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ProvisioningApi
      */
-    public routeGetAlertRule(uID: string, options?: RawAxiosRequestConfig) {
-        return ProvisioningApiFp(this.configuration).routeGetAlertRule(uID, options).then((request) => request(this.axios, this.basePath));
+    public routeGetAlertRule(requestParameters: ProvisioningApiRouteGetAlertRuleRequest, options?: RawAxiosRequestConfig) {
+        return ProvisioningApiFp(this.configuration).routeGetAlertRule(requestParameters.uID, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
      * @summary Export an alert rule in provisioning file format.
-     * @param {string} uID Alert rule UID
-     * @param {boolean} [download] Whether to initiate a download of the file or not.
-     * @param {RouteGetAlertRuleExportFormatEnum} [format] Format of the downloaded file. Supported yaml, json or hcl. Accept header can also be used, but the query parameter will take precedence.
+     * @param {ProvisioningApiRouteGetAlertRuleExportRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ProvisioningApi
      */
-    public routeGetAlertRuleExport(uID: string, download?: boolean, format?: RouteGetAlertRuleExportFormatEnum, options?: RawAxiosRequestConfig) {
-        return ProvisioningApiFp(this.configuration).routeGetAlertRuleExport(uID, download, format, options).then((request) => request(this.axios, this.basePath));
+    public routeGetAlertRuleExport(requestParameters: ProvisioningApiRouteGetAlertRuleExportRequest, options?: RawAxiosRequestConfig) {
+        return ProvisioningApiFp(this.configuration).routeGetAlertRuleExport(requestParameters.uID, requestParameters.download, requestParameters.format, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
      * @summary Get a rule group.
-     * @param {string} folderUID 
-     * @param {string} group 
+     * @param {ProvisioningApiRouteGetAlertRuleGroupRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ProvisioningApi
      */
-    public routeGetAlertRuleGroup(folderUID: string, group: string, options?: RawAxiosRequestConfig) {
-        return ProvisioningApiFp(this.configuration).routeGetAlertRuleGroup(folderUID, group, options).then((request) => request(this.axios, this.basePath));
+    public routeGetAlertRuleGroup(requestParameters: ProvisioningApiRouteGetAlertRuleGroupRequest, options?: RawAxiosRequestConfig) {
+        return ProvisioningApiFp(this.configuration).routeGetAlertRuleGroup(requestParameters.folderUID, requestParameters.group, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
      * @summary Export an alert rule group in provisioning file format.
-     * @param {string} folderUID 
-     * @param {string} group 
-     * @param {boolean} [download] Whether to initiate a download of the file or not.
-     * @param {RouteGetAlertRuleGroupExportFormatEnum} [format] Format of the downloaded file. Supported yaml, json or hcl. Accept header can also be used, but the query parameter will take precedence.
+     * @param {ProvisioningApiRouteGetAlertRuleGroupExportRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ProvisioningApi
      */
-    public routeGetAlertRuleGroupExport(folderUID: string, group: string, download?: boolean, format?: RouteGetAlertRuleGroupExportFormatEnum, options?: RawAxiosRequestConfig) {
-        return ProvisioningApiFp(this.configuration).routeGetAlertRuleGroupExport(folderUID, group, download, format, options).then((request) => request(this.axios, this.basePath));
+    public routeGetAlertRuleGroupExport(requestParameters: ProvisioningApiRouteGetAlertRuleGroupExportRequest, options?: RawAxiosRequestConfig) {
+        return ProvisioningApiFp(this.configuration).routeGetAlertRuleGroupExport(requestParameters.folderUID, requestParameters.group, requestParameters.download, requestParameters.format, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -39293,56 +39899,49 @@ export class ProvisioningApi extends BaseAPI {
     /**
      * 
      * @summary Export all alert rules in provisioning file format.
-     * @param {boolean} [download] Whether to initiate a download of the file or not.
-     * @param {RouteGetAlertRulesExportFormatEnum} [format] Format of the downloaded file. Supported yaml, json or hcl. Accept header can also be used, but the query parameter will take precedence.
-     * @param {Array<string>} [folderUid] UIDs of folders from which to export rules
-     * @param {string} [group] Name of group of rules to export. Must be specified only together with a single folder UID
-     * @param {string} [ruleUid] UID of alert rule to export. If specified, parameters folderUid and group must be empty.
+     * @param {ProvisioningApiRouteGetAlertRulesExportRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ProvisioningApi
      */
-    public routeGetAlertRulesExport(download?: boolean, format?: RouteGetAlertRulesExportFormatEnum, folderUid?: Array<string>, group?: string, ruleUid?: string, options?: RawAxiosRequestConfig) {
-        return ProvisioningApiFp(this.configuration).routeGetAlertRulesExport(download, format, folderUid, group, ruleUid, options).then((request) => request(this.axios, this.basePath));
+    public routeGetAlertRulesExport(requestParameters: ProvisioningApiRouteGetAlertRulesExportRequest = {}, options?: RawAxiosRequestConfig) {
+        return ProvisioningApiFp(this.configuration).routeGetAlertRulesExport(requestParameters.download, requestParameters.format, requestParameters.folderUid, requestParameters.group, requestParameters.ruleUid, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
      * @summary Get all the contact points.
-     * @param {string} [name] Filter by name
+     * @param {ProvisioningApiRouteGetContactpointsRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ProvisioningApi
      */
-    public routeGetContactpoints(name?: string, options?: RawAxiosRequestConfig) {
-        return ProvisioningApiFp(this.configuration).routeGetContactpoints(name, options).then((request) => request(this.axios, this.basePath));
+    public routeGetContactpoints(requestParameters: ProvisioningApiRouteGetContactpointsRequest = {}, options?: RawAxiosRequestConfig) {
+        return ProvisioningApiFp(this.configuration).routeGetContactpoints(requestParameters.name, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
      * @summary Export all contact points in provisioning file format.
-     * @param {boolean} [download] Whether to initiate a download of the file or not.
-     * @param {RouteGetContactpointsExportFormatEnum} [format] Format of the downloaded file. Supported yaml, json or hcl. Accept header can also be used, but the query parameter will take precedence.
-     * @param {boolean} [decrypt] Whether any contained secure settings should be decrypted or left redacted. Redacted settings will contain RedactedValue instead. Currently, only org admin can view decrypted secure settings.
-     * @param {string} [name] Filter by name
+     * @param {ProvisioningApiRouteGetContactpointsExportRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ProvisioningApi
      */
-    public routeGetContactpointsExport(download?: boolean, format?: RouteGetContactpointsExportFormatEnum, decrypt?: boolean, name?: string, options?: RawAxiosRequestConfig) {
-        return ProvisioningApiFp(this.configuration).routeGetContactpointsExport(download, format, decrypt, name, options).then((request) => request(this.axios, this.basePath));
+    public routeGetContactpointsExport(requestParameters: ProvisioningApiRouteGetContactpointsExportRequest = {}, options?: RawAxiosRequestConfig) {
+        return ProvisioningApiFp(this.configuration).routeGetContactpointsExport(requestParameters.download, requestParameters.format, requestParameters.decrypt, requestParameters.name, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
      * @summary Get a mute timing.
-     * @param {string} name Mute timing name
+     * @param {ProvisioningApiRouteGetMuteTimingRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ProvisioningApi
      */
-    public routeGetMuteTiming(name: string, options?: RawAxiosRequestConfig) {
-        return ProvisioningApiFp(this.configuration).routeGetMuteTiming(name, options).then((request) => request(this.axios, this.basePath));
+    public routeGetMuteTiming(requestParameters: ProvisioningApiRouteGetMuteTimingRequest, options?: RawAxiosRequestConfig) {
+        return ProvisioningApiFp(this.configuration).routeGetMuteTiming(requestParameters.name, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -39381,13 +39980,13 @@ export class ProvisioningApi extends BaseAPI {
     /**
      * 
      * @summary Get a notification template.
-     * @param {string} name Template Name
+     * @param {ProvisioningApiRouteGetTemplateRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ProvisioningApi
      */
-    public routeGetTemplate(name: string, options?: RawAxiosRequestConfig) {
-        return ProvisioningApiFp(this.configuration).routeGetTemplate(name, options).then((request) => request(this.axios, this.basePath));
+    public routeGetTemplate(requestParameters: ProvisioningApiRouteGetTemplateRequest, options?: RawAxiosRequestConfig) {
+        return ProvisioningApiFp(this.configuration).routeGetTemplate(requestParameters.name, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -39404,124 +40003,109 @@ export class ProvisioningApi extends BaseAPI {
     /**
      * 
      * @summary Create a new alert rule.
-     * @param {string} [xDisableProvenance] 
-     * @param {ProvisionedAlertRule} [body] 
+     * @param {ProvisioningApiRoutePostAlertRuleRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ProvisioningApi
      */
-    public routePostAlertRule(xDisableProvenance?: string, body?: ProvisionedAlertRule, options?: RawAxiosRequestConfig) {
-        return ProvisioningApiFp(this.configuration).routePostAlertRule(xDisableProvenance, body, options).then((request) => request(this.axios, this.basePath));
+    public routePostAlertRule(requestParameters: ProvisioningApiRoutePostAlertRuleRequest = {}, options?: RawAxiosRequestConfig) {
+        return ProvisioningApiFp(this.configuration).routePostAlertRule(requestParameters.xDisableProvenance, requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
      * @summary Create a contact point.
-     * @param {string} [xDisableProvenance] 
-     * @param {EmbeddedContactPoint} [body] 
+     * @param {ProvisioningApiRoutePostContactpointsRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ProvisioningApi
      */
-    public routePostContactpoints(xDisableProvenance?: string, body?: EmbeddedContactPoint, options?: RawAxiosRequestConfig) {
-        return ProvisioningApiFp(this.configuration).routePostContactpoints(xDisableProvenance, body, options).then((request) => request(this.axios, this.basePath));
+    public routePostContactpoints(requestParameters: ProvisioningApiRoutePostContactpointsRequest = {}, options?: RawAxiosRequestConfig) {
+        return ProvisioningApiFp(this.configuration).routePostContactpoints(requestParameters.xDisableProvenance, requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
      * @summary Create a new mute timing.
-     * @param {string} [xDisableProvenance] 
-     * @param {MuteTimeInterval} [body] 
+     * @param {ProvisioningApiRoutePostMuteTimingRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ProvisioningApi
      */
-    public routePostMuteTiming(xDisableProvenance?: string, body?: MuteTimeInterval, options?: RawAxiosRequestConfig) {
-        return ProvisioningApiFp(this.configuration).routePostMuteTiming(xDisableProvenance, body, options).then((request) => request(this.axios, this.basePath));
+    public routePostMuteTiming(requestParameters: ProvisioningApiRoutePostMuteTimingRequest = {}, options?: RawAxiosRequestConfig) {
+        return ProvisioningApiFp(this.configuration).routePostMuteTiming(requestParameters.xDisableProvenance, requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
      * @summary Update an existing alert rule.
-     * @param {string} uID Alert rule UID
-     * @param {string} [xDisableProvenance] 
-     * @param {ProvisionedAlertRule} [body] 
+     * @param {ProvisioningApiRoutePutAlertRuleRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ProvisioningApi
      */
-    public routePutAlertRule(uID: string, xDisableProvenance?: string, body?: ProvisionedAlertRule, options?: RawAxiosRequestConfig) {
-        return ProvisioningApiFp(this.configuration).routePutAlertRule(uID, xDisableProvenance, body, options).then((request) => request(this.axios, this.basePath));
+    public routePutAlertRule(requestParameters: ProvisioningApiRoutePutAlertRuleRequest, options?: RawAxiosRequestConfig) {
+        return ProvisioningApiFp(this.configuration).routePutAlertRule(requestParameters.uID, requestParameters.xDisableProvenance, requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
      * @summary Create or update alert rule group.
-     * @param {string} folderUID 
-     * @param {string} group 
-     * @param {string} [xDisableProvenance] 
-     * @param {AlertRuleGroup} [body] 
+     * @param {ProvisioningApiRoutePutAlertRuleGroupRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ProvisioningApi
      */
-    public routePutAlertRuleGroup(folderUID: string, group: string, xDisableProvenance?: string, body?: AlertRuleGroup, options?: RawAxiosRequestConfig) {
-        return ProvisioningApiFp(this.configuration).routePutAlertRuleGroup(folderUID, group, xDisableProvenance, body, options).then((request) => request(this.axios, this.basePath));
+    public routePutAlertRuleGroup(requestParameters: ProvisioningApiRoutePutAlertRuleGroupRequest, options?: RawAxiosRequestConfig) {
+        return ProvisioningApiFp(this.configuration).routePutAlertRuleGroup(requestParameters.folderUID, requestParameters.group, requestParameters.xDisableProvenance, requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
      * @summary Update an existing contact point.
-     * @param {string} uID UID is the contact point unique identifier
-     * @param {string} [xDisableProvenance] 
-     * @param {EmbeddedContactPoint} [body] 
+     * @param {ProvisioningApiRoutePutContactpointRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ProvisioningApi
      */
-    public routePutContactpoint(uID: string, xDisableProvenance?: string, body?: EmbeddedContactPoint, options?: RawAxiosRequestConfig) {
-        return ProvisioningApiFp(this.configuration).routePutContactpoint(uID, xDisableProvenance, body, options).then((request) => request(this.axios, this.basePath));
+    public routePutContactpoint(requestParameters: ProvisioningApiRoutePutContactpointRequest, options?: RawAxiosRequestConfig) {
+        return ProvisioningApiFp(this.configuration).routePutContactpoint(requestParameters.uID, requestParameters.xDisableProvenance, requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
      * @summary Replace an existing mute timing.
-     * @param {string} name Mute timing name
-     * @param {string} [xDisableProvenance] 
-     * @param {MuteTimeInterval} [body] 
+     * @param {ProvisioningApiRoutePutMuteTimingRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ProvisioningApi
      */
-    public routePutMuteTiming(name: string, xDisableProvenance?: string, body?: MuteTimeInterval, options?: RawAxiosRequestConfig) {
-        return ProvisioningApiFp(this.configuration).routePutMuteTiming(name, xDisableProvenance, body, options).then((request) => request(this.axios, this.basePath));
+    public routePutMuteTiming(requestParameters: ProvisioningApiRoutePutMuteTimingRequest, options?: RawAxiosRequestConfig) {
+        return ProvisioningApiFp(this.configuration).routePutMuteTiming(requestParameters.name, requestParameters.xDisableProvenance, requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
      * @summary Sets the notification policy tree.
-     * @param {string} [xDisableProvenance] 
-     * @param {Route} [body] The new notification routing tree to use
+     * @param {ProvisioningApiRoutePutPolicyTreeRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ProvisioningApi
      */
-    public routePutPolicyTree(xDisableProvenance?: string, body?: Route, options?: RawAxiosRequestConfig) {
-        return ProvisioningApiFp(this.configuration).routePutPolicyTree(xDisableProvenance, body, options).then((request) => request(this.axios, this.basePath));
+    public routePutPolicyTree(requestParameters: ProvisioningApiRoutePutPolicyTreeRequest = {}, options?: RawAxiosRequestConfig) {
+        return ProvisioningApiFp(this.configuration).routePutPolicyTree(requestParameters.xDisableProvenance, requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
      * @summary Updates an existing notification template.
-     * @param {string} name Template Name
-     * @param {string} [xDisableProvenance] 
-     * @param {NotificationTemplateContent} [body] 
+     * @param {ProvisioningApiRoutePutTemplateRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ProvisioningApi
      */
-    public routePutTemplate(name: string, xDisableProvenance?: string, body?: NotificationTemplateContent, options?: RawAxiosRequestConfig) {
-        return ProvisioningApiFp(this.configuration).routePutTemplate(name, xDisableProvenance, body, options).then((request) => request(this.axios, this.basePath));
+    public routePutTemplate(requestParameters: ProvisioningApiRoutePutTemplateRequest, options?: RawAxiosRequestConfig) {
+        return ProvisioningApiFp(this.configuration).routePutTemplate(requestParameters.name, requestParameters.xDisableProvenance, requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -39997,73 +40581,205 @@ export const QueryHistoryApiFactory = function (configuration?: Configuration, b
         /**
          * Adds new query to query history.
          * @summary Add query to query history.
-         * @param {CreateQueryInQueryHistoryCommand} body 
+         * @param {QueryHistoryApiCreateQueryRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createQuery(body: CreateQueryInQueryHistoryCommand, options?: RawAxiosRequestConfig): AxiosPromise<QueryHistoryResponse> {
-            return localVarFp.createQuery(body, options).then((request) => request(axios, basePath));
+        createQuery(requestParameters: QueryHistoryApiCreateQueryRequest, options?: RawAxiosRequestConfig): AxiosPromise<QueryHistoryResponse> {
+            return localVarFp.createQuery(requestParameters.body, options).then((request) => request(axios, basePath));
         },
         /**
          * Deletes an existing query in query history as specified by the UID. This operation cannot be reverted.
          * @summary Delete query in query history.
-         * @param {string} queryHistoryUid 
+         * @param {QueryHistoryApiDeleteQueryRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        deleteQuery(queryHistoryUid: string, options?: RawAxiosRequestConfig): AxiosPromise<QueryHistoryDeleteQueryResponse> {
-            return localVarFp.deleteQuery(queryHistoryUid, options).then((request) => request(axios, basePath));
+        deleteQuery(requestParameters: QueryHistoryApiDeleteQueryRequest, options?: RawAxiosRequestConfig): AxiosPromise<QueryHistoryDeleteQueryResponse> {
+            return localVarFp.deleteQuery(requestParameters.queryHistoryUid, options).then((request) => request(axios, basePath));
         },
         /**
          * Updates comment for query in query history as specified by the UID.
          * @summary Update comment for query in query history.
-         * @param {string} queryHistoryUid 
-         * @param {PatchQueryCommentInQueryHistoryCommand} body 
+         * @param {QueryHistoryApiPatchQueryCommentRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        patchQueryComment(queryHistoryUid: string, body: PatchQueryCommentInQueryHistoryCommand, options?: RawAxiosRequestConfig): AxiosPromise<QueryHistoryResponse> {
-            return localVarFp.patchQueryComment(queryHistoryUid, body, options).then((request) => request(axios, basePath));
+        patchQueryComment(requestParameters: QueryHistoryApiPatchQueryCommentRequest, options?: RawAxiosRequestConfig): AxiosPromise<QueryHistoryResponse> {
+            return localVarFp.patchQueryComment(requestParameters.queryHistoryUid, requestParameters.body, options).then((request) => request(axios, basePath));
         },
         /**
          * Returns a list of queries in the query history that matches the search criteria. Query history search supports pagination. Use the `limit` parameter to control the maximum number of queries returned; the default limit is 100. You can also use the `page` query parameter to fetch queries from any page other than the first one.
          * @summary Query history search.
-         * @param {Array<string>} [datasourceUid] List of data source UIDs to search for
-         * @param {string} [searchString] Text inside query or comments that is searched for
-         * @param {boolean} [onlyStarred] Flag indicating if only starred queries should be returned
-         * @param {SearchQueriesSortEnum} [sort] Sort method
-         * @param {number} [page] Use this parameter to access hits beyond limit. Numbering starts at 1. limit param acts as page size.
-         * @param {number} [limit] Limit the number of returned results
-         * @param {number} [from] From range for the query history search
-         * @param {number} [to] To range for the query history search
+         * @param {QueryHistoryApiSearchQueriesRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        searchQueries(datasourceUid?: Array<string>, searchString?: string, onlyStarred?: boolean, sort?: SearchQueriesSortEnum, page?: number, limit?: number, from?: number, to?: number, options?: RawAxiosRequestConfig): AxiosPromise<QueryHistorySearchResponse> {
-            return localVarFp.searchQueries(datasourceUid, searchString, onlyStarred, sort, page, limit, from, to, options).then((request) => request(axios, basePath));
+        searchQueries(requestParameters: QueryHistoryApiSearchQueriesRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<QueryHistorySearchResponse> {
+            return localVarFp.searchQueries(requestParameters.datasourceUid, requestParameters.searchString, requestParameters.onlyStarred, requestParameters.sort, requestParameters.page, requestParameters.limit, requestParameters.from, requestParameters.to, options).then((request) => request(axios, basePath));
         },
         /**
          * Adds star to query in query history as specified by the UID.
          * @summary Add star to query in query history.
-         * @param {string} queryHistoryUid 
+         * @param {QueryHistoryApiStarQueryRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        starQuery(queryHistoryUid: string, options?: RawAxiosRequestConfig): AxiosPromise<QueryHistoryResponse> {
-            return localVarFp.starQuery(queryHistoryUid, options).then((request) => request(axios, basePath));
+        starQuery(requestParameters: QueryHistoryApiStarQueryRequest, options?: RawAxiosRequestConfig): AxiosPromise<QueryHistoryResponse> {
+            return localVarFp.starQuery(requestParameters.queryHistoryUid, options).then((request) => request(axios, basePath));
         },
         /**
          * Removes star from query in query history as specified by the UID.
          * @summary Remove star to query in query history.
-         * @param {string} queryHistoryUid 
+         * @param {QueryHistoryApiUnstarQueryRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        unstarQuery(queryHistoryUid: string, options?: RawAxiosRequestConfig): AxiosPromise<QueryHistoryResponse> {
-            return localVarFp.unstarQuery(queryHistoryUid, options).then((request) => request(axios, basePath));
+        unstarQuery(requestParameters: QueryHistoryApiUnstarQueryRequest, options?: RawAxiosRequestConfig): AxiosPromise<QueryHistoryResponse> {
+            return localVarFp.unstarQuery(requestParameters.queryHistoryUid, options).then((request) => request(axios, basePath));
         },
     };
 };
+
+/**
+ * Request parameters for createQuery operation in QueryHistoryApi.
+ * @export
+ * @interface QueryHistoryApiCreateQueryRequest
+ */
+export interface QueryHistoryApiCreateQueryRequest {
+    /**
+     * 
+     * @type {CreateQueryInQueryHistoryCommand}
+     * @memberof QueryHistoryApiCreateQuery
+     */
+    readonly body: CreateQueryInQueryHistoryCommand
+}
+
+/**
+ * Request parameters for deleteQuery operation in QueryHistoryApi.
+ * @export
+ * @interface QueryHistoryApiDeleteQueryRequest
+ */
+export interface QueryHistoryApiDeleteQueryRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof QueryHistoryApiDeleteQuery
+     */
+    readonly queryHistoryUid: string
+}
+
+/**
+ * Request parameters for patchQueryComment operation in QueryHistoryApi.
+ * @export
+ * @interface QueryHistoryApiPatchQueryCommentRequest
+ */
+export interface QueryHistoryApiPatchQueryCommentRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof QueryHistoryApiPatchQueryComment
+     */
+    readonly queryHistoryUid: string
+
+    /**
+     * 
+     * @type {PatchQueryCommentInQueryHistoryCommand}
+     * @memberof QueryHistoryApiPatchQueryComment
+     */
+    readonly body: PatchQueryCommentInQueryHistoryCommand
+}
+
+/**
+ * Request parameters for searchQueries operation in QueryHistoryApi.
+ * @export
+ * @interface QueryHistoryApiSearchQueriesRequest
+ */
+export interface QueryHistoryApiSearchQueriesRequest {
+    /**
+     * List of data source UIDs to search for
+     * @type {Array<string>}
+     * @memberof QueryHistoryApiSearchQueries
+     */
+    readonly datasourceUid?: Array<string>
+
+    /**
+     * Text inside query or comments that is searched for
+     * @type {string}
+     * @memberof QueryHistoryApiSearchQueries
+     */
+    readonly searchString?: string
+
+    /**
+     * Flag indicating if only starred queries should be returned
+     * @type {boolean}
+     * @memberof QueryHistoryApiSearchQueries
+     */
+    readonly onlyStarred?: boolean
+
+    /**
+     * Sort method
+     * @type {'time-desc' | 'time-asc'}
+     * @memberof QueryHistoryApiSearchQueries
+     */
+    readonly sort?: SearchQueriesSortEnum
+
+    /**
+     * Use this parameter to access hits beyond limit. Numbering starts at 1. limit param acts as page size.
+     * @type {number}
+     * @memberof QueryHistoryApiSearchQueries
+     */
+    readonly page?: number
+
+    /**
+     * Limit the number of returned results
+     * @type {number}
+     * @memberof QueryHistoryApiSearchQueries
+     */
+    readonly limit?: number
+
+    /**
+     * From range for the query history search
+     * @type {number}
+     * @memberof QueryHistoryApiSearchQueries
+     */
+    readonly from?: number
+
+    /**
+     * To range for the query history search
+     * @type {number}
+     * @memberof QueryHistoryApiSearchQueries
+     */
+    readonly to?: number
+}
+
+/**
+ * Request parameters for starQuery operation in QueryHistoryApi.
+ * @export
+ * @interface QueryHistoryApiStarQueryRequest
+ */
+export interface QueryHistoryApiStarQueryRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof QueryHistoryApiStarQuery
+     */
+    readonly queryHistoryUid: string
+}
+
+/**
+ * Request parameters for unstarQuery operation in QueryHistoryApi.
+ * @export
+ * @interface QueryHistoryApiUnstarQueryRequest
+ */
+export interface QueryHistoryApiUnstarQueryRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof QueryHistoryApiUnstarQuery
+     */
+    readonly queryHistoryUid: string
+}
 
 /**
  * QueryHistoryApi - object-oriented interface
@@ -40075,81 +40791,73 @@ export class QueryHistoryApi extends BaseAPI {
     /**
      * Adds new query to query history.
      * @summary Add query to query history.
-     * @param {CreateQueryInQueryHistoryCommand} body 
+     * @param {QueryHistoryApiCreateQueryRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof QueryHistoryApi
      */
-    public createQuery(body: CreateQueryInQueryHistoryCommand, options?: RawAxiosRequestConfig) {
-        return QueryHistoryApiFp(this.configuration).createQuery(body, options).then((request) => request(this.axios, this.basePath));
+    public createQuery(requestParameters: QueryHistoryApiCreateQueryRequest, options?: RawAxiosRequestConfig) {
+        return QueryHistoryApiFp(this.configuration).createQuery(requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Deletes an existing query in query history as specified by the UID. This operation cannot be reverted.
      * @summary Delete query in query history.
-     * @param {string} queryHistoryUid 
+     * @param {QueryHistoryApiDeleteQueryRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof QueryHistoryApi
      */
-    public deleteQuery(queryHistoryUid: string, options?: RawAxiosRequestConfig) {
-        return QueryHistoryApiFp(this.configuration).deleteQuery(queryHistoryUid, options).then((request) => request(this.axios, this.basePath));
+    public deleteQuery(requestParameters: QueryHistoryApiDeleteQueryRequest, options?: RawAxiosRequestConfig) {
+        return QueryHistoryApiFp(this.configuration).deleteQuery(requestParameters.queryHistoryUid, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Updates comment for query in query history as specified by the UID.
      * @summary Update comment for query in query history.
-     * @param {string} queryHistoryUid 
-     * @param {PatchQueryCommentInQueryHistoryCommand} body 
+     * @param {QueryHistoryApiPatchQueryCommentRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof QueryHistoryApi
      */
-    public patchQueryComment(queryHistoryUid: string, body: PatchQueryCommentInQueryHistoryCommand, options?: RawAxiosRequestConfig) {
-        return QueryHistoryApiFp(this.configuration).patchQueryComment(queryHistoryUid, body, options).then((request) => request(this.axios, this.basePath));
+    public patchQueryComment(requestParameters: QueryHistoryApiPatchQueryCommentRequest, options?: RawAxiosRequestConfig) {
+        return QueryHistoryApiFp(this.configuration).patchQueryComment(requestParameters.queryHistoryUid, requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Returns a list of queries in the query history that matches the search criteria. Query history search supports pagination. Use the `limit` parameter to control the maximum number of queries returned; the default limit is 100. You can also use the `page` query parameter to fetch queries from any page other than the first one.
      * @summary Query history search.
-     * @param {Array<string>} [datasourceUid] List of data source UIDs to search for
-     * @param {string} [searchString] Text inside query or comments that is searched for
-     * @param {boolean} [onlyStarred] Flag indicating if only starred queries should be returned
-     * @param {SearchQueriesSortEnum} [sort] Sort method
-     * @param {number} [page] Use this parameter to access hits beyond limit. Numbering starts at 1. limit param acts as page size.
-     * @param {number} [limit] Limit the number of returned results
-     * @param {number} [from] From range for the query history search
-     * @param {number} [to] To range for the query history search
+     * @param {QueryHistoryApiSearchQueriesRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof QueryHistoryApi
      */
-    public searchQueries(datasourceUid?: Array<string>, searchString?: string, onlyStarred?: boolean, sort?: SearchQueriesSortEnum, page?: number, limit?: number, from?: number, to?: number, options?: RawAxiosRequestConfig) {
-        return QueryHistoryApiFp(this.configuration).searchQueries(datasourceUid, searchString, onlyStarred, sort, page, limit, from, to, options).then((request) => request(this.axios, this.basePath));
+    public searchQueries(requestParameters: QueryHistoryApiSearchQueriesRequest = {}, options?: RawAxiosRequestConfig) {
+        return QueryHistoryApiFp(this.configuration).searchQueries(requestParameters.datasourceUid, requestParameters.searchString, requestParameters.onlyStarred, requestParameters.sort, requestParameters.page, requestParameters.limit, requestParameters.from, requestParameters.to, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Adds star to query in query history as specified by the UID.
      * @summary Add star to query in query history.
-     * @param {string} queryHistoryUid 
+     * @param {QueryHistoryApiStarQueryRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof QueryHistoryApi
      */
-    public starQuery(queryHistoryUid: string, options?: RawAxiosRequestConfig) {
-        return QueryHistoryApiFp(this.configuration).starQuery(queryHistoryUid, options).then((request) => request(this.axios, this.basePath));
+    public starQuery(requestParameters: QueryHistoryApiStarQueryRequest, options?: RawAxiosRequestConfig) {
+        return QueryHistoryApiFp(this.configuration).starQuery(requestParameters.queryHistoryUid, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Removes star from query in query history as specified by the UID.
      * @summary Remove star to query in query history.
-     * @param {string} queryHistoryUid 
+     * @param {QueryHistoryApiUnstarQueryRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof QueryHistoryApi
      */
-    public unstarQuery(queryHistoryUid: string, options?: RawAxiosRequestConfig) {
-        return QueryHistoryApiFp(this.configuration).unstarQuery(queryHistoryUid, options).then((request) => request(this.axios, this.basePath));
+    public unstarQuery(requestParameters: QueryHistoryApiUnstarQueryRequest, options?: RawAxiosRequestConfig) {
+        return QueryHistoryApiFp(this.configuration).unstarQuery(requestParameters.queryHistoryUid, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -40617,32 +41325,32 @@ export const RecordingRulesApiFactory = function (configuration?: Configuration,
         /**
          * 
          * @summary Create a recording rule that is then registered and started.
-         * @param {RecordingRuleJSON} body 
+         * @param {RecordingRulesApiCreateRecordingRuleRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createRecordingRule(body: RecordingRuleJSON, options?: RawAxiosRequestConfig): AxiosPromise<RecordingRuleJSON> {
-            return localVarFp.createRecordingRule(body, options).then((request) => request(axios, basePath));
+        createRecordingRule(requestParameters: RecordingRulesApiCreateRecordingRuleRequest, options?: RawAxiosRequestConfig): AxiosPromise<RecordingRuleJSON> {
+            return localVarFp.createRecordingRule(requestParameters.body, options).then((request) => request(axios, basePath));
         },
         /**
          * It returns a 422 if there is not an existing prometheus data source configured.
          * @summary Create a remote write target.
-         * @param {PrometheusRemoteWriteTargetJSON} body 
+         * @param {RecordingRulesApiCreateRecordingRuleWriteTargetRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createRecordingRuleWriteTarget(body: PrometheusRemoteWriteTargetJSON, options?: RawAxiosRequestConfig): AxiosPromise<PrometheusRemoteWriteTargetJSON> {
-            return localVarFp.createRecordingRuleWriteTarget(body, options).then((request) => request(axios, basePath));
+        createRecordingRuleWriteTarget(requestParameters: RecordingRulesApiCreateRecordingRuleWriteTargetRequest, options?: RawAxiosRequestConfig): AxiosPromise<PrometheusRemoteWriteTargetJSON> {
+            return localVarFp.createRecordingRuleWriteTarget(requestParameters.body, options).then((request) => request(axios, basePath));
         },
         /**
          * 
          * @summary Delete removes the rule from the registry and stops it.
-         * @param {number} recordingRuleID 
+         * @param {RecordingRulesApiDeleteRecordingRuleRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        deleteRecordingRule(recordingRuleID: number, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
-            return localVarFp.deleteRecordingRule(recordingRuleID, options).then((request) => request(axios, basePath));
+        deleteRecordingRule(requestParameters: RecordingRulesApiDeleteRecordingRuleRequest, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
+            return localVarFp.deleteRecordingRule(requestParameters.recordingRuleID, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -40674,25 +41382,95 @@ export const RecordingRulesApiFactory = function (configuration?: Configuration,
         /**
          * 
          * @summary Test a recording rule.
-         * @param {RecordingRuleJSON} body 
+         * @param {RecordingRulesApiTestCreateRecordingRuleRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        testCreateRecordingRule(body: RecordingRuleJSON, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
-            return localVarFp.testCreateRecordingRule(body, options).then((request) => request(axios, basePath));
+        testCreateRecordingRule(requestParameters: RecordingRulesApiTestCreateRecordingRuleRequest, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
+            return localVarFp.testCreateRecordingRule(requestParameters.body, options).then((request) => request(axios, basePath));
         },
         /**
          * 
          * @summary Update the active status of a rule.
-         * @param {RecordingRuleJSON} body 
+         * @param {RecordingRulesApiUpdateRecordingRuleRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateRecordingRule(body: RecordingRuleJSON, options?: RawAxiosRequestConfig): AxiosPromise<RecordingRuleJSON> {
-            return localVarFp.updateRecordingRule(body, options).then((request) => request(axios, basePath));
+        updateRecordingRule(requestParameters: RecordingRulesApiUpdateRecordingRuleRequest, options?: RawAxiosRequestConfig): AxiosPromise<RecordingRuleJSON> {
+            return localVarFp.updateRecordingRule(requestParameters.body, options).then((request) => request(axios, basePath));
         },
     };
 };
+
+/**
+ * Request parameters for createRecordingRule operation in RecordingRulesApi.
+ * @export
+ * @interface RecordingRulesApiCreateRecordingRuleRequest
+ */
+export interface RecordingRulesApiCreateRecordingRuleRequest {
+    /**
+     * 
+     * @type {RecordingRuleJSON}
+     * @memberof RecordingRulesApiCreateRecordingRule
+     */
+    readonly body: RecordingRuleJSON
+}
+
+/**
+ * Request parameters for createRecordingRuleWriteTarget operation in RecordingRulesApi.
+ * @export
+ * @interface RecordingRulesApiCreateRecordingRuleWriteTargetRequest
+ */
+export interface RecordingRulesApiCreateRecordingRuleWriteTargetRequest {
+    /**
+     * 
+     * @type {PrometheusRemoteWriteTargetJSON}
+     * @memberof RecordingRulesApiCreateRecordingRuleWriteTarget
+     */
+    readonly body: PrometheusRemoteWriteTargetJSON
+}
+
+/**
+ * Request parameters for deleteRecordingRule operation in RecordingRulesApi.
+ * @export
+ * @interface RecordingRulesApiDeleteRecordingRuleRequest
+ */
+export interface RecordingRulesApiDeleteRecordingRuleRequest {
+    /**
+     * 
+     * @type {number}
+     * @memberof RecordingRulesApiDeleteRecordingRule
+     */
+    readonly recordingRuleID: number
+}
+
+/**
+ * Request parameters for testCreateRecordingRule operation in RecordingRulesApi.
+ * @export
+ * @interface RecordingRulesApiTestCreateRecordingRuleRequest
+ */
+export interface RecordingRulesApiTestCreateRecordingRuleRequest {
+    /**
+     * 
+     * @type {RecordingRuleJSON}
+     * @memberof RecordingRulesApiTestCreateRecordingRule
+     */
+    readonly body: RecordingRuleJSON
+}
+
+/**
+ * Request parameters for updateRecordingRule operation in RecordingRulesApi.
+ * @export
+ * @interface RecordingRulesApiUpdateRecordingRuleRequest
+ */
+export interface RecordingRulesApiUpdateRecordingRuleRequest {
+    /**
+     * 
+     * @type {RecordingRuleJSON}
+     * @memberof RecordingRulesApiUpdateRecordingRule
+     */
+    readonly body: RecordingRuleJSON
+}
 
 /**
  * RecordingRulesApi - object-oriented interface
@@ -40704,37 +41482,37 @@ export class RecordingRulesApi extends BaseAPI {
     /**
      * 
      * @summary Create a recording rule that is then registered and started.
-     * @param {RecordingRuleJSON} body 
+     * @param {RecordingRulesApiCreateRecordingRuleRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof RecordingRulesApi
      */
-    public createRecordingRule(body: RecordingRuleJSON, options?: RawAxiosRequestConfig) {
-        return RecordingRulesApiFp(this.configuration).createRecordingRule(body, options).then((request) => request(this.axios, this.basePath));
+    public createRecordingRule(requestParameters: RecordingRulesApiCreateRecordingRuleRequest, options?: RawAxiosRequestConfig) {
+        return RecordingRulesApiFp(this.configuration).createRecordingRule(requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * It returns a 422 if there is not an existing prometheus data source configured.
      * @summary Create a remote write target.
-     * @param {PrometheusRemoteWriteTargetJSON} body 
+     * @param {RecordingRulesApiCreateRecordingRuleWriteTargetRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof RecordingRulesApi
      */
-    public createRecordingRuleWriteTarget(body: PrometheusRemoteWriteTargetJSON, options?: RawAxiosRequestConfig) {
-        return RecordingRulesApiFp(this.configuration).createRecordingRuleWriteTarget(body, options).then((request) => request(this.axios, this.basePath));
+    public createRecordingRuleWriteTarget(requestParameters: RecordingRulesApiCreateRecordingRuleWriteTargetRequest, options?: RawAxiosRequestConfig) {
+        return RecordingRulesApiFp(this.configuration).createRecordingRuleWriteTarget(requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
      * @summary Delete removes the rule from the registry and stops it.
-     * @param {number} recordingRuleID 
+     * @param {RecordingRulesApiDeleteRecordingRuleRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof RecordingRulesApi
      */
-    public deleteRecordingRule(recordingRuleID: number, options?: RawAxiosRequestConfig) {
-        return RecordingRulesApiFp(this.configuration).deleteRecordingRule(recordingRuleID, options).then((request) => request(this.axios, this.basePath));
+    public deleteRecordingRule(requestParameters: RecordingRulesApiDeleteRecordingRuleRequest, options?: RawAxiosRequestConfig) {
+        return RecordingRulesApiFp(this.configuration).deleteRecordingRule(requestParameters.recordingRuleID, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -40773,25 +41551,25 @@ export class RecordingRulesApi extends BaseAPI {
     /**
      * 
      * @summary Test a recording rule.
-     * @param {RecordingRuleJSON} body 
+     * @param {RecordingRulesApiTestCreateRecordingRuleRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof RecordingRulesApi
      */
-    public testCreateRecordingRule(body: RecordingRuleJSON, options?: RawAxiosRequestConfig) {
-        return RecordingRulesApiFp(this.configuration).testCreateRecordingRule(body, options).then((request) => request(this.axios, this.basePath));
+    public testCreateRecordingRule(requestParameters: RecordingRulesApiTestCreateRecordingRuleRequest, options?: RawAxiosRequestConfig) {
+        return RecordingRulesApiFp(this.configuration).testCreateRecordingRule(requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
      * @summary Update the active status of a rule.
-     * @param {RecordingRuleJSON} body 
+     * @param {RecordingRulesApiUpdateRecordingRuleRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof RecordingRulesApi
      */
-    public updateRecordingRule(body: RecordingRuleJSON, options?: RawAxiosRequestConfig) {
-        return RecordingRulesApiFp(this.configuration).updateRecordingRule(body, options).then((request) => request(this.axios, this.basePath));
+    public updateRecordingRule(requestParameters: RecordingRulesApiUpdateRecordingRuleRequest, options?: RawAxiosRequestConfig) {
+        return RecordingRulesApiFp(this.configuration).updateRecordingRule(requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -40806,11 +41584,11 @@ export const ReportsApiAxiosParamCreator = function (configuration?: Configurati
         /**
          * Available to org admins only and with a valid license.  You need to have a permission with action `reports.admin:create`.
          * @summary Create a report.
-         * @param {CreateOrUpdateReport} body 
+         * @param {CreateOrUpdateReportConfig} body 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createReport: async (body: CreateOrUpdateReport, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        createReport: async (body: CreateOrUpdateReportConfig, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'body' is not null or undefined
             assertParamExists('createReport', 'body', body)
             const localVarPath = `/reports`;
@@ -40930,7 +41708,7 @@ export const ReportsApiAxiosParamCreator = function (configuration?: Configurati
         },
         /**
          * Available to org admins only and with a valid or expired license.  You need to have a permission with action `reports.settings:read`x.
-         * @summary Get report settings.
+         * @summary Get settings.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -41003,93 +41781,9 @@ export const ReportsApiAxiosParamCreator = function (configuration?: Configurati
             };
         },
         /**
-         * Available to org admins only and with a valid or expired license.  You need to have a permission with action `reports.settings:read`.
-         * @summary Get custom branding report image.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        getSettingsImage: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/reports/images/:image`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication api_key required
-            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
-
-            // authentication basic required
-            // http basic authentication required
-            setBasicAuthToObject(localVarRequestOptions, configuration)
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * Available to all users and with a valid license.
-         * @summary Download a CSV report.
-         * @param {string} [dashboards] 
-         * @param {string} [title] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        renderReportCSVs: async (dashboards?: string, title?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/reports/render/csvs`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication api_key required
-            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
-
-            // authentication basic required
-            // http basic authentication required
-            setBasicAuthToObject(localVarRequestOptions, configuration)
-
-            if (dashboards !== undefined) {
-                localVarQueryParameter['dashboards'] = dashboards;
-            }
-
-            if (title !== undefined) {
-                localVarQueryParameter['title'] = title;
-            }
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
          * Available to all users and with a valid license.
          * @summary Render report for multiple dashboards.
-         * @param {string} [dashboards] 
+         * @param {string} [dashboardID] 
          * @param {string} [orientation] 
          * @param {string} [layout] 
          * @param {string} [title] 
@@ -41098,7 +41792,7 @@ export const ReportsApiAxiosParamCreator = function (configuration?: Configurati
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        renderReportPDFs: async (dashboards?: string, orientation?: string, layout?: string, title?: string, scaleFactor?: string, includeTables?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        renderReportPDFs: async (dashboardID?: string, orientation?: string, layout?: string, title?: string, scaleFactor?: string, includeTables?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/reports/render/pdfs`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -41118,8 +41812,8 @@ export const ReportsApiAxiosParamCreator = function (configuration?: Configurati
             // http basic authentication required
             setBasicAuthToObject(localVarRequestOptions, configuration)
 
-            if (dashboards !== undefined) {
-                localVarQueryParameter['dashboards'] = dashboards;
+            if (dashboardID !== undefined) {
+                localVarQueryParameter['dashboardID'] = dashboardID;
             }
 
             if (orientation !== undefined) {
@@ -41242,11 +41936,11 @@ export const ReportsApiAxiosParamCreator = function (configuration?: Configurati
         /**
          * Available to org admins only and with a valid license.  You need to have a permission with action `reports:send`.
          * @summary Send test report via email.
-         * @param {CreateOrUpdateReport} body 
+         * @param {CreateOrUpdateReportConfig} body 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        sendTestEmail: async (body: CreateOrUpdateReport, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        sendTestEmail: async (body: CreateOrUpdateReportConfig, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'body' is not null or undefined
             assertParamExists('sendTestEmail', 'body', body)
             const localVarPath = `/reports/test-email`;
@@ -41286,11 +41980,11 @@ export const ReportsApiAxiosParamCreator = function (configuration?: Configurati
          * Available to org admins only and with a valid or expired license.  You need to have a permission with action `reports.admin:write` with scope `reports:id:<report ID>`.
          * @summary Update a report.
          * @param {number} id 
-         * @param {CreateOrUpdateReport} body 
+         * @param {CreateOrUpdateReportConfig} body 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateReport: async (id: number, body: CreateOrUpdateReport, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        updateReport: async (id: number, body: CreateOrUpdateReportConfig, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('updateReport', 'id', id)
             // verify required parameter 'body' is not null or undefined
@@ -41342,11 +42036,11 @@ export const ReportsApiFp = function(configuration?: Configuration) {
         /**
          * Available to org admins only and with a valid license.  You need to have a permission with action `reports.admin:create`.
          * @summary Create a report.
-         * @param {CreateOrUpdateReport} body 
+         * @param {CreateOrUpdateReportConfig} body 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async createReport(body: CreateOrUpdateReport, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CreateReport200Response>> {
+        async createReport(body: CreateOrUpdateReportConfig, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CreateReport200Response>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.createReport(body, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['ReportsApi.createReport']?.[localVarOperationServerIndex]?.url;
@@ -41380,7 +42074,7 @@ export const ReportsApiFp = function(configuration?: Configuration) {
         },
         /**
          * Available to org admins only and with a valid or expired license.  You need to have a permission with action `reports.settings:read`x.
-         * @summary Get report settings.
+         * @summary Get settings.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -41403,35 +42097,9 @@ export const ReportsApiFp = function(configuration?: Configuration) {
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
-         * Available to org admins only and with a valid or expired license.  You need to have a permission with action `reports.settings:read`.
-         * @summary Get custom branding report image.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async getSettingsImage(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<number>>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getSettingsImage(options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['ReportsApi.getSettingsImage']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
-        /**
-         * Available to all users and with a valid license.
-         * @summary Download a CSV report.
-         * @param {string} [dashboards] 
-         * @param {string} [title] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async renderReportCSVs(dashboards?: string, title?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<number>>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.renderReportCSVs(dashboards, title, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['ReportsApi.renderReportCSVs']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
-        /**
          * Available to all users and with a valid license.
          * @summary Render report for multiple dashboards.
-         * @param {string} [dashboards] 
+         * @param {string} [dashboardID] 
          * @param {string} [orientation] 
          * @param {string} [layout] 
          * @param {string} [title] 
@@ -41440,8 +42108,8 @@ export const ReportsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async renderReportPDFs(dashboards?: string, orientation?: string, layout?: string, title?: string, scaleFactor?: string, includeTables?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<number>>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.renderReportPDFs(dashboards, orientation, layout, title, scaleFactor, includeTables, options);
+        async renderReportPDFs(dashboardID?: string, orientation?: string, layout?: string, title?: string, scaleFactor?: string, includeTables?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<number>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.renderReportPDFs(dashboardID, orientation, layout, title, scaleFactor, includeTables, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['ReportsApi.renderReportPDFs']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -41475,11 +42143,11 @@ export const ReportsApiFp = function(configuration?: Configuration) {
         /**
          * Available to org admins only and with a valid license.  You need to have a permission with action `reports:send`.
          * @summary Send test report via email.
-         * @param {CreateOrUpdateReport} body 
+         * @param {CreateOrUpdateReportConfig} body 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sendTestEmail(body: CreateOrUpdateReport, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<SuccessResponseBody>> {
+        async sendTestEmail(body: CreateOrUpdateReportConfig, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<SuccessResponseBody>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.sendTestEmail(body, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['ReportsApi.sendTestEmail']?.[localVarOperationServerIndex]?.url;
@@ -41489,11 +42157,11 @@ export const ReportsApiFp = function(configuration?: Configuration) {
          * Available to org admins only and with a valid or expired license.  You need to have a permission with action `reports.admin:write` with scope `reports:id:<report ID>`.
          * @summary Update a report.
          * @param {number} id 
-         * @param {CreateOrUpdateReport} body 
+         * @param {CreateOrUpdateReportConfig} body 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async updateReport(id: number, body: CreateOrUpdateReport, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<SuccessResponseBody>> {
+        async updateReport(id: number, body: CreateOrUpdateReportConfig, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<SuccessResponseBody>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.updateReport(id, body, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['ReportsApi.updateReport']?.[localVarOperationServerIndex]?.url;
@@ -41512,36 +42180,36 @@ export const ReportsApiFactory = function (configuration?: Configuration, basePa
         /**
          * Available to org admins only and with a valid license.  You need to have a permission with action `reports.admin:create`.
          * @summary Create a report.
-         * @param {CreateOrUpdateReport} body 
+         * @param {ReportsApiCreateReportRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createReport(body: CreateOrUpdateReport, options?: RawAxiosRequestConfig): AxiosPromise<CreateReport200Response> {
-            return localVarFp.createReport(body, options).then((request) => request(axios, basePath));
+        createReport(requestParameters: ReportsApiCreateReportRequest, options?: RawAxiosRequestConfig): AxiosPromise<CreateReport200Response> {
+            return localVarFp.createReport(requestParameters.body, options).then((request) => request(axios, basePath));
         },
         /**
          * Available to org admins only and with a valid or expired license.  You need to have a permission with action `reports.delete` with scope `reports:id:<report ID>`.
          * @summary Delete a report.
-         * @param {number} id 
+         * @param {ReportsApiDeleteReportRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        deleteReport(id: number, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
-            return localVarFp.deleteReport(id, options).then((request) => request(axios, basePath));
+        deleteReport(requestParameters: ReportsApiDeleteReportRequest, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
+            return localVarFp.deleteReport(requestParameters.id, options).then((request) => request(axios, basePath));
         },
         /**
          * Available to org admins only and with a valid or expired license.  You need to have a permission with action `reports:read` with scope `reports:id:<report ID>`.
          * @summary Get a report.
-         * @param {number} id 
+         * @param {ReportsApiGetReportRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getReport(id: number, options?: RawAxiosRequestConfig): AxiosPromise<Report> {
-            return localVarFp.getReport(id, options).then((request) => request(axios, basePath));
+        getReport(requestParameters: ReportsApiGetReportRequest, options?: RawAxiosRequestConfig): AxiosPromise<Report> {
+            return localVarFp.getReport(requestParameters.id, options).then((request) => request(axios, basePath));
         },
         /**
          * Available to org admins only and with a valid or expired license.  You need to have a permission with action `reports.settings:read`x.
-         * @summary Get report settings.
+         * @summary Get settings.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -41558,83 +42226,211 @@ export const ReportsApiFactory = function (configuration?: Configuration, basePa
             return localVarFp.getReports(options).then((request) => request(axios, basePath));
         },
         /**
-         * Available to org admins only and with a valid or expired license.  You need to have a permission with action `reports.settings:read`.
-         * @summary Get custom branding report image.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        getSettingsImage(options?: RawAxiosRequestConfig): AxiosPromise<Array<number>> {
-            return localVarFp.getSettingsImage(options).then((request) => request(axios, basePath));
-        },
-        /**
-         * Available to all users and with a valid license.
-         * @summary Download a CSV report.
-         * @param {string} [dashboards] 
-         * @param {string} [title] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        renderReportCSVs(dashboards?: string, title?: string, options?: RawAxiosRequestConfig): AxiosPromise<Array<number>> {
-            return localVarFp.renderReportCSVs(dashboards, title, options).then((request) => request(axios, basePath));
-        },
-        /**
          * Available to all users and with a valid license.
          * @summary Render report for multiple dashboards.
-         * @param {string} [dashboards] 
-         * @param {string} [orientation] 
-         * @param {string} [layout] 
-         * @param {string} [title] 
-         * @param {string} [scaleFactor] 
-         * @param {string} [includeTables] 
+         * @param {ReportsApiRenderReportPDFsRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        renderReportPDFs(dashboards?: string, orientation?: string, layout?: string, title?: string, scaleFactor?: string, includeTables?: string, options?: RawAxiosRequestConfig): AxiosPromise<Array<number>> {
-            return localVarFp.renderReportPDFs(dashboards, orientation, layout, title, scaleFactor, includeTables, options).then((request) => request(axios, basePath));
+        renderReportPDFs(requestParameters: ReportsApiRenderReportPDFsRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<Array<number>> {
+            return localVarFp.renderReportPDFs(requestParameters.dashboardID, requestParameters.orientation, requestParameters.layout, requestParameters.title, requestParameters.scaleFactor, requestParameters.includeTables, options).then((request) => request(axios, basePath));
         },
         /**
          * Available to org admins only and with a valid or expired license.  You need to have a permission with action `reports.settings:write`xx.
          * @summary Save settings.
-         * @param {ReportSettings} body 
+         * @param {ReportsApiSaveReportSettingsRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        saveReportSettings(body: ReportSettings, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
-            return localVarFp.saveReportSettings(body, options).then((request) => request(axios, basePath));
+        saveReportSettings(requestParameters: ReportsApiSaveReportSettingsRequest, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
+            return localVarFp.saveReportSettings(requestParameters.body, options).then((request) => request(axios, basePath));
         },
         /**
          * Generate and send a report. This API waits for the report to be generated before returning. We recommend that you set the client’s timeout to at least 60 seconds. Available to org admins only and with a valid license.  Only available in Grafana Enterprise v7.0+. This API endpoint is experimental and may be deprecated in a future release. On deprecation, a migration strategy will be provided and the endpoint will remain functional until the next major release of Grafana.  You need to have a permission with action `reports:send`.
          * @summary Send a report.
-         * @param {ReportEmail} body 
+         * @param {ReportsApiSendReportRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        sendReport(body: ReportEmail, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
-            return localVarFp.sendReport(body, options).then((request) => request(axios, basePath));
+        sendReport(requestParameters: ReportsApiSendReportRequest, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
+            return localVarFp.sendReport(requestParameters.body, options).then((request) => request(axios, basePath));
         },
         /**
          * Available to org admins only and with a valid license.  You need to have a permission with action `reports:send`.
          * @summary Send test report via email.
-         * @param {CreateOrUpdateReport} body 
+         * @param {ReportsApiSendTestEmailRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        sendTestEmail(body: CreateOrUpdateReport, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
-            return localVarFp.sendTestEmail(body, options).then((request) => request(axios, basePath));
+        sendTestEmail(requestParameters: ReportsApiSendTestEmailRequest, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
+            return localVarFp.sendTestEmail(requestParameters.body, options).then((request) => request(axios, basePath));
         },
         /**
          * Available to org admins only and with a valid or expired license.  You need to have a permission with action `reports.admin:write` with scope `reports:id:<report ID>`.
          * @summary Update a report.
-         * @param {number} id 
-         * @param {CreateOrUpdateReport} body 
+         * @param {ReportsApiUpdateReportRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateReport(id: number, body: CreateOrUpdateReport, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
-            return localVarFp.updateReport(id, body, options).then((request) => request(axios, basePath));
+        updateReport(requestParameters: ReportsApiUpdateReportRequest, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
+            return localVarFp.updateReport(requestParameters.id, requestParameters.body, options).then((request) => request(axios, basePath));
         },
     };
 };
+
+/**
+ * Request parameters for createReport operation in ReportsApi.
+ * @export
+ * @interface ReportsApiCreateReportRequest
+ */
+export interface ReportsApiCreateReportRequest {
+    /**
+     * 
+     * @type {CreateOrUpdateReportConfig}
+     * @memberof ReportsApiCreateReport
+     */
+    readonly body: CreateOrUpdateReportConfig
+}
+
+/**
+ * Request parameters for deleteReport operation in ReportsApi.
+ * @export
+ * @interface ReportsApiDeleteReportRequest
+ */
+export interface ReportsApiDeleteReportRequest {
+    /**
+     * 
+     * @type {number}
+     * @memberof ReportsApiDeleteReport
+     */
+    readonly id: number
+}
+
+/**
+ * Request parameters for getReport operation in ReportsApi.
+ * @export
+ * @interface ReportsApiGetReportRequest
+ */
+export interface ReportsApiGetReportRequest {
+    /**
+     * 
+     * @type {number}
+     * @memberof ReportsApiGetReport
+     */
+    readonly id: number
+}
+
+/**
+ * Request parameters for renderReportPDFs operation in ReportsApi.
+ * @export
+ * @interface ReportsApiRenderReportPDFsRequest
+ */
+export interface ReportsApiRenderReportPDFsRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof ReportsApiRenderReportPDFs
+     */
+    readonly dashboardID?: string
+
+    /**
+     * 
+     * @type {string}
+     * @memberof ReportsApiRenderReportPDFs
+     */
+    readonly orientation?: string
+
+    /**
+     * 
+     * @type {string}
+     * @memberof ReportsApiRenderReportPDFs
+     */
+    readonly layout?: string
+
+    /**
+     * 
+     * @type {string}
+     * @memberof ReportsApiRenderReportPDFs
+     */
+    readonly title?: string
+
+    /**
+     * 
+     * @type {string}
+     * @memberof ReportsApiRenderReportPDFs
+     */
+    readonly scaleFactor?: string
+
+    /**
+     * 
+     * @type {string}
+     * @memberof ReportsApiRenderReportPDFs
+     */
+    readonly includeTables?: string
+}
+
+/**
+ * Request parameters for saveReportSettings operation in ReportsApi.
+ * @export
+ * @interface ReportsApiSaveReportSettingsRequest
+ */
+export interface ReportsApiSaveReportSettingsRequest {
+    /**
+     * 
+     * @type {ReportSettings}
+     * @memberof ReportsApiSaveReportSettings
+     */
+    readonly body: ReportSettings
+}
+
+/**
+ * Request parameters for sendReport operation in ReportsApi.
+ * @export
+ * @interface ReportsApiSendReportRequest
+ */
+export interface ReportsApiSendReportRequest {
+    /**
+     * 
+     * @type {ReportEmail}
+     * @memberof ReportsApiSendReport
+     */
+    readonly body: ReportEmail
+}
+
+/**
+ * Request parameters for sendTestEmail operation in ReportsApi.
+ * @export
+ * @interface ReportsApiSendTestEmailRequest
+ */
+export interface ReportsApiSendTestEmailRequest {
+    /**
+     * 
+     * @type {CreateOrUpdateReportConfig}
+     * @memberof ReportsApiSendTestEmail
+     */
+    readonly body: CreateOrUpdateReportConfig
+}
+
+/**
+ * Request parameters for updateReport operation in ReportsApi.
+ * @export
+ * @interface ReportsApiUpdateReportRequest
+ */
+export interface ReportsApiUpdateReportRequest {
+    /**
+     * 
+     * @type {number}
+     * @memberof ReportsApiUpdateReport
+     */
+    readonly id: number
+
+    /**
+     * 
+     * @type {CreateOrUpdateReportConfig}
+     * @memberof ReportsApiUpdateReport
+     */
+    readonly body: CreateOrUpdateReportConfig
+}
 
 /**
  * ReportsApi - object-oriented interface
@@ -41646,42 +42442,42 @@ export class ReportsApi extends BaseAPI {
     /**
      * Available to org admins only and with a valid license.  You need to have a permission with action `reports.admin:create`.
      * @summary Create a report.
-     * @param {CreateOrUpdateReport} body 
+     * @param {ReportsApiCreateReportRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ReportsApi
      */
-    public createReport(body: CreateOrUpdateReport, options?: RawAxiosRequestConfig) {
-        return ReportsApiFp(this.configuration).createReport(body, options).then((request) => request(this.axios, this.basePath));
+    public createReport(requestParameters: ReportsApiCreateReportRequest, options?: RawAxiosRequestConfig) {
+        return ReportsApiFp(this.configuration).createReport(requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Available to org admins only and with a valid or expired license.  You need to have a permission with action `reports.delete` with scope `reports:id:<report ID>`.
      * @summary Delete a report.
-     * @param {number} id 
+     * @param {ReportsApiDeleteReportRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ReportsApi
      */
-    public deleteReport(id: number, options?: RawAxiosRequestConfig) {
-        return ReportsApiFp(this.configuration).deleteReport(id, options).then((request) => request(this.axios, this.basePath));
+    public deleteReport(requestParameters: ReportsApiDeleteReportRequest, options?: RawAxiosRequestConfig) {
+        return ReportsApiFp(this.configuration).deleteReport(requestParameters.id, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Available to org admins only and with a valid or expired license.  You need to have a permission with action `reports:read` with scope `reports:id:<report ID>`.
      * @summary Get a report.
-     * @param {number} id 
+     * @param {ReportsApiGetReportRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ReportsApi
      */
-    public getReport(id: number, options?: RawAxiosRequestConfig) {
-        return ReportsApiFp(this.configuration).getReport(id, options).then((request) => request(this.axios, this.basePath));
+    public getReport(requestParameters: ReportsApiGetReportRequest, options?: RawAxiosRequestConfig) {
+        return ReportsApiFp(this.configuration).getReport(requestParameters.id, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Available to org admins only and with a valid or expired license.  You need to have a permission with action `reports.settings:read`x.
-     * @summary Get report settings.
+     * @summary Get settings.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ReportsApi
@@ -41702,93 +42498,63 @@ export class ReportsApi extends BaseAPI {
     }
 
     /**
-     * Available to org admins only and with a valid or expired license.  You need to have a permission with action `reports.settings:read`.
-     * @summary Get custom branding report image.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof ReportsApi
-     */
-    public getSettingsImage(options?: RawAxiosRequestConfig) {
-        return ReportsApiFp(this.configuration).getSettingsImage(options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * Available to all users and with a valid license.
-     * @summary Download a CSV report.
-     * @param {string} [dashboards] 
-     * @param {string} [title] 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof ReportsApi
-     */
-    public renderReportCSVs(dashboards?: string, title?: string, options?: RawAxiosRequestConfig) {
-        return ReportsApiFp(this.configuration).renderReportCSVs(dashboards, title, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
      * Available to all users and with a valid license.
      * @summary Render report for multiple dashboards.
-     * @param {string} [dashboards] 
-     * @param {string} [orientation] 
-     * @param {string} [layout] 
-     * @param {string} [title] 
-     * @param {string} [scaleFactor] 
-     * @param {string} [includeTables] 
+     * @param {ReportsApiRenderReportPDFsRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ReportsApi
      */
-    public renderReportPDFs(dashboards?: string, orientation?: string, layout?: string, title?: string, scaleFactor?: string, includeTables?: string, options?: RawAxiosRequestConfig) {
-        return ReportsApiFp(this.configuration).renderReportPDFs(dashboards, orientation, layout, title, scaleFactor, includeTables, options).then((request) => request(this.axios, this.basePath));
+    public renderReportPDFs(requestParameters: ReportsApiRenderReportPDFsRequest = {}, options?: RawAxiosRequestConfig) {
+        return ReportsApiFp(this.configuration).renderReportPDFs(requestParameters.dashboardID, requestParameters.orientation, requestParameters.layout, requestParameters.title, requestParameters.scaleFactor, requestParameters.includeTables, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Available to org admins only and with a valid or expired license.  You need to have a permission with action `reports.settings:write`xx.
      * @summary Save settings.
-     * @param {ReportSettings} body 
+     * @param {ReportsApiSaveReportSettingsRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ReportsApi
      */
-    public saveReportSettings(body: ReportSettings, options?: RawAxiosRequestConfig) {
-        return ReportsApiFp(this.configuration).saveReportSettings(body, options).then((request) => request(this.axios, this.basePath));
+    public saveReportSettings(requestParameters: ReportsApiSaveReportSettingsRequest, options?: RawAxiosRequestConfig) {
+        return ReportsApiFp(this.configuration).saveReportSettings(requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Generate and send a report. This API waits for the report to be generated before returning. We recommend that you set the client’s timeout to at least 60 seconds. Available to org admins only and with a valid license.  Only available in Grafana Enterprise v7.0+. This API endpoint is experimental and may be deprecated in a future release. On deprecation, a migration strategy will be provided and the endpoint will remain functional until the next major release of Grafana.  You need to have a permission with action `reports:send`.
      * @summary Send a report.
-     * @param {ReportEmail} body 
+     * @param {ReportsApiSendReportRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ReportsApi
      */
-    public sendReport(body: ReportEmail, options?: RawAxiosRequestConfig) {
-        return ReportsApiFp(this.configuration).sendReport(body, options).then((request) => request(this.axios, this.basePath));
+    public sendReport(requestParameters: ReportsApiSendReportRequest, options?: RawAxiosRequestConfig) {
+        return ReportsApiFp(this.configuration).sendReport(requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Available to org admins only and with a valid license.  You need to have a permission with action `reports:send`.
      * @summary Send test report via email.
-     * @param {CreateOrUpdateReport} body 
+     * @param {ReportsApiSendTestEmailRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ReportsApi
      */
-    public sendTestEmail(body: CreateOrUpdateReport, options?: RawAxiosRequestConfig) {
-        return ReportsApiFp(this.configuration).sendTestEmail(body, options).then((request) => request(this.axios, this.basePath));
+    public sendTestEmail(requestParameters: ReportsApiSendTestEmailRequest, options?: RawAxiosRequestConfig) {
+        return ReportsApiFp(this.configuration).sendTestEmail(requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Available to org admins only and with a valid or expired license.  You need to have a permission with action `reports.admin:write` with scope `reports:id:<report ID>`.
      * @summary Update a report.
-     * @param {number} id 
-     * @param {CreateOrUpdateReport} body 
+     * @param {ReportsApiUpdateReportRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ReportsApi
      */
-    public updateReport(id: number, body: CreateOrUpdateReport, options?: RawAxiosRequestConfig) {
-        return ReportsApiFp(this.configuration).updateReport(id, body, options).then((request) => request(this.axios, this.basePath));
+    public updateReport(requestParameters: ReportsApiUpdateReportRequest, options?: RawAxiosRequestConfig) {
+        return ReportsApiFp(this.configuration).updateReport(requestParameters.id, requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -42113,26 +42879,60 @@ export const SamlApiFactory = function (configuration?: Configuration, basePath?
         /**
          * 
          * @summary It performs Assertion Consumer Service (ACS).
-         * @param {string} [relayState] 
+         * @param {SamlApiPostACSRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        postACS(relayState?: string, options?: RawAxiosRequestConfig): AxiosPromise<void> {
-            return localVarFp.postACS(relayState, options).then((request) => request(axios, basePath));
+        postACS(requestParameters: SamlApiPostACSRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<void> {
+            return localVarFp.postACS(requestParameters.relayState, options).then((request) => request(axios, basePath));
         },
         /**
          * There might be two possible requests: 1. Logout response (callback) when Grafana initiates single logout and IdP returns response to logout request. 2. Logout request when another SP initiates single logout and IdP sends logout request to the Grafana, or in case of IdP-initiated logout.
          * @summary It performs Single Logout (SLO) callback.
-         * @param {string} [sAMLRequest] 
-         * @param {string} [sAMLResponse] 
+         * @param {SamlApiPostSLORequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        postSLO(sAMLRequest?: string, sAMLResponse?: string, options?: RawAxiosRequestConfig): AxiosPromise<void> {
-            return localVarFp.postSLO(sAMLRequest, sAMLResponse, options).then((request) => request(axios, basePath));
+        postSLO(requestParameters: SamlApiPostSLORequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<void> {
+            return localVarFp.postSLO(requestParameters.sAMLRequest, requestParameters.sAMLResponse, options).then((request) => request(axios, basePath));
         },
     };
 };
+
+/**
+ * Request parameters for postACS operation in SamlApi.
+ * @export
+ * @interface SamlApiPostACSRequest
+ */
+export interface SamlApiPostACSRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof SamlApiPostACS
+     */
+    readonly relayState?: string
+}
+
+/**
+ * Request parameters for postSLO operation in SamlApi.
+ * @export
+ * @interface SamlApiPostSLORequest
+ */
+export interface SamlApiPostSLORequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof SamlApiPostSLO
+     */
+    readonly sAMLRequest?: string
+
+    /**
+     * 
+     * @type {string}
+     * @memberof SamlApiPostSLO
+     */
+    readonly sAMLResponse?: string
+}
 
 /**
  * SamlApi - object-oriented interface
@@ -42177,26 +42977,25 @@ export class SamlApi extends BaseAPI {
     /**
      * 
      * @summary It performs Assertion Consumer Service (ACS).
-     * @param {string} [relayState] 
+     * @param {SamlApiPostACSRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof SamlApi
      */
-    public postACS(relayState?: string, options?: RawAxiosRequestConfig) {
-        return SamlApiFp(this.configuration).postACS(relayState, options).then((request) => request(this.axios, this.basePath));
+    public postACS(requestParameters: SamlApiPostACSRequest = {}, options?: RawAxiosRequestConfig) {
+        return SamlApiFp(this.configuration).postACS(requestParameters.relayState, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * There might be two possible requests: 1. Logout response (callback) when Grafana initiates single logout and IdP returns response to logout request. 2. Logout request when another SP initiates single logout and IdP sends logout request to the Grafana, or in case of IdP-initiated logout.
      * @summary It performs Single Logout (SLO) callback.
-     * @param {string} [sAMLRequest] 
-     * @param {string} [sAMLResponse] 
+     * @param {SamlApiPostSLORequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof SamlApi
      */
-    public postSLO(sAMLRequest?: string, sAMLResponse?: string, options?: RawAxiosRequestConfig) {
-        return SamlApiFp(this.configuration).postSLO(sAMLRequest, sAMLResponse, options).then((request) => request(this.axios, this.basePath));
+    public postSLO(requestParameters: SamlApiPostSLORequest = {}, options?: RawAxiosRequestConfig) {
+        return SamlApiFp(this.configuration).postSLO(requestParameters.sAMLRequest, requestParameters.sAMLResponse, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -42259,11 +43058,10 @@ export const SearchApiAxiosParamCreator = function (configuration?: Configuratio
          * @param {number} [page] Use this parameter to access hits beyond limit. Numbering starts at 1. limit param acts as page size. Only available in Grafana v6.2+.
          * @param {SearchPermissionEnum} [permission] Set to &#x60;Edit&#x60; to return dashboards/folders that the user can edit
          * @param {SearchSortEnum} [sort] Sort method; for listing all the possible sort methods use the search sorting endpoint.
-         * @param {boolean} [deleted] Flag indicating if only soft deleted Dashboards should be returned
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        search: async (query?: string, tag?: Array<string>, type?: SearchTypeEnum, dashboardIds?: Array<number>, dashboardUIDs?: Array<string>, folderIds?: Array<number>, folderUIDs?: Array<string>, starred?: boolean, limit?: number, page?: number, permission?: SearchPermissionEnum, sort?: SearchSortEnum, deleted?: boolean, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        search: async (query?: string, tag?: Array<string>, type?: SearchTypeEnum, dashboardIds?: Array<number>, dashboardUIDs?: Array<string>, folderIds?: Array<number>, folderUIDs?: Array<string>, starred?: boolean, limit?: number, page?: number, permission?: SearchPermissionEnum, sort?: SearchSortEnum, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/search`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -42331,10 +43129,6 @@ export const SearchApiAxiosParamCreator = function (configuration?: Configuratio
                 localVarQueryParameter['sort'] = sort;
             }
 
-            if (deleted !== undefined) {
-                localVarQueryParameter['deleted'] = deleted;
-            }
-
 
     
             setSearchParams(localVarUrlObj, localVarQueryParameter);
@@ -42382,12 +43176,11 @@ export const SearchApiFp = function(configuration?: Configuration) {
          * @param {number} [page] Use this parameter to access hits beyond limit. Numbering starts at 1. limit param acts as page size. Only available in Grafana v6.2+.
          * @param {SearchPermissionEnum} [permission] Set to &#x60;Edit&#x60; to return dashboards/folders that the user can edit
          * @param {SearchSortEnum} [sort] Sort method; for listing all the possible sort methods use the search sorting endpoint.
-         * @param {boolean} [deleted] Flag indicating if only soft deleted Dashboards should be returned
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async search(query?: string, tag?: Array<string>, type?: SearchTypeEnum, dashboardIds?: Array<number>, dashboardUIDs?: Array<string>, folderIds?: Array<number>, folderUIDs?: Array<string>, starred?: boolean, limit?: number, page?: number, permission?: SearchPermissionEnum, sort?: SearchSortEnum, deleted?: boolean, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Hit>>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.search(query, tag, type, dashboardIds, dashboardUIDs, folderIds, folderUIDs, starred, limit, page, permission, sort, deleted, options);
+        async search(query?: string, tag?: Array<string>, type?: SearchTypeEnum, dashboardIds?: Array<number>, dashboardUIDs?: Array<string>, folderIds?: Array<number>, folderUIDs?: Array<string>, starred?: boolean, limit?: number, page?: number, permission?: SearchPermissionEnum, sort?: SearchSortEnum, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Hit>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.search(query, tag, type, dashboardIds, dashboardUIDs, folderIds, folderUIDs, starred, limit, page, permission, sort, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['SearchApi.search']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -42413,27 +43206,106 @@ export const SearchApiFactory = function (configuration?: Configuration, basePat
         },
         /**
          * 
-         * @param {string} [query] Search Query
-         * @param {Array<string>} [tag] List of tags to search for
-         * @param {SearchTypeEnum} [type] Type to search for, dash-folder or dash-db
-         * @param {Array<number>} [dashboardIds] List of dashboard id’s to search for This is deprecated: users should use the &#x60;dashboardUIDs&#x60; query parameter instead
-         * @param {Array<string>} [dashboardUIDs] List of dashboard uid’s to search for
-         * @param {Array<number>} [folderIds] List of folder id’s to search in for dashboards If it\&#39;s &#x60;0&#x60; then it will query for the top level folders This is deprecated: users should use the &#x60;folderUIDs&#x60; query parameter instead
-         * @param {Array<string>} [folderUIDs] List of folder UID’s to search in for dashboards If it\&#39;s an empty string then it will query for the top level folders
-         * @param {boolean} [starred] Flag indicating if only starred Dashboards should be returned
-         * @param {number} [limit] Limit the number of returned results (max 5000)
-         * @param {number} [page] Use this parameter to access hits beyond limit. Numbering starts at 1. limit param acts as page size. Only available in Grafana v6.2+.
-         * @param {SearchPermissionEnum} [permission] Set to &#x60;Edit&#x60; to return dashboards/folders that the user can edit
-         * @param {SearchSortEnum} [sort] Sort method; for listing all the possible sort methods use the search sorting endpoint.
-         * @param {boolean} [deleted] Flag indicating if only soft deleted Dashboards should be returned
+         * @param {SearchApiSearchRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        search(query?: string, tag?: Array<string>, type?: SearchTypeEnum, dashboardIds?: Array<number>, dashboardUIDs?: Array<string>, folderIds?: Array<number>, folderUIDs?: Array<string>, starred?: boolean, limit?: number, page?: number, permission?: SearchPermissionEnum, sort?: SearchSortEnum, deleted?: boolean, options?: RawAxiosRequestConfig): AxiosPromise<Array<Hit>> {
-            return localVarFp.search(query, tag, type, dashboardIds, dashboardUIDs, folderIds, folderUIDs, starred, limit, page, permission, sort, deleted, options).then((request) => request(axios, basePath));
+        search(requestParameters: SearchApiSearchRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<Array<Hit>> {
+            return localVarFp.search(requestParameters.query, requestParameters.tag, requestParameters.type, requestParameters.dashboardIds, requestParameters.dashboardUIDs, requestParameters.folderIds, requestParameters.folderUIDs, requestParameters.starred, requestParameters.limit, requestParameters.page, requestParameters.permission, requestParameters.sort, options).then((request) => request(axios, basePath));
         },
     };
 };
+
+/**
+ * Request parameters for search operation in SearchApi.
+ * @export
+ * @interface SearchApiSearchRequest
+ */
+export interface SearchApiSearchRequest {
+    /**
+     * Search Query
+     * @type {string}
+     * @memberof SearchApiSearch
+     */
+    readonly query?: string
+
+    /**
+     * List of tags to search for
+     * @type {Array<string>}
+     * @memberof SearchApiSearch
+     */
+    readonly tag?: Array<string>
+
+    /**
+     * Type to search for, dash-folder or dash-db
+     * @type {'dash-folder' | 'dash-db'}
+     * @memberof SearchApiSearch
+     */
+    readonly type?: SearchTypeEnum
+
+    /**
+     * List of dashboard id’s to search for This is deprecated: users should use the &#x60;dashboardUIDs&#x60; query parameter instead
+     * @type {Array<number>}
+     * @memberof SearchApiSearch
+     */
+    readonly dashboardIds?: Array<number>
+
+    /**
+     * List of dashboard uid’s to search for
+     * @type {Array<string>}
+     * @memberof SearchApiSearch
+     */
+    readonly dashboardUIDs?: Array<string>
+
+    /**
+     * List of folder id’s to search in for dashboards If it\&#39;s &#x60;0&#x60; then it will query for the top level folders This is deprecated: users should use the &#x60;folderUIDs&#x60; query parameter instead
+     * @type {Array<number>}
+     * @memberof SearchApiSearch
+     */
+    readonly folderIds?: Array<number>
+
+    /**
+     * List of folder UID’s to search in for dashboards If it\&#39;s an empty string then it will query for the top level folders
+     * @type {Array<string>}
+     * @memberof SearchApiSearch
+     */
+    readonly folderUIDs?: Array<string>
+
+    /**
+     * Flag indicating if only starred Dashboards should be returned
+     * @type {boolean}
+     * @memberof SearchApiSearch
+     */
+    readonly starred?: boolean
+
+    /**
+     * Limit the number of returned results (max 5000)
+     * @type {number}
+     * @memberof SearchApiSearch
+     */
+    readonly limit?: number
+
+    /**
+     * Use this parameter to access hits beyond limit. Numbering starts at 1. limit param acts as page size. Only available in Grafana v6.2+.
+     * @type {number}
+     * @memberof SearchApiSearch
+     */
+    readonly page?: number
+
+    /**
+     * Set to &#x60;Edit&#x60; to return dashboards/folders that the user can edit
+     * @type {'Edit' | 'View'}
+     * @memberof SearchApiSearch
+     */
+    readonly permission?: SearchPermissionEnum
+
+    /**
+     * Sort method; for listing all the possible sort methods use the search sorting endpoint.
+     * @type {'alpha-asc' | 'alpha-desc'}
+     * @memberof SearchApiSearch
+     */
+    readonly sort?: SearchSortEnum
+}
 
 /**
  * SearchApi - object-oriented interface
@@ -42455,25 +43327,13 @@ export class SearchApi extends BaseAPI {
 
     /**
      * 
-     * @param {string} [query] Search Query
-     * @param {Array<string>} [tag] List of tags to search for
-     * @param {SearchTypeEnum} [type] Type to search for, dash-folder or dash-db
-     * @param {Array<number>} [dashboardIds] List of dashboard id’s to search for This is deprecated: users should use the &#x60;dashboardUIDs&#x60; query parameter instead
-     * @param {Array<string>} [dashboardUIDs] List of dashboard uid’s to search for
-     * @param {Array<number>} [folderIds] List of folder id’s to search in for dashboards If it\&#39;s &#x60;0&#x60; then it will query for the top level folders This is deprecated: users should use the &#x60;folderUIDs&#x60; query parameter instead
-     * @param {Array<string>} [folderUIDs] List of folder UID’s to search in for dashboards If it\&#39;s an empty string then it will query for the top level folders
-     * @param {boolean} [starred] Flag indicating if only starred Dashboards should be returned
-     * @param {number} [limit] Limit the number of returned results (max 5000)
-     * @param {number} [page] Use this parameter to access hits beyond limit. Numbering starts at 1. limit param acts as page size. Only available in Grafana v6.2+.
-     * @param {SearchPermissionEnum} [permission] Set to &#x60;Edit&#x60; to return dashboards/folders that the user can edit
-     * @param {SearchSortEnum} [sort] Sort method; for listing all the possible sort methods use the search sorting endpoint.
-     * @param {boolean} [deleted] Flag indicating if only soft deleted Dashboards should be returned
+     * @param {SearchApiSearchRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof SearchApi
      */
-    public search(query?: string, tag?: Array<string>, type?: SearchTypeEnum, dashboardIds?: Array<number>, dashboardUIDs?: Array<string>, folderIds?: Array<number>, folderUIDs?: Array<string>, starred?: boolean, limit?: number, page?: number, permission?: SearchPermissionEnum, sort?: SearchSortEnum, deleted?: boolean, options?: RawAxiosRequestConfig) {
-        return SearchApiFp(this.configuration).search(query, tag, type, dashboardIds, dashboardUIDs, folderIds, folderUIDs, starred, limit, page, permission, sort, deleted, options).then((request) => request(this.axios, this.basePath));
+    public search(requestParameters: SearchApiSearchRequest = {}, options?: RawAxiosRequestConfig) {
+        return SearchApiFp(this.configuration).search(requestParameters.query, requestParameters.tag, requestParameters.type, requestParameters.dashboardIds, requestParameters.dashboardUIDs, requestParameters.folderIds, requestParameters.folderUIDs, requestParameters.starred, requestParameters.limit, requestParameters.page, requestParameters.permission, requestParameters.sort, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -43004,92 +43864,246 @@ export const ServiceAccountsApiFactory = function (configuration?: Configuration
         /**
          * Required permissions (See note in the [introduction](https://grafana.com/docs/grafana/latest/developers/http_api/serviceaccount/#service-account-api) for an explanation): action: `serviceaccounts:write` scope: `serviceaccounts:*`  Requires basic authentication and that the authenticated user is a Grafana Admin.
          * @summary Create service account
-         * @param {CreateServiceAccountForm} [body] 
+         * @param {ServiceAccountsApiCreateServiceAccountRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createServiceAccount(body?: CreateServiceAccountForm, options?: RawAxiosRequestConfig): AxiosPromise<ServiceAccountDTO> {
-            return localVarFp.createServiceAccount(body, options).then((request) => request(axios, basePath));
+        createServiceAccount(requestParameters: ServiceAccountsApiCreateServiceAccountRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<ServiceAccountDTO> {
+            return localVarFp.createServiceAccount(requestParameters.body, options).then((request) => request(axios, basePath));
         },
         /**
          * Required permissions (See note in the [introduction](https://grafana.com/docs/grafana/latest/developers/http_api/serviceaccount/#service-account-api) for an explanation): action: `serviceaccounts:write` scope: `serviceaccounts:id:1` (single service account)
          * @summary CreateNewToken adds a token to a service account
-         * @param {number} serviceAccountId 
-         * @param {AddServiceAccountTokenCommand} [body] 
+         * @param {ServiceAccountsApiCreateTokenRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createToken(serviceAccountId: number, body?: AddServiceAccountTokenCommand, options?: RawAxiosRequestConfig): AxiosPromise<NewApiKeyResult> {
-            return localVarFp.createToken(serviceAccountId, body, options).then((request) => request(axios, basePath));
+        createToken(requestParameters: ServiceAccountsApiCreateTokenRequest, options?: RawAxiosRequestConfig): AxiosPromise<NewApiKeyResult> {
+            return localVarFp.createToken(requestParameters.serviceAccountId, requestParameters.body, options).then((request) => request(axios, basePath));
         },
         /**
          * Required permissions (See note in the [introduction](https://grafana.com/docs/grafana/latest/developers/http_api/serviceaccount/#service-account-api) for an explanation): action: `serviceaccounts:delete` scope: `serviceaccounts:id:1` (single service account)
          * @summary Delete service account
-         * @param {number} serviceAccountId 
+         * @param {ServiceAccountsApiDeleteServiceAccountRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        deleteServiceAccount(serviceAccountId: number, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
-            return localVarFp.deleteServiceAccount(serviceAccountId, options).then((request) => request(axios, basePath));
+        deleteServiceAccount(requestParameters: ServiceAccountsApiDeleteServiceAccountRequest, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
+            return localVarFp.deleteServiceAccount(requestParameters.serviceAccountId, options).then((request) => request(axios, basePath));
         },
         /**
          * Required permissions (See note in the [introduction](https://grafana.com/docs/grafana/latest/developers/http_api/serviceaccount/#service-account-api) for an explanation): action: `serviceaccounts:write` scope: `serviceaccounts:id:1` (single service account)  Requires basic authentication and that the authenticated user is a Grafana Admin.
          * @summary DeleteToken deletes service account tokens
-         * @param {number} tokenId 
-         * @param {number} serviceAccountId 
+         * @param {ServiceAccountsApiDeleteTokenRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        deleteToken(tokenId: number, serviceAccountId: number, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
-            return localVarFp.deleteToken(tokenId, serviceAccountId, options).then((request) => request(axios, basePath));
+        deleteToken(requestParameters: ServiceAccountsApiDeleteTokenRequest, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
+            return localVarFp.deleteToken(requestParameters.tokenId, requestParameters.serviceAccountId, options).then((request) => request(axios, basePath));
         },
         /**
          * Required permissions (See note in the [introduction](https://grafana.com/docs/grafana/latest/developers/http_api/serviceaccount/#service-account-api) for an explanation): action: `serviceaccounts:read` scope: `global:serviceaccounts:id:1` (single service account)  Requires basic authentication and that the authenticated user is a Grafana Admin.
          * @summary Get service account tokens
-         * @param {number} serviceAccountId 
+         * @param {ServiceAccountsApiListTokensRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        listTokens(serviceAccountId: number, options?: RawAxiosRequestConfig): AxiosPromise<Array<TokenDTO>> {
-            return localVarFp.listTokens(serviceAccountId, options).then((request) => request(axios, basePath));
+        listTokens(requestParameters: ServiceAccountsApiListTokensRequest, options?: RawAxiosRequestConfig): AxiosPromise<Array<TokenDTO>> {
+            return localVarFp.listTokens(requestParameters.serviceAccountId, options).then((request) => request(axios, basePath));
         },
         /**
          * Required permissions (See note in the [introduction](https://grafana.com/docs/grafana/latest/developers/http_api/serviceaccount/#service-account-api) for an explanation): action: `serviceaccounts:read` scope: `serviceaccounts:id:1` (single service account)
          * @summary Get single serviceaccount by Id
-         * @param {number} serviceAccountId 
+         * @param {ServiceAccountsApiRetrieveServiceAccountRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        retrieveServiceAccount(serviceAccountId: number, options?: RawAxiosRequestConfig): AxiosPromise<ServiceAccountDTO> {
-            return localVarFp.retrieveServiceAccount(serviceAccountId, options).then((request) => request(axios, basePath));
+        retrieveServiceAccount(requestParameters: ServiceAccountsApiRetrieveServiceAccountRequest, options?: RawAxiosRequestConfig): AxiosPromise<ServiceAccountDTO> {
+            return localVarFp.retrieveServiceAccount(requestParameters.serviceAccountId, options).then((request) => request(axios, basePath));
         },
         /**
          * Required permissions (See note in the [introduction](https://grafana.com/docs/grafana/latest/developers/http_api/serviceaccount/#service-account-api) for an explanation): action: `serviceaccounts:read` scope: `serviceaccounts:*`
          * @summary Search service accounts with paging
-         * @param {boolean} [disabled] 
-         * @param {boolean} [expiredTokens] 
-         * @param {string} [query] It will return results where the query value is contained in one of the name. Query values with spaces need to be URL encoded.
-         * @param {number} [perpage] The default value is 1000.
-         * @param {number} [page] The default value is 1.
+         * @param {ServiceAccountsApiSearchOrgServiceAccountsWithPagingRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        searchOrgServiceAccountsWithPaging(disabled?: boolean, expiredTokens?: boolean, query?: string, perpage?: number, page?: number, options?: RawAxiosRequestConfig): AxiosPromise<SearchOrgServiceAccountsResult> {
-            return localVarFp.searchOrgServiceAccountsWithPaging(disabled, expiredTokens, query, perpage, page, options).then((request) => request(axios, basePath));
+        searchOrgServiceAccountsWithPaging(requestParameters: ServiceAccountsApiSearchOrgServiceAccountsWithPagingRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<SearchOrgServiceAccountsResult> {
+            return localVarFp.searchOrgServiceAccountsWithPaging(requestParameters.disabled, requestParameters.expiredTokens, requestParameters.query, requestParameters.perpage, requestParameters.page, options).then((request) => request(axios, basePath));
         },
         /**
          * Required permissions (See note in the [introduction](https://grafana.com/docs/grafana/latest/developers/http_api/serviceaccount/#service-account-api) for an explanation): action: `serviceaccounts:write` scope: `serviceaccounts:id:1` (single service account)
          * @summary Update service account
-         * @param {number} serviceAccountId 
-         * @param {UpdateServiceAccountForm} [body] 
+         * @param {ServiceAccountsApiUpdateServiceAccountRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateServiceAccount(serviceAccountId: number, body?: UpdateServiceAccountForm, options?: RawAxiosRequestConfig): AxiosPromise<UpdateServiceAccount200Response> {
-            return localVarFp.updateServiceAccount(serviceAccountId, body, options).then((request) => request(axios, basePath));
+        updateServiceAccount(requestParameters: ServiceAccountsApiUpdateServiceAccountRequest, options?: RawAxiosRequestConfig): AxiosPromise<UpdateServiceAccount200Response> {
+            return localVarFp.updateServiceAccount(requestParameters.serviceAccountId, requestParameters.body, options).then((request) => request(axios, basePath));
         },
     };
 };
+
+/**
+ * Request parameters for createServiceAccount operation in ServiceAccountsApi.
+ * @export
+ * @interface ServiceAccountsApiCreateServiceAccountRequest
+ */
+export interface ServiceAccountsApiCreateServiceAccountRequest {
+    /**
+     * 
+     * @type {CreateServiceAccountForm}
+     * @memberof ServiceAccountsApiCreateServiceAccount
+     */
+    readonly body?: CreateServiceAccountForm
+}
+
+/**
+ * Request parameters for createToken operation in ServiceAccountsApi.
+ * @export
+ * @interface ServiceAccountsApiCreateTokenRequest
+ */
+export interface ServiceAccountsApiCreateTokenRequest {
+    /**
+     * 
+     * @type {number}
+     * @memberof ServiceAccountsApiCreateToken
+     */
+    readonly serviceAccountId: number
+
+    /**
+     * 
+     * @type {AddServiceAccountTokenCommand}
+     * @memberof ServiceAccountsApiCreateToken
+     */
+    readonly body?: AddServiceAccountTokenCommand
+}
+
+/**
+ * Request parameters for deleteServiceAccount operation in ServiceAccountsApi.
+ * @export
+ * @interface ServiceAccountsApiDeleteServiceAccountRequest
+ */
+export interface ServiceAccountsApiDeleteServiceAccountRequest {
+    /**
+     * 
+     * @type {number}
+     * @memberof ServiceAccountsApiDeleteServiceAccount
+     */
+    readonly serviceAccountId: number
+}
+
+/**
+ * Request parameters for deleteToken operation in ServiceAccountsApi.
+ * @export
+ * @interface ServiceAccountsApiDeleteTokenRequest
+ */
+export interface ServiceAccountsApiDeleteTokenRequest {
+    /**
+     * 
+     * @type {number}
+     * @memberof ServiceAccountsApiDeleteToken
+     */
+    readonly tokenId: number
+
+    /**
+     * 
+     * @type {number}
+     * @memberof ServiceAccountsApiDeleteToken
+     */
+    readonly serviceAccountId: number
+}
+
+/**
+ * Request parameters for listTokens operation in ServiceAccountsApi.
+ * @export
+ * @interface ServiceAccountsApiListTokensRequest
+ */
+export interface ServiceAccountsApiListTokensRequest {
+    /**
+     * 
+     * @type {number}
+     * @memberof ServiceAccountsApiListTokens
+     */
+    readonly serviceAccountId: number
+}
+
+/**
+ * Request parameters for retrieveServiceAccount operation in ServiceAccountsApi.
+ * @export
+ * @interface ServiceAccountsApiRetrieveServiceAccountRequest
+ */
+export interface ServiceAccountsApiRetrieveServiceAccountRequest {
+    /**
+     * 
+     * @type {number}
+     * @memberof ServiceAccountsApiRetrieveServiceAccount
+     */
+    readonly serviceAccountId: number
+}
+
+/**
+ * Request parameters for searchOrgServiceAccountsWithPaging operation in ServiceAccountsApi.
+ * @export
+ * @interface ServiceAccountsApiSearchOrgServiceAccountsWithPagingRequest
+ */
+export interface ServiceAccountsApiSearchOrgServiceAccountsWithPagingRequest {
+    /**
+     * 
+     * @type {boolean}
+     * @memberof ServiceAccountsApiSearchOrgServiceAccountsWithPaging
+     */
+    readonly disabled?: boolean
+
+    /**
+     * 
+     * @type {boolean}
+     * @memberof ServiceAccountsApiSearchOrgServiceAccountsWithPaging
+     */
+    readonly expiredTokens?: boolean
+
+    /**
+     * It will return results where the query value is contained in one of the name. Query values with spaces need to be URL encoded.
+     * @type {string}
+     * @memberof ServiceAccountsApiSearchOrgServiceAccountsWithPaging
+     */
+    readonly query?: string
+
+    /**
+     * The default value is 1000.
+     * @type {number}
+     * @memberof ServiceAccountsApiSearchOrgServiceAccountsWithPaging
+     */
+    readonly perpage?: number
+
+    /**
+     * The default value is 1.
+     * @type {number}
+     * @memberof ServiceAccountsApiSearchOrgServiceAccountsWithPaging
+     */
+    readonly page?: number
+}
+
+/**
+ * Request parameters for updateServiceAccount operation in ServiceAccountsApi.
+ * @export
+ * @interface ServiceAccountsApiUpdateServiceAccountRequest
+ */
+export interface ServiceAccountsApiUpdateServiceAccountRequest {
+    /**
+     * 
+     * @type {number}
+     * @memberof ServiceAccountsApiUpdateServiceAccount
+     */
+    readonly serviceAccountId: number
+
+    /**
+     * 
+     * @type {UpdateServiceAccountForm}
+     * @memberof ServiceAccountsApiUpdateServiceAccount
+     */
+    readonly body?: UpdateServiceAccountForm
+}
 
 /**
  * ServiceAccountsApi - object-oriented interface
@@ -43101,104 +44115,97 @@ export class ServiceAccountsApi extends BaseAPI {
     /**
      * Required permissions (See note in the [introduction](https://grafana.com/docs/grafana/latest/developers/http_api/serviceaccount/#service-account-api) for an explanation): action: `serviceaccounts:write` scope: `serviceaccounts:*`  Requires basic authentication and that the authenticated user is a Grafana Admin.
      * @summary Create service account
-     * @param {CreateServiceAccountForm} [body] 
+     * @param {ServiceAccountsApiCreateServiceAccountRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ServiceAccountsApi
      */
-    public createServiceAccount(body?: CreateServiceAccountForm, options?: RawAxiosRequestConfig) {
-        return ServiceAccountsApiFp(this.configuration).createServiceAccount(body, options).then((request) => request(this.axios, this.basePath));
+    public createServiceAccount(requestParameters: ServiceAccountsApiCreateServiceAccountRequest = {}, options?: RawAxiosRequestConfig) {
+        return ServiceAccountsApiFp(this.configuration).createServiceAccount(requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Required permissions (See note in the [introduction](https://grafana.com/docs/grafana/latest/developers/http_api/serviceaccount/#service-account-api) for an explanation): action: `serviceaccounts:write` scope: `serviceaccounts:id:1` (single service account)
      * @summary CreateNewToken adds a token to a service account
-     * @param {number} serviceAccountId 
-     * @param {AddServiceAccountTokenCommand} [body] 
+     * @param {ServiceAccountsApiCreateTokenRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ServiceAccountsApi
      */
-    public createToken(serviceAccountId: number, body?: AddServiceAccountTokenCommand, options?: RawAxiosRequestConfig) {
-        return ServiceAccountsApiFp(this.configuration).createToken(serviceAccountId, body, options).then((request) => request(this.axios, this.basePath));
+    public createToken(requestParameters: ServiceAccountsApiCreateTokenRequest, options?: RawAxiosRequestConfig) {
+        return ServiceAccountsApiFp(this.configuration).createToken(requestParameters.serviceAccountId, requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Required permissions (See note in the [introduction](https://grafana.com/docs/grafana/latest/developers/http_api/serviceaccount/#service-account-api) for an explanation): action: `serviceaccounts:delete` scope: `serviceaccounts:id:1` (single service account)
      * @summary Delete service account
-     * @param {number} serviceAccountId 
+     * @param {ServiceAccountsApiDeleteServiceAccountRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ServiceAccountsApi
      */
-    public deleteServiceAccount(serviceAccountId: number, options?: RawAxiosRequestConfig) {
-        return ServiceAccountsApiFp(this.configuration).deleteServiceAccount(serviceAccountId, options).then((request) => request(this.axios, this.basePath));
+    public deleteServiceAccount(requestParameters: ServiceAccountsApiDeleteServiceAccountRequest, options?: RawAxiosRequestConfig) {
+        return ServiceAccountsApiFp(this.configuration).deleteServiceAccount(requestParameters.serviceAccountId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Required permissions (See note in the [introduction](https://grafana.com/docs/grafana/latest/developers/http_api/serviceaccount/#service-account-api) for an explanation): action: `serviceaccounts:write` scope: `serviceaccounts:id:1` (single service account)  Requires basic authentication and that the authenticated user is a Grafana Admin.
      * @summary DeleteToken deletes service account tokens
-     * @param {number} tokenId 
-     * @param {number} serviceAccountId 
+     * @param {ServiceAccountsApiDeleteTokenRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ServiceAccountsApi
      */
-    public deleteToken(tokenId: number, serviceAccountId: number, options?: RawAxiosRequestConfig) {
-        return ServiceAccountsApiFp(this.configuration).deleteToken(tokenId, serviceAccountId, options).then((request) => request(this.axios, this.basePath));
+    public deleteToken(requestParameters: ServiceAccountsApiDeleteTokenRequest, options?: RawAxiosRequestConfig) {
+        return ServiceAccountsApiFp(this.configuration).deleteToken(requestParameters.tokenId, requestParameters.serviceAccountId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Required permissions (See note in the [introduction](https://grafana.com/docs/grafana/latest/developers/http_api/serviceaccount/#service-account-api) for an explanation): action: `serviceaccounts:read` scope: `global:serviceaccounts:id:1` (single service account)  Requires basic authentication and that the authenticated user is a Grafana Admin.
      * @summary Get service account tokens
-     * @param {number} serviceAccountId 
+     * @param {ServiceAccountsApiListTokensRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ServiceAccountsApi
      */
-    public listTokens(serviceAccountId: number, options?: RawAxiosRequestConfig) {
-        return ServiceAccountsApiFp(this.configuration).listTokens(serviceAccountId, options).then((request) => request(this.axios, this.basePath));
+    public listTokens(requestParameters: ServiceAccountsApiListTokensRequest, options?: RawAxiosRequestConfig) {
+        return ServiceAccountsApiFp(this.configuration).listTokens(requestParameters.serviceAccountId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Required permissions (See note in the [introduction](https://grafana.com/docs/grafana/latest/developers/http_api/serviceaccount/#service-account-api) for an explanation): action: `serviceaccounts:read` scope: `serviceaccounts:id:1` (single service account)
      * @summary Get single serviceaccount by Id
-     * @param {number} serviceAccountId 
+     * @param {ServiceAccountsApiRetrieveServiceAccountRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ServiceAccountsApi
      */
-    public retrieveServiceAccount(serviceAccountId: number, options?: RawAxiosRequestConfig) {
-        return ServiceAccountsApiFp(this.configuration).retrieveServiceAccount(serviceAccountId, options).then((request) => request(this.axios, this.basePath));
+    public retrieveServiceAccount(requestParameters: ServiceAccountsApiRetrieveServiceAccountRequest, options?: RawAxiosRequestConfig) {
+        return ServiceAccountsApiFp(this.configuration).retrieveServiceAccount(requestParameters.serviceAccountId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Required permissions (See note in the [introduction](https://grafana.com/docs/grafana/latest/developers/http_api/serviceaccount/#service-account-api) for an explanation): action: `serviceaccounts:read` scope: `serviceaccounts:*`
      * @summary Search service accounts with paging
-     * @param {boolean} [disabled] 
-     * @param {boolean} [expiredTokens] 
-     * @param {string} [query] It will return results where the query value is contained in one of the name. Query values with spaces need to be URL encoded.
-     * @param {number} [perpage] The default value is 1000.
-     * @param {number} [page] The default value is 1.
+     * @param {ServiceAccountsApiSearchOrgServiceAccountsWithPagingRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ServiceAccountsApi
      */
-    public searchOrgServiceAccountsWithPaging(disabled?: boolean, expiredTokens?: boolean, query?: string, perpage?: number, page?: number, options?: RawAxiosRequestConfig) {
-        return ServiceAccountsApiFp(this.configuration).searchOrgServiceAccountsWithPaging(disabled, expiredTokens, query, perpage, page, options).then((request) => request(this.axios, this.basePath));
+    public searchOrgServiceAccountsWithPaging(requestParameters: ServiceAccountsApiSearchOrgServiceAccountsWithPagingRequest = {}, options?: RawAxiosRequestConfig) {
+        return ServiceAccountsApiFp(this.configuration).searchOrgServiceAccountsWithPaging(requestParameters.disabled, requestParameters.expiredTokens, requestParameters.query, requestParameters.perpage, requestParameters.page, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Required permissions (See note in the [introduction](https://grafana.com/docs/grafana/latest/developers/http_api/serviceaccount/#service-account-api) for an explanation): action: `serviceaccounts:write` scope: `serviceaccounts:id:1` (single service account)
      * @summary Update service account
-     * @param {number} serviceAccountId 
-     * @param {UpdateServiceAccountForm} [body] 
+     * @param {ServiceAccountsApiUpdateServiceAccountRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ServiceAccountsApi
      */
-    public updateServiceAccount(serviceAccountId: number, body?: UpdateServiceAccountForm, options?: RawAxiosRequestConfig) {
-        return ServiceAccountsApiFp(this.configuration).updateServiceAccount(serviceAccountId, body, options).then((request) => request(this.axios, this.basePath));
+    public updateServiceAccount(requestParameters: ServiceAccountsApiUpdateServiceAccountRequest, options?: RawAxiosRequestConfig) {
+        return ServiceAccountsApiFp(this.configuration).updateServiceAccount(requestParameters.serviceAccountId, requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -44015,12 +45022,12 @@ export const SignedInUserApiFactory = function (configuration?: Configuration, b
         /**
          * Changes the password for the user.
          * @summary Change Password.
-         * @param {ChangeUserPasswordCommand} body To change the email, name, login, theme, provide another one.
+         * @param {SignedInUserApiChangeUserPasswordRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        changeUserPassword(body: ChangeUserPasswordCommand, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
-            return localVarFp.changeUserPassword(body, options).then((request) => request(axios, basePath));
+        changeUserPassword(requestParameters: SignedInUserApiChangeUserPasswordRequest, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
+            return localVarFp.changeUserPassword(requestParameters.body, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -44078,87 +45085,213 @@ export const SignedInUserApiFactory = function (configuration?: Configuration, b
         /**
          * Revokes the given auth token (device) for the actual user. User of issued auth token (device) will no longer be logged in and will be required to authenticate again upon next activity.
          * @summary Revoke an auth token of the actual User.
-         * @param {RevokeAuthTokenCmd} body 
+         * @param {SignedInUserApiRevokeUserAuthTokenRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        revokeUserAuthToken(body: RevokeAuthTokenCmd, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
-            return localVarFp.revokeUserAuthToken(body, options).then((request) => request(axios, basePath));
+        revokeUserAuthToken(requestParameters: SignedInUserApiRevokeUserAuthTokenRequest, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
+            return localVarFp.revokeUserAuthToken(requestParameters.body, options).then((request) => request(axios, basePath));
         },
         /**
          * 
          * @summary Set user help flag.
-         * @param {string} flagId 
+         * @param {SignedInUserApiSetHelpFlagRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        setHelpFlag(flagId: string, options?: RawAxiosRequestConfig): AxiosPromise<ClearHelpFlags200Response> {
-            return localVarFp.setHelpFlag(flagId, options).then((request) => request(axios, basePath));
+        setHelpFlag(requestParameters: SignedInUserApiSetHelpFlagRequest, options?: RawAxiosRequestConfig): AxiosPromise<ClearHelpFlags200Response> {
+            return localVarFp.setHelpFlag(requestParameters.flagId, options).then((request) => request(axios, basePath));
         },
         /**
          * Stars the given Dashboard for the actual user.
          * @summary Star a dashboard.
-         * @param {string} dashboardId 
+         * @param {SignedInUserApiStarDashboardRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @deprecated
          * @throws {RequiredError}
          */
-        starDashboard(dashboardId: string, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
-            return localVarFp.starDashboard(dashboardId, options).then((request) => request(axios, basePath));
+        starDashboard(requestParameters: SignedInUserApiStarDashboardRequest, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
+            return localVarFp.starDashboard(requestParameters.dashboardId, options).then((request) => request(axios, basePath));
         },
         /**
          * Stars the given Dashboard for the actual user.
          * @summary Star a dashboard.
-         * @param {string} dashboardUid 
+         * @param {SignedInUserApiStarDashboardByUIDRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        starDashboardByUID(dashboardUid: string, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
-            return localVarFp.starDashboardByUID(dashboardUid, options).then((request) => request(axios, basePath));
+        starDashboardByUID(requestParameters: SignedInUserApiStarDashboardByUIDRequest, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
+            return localVarFp.starDashboardByUID(requestParameters.dashboardUid, options).then((request) => request(axios, basePath));
         },
         /**
          * Deletes the starring of the given Dashboard for the actual user.
          * @summary Unstar a dashboard.
-         * @param {string} dashboardId 
+         * @param {SignedInUserApiUnstarDashboardRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @deprecated
          * @throws {RequiredError}
          */
-        unstarDashboard(dashboardId: string, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
-            return localVarFp.unstarDashboard(dashboardId, options).then((request) => request(axios, basePath));
+        unstarDashboard(requestParameters: SignedInUserApiUnstarDashboardRequest, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
+            return localVarFp.unstarDashboard(requestParameters.dashboardId, options).then((request) => request(axios, basePath));
         },
         /**
          * Deletes the starring of the given Dashboard for the actual user.
          * @summary Unstar a dashboard.
-         * @param {string} dashboardUid 
+         * @param {SignedInUserApiUnstarDashboardByUIDRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        unstarDashboardByUID(dashboardUid: string, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
-            return localVarFp.unstarDashboardByUID(dashboardUid, options).then((request) => request(axios, basePath));
+        unstarDashboardByUID(requestParameters: SignedInUserApiUnstarDashboardByUIDRequest, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
+            return localVarFp.unstarDashboardByUID(requestParameters.dashboardUid, options).then((request) => request(axios, basePath));
         },
         /**
          * 
          * @summary Update signed in User.
-         * @param {UpdateUserCommand} body To change the email, name, login, theme, provide another one.
+         * @param {SignedInUserApiUpdateSignedInUserRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateSignedInUser(body: UpdateUserCommand, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
-            return localVarFp.updateSignedInUser(body, options).then((request) => request(axios, basePath));
+        updateSignedInUser(requestParameters: SignedInUserApiUpdateSignedInUserRequest, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
+            return localVarFp.updateSignedInUser(requestParameters.body, options).then((request) => request(axios, basePath));
         },
         /**
          * Switch user context to the given organization.
          * @summary Switch user context for signed in user.
-         * @param {number} orgId 
+         * @param {SignedInUserApiUserSetUsingOrgRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        userSetUsingOrg(orgId: number, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
-            return localVarFp.userSetUsingOrg(orgId, options).then((request) => request(axios, basePath));
+        userSetUsingOrg(requestParameters: SignedInUserApiUserSetUsingOrgRequest, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
+            return localVarFp.userSetUsingOrg(requestParameters.orgId, options).then((request) => request(axios, basePath));
         },
     };
 };
+
+/**
+ * Request parameters for changeUserPassword operation in SignedInUserApi.
+ * @export
+ * @interface SignedInUserApiChangeUserPasswordRequest
+ */
+export interface SignedInUserApiChangeUserPasswordRequest {
+    /**
+     * To change the email, name, login, theme, provide another one.
+     * @type {ChangeUserPasswordCommand}
+     * @memberof SignedInUserApiChangeUserPassword
+     */
+    readonly body: ChangeUserPasswordCommand
+}
+
+/**
+ * Request parameters for revokeUserAuthToken operation in SignedInUserApi.
+ * @export
+ * @interface SignedInUserApiRevokeUserAuthTokenRequest
+ */
+export interface SignedInUserApiRevokeUserAuthTokenRequest {
+    /**
+     * 
+     * @type {RevokeAuthTokenCmd}
+     * @memberof SignedInUserApiRevokeUserAuthToken
+     */
+    readonly body: RevokeAuthTokenCmd
+}
+
+/**
+ * Request parameters for setHelpFlag operation in SignedInUserApi.
+ * @export
+ * @interface SignedInUserApiSetHelpFlagRequest
+ */
+export interface SignedInUserApiSetHelpFlagRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof SignedInUserApiSetHelpFlag
+     */
+    readonly flagId: string
+}
+
+/**
+ * Request parameters for starDashboard operation in SignedInUserApi.
+ * @export
+ * @interface SignedInUserApiStarDashboardRequest
+ */
+export interface SignedInUserApiStarDashboardRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof SignedInUserApiStarDashboard
+     */
+    readonly dashboardId: string
+}
+
+/**
+ * Request parameters for starDashboardByUID operation in SignedInUserApi.
+ * @export
+ * @interface SignedInUserApiStarDashboardByUIDRequest
+ */
+export interface SignedInUserApiStarDashboardByUIDRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof SignedInUserApiStarDashboardByUID
+     */
+    readonly dashboardUid: string
+}
+
+/**
+ * Request parameters for unstarDashboard operation in SignedInUserApi.
+ * @export
+ * @interface SignedInUserApiUnstarDashboardRequest
+ */
+export interface SignedInUserApiUnstarDashboardRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof SignedInUserApiUnstarDashboard
+     */
+    readonly dashboardId: string
+}
+
+/**
+ * Request parameters for unstarDashboardByUID operation in SignedInUserApi.
+ * @export
+ * @interface SignedInUserApiUnstarDashboardByUIDRequest
+ */
+export interface SignedInUserApiUnstarDashboardByUIDRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof SignedInUserApiUnstarDashboardByUID
+     */
+    readonly dashboardUid: string
+}
+
+/**
+ * Request parameters for updateSignedInUser operation in SignedInUserApi.
+ * @export
+ * @interface SignedInUserApiUpdateSignedInUserRequest
+ */
+export interface SignedInUserApiUpdateSignedInUserRequest {
+    /**
+     * To change the email, name, login, theme, provide another one.
+     * @type {UpdateUserCommand}
+     * @memberof SignedInUserApiUpdateSignedInUser
+     */
+    readonly body: UpdateUserCommand
+}
+
+/**
+ * Request parameters for userSetUsingOrg operation in SignedInUserApi.
+ * @export
+ * @interface SignedInUserApiUserSetUsingOrgRequest
+ */
+export interface SignedInUserApiUserSetUsingOrgRequest {
+    /**
+     * 
+     * @type {number}
+     * @memberof SignedInUserApiUserSetUsingOrg
+     */
+    readonly orgId: number
+}
 
 /**
  * SignedInUserApi - object-oriented interface
@@ -44170,13 +45303,13 @@ export class SignedInUserApi extends BaseAPI {
     /**
      * Changes the password for the user.
      * @summary Change Password.
-     * @param {ChangeUserPasswordCommand} body To change the email, name, login, theme, provide another one.
+     * @param {SignedInUserApiChangeUserPasswordRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof SignedInUserApi
      */
-    public changeUserPassword(body: ChangeUserPasswordCommand, options?: RawAxiosRequestConfig) {
-        return SignedInUserApiFp(this.configuration).changeUserPassword(body, options).then((request) => request(this.axios, this.basePath));
+    public changeUserPassword(requestParameters: SignedInUserApiChangeUserPasswordRequest, options?: RawAxiosRequestConfig) {
+        return SignedInUserApiFp(this.configuration).changeUserPassword(requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -44247,99 +45380,99 @@ export class SignedInUserApi extends BaseAPI {
     /**
      * Revokes the given auth token (device) for the actual user. User of issued auth token (device) will no longer be logged in and will be required to authenticate again upon next activity.
      * @summary Revoke an auth token of the actual User.
-     * @param {RevokeAuthTokenCmd} body 
+     * @param {SignedInUserApiRevokeUserAuthTokenRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof SignedInUserApi
      */
-    public revokeUserAuthToken(body: RevokeAuthTokenCmd, options?: RawAxiosRequestConfig) {
-        return SignedInUserApiFp(this.configuration).revokeUserAuthToken(body, options).then((request) => request(this.axios, this.basePath));
+    public revokeUserAuthToken(requestParameters: SignedInUserApiRevokeUserAuthTokenRequest, options?: RawAxiosRequestConfig) {
+        return SignedInUserApiFp(this.configuration).revokeUserAuthToken(requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
      * @summary Set user help flag.
-     * @param {string} flagId 
+     * @param {SignedInUserApiSetHelpFlagRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof SignedInUserApi
      */
-    public setHelpFlag(flagId: string, options?: RawAxiosRequestConfig) {
-        return SignedInUserApiFp(this.configuration).setHelpFlag(flagId, options).then((request) => request(this.axios, this.basePath));
+    public setHelpFlag(requestParameters: SignedInUserApiSetHelpFlagRequest, options?: RawAxiosRequestConfig) {
+        return SignedInUserApiFp(this.configuration).setHelpFlag(requestParameters.flagId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Stars the given Dashboard for the actual user.
      * @summary Star a dashboard.
-     * @param {string} dashboardId 
+     * @param {SignedInUserApiStarDashboardRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @deprecated
      * @throws {RequiredError}
      * @memberof SignedInUserApi
      */
-    public starDashboard(dashboardId: string, options?: RawAxiosRequestConfig) {
-        return SignedInUserApiFp(this.configuration).starDashboard(dashboardId, options).then((request) => request(this.axios, this.basePath));
+    public starDashboard(requestParameters: SignedInUserApiStarDashboardRequest, options?: RawAxiosRequestConfig) {
+        return SignedInUserApiFp(this.configuration).starDashboard(requestParameters.dashboardId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Stars the given Dashboard for the actual user.
      * @summary Star a dashboard.
-     * @param {string} dashboardUid 
+     * @param {SignedInUserApiStarDashboardByUIDRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof SignedInUserApi
      */
-    public starDashboardByUID(dashboardUid: string, options?: RawAxiosRequestConfig) {
-        return SignedInUserApiFp(this.configuration).starDashboardByUID(dashboardUid, options).then((request) => request(this.axios, this.basePath));
+    public starDashboardByUID(requestParameters: SignedInUserApiStarDashboardByUIDRequest, options?: RawAxiosRequestConfig) {
+        return SignedInUserApiFp(this.configuration).starDashboardByUID(requestParameters.dashboardUid, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Deletes the starring of the given Dashboard for the actual user.
      * @summary Unstar a dashboard.
-     * @param {string} dashboardId 
+     * @param {SignedInUserApiUnstarDashboardRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @deprecated
      * @throws {RequiredError}
      * @memberof SignedInUserApi
      */
-    public unstarDashboard(dashboardId: string, options?: RawAxiosRequestConfig) {
-        return SignedInUserApiFp(this.configuration).unstarDashboard(dashboardId, options).then((request) => request(this.axios, this.basePath));
+    public unstarDashboard(requestParameters: SignedInUserApiUnstarDashboardRequest, options?: RawAxiosRequestConfig) {
+        return SignedInUserApiFp(this.configuration).unstarDashboard(requestParameters.dashboardId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Deletes the starring of the given Dashboard for the actual user.
      * @summary Unstar a dashboard.
-     * @param {string} dashboardUid 
+     * @param {SignedInUserApiUnstarDashboardByUIDRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof SignedInUserApi
      */
-    public unstarDashboardByUID(dashboardUid: string, options?: RawAxiosRequestConfig) {
-        return SignedInUserApiFp(this.configuration).unstarDashboardByUID(dashboardUid, options).then((request) => request(this.axios, this.basePath));
+    public unstarDashboardByUID(requestParameters: SignedInUserApiUnstarDashboardByUIDRequest, options?: RawAxiosRequestConfig) {
+        return SignedInUserApiFp(this.configuration).unstarDashboardByUID(requestParameters.dashboardUid, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
      * @summary Update signed in User.
-     * @param {UpdateUserCommand} body To change the email, name, login, theme, provide another one.
+     * @param {SignedInUserApiUpdateSignedInUserRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof SignedInUserApi
      */
-    public updateSignedInUser(body: UpdateUserCommand, options?: RawAxiosRequestConfig) {
-        return SignedInUserApiFp(this.configuration).updateSignedInUser(body, options).then((request) => request(this.axios, this.basePath));
+    public updateSignedInUser(requestParameters: SignedInUserApiUpdateSignedInUserRequest, options?: RawAxiosRequestConfig) {
+        return SignedInUserApiFp(this.configuration).updateSignedInUser(requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Switch user context to the given organization.
      * @summary Switch user context for signed in user.
-     * @param {number} orgId 
+     * @param {SignedInUserApiUserSetUsingOrgRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof SignedInUserApi
      */
-    public userSetUsingOrg(orgId: number, options?: RawAxiosRequestConfig) {
-        return SignedInUserApiFp(this.configuration).userSetUsingOrg(orgId, options).then((request) => request(this.axios, this.basePath));
+    public userSetUsingOrg(requestParameters: SignedInUserApiUserSetUsingOrgRequest, options?: RawAxiosRequestConfig) {
+        return SignedInUserApiFp(this.configuration).userSetUsingOrg(requestParameters.orgId, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -44810,42 +45943,42 @@ export const SnapshotsApiFactory = function (configuration?: Configuration, base
         /**
          * Snapshot public mode should be enabled or authentication is required.
          * @summary When creating a snapshot using the API, you have to provide the full dashboard payload including the snapshot data. This endpoint is designed for the Grafana UI.
-         * @param {CreateDashboardSnapshotCommand} body 
+         * @param {SnapshotsApiCreateDashboardSnapshotRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createDashboardSnapshot(body: CreateDashboardSnapshotCommand, options?: RawAxiosRequestConfig): AxiosPromise<CreateDashboardSnapshot200Response> {
-            return localVarFp.createDashboardSnapshot(body, options).then((request) => request(axios, basePath));
+        createDashboardSnapshot(requestParameters: SnapshotsApiCreateDashboardSnapshotRequest, options?: RawAxiosRequestConfig): AxiosPromise<CreateDashboardSnapshot200Response> {
+            return localVarFp.createDashboardSnapshot(requestParameters.body, options).then((request) => request(axios, basePath));
         },
         /**
          * 
          * @summary Delete Snapshot by Key.
-         * @param {string} key 
+         * @param {SnapshotsApiDeleteDashboardSnapshotRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        deleteDashboardSnapshot(key: string, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
-            return localVarFp.deleteDashboardSnapshot(key, options).then((request) => request(axios, basePath));
+        deleteDashboardSnapshot(requestParameters: SnapshotsApiDeleteDashboardSnapshotRequest, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
+            return localVarFp.deleteDashboardSnapshot(requestParameters.key, options).then((request) => request(axios, basePath));
         },
         /**
          * Snapshot public mode should be enabled or authentication is required.
          * @summary Delete Snapshot by deleteKey.
-         * @param {string} deleteKey 
+         * @param {SnapshotsApiDeleteDashboardSnapshotByDeleteKeyRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        deleteDashboardSnapshotByDeleteKey(deleteKey: string, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
-            return localVarFp.deleteDashboardSnapshotByDeleteKey(deleteKey, options).then((request) => request(axios, basePath));
+        deleteDashboardSnapshotByDeleteKey(requestParameters: SnapshotsApiDeleteDashboardSnapshotByDeleteKeyRequest, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
+            return localVarFp.deleteDashboardSnapshotByDeleteKey(requestParameters.deleteKey, options).then((request) => request(axios, basePath));
         },
         /**
          * 
          * @summary Get Snapshot by Key.
-         * @param {string} key 
+         * @param {SnapshotsApiGetDashboardSnapshotRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getDashboardSnapshot(key: string, options?: RawAxiosRequestConfig): AxiosPromise<void> {
-            return localVarFp.getDashboardSnapshot(key, options).then((request) => request(axios, basePath));
+        getDashboardSnapshot(requestParameters: SnapshotsApiGetDashboardSnapshotRequest, options?: RawAxiosRequestConfig): AxiosPromise<void> {
+            return localVarFp.getDashboardSnapshot(requestParameters.key, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -44859,16 +45992,92 @@ export const SnapshotsApiFactory = function (configuration?: Configuration, base
         /**
          * 
          * @summary List snapshots.
-         * @param {string} [query] Search Query
-         * @param {number} [limit] Limit the number of returned results
+         * @param {SnapshotsApiSearchDashboardSnapshotsRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        searchDashboardSnapshots(query?: string, limit?: number, options?: RawAxiosRequestConfig): AxiosPromise<Array<DashboardSnapshotDTO>> {
-            return localVarFp.searchDashboardSnapshots(query, limit, options).then((request) => request(axios, basePath));
+        searchDashboardSnapshots(requestParameters: SnapshotsApiSearchDashboardSnapshotsRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<Array<DashboardSnapshotDTO>> {
+            return localVarFp.searchDashboardSnapshots(requestParameters.query, requestParameters.limit, options).then((request) => request(axios, basePath));
         },
     };
 };
+
+/**
+ * Request parameters for createDashboardSnapshot operation in SnapshotsApi.
+ * @export
+ * @interface SnapshotsApiCreateDashboardSnapshotRequest
+ */
+export interface SnapshotsApiCreateDashboardSnapshotRequest {
+    /**
+     * 
+     * @type {CreateDashboardSnapshotCommand}
+     * @memberof SnapshotsApiCreateDashboardSnapshot
+     */
+    readonly body: CreateDashboardSnapshotCommand
+}
+
+/**
+ * Request parameters for deleteDashboardSnapshot operation in SnapshotsApi.
+ * @export
+ * @interface SnapshotsApiDeleteDashboardSnapshotRequest
+ */
+export interface SnapshotsApiDeleteDashboardSnapshotRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof SnapshotsApiDeleteDashboardSnapshot
+     */
+    readonly key: string
+}
+
+/**
+ * Request parameters for deleteDashboardSnapshotByDeleteKey operation in SnapshotsApi.
+ * @export
+ * @interface SnapshotsApiDeleteDashboardSnapshotByDeleteKeyRequest
+ */
+export interface SnapshotsApiDeleteDashboardSnapshotByDeleteKeyRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof SnapshotsApiDeleteDashboardSnapshotByDeleteKey
+     */
+    readonly deleteKey: string
+}
+
+/**
+ * Request parameters for getDashboardSnapshot operation in SnapshotsApi.
+ * @export
+ * @interface SnapshotsApiGetDashboardSnapshotRequest
+ */
+export interface SnapshotsApiGetDashboardSnapshotRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof SnapshotsApiGetDashboardSnapshot
+     */
+    readonly key: string
+}
+
+/**
+ * Request parameters for searchDashboardSnapshots operation in SnapshotsApi.
+ * @export
+ * @interface SnapshotsApiSearchDashboardSnapshotsRequest
+ */
+export interface SnapshotsApiSearchDashboardSnapshotsRequest {
+    /**
+     * Search Query
+     * @type {string}
+     * @memberof SnapshotsApiSearchDashboardSnapshots
+     */
+    readonly query?: string
+
+    /**
+     * Limit the number of returned results
+     * @type {number}
+     * @memberof SnapshotsApiSearchDashboardSnapshots
+     */
+    readonly limit?: number
+}
 
 /**
  * SnapshotsApi - object-oriented interface
@@ -44880,49 +46089,49 @@ export class SnapshotsApi extends BaseAPI {
     /**
      * Snapshot public mode should be enabled or authentication is required.
      * @summary When creating a snapshot using the API, you have to provide the full dashboard payload including the snapshot data. This endpoint is designed for the Grafana UI.
-     * @param {CreateDashboardSnapshotCommand} body 
+     * @param {SnapshotsApiCreateDashboardSnapshotRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof SnapshotsApi
      */
-    public createDashboardSnapshot(body: CreateDashboardSnapshotCommand, options?: RawAxiosRequestConfig) {
-        return SnapshotsApiFp(this.configuration).createDashboardSnapshot(body, options).then((request) => request(this.axios, this.basePath));
+    public createDashboardSnapshot(requestParameters: SnapshotsApiCreateDashboardSnapshotRequest, options?: RawAxiosRequestConfig) {
+        return SnapshotsApiFp(this.configuration).createDashboardSnapshot(requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
      * @summary Delete Snapshot by Key.
-     * @param {string} key 
+     * @param {SnapshotsApiDeleteDashboardSnapshotRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof SnapshotsApi
      */
-    public deleteDashboardSnapshot(key: string, options?: RawAxiosRequestConfig) {
-        return SnapshotsApiFp(this.configuration).deleteDashboardSnapshot(key, options).then((request) => request(this.axios, this.basePath));
+    public deleteDashboardSnapshot(requestParameters: SnapshotsApiDeleteDashboardSnapshotRequest, options?: RawAxiosRequestConfig) {
+        return SnapshotsApiFp(this.configuration).deleteDashboardSnapshot(requestParameters.key, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Snapshot public mode should be enabled or authentication is required.
      * @summary Delete Snapshot by deleteKey.
-     * @param {string} deleteKey 
+     * @param {SnapshotsApiDeleteDashboardSnapshotByDeleteKeyRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof SnapshotsApi
      */
-    public deleteDashboardSnapshotByDeleteKey(deleteKey: string, options?: RawAxiosRequestConfig) {
-        return SnapshotsApiFp(this.configuration).deleteDashboardSnapshotByDeleteKey(deleteKey, options).then((request) => request(this.axios, this.basePath));
+    public deleteDashboardSnapshotByDeleteKey(requestParameters: SnapshotsApiDeleteDashboardSnapshotByDeleteKeyRequest, options?: RawAxiosRequestConfig) {
+        return SnapshotsApiFp(this.configuration).deleteDashboardSnapshotByDeleteKey(requestParameters.deleteKey, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
      * @summary Get Snapshot by Key.
-     * @param {string} key 
+     * @param {SnapshotsApiGetDashboardSnapshotRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof SnapshotsApi
      */
-    public getDashboardSnapshot(key: string, options?: RawAxiosRequestConfig) {
-        return SnapshotsApiFp(this.configuration).getDashboardSnapshot(key, options).then((request) => request(this.axios, this.basePath));
+    public getDashboardSnapshot(requestParameters: SnapshotsApiGetDashboardSnapshotRequest, options?: RawAxiosRequestConfig) {
+        return SnapshotsApiFp(this.configuration).getDashboardSnapshot(requestParameters.key, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -44939,14 +46148,13 @@ export class SnapshotsApi extends BaseAPI {
     /**
      * 
      * @summary List snapshots.
-     * @param {string} [query] Search Query
-     * @param {number} [limit] Limit the number of returned results
+     * @param {SnapshotsApiSearchDashboardSnapshotsRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof SnapshotsApi
      */
-    public searchDashboardSnapshots(query?: string, limit?: number, options?: RawAxiosRequestConfig) {
-        return SnapshotsApiFp(this.configuration).searchDashboardSnapshots(query, limit, options).then((request) => request(this.axios, this.basePath));
+    public searchDashboardSnapshots(requestParameters: SnapshotsApiSearchDashboardSnapshotsRequest = {}, options?: RawAxiosRequestConfig) {
+        return SnapshotsApiFp(this.configuration).searchDashboardSnapshots(requestParameters.query, requestParameters.limit, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -45199,12 +46407,12 @@ export const SsoSettingsApiFactory = function (configuration?: Configuration, ba
         /**
          * You need to have a permission with action `settings:read` with scope `settings:auth.<provider>:*`.
          * @summary Get an SSO Settings entry by Key
-         * @param {string} key 
+         * @param {SsoSettingsApiGetProviderSettingsRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getProviderSettings(key: string, options?: RawAxiosRequestConfig): AxiosPromise<ListAllProvidersSettings200ResponseInner> {
-            return localVarFp.getProviderSettings(key, options).then((request) => request(axios, basePath));
+        getProviderSettings(requestParameters: SsoSettingsApiGetProviderSettingsRequest, options?: RawAxiosRequestConfig): AxiosPromise<ListAllProvidersSettings200ResponseInner> {
+            return localVarFp.getProviderSettings(requestParameters.key, options).then((request) => request(axios, basePath));
         },
         /**
          * You need to have a permission with action `settings:read` with scope `settings:auth.<provider>:*`.
@@ -45218,26 +46426,74 @@ export const SsoSettingsApiFactory = function (configuration?: Configuration, ba
         /**
          * Removes the SSO Settings for a provider.  You need to have a permission with action `settings:write` and scope `settings:auth.<provider>:*`.
          * @summary Remove SSO Settings
-         * @param {string} key 
+         * @param {SsoSettingsApiRemoveProviderSettingsRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        removeProviderSettings(key: string, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
-            return localVarFp.removeProviderSettings(key, options).then((request) => request(axios, basePath));
+        removeProviderSettings(requestParameters: SsoSettingsApiRemoveProviderSettingsRequest, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
+            return localVarFp.removeProviderSettings(requestParameters.key, options).then((request) => request(axios, basePath));
         },
         /**
          * Inserts or updates the SSO Settings for a provider.  You need to have a permission with action `settings:write` and scope `settings:auth.<provider>:*`.
          * @summary Update SSO Settings
-         * @param {string} key 
-         * @param {UpdateProviderSettingsRequest} body 
+         * @param {SsoSettingsApiUpdateProviderSettingsRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateProviderSettings(key: string, body: UpdateProviderSettingsRequest, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
-            return localVarFp.updateProviderSettings(key, body, options).then((request) => request(axios, basePath));
+        updateProviderSettings(requestParameters: SsoSettingsApiUpdateProviderSettingsRequest, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
+            return localVarFp.updateProviderSettings(requestParameters.key, requestParameters.body, options).then((request) => request(axios, basePath));
         },
     };
 };
+
+/**
+ * Request parameters for getProviderSettings operation in SsoSettingsApi.
+ * @export
+ * @interface SsoSettingsApiGetProviderSettingsRequest
+ */
+export interface SsoSettingsApiGetProviderSettingsRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof SsoSettingsApiGetProviderSettings
+     */
+    readonly key: string
+}
+
+/**
+ * Request parameters for removeProviderSettings operation in SsoSettingsApi.
+ * @export
+ * @interface SsoSettingsApiRemoveProviderSettingsRequest
+ */
+export interface SsoSettingsApiRemoveProviderSettingsRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof SsoSettingsApiRemoveProviderSettings
+     */
+    readonly key: string
+}
+
+/**
+ * Request parameters for updateProviderSettings operation in SsoSettingsApi.
+ * @export
+ * @interface SsoSettingsApiUpdateProviderSettingsRequest
+ */
+export interface SsoSettingsApiUpdateProviderSettingsRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof SsoSettingsApiUpdateProviderSettings
+     */
+    readonly key: string
+
+    /**
+     * 
+     * @type {UpdateProviderSettingsRequest}
+     * @memberof SsoSettingsApiUpdateProviderSettings
+     */
+    readonly body: UpdateProviderSettingsRequest
+}
 
 /**
  * SsoSettingsApi - object-oriented interface
@@ -45249,13 +46505,13 @@ export class SsoSettingsApi extends BaseAPI {
     /**
      * You need to have a permission with action `settings:read` with scope `settings:auth.<provider>:*`.
      * @summary Get an SSO Settings entry by Key
-     * @param {string} key 
+     * @param {SsoSettingsApiGetProviderSettingsRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof SsoSettingsApi
      */
-    public getProviderSettings(key: string, options?: RawAxiosRequestConfig) {
-        return SsoSettingsApiFp(this.configuration).getProviderSettings(key, options).then((request) => request(this.axios, this.basePath));
+    public getProviderSettings(requestParameters: SsoSettingsApiGetProviderSettingsRequest, options?: RawAxiosRequestConfig) {
+        return SsoSettingsApiFp(this.configuration).getProviderSettings(requestParameters.key, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -45272,26 +46528,25 @@ export class SsoSettingsApi extends BaseAPI {
     /**
      * Removes the SSO Settings for a provider.  You need to have a permission with action `settings:write` and scope `settings:auth.<provider>:*`.
      * @summary Remove SSO Settings
-     * @param {string} key 
+     * @param {SsoSettingsApiRemoveProviderSettingsRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof SsoSettingsApi
      */
-    public removeProviderSettings(key: string, options?: RawAxiosRequestConfig) {
-        return SsoSettingsApiFp(this.configuration).removeProviderSettings(key, options).then((request) => request(this.axios, this.basePath));
+    public removeProviderSettings(requestParameters: SsoSettingsApiRemoveProviderSettingsRequest, options?: RawAxiosRequestConfig) {
+        return SsoSettingsApiFp(this.configuration).removeProviderSettings(requestParameters.key, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Inserts or updates the SSO Settings for a provider.  You need to have a permission with action `settings:write` and scope `settings:auth.<provider>:*`.
      * @summary Update SSO Settings
-     * @param {string} key 
-     * @param {UpdateProviderSettingsRequest} body 
+     * @param {SsoSettingsApiUpdateProviderSettingsRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof SsoSettingsApi
      */
-    public updateProviderSettings(key: string, body: UpdateProviderSettingsRequest, options?: RawAxiosRequestConfig) {
-        return SsoSettingsApiFp(this.configuration).updateProviderSettings(key, body, options).then((request) => request(this.axios, this.basePath));
+    public updateProviderSettings(requestParameters: SsoSettingsApiUpdateProviderSettingsRequest, options?: RawAxiosRequestConfig) {
+        return SsoSettingsApiFp(this.configuration).updateProviderSettings(requestParameters.key, requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -45501,37 +46756,91 @@ export const SyncTeamGroupsApiFactory = function (configuration?: Configuration,
         /**
          * 
          * @summary Add External Group.
-         * @param {number} teamId 
-         * @param {TeamGroupMapping} body 
+         * @param {SyncTeamGroupsApiAddTeamGroupApiRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        addTeamGroupApi(teamId: number, body: TeamGroupMapping, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
-            return localVarFp.addTeamGroupApi(teamId, body, options).then((request) => request(axios, basePath));
+        addTeamGroupApi(requestParameters: SyncTeamGroupsApiAddTeamGroupApiRequest, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
+            return localVarFp.addTeamGroupApi(requestParameters.teamId, requestParameters.body, options).then((request) => request(axios, basePath));
         },
         /**
          * 
          * @summary Get External Groups.
-         * @param {number} teamId 
+         * @param {SyncTeamGroupsApiGetTeamGroupsApiRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getTeamGroupsApi(teamId: number, options?: RawAxiosRequestConfig): AxiosPromise<Array<TeamGroupDTO>> {
-            return localVarFp.getTeamGroupsApi(teamId, options).then((request) => request(axios, basePath));
+        getTeamGroupsApi(requestParameters: SyncTeamGroupsApiGetTeamGroupsApiRequest, options?: RawAxiosRequestConfig): AxiosPromise<Array<TeamGroupDTO>> {
+            return localVarFp.getTeamGroupsApi(requestParameters.teamId, options).then((request) => request(axios, basePath));
         },
         /**
          * 
          * @summary Remove External Group.
-         * @param {number} teamId 
-         * @param {string} [groupId] 
+         * @param {SyncTeamGroupsApiRemoveTeamGroupApiQueryRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        removeTeamGroupApiQuery(teamId: number, groupId?: string, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
-            return localVarFp.removeTeamGroupApiQuery(teamId, groupId, options).then((request) => request(axios, basePath));
+        removeTeamGroupApiQuery(requestParameters: SyncTeamGroupsApiRemoveTeamGroupApiQueryRequest, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
+            return localVarFp.removeTeamGroupApiQuery(requestParameters.teamId, requestParameters.groupId, options).then((request) => request(axios, basePath));
         },
     };
 };
+
+/**
+ * Request parameters for addTeamGroupApi operation in SyncTeamGroupsApi.
+ * @export
+ * @interface SyncTeamGroupsApiAddTeamGroupApiRequest
+ */
+export interface SyncTeamGroupsApiAddTeamGroupApiRequest {
+    /**
+     * 
+     * @type {number}
+     * @memberof SyncTeamGroupsApiAddTeamGroupApi
+     */
+    readonly teamId: number
+
+    /**
+     * 
+     * @type {TeamGroupMapping}
+     * @memberof SyncTeamGroupsApiAddTeamGroupApi
+     */
+    readonly body: TeamGroupMapping
+}
+
+/**
+ * Request parameters for getTeamGroupsApi operation in SyncTeamGroupsApi.
+ * @export
+ * @interface SyncTeamGroupsApiGetTeamGroupsApiRequest
+ */
+export interface SyncTeamGroupsApiGetTeamGroupsApiRequest {
+    /**
+     * 
+     * @type {number}
+     * @memberof SyncTeamGroupsApiGetTeamGroupsApi
+     */
+    readonly teamId: number
+}
+
+/**
+ * Request parameters for removeTeamGroupApiQuery operation in SyncTeamGroupsApi.
+ * @export
+ * @interface SyncTeamGroupsApiRemoveTeamGroupApiQueryRequest
+ */
+export interface SyncTeamGroupsApiRemoveTeamGroupApiQueryRequest {
+    /**
+     * 
+     * @type {number}
+     * @memberof SyncTeamGroupsApiRemoveTeamGroupApiQuery
+     */
+    readonly teamId: number
+
+    /**
+     * 
+     * @type {string}
+     * @memberof SyncTeamGroupsApiRemoveTeamGroupApiQuery
+     */
+    readonly groupId?: string
+}
 
 /**
  * SyncTeamGroupsApi - object-oriented interface
@@ -45543,39 +46852,37 @@ export class SyncTeamGroupsApi extends BaseAPI {
     /**
      * 
      * @summary Add External Group.
-     * @param {number} teamId 
-     * @param {TeamGroupMapping} body 
+     * @param {SyncTeamGroupsApiAddTeamGroupApiRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof SyncTeamGroupsApi
      */
-    public addTeamGroupApi(teamId: number, body: TeamGroupMapping, options?: RawAxiosRequestConfig) {
-        return SyncTeamGroupsApiFp(this.configuration).addTeamGroupApi(teamId, body, options).then((request) => request(this.axios, this.basePath));
+    public addTeamGroupApi(requestParameters: SyncTeamGroupsApiAddTeamGroupApiRequest, options?: RawAxiosRequestConfig) {
+        return SyncTeamGroupsApiFp(this.configuration).addTeamGroupApi(requestParameters.teamId, requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
      * @summary Get External Groups.
-     * @param {number} teamId 
+     * @param {SyncTeamGroupsApiGetTeamGroupsApiRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof SyncTeamGroupsApi
      */
-    public getTeamGroupsApi(teamId: number, options?: RawAxiosRequestConfig) {
-        return SyncTeamGroupsApiFp(this.configuration).getTeamGroupsApi(teamId, options).then((request) => request(this.axios, this.basePath));
+    public getTeamGroupsApi(requestParameters: SyncTeamGroupsApiGetTeamGroupsApiRequest, options?: RawAxiosRequestConfig) {
+        return SyncTeamGroupsApiFp(this.configuration).getTeamGroupsApi(requestParameters.teamId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
      * @summary Remove External Group.
-     * @param {number} teamId 
-     * @param {string} [groupId] 
+     * @param {SyncTeamGroupsApiRemoveTeamGroupApiQueryRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof SyncTeamGroupsApi
      */
-    public removeTeamGroupApiQuery(teamId: number, groupId?: string, options?: RawAxiosRequestConfig) {
-        return SyncTeamGroupsApiFp(this.configuration).removeTeamGroupApiQuery(teamId, groupId, options).then((request) => request(this.axios, this.basePath));
+    public removeTeamGroupApiQuery(requestParameters: SyncTeamGroupsApiRemoveTeamGroupApiQueryRequest, options?: RawAxiosRequestConfig) {
+        return SyncTeamGroupsApiFp(this.configuration).removeTeamGroupApiQuery(requestParameters.teamId, requestParameters.groupId, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -45944,53 +47251,6 @@ export const TeamsApiAxiosParamCreator = function (configuration?: Configuration
             };
         },
         /**
-         * Takes user emails, and updates team members and admins to the provided lists of users. Any current team members and admins not in the provided lists will be removed.
-         * @summary Set team memberships.
-         * @param {string} teamId 
-         * @param {SetTeamMembershipsCommand} body 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        setTeamMemberships: async (teamId: string, body: SetTeamMembershipsCommand, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'teamId' is not null or undefined
-            assertParamExists('setTeamMemberships', 'teamId', teamId)
-            // verify required parameter 'body' is not null or undefined
-            assertParamExists('setTeamMemberships', 'body', body)
-            const localVarPath = `/teams/{team_id}/members`
-                .replace(`{${"team_id"}}`, encodeURIComponent(String(teamId)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication api_key required
-            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
-
-            // authentication basic required
-            // http basic authentication required
-            setBasicAuthToObject(localVarRequestOptions, configuration)
-
-
-    
-            localVarHeaderParameter['Content-Type'] = 'application/json';
-
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(body, localVarRequestOptions, configuration)
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
          * 
          * @summary Update Team.
          * @param {string} teamId 
@@ -46255,20 +47515,6 @@ export const TeamsApiFp = function(configuration?: Configuration) {
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
-         * Takes user emails, and updates team members and admins to the provided lists of users. Any current team members and admins not in the provided lists will be removed.
-         * @summary Set team memberships.
-         * @param {string} teamId 
-         * @param {SetTeamMembershipsCommand} body 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async setTeamMemberships(teamId: string, body: SetTeamMembershipsCommand, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<SuccessResponseBody>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.setTeamMemberships(teamId, body, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['TeamsApi.setTeamMemberships']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
-        /**
          * 
          * @summary Update Team.
          * @param {string} teamId 
@@ -46324,135 +47570,332 @@ export const TeamsApiFactory = function (configuration?: Configuration, basePath
         /**
          * 
          * @summary Add Team Member.
-         * @param {string} teamId 
-         * @param {AddTeamMemberCommand} body 
+         * @param {TeamsApiAddTeamMemberRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        addTeamMember(teamId: string, body: AddTeamMemberCommand, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
-            return localVarFp.addTeamMember(teamId, body, options).then((request) => request(axios, basePath));
+        addTeamMember(requestParameters: TeamsApiAddTeamMemberRequest, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
+            return localVarFp.addTeamMember(requestParameters.teamId, requestParameters.body, options).then((request) => request(axios, basePath));
         },
         /**
          * 
          * @summary Add Team.
-         * @param {CreateTeamCommand} body 
+         * @param {TeamsApiCreateTeamRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createTeam(body: CreateTeamCommand, options?: RawAxiosRequestConfig): AxiosPromise<CreateTeam200Response> {
-            return localVarFp.createTeam(body, options).then((request) => request(axios, basePath));
+        createTeam(requestParameters: TeamsApiCreateTeamRequest, options?: RawAxiosRequestConfig): AxiosPromise<CreateTeam200Response> {
+            return localVarFp.createTeam(requestParameters.body, options).then((request) => request(axios, basePath));
         },
         /**
          * 
          * @summary Delete Team By ID.
-         * @param {string} teamId 
+         * @param {TeamsApiDeleteTeamByIDRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        deleteTeamByID(teamId: string, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
-            return localVarFp.deleteTeamByID(teamId, options).then((request) => request(axios, basePath));
+        deleteTeamByID(requestParameters: TeamsApiDeleteTeamByIDRequest, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
+            return localVarFp.deleteTeamByID(requestParameters.teamId, options).then((request) => request(axios, basePath));
         },
         /**
          * 
          * @summary Get Team By ID.
-         * @param {string} teamId 
+         * @param {TeamsApiGetTeamByIDRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getTeamByID(teamId: string, options?: RawAxiosRequestConfig): AxiosPromise<TeamDTO> {
-            return localVarFp.getTeamByID(teamId, options).then((request) => request(axios, basePath));
+        getTeamByID(requestParameters: TeamsApiGetTeamByIDRequest, options?: RawAxiosRequestConfig): AxiosPromise<TeamDTO> {
+            return localVarFp.getTeamByID(requestParameters.teamId, options).then((request) => request(axios, basePath));
         },
         /**
          * 
          * @summary Get Team Members.
-         * @param {string} teamId 
+         * @param {TeamsApiGetTeamMembersRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getTeamMembers(teamId: string, options?: RawAxiosRequestConfig): AxiosPromise<Array<TeamMemberDTO>> {
-            return localVarFp.getTeamMembers(teamId, options).then((request) => request(axios, basePath));
+        getTeamMembers(requestParameters: TeamsApiGetTeamMembersRequest, options?: RawAxiosRequestConfig): AxiosPromise<Array<TeamMemberDTO>> {
+            return localVarFp.getTeamMembers(requestParameters.teamId, options).then((request) => request(axios, basePath));
         },
         /**
          * 
          * @summary Get Team Preferences.
-         * @param {string} teamId 
+         * @param {TeamsApiGetTeamPreferencesRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getTeamPreferences(teamId: string, options?: RawAxiosRequestConfig): AxiosPromise<Preferences> {
-            return localVarFp.getTeamPreferences(teamId, options).then((request) => request(axios, basePath));
+        getTeamPreferences(requestParameters: TeamsApiGetTeamPreferencesRequest, options?: RawAxiosRequestConfig): AxiosPromise<Preferences> {
+            return localVarFp.getTeamPreferences(requestParameters.teamId, options).then((request) => request(axios, basePath));
         },
         /**
          * 
          * @summary Remove Member From Team.
-         * @param {string} teamId 
-         * @param {number} userId 
+         * @param {TeamsApiRemoveTeamMemberRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        removeTeamMember(teamId: string, userId: number, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
-            return localVarFp.removeTeamMember(teamId, userId, options).then((request) => request(axios, basePath));
+        removeTeamMember(requestParameters: TeamsApiRemoveTeamMemberRequest, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
+            return localVarFp.removeTeamMember(requestParameters.teamId, requestParameters.userId, options).then((request) => request(axios, basePath));
         },
         /**
          * 
          * @summary Team Search With Paging.
-         * @param {number} [page] 
-         * @param {number} [perpage] Number of items per page The totalCount field in the response can be used for pagination list E.g. if totalCount is equal to 100 teams and the perpage parameter is set to 10 then there are 10 pages of teams.
-         * @param {string} [name] 
-         * @param {string} [query] If set it will return results where the query value is contained in the name field. Query values with spaces need to be URL encoded.
+         * @param {TeamsApiSearchTeamsRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        searchTeams(page?: number, perpage?: number, name?: string, query?: string, options?: RawAxiosRequestConfig): AxiosPromise<SearchTeamQueryResult> {
-            return localVarFp.searchTeams(page, perpage, name, query, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * Takes user emails, and updates team members and admins to the provided lists of users. Any current team members and admins not in the provided lists will be removed.
-         * @summary Set team memberships.
-         * @param {string} teamId 
-         * @param {SetTeamMembershipsCommand} body 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        setTeamMemberships(teamId: string, body: SetTeamMembershipsCommand, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
-            return localVarFp.setTeamMemberships(teamId, body, options).then((request) => request(axios, basePath));
+        searchTeams(requestParameters: TeamsApiSearchTeamsRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<SearchTeamQueryResult> {
+            return localVarFp.searchTeams(requestParameters.page, requestParameters.perpage, requestParameters.name, requestParameters.query, options).then((request) => request(axios, basePath));
         },
         /**
          * 
          * @summary Update Team.
-         * @param {string} teamId 
-         * @param {UpdateTeamCommand} body 
+         * @param {TeamsApiUpdateTeamRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateTeam(teamId: string, body: UpdateTeamCommand, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
-            return localVarFp.updateTeam(teamId, body, options).then((request) => request(axios, basePath));
+        updateTeam(requestParameters: TeamsApiUpdateTeamRequest, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
+            return localVarFp.updateTeam(requestParameters.teamId, requestParameters.body, options).then((request) => request(axios, basePath));
         },
         /**
          * 
          * @summary Update Team Member.
-         * @param {string} teamId 
-         * @param {number} userId 
-         * @param {UpdateTeamMemberCommand} body 
+         * @param {TeamsApiUpdateTeamMemberRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateTeamMember(teamId: string, userId: number, body: UpdateTeamMemberCommand, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
-            return localVarFp.updateTeamMember(teamId, userId, body, options).then((request) => request(axios, basePath));
+        updateTeamMember(requestParameters: TeamsApiUpdateTeamMemberRequest, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
+            return localVarFp.updateTeamMember(requestParameters.teamId, requestParameters.userId, requestParameters.body, options).then((request) => request(axios, basePath));
         },
         /**
          * 
          * @summary Update Team Preferences.
-         * @param {string} teamId 
-         * @param {UpdatePrefsCmd} body 
+         * @param {TeamsApiUpdateTeamPreferencesRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateTeamPreferences(teamId: string, body: UpdatePrefsCmd, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
-            return localVarFp.updateTeamPreferences(teamId, body, options).then((request) => request(axios, basePath));
+        updateTeamPreferences(requestParameters: TeamsApiUpdateTeamPreferencesRequest, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
+            return localVarFp.updateTeamPreferences(requestParameters.teamId, requestParameters.body, options).then((request) => request(axios, basePath));
         },
     };
 };
+
+/**
+ * Request parameters for addTeamMember operation in TeamsApi.
+ * @export
+ * @interface TeamsApiAddTeamMemberRequest
+ */
+export interface TeamsApiAddTeamMemberRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof TeamsApiAddTeamMember
+     */
+    readonly teamId: string
+
+    /**
+     * 
+     * @type {AddTeamMemberCommand}
+     * @memberof TeamsApiAddTeamMember
+     */
+    readonly body: AddTeamMemberCommand
+}
+
+/**
+ * Request parameters for createTeam operation in TeamsApi.
+ * @export
+ * @interface TeamsApiCreateTeamRequest
+ */
+export interface TeamsApiCreateTeamRequest {
+    /**
+     * 
+     * @type {CreateTeamCommand}
+     * @memberof TeamsApiCreateTeam
+     */
+    readonly body: CreateTeamCommand
+}
+
+/**
+ * Request parameters for deleteTeamByID operation in TeamsApi.
+ * @export
+ * @interface TeamsApiDeleteTeamByIDRequest
+ */
+export interface TeamsApiDeleteTeamByIDRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof TeamsApiDeleteTeamByID
+     */
+    readonly teamId: string
+}
+
+/**
+ * Request parameters for getTeamByID operation in TeamsApi.
+ * @export
+ * @interface TeamsApiGetTeamByIDRequest
+ */
+export interface TeamsApiGetTeamByIDRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof TeamsApiGetTeamByID
+     */
+    readonly teamId: string
+}
+
+/**
+ * Request parameters for getTeamMembers operation in TeamsApi.
+ * @export
+ * @interface TeamsApiGetTeamMembersRequest
+ */
+export interface TeamsApiGetTeamMembersRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof TeamsApiGetTeamMembers
+     */
+    readonly teamId: string
+}
+
+/**
+ * Request parameters for getTeamPreferences operation in TeamsApi.
+ * @export
+ * @interface TeamsApiGetTeamPreferencesRequest
+ */
+export interface TeamsApiGetTeamPreferencesRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof TeamsApiGetTeamPreferences
+     */
+    readonly teamId: string
+}
+
+/**
+ * Request parameters for removeTeamMember operation in TeamsApi.
+ * @export
+ * @interface TeamsApiRemoveTeamMemberRequest
+ */
+export interface TeamsApiRemoveTeamMemberRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof TeamsApiRemoveTeamMember
+     */
+    readonly teamId: string
+
+    /**
+     * 
+     * @type {number}
+     * @memberof TeamsApiRemoveTeamMember
+     */
+    readonly userId: number
+}
+
+/**
+ * Request parameters for searchTeams operation in TeamsApi.
+ * @export
+ * @interface TeamsApiSearchTeamsRequest
+ */
+export interface TeamsApiSearchTeamsRequest {
+    /**
+     * 
+     * @type {number}
+     * @memberof TeamsApiSearchTeams
+     */
+    readonly page?: number
+
+    /**
+     * Number of items per page The totalCount field in the response can be used for pagination list E.g. if totalCount is equal to 100 teams and the perpage parameter is set to 10 then there are 10 pages of teams.
+     * @type {number}
+     * @memberof TeamsApiSearchTeams
+     */
+    readonly perpage?: number
+
+    /**
+     * 
+     * @type {string}
+     * @memberof TeamsApiSearchTeams
+     */
+    readonly name?: string
+
+    /**
+     * If set it will return results where the query value is contained in the name field. Query values with spaces need to be URL encoded.
+     * @type {string}
+     * @memberof TeamsApiSearchTeams
+     */
+    readonly query?: string
+}
+
+/**
+ * Request parameters for updateTeam operation in TeamsApi.
+ * @export
+ * @interface TeamsApiUpdateTeamRequest
+ */
+export interface TeamsApiUpdateTeamRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof TeamsApiUpdateTeam
+     */
+    readonly teamId: string
+
+    /**
+     * 
+     * @type {UpdateTeamCommand}
+     * @memberof TeamsApiUpdateTeam
+     */
+    readonly body: UpdateTeamCommand
+}
+
+/**
+ * Request parameters for updateTeamMember operation in TeamsApi.
+ * @export
+ * @interface TeamsApiUpdateTeamMemberRequest
+ */
+export interface TeamsApiUpdateTeamMemberRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof TeamsApiUpdateTeamMember
+     */
+    readonly teamId: string
+
+    /**
+     * 
+     * @type {number}
+     * @memberof TeamsApiUpdateTeamMember
+     */
+    readonly userId: number
+
+    /**
+     * 
+     * @type {UpdateTeamMemberCommand}
+     * @memberof TeamsApiUpdateTeamMember
+     */
+    readonly body: UpdateTeamMemberCommand
+}
+
+/**
+ * Request parameters for updateTeamPreferences operation in TeamsApi.
+ * @export
+ * @interface TeamsApiUpdateTeamPreferencesRequest
+ */
+export interface TeamsApiUpdateTeamPreferencesRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof TeamsApiUpdateTeamPreferences
+     */
+    readonly teamId: string
+
+    /**
+     * 
+     * @type {UpdatePrefsCmd}
+     * @memberof TeamsApiUpdateTeamPreferences
+     */
+    readonly body: UpdatePrefsCmd
+}
 
 /**
  * TeamsApi - object-oriented interface
@@ -46464,155 +47907,133 @@ export class TeamsApi extends BaseAPI {
     /**
      * 
      * @summary Add Team Member.
-     * @param {string} teamId 
-     * @param {AddTeamMemberCommand} body 
+     * @param {TeamsApiAddTeamMemberRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof TeamsApi
      */
-    public addTeamMember(teamId: string, body: AddTeamMemberCommand, options?: RawAxiosRequestConfig) {
-        return TeamsApiFp(this.configuration).addTeamMember(teamId, body, options).then((request) => request(this.axios, this.basePath));
+    public addTeamMember(requestParameters: TeamsApiAddTeamMemberRequest, options?: RawAxiosRequestConfig) {
+        return TeamsApiFp(this.configuration).addTeamMember(requestParameters.teamId, requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
      * @summary Add Team.
-     * @param {CreateTeamCommand} body 
+     * @param {TeamsApiCreateTeamRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof TeamsApi
      */
-    public createTeam(body: CreateTeamCommand, options?: RawAxiosRequestConfig) {
-        return TeamsApiFp(this.configuration).createTeam(body, options).then((request) => request(this.axios, this.basePath));
+    public createTeam(requestParameters: TeamsApiCreateTeamRequest, options?: RawAxiosRequestConfig) {
+        return TeamsApiFp(this.configuration).createTeam(requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
      * @summary Delete Team By ID.
-     * @param {string} teamId 
+     * @param {TeamsApiDeleteTeamByIDRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof TeamsApi
      */
-    public deleteTeamByID(teamId: string, options?: RawAxiosRequestConfig) {
-        return TeamsApiFp(this.configuration).deleteTeamByID(teamId, options).then((request) => request(this.axios, this.basePath));
+    public deleteTeamByID(requestParameters: TeamsApiDeleteTeamByIDRequest, options?: RawAxiosRequestConfig) {
+        return TeamsApiFp(this.configuration).deleteTeamByID(requestParameters.teamId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
      * @summary Get Team By ID.
-     * @param {string} teamId 
+     * @param {TeamsApiGetTeamByIDRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof TeamsApi
      */
-    public getTeamByID(teamId: string, options?: RawAxiosRequestConfig) {
-        return TeamsApiFp(this.configuration).getTeamByID(teamId, options).then((request) => request(this.axios, this.basePath));
+    public getTeamByID(requestParameters: TeamsApiGetTeamByIDRequest, options?: RawAxiosRequestConfig) {
+        return TeamsApiFp(this.configuration).getTeamByID(requestParameters.teamId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
      * @summary Get Team Members.
-     * @param {string} teamId 
+     * @param {TeamsApiGetTeamMembersRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof TeamsApi
      */
-    public getTeamMembers(teamId: string, options?: RawAxiosRequestConfig) {
-        return TeamsApiFp(this.configuration).getTeamMembers(teamId, options).then((request) => request(this.axios, this.basePath));
+    public getTeamMembers(requestParameters: TeamsApiGetTeamMembersRequest, options?: RawAxiosRequestConfig) {
+        return TeamsApiFp(this.configuration).getTeamMembers(requestParameters.teamId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
      * @summary Get Team Preferences.
-     * @param {string} teamId 
+     * @param {TeamsApiGetTeamPreferencesRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof TeamsApi
      */
-    public getTeamPreferences(teamId: string, options?: RawAxiosRequestConfig) {
-        return TeamsApiFp(this.configuration).getTeamPreferences(teamId, options).then((request) => request(this.axios, this.basePath));
+    public getTeamPreferences(requestParameters: TeamsApiGetTeamPreferencesRequest, options?: RawAxiosRequestConfig) {
+        return TeamsApiFp(this.configuration).getTeamPreferences(requestParameters.teamId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
      * @summary Remove Member From Team.
-     * @param {string} teamId 
-     * @param {number} userId 
+     * @param {TeamsApiRemoveTeamMemberRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof TeamsApi
      */
-    public removeTeamMember(teamId: string, userId: number, options?: RawAxiosRequestConfig) {
-        return TeamsApiFp(this.configuration).removeTeamMember(teamId, userId, options).then((request) => request(this.axios, this.basePath));
+    public removeTeamMember(requestParameters: TeamsApiRemoveTeamMemberRequest, options?: RawAxiosRequestConfig) {
+        return TeamsApiFp(this.configuration).removeTeamMember(requestParameters.teamId, requestParameters.userId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
      * @summary Team Search With Paging.
-     * @param {number} [page] 
-     * @param {number} [perpage] Number of items per page The totalCount field in the response can be used for pagination list E.g. if totalCount is equal to 100 teams and the perpage parameter is set to 10 then there are 10 pages of teams.
-     * @param {string} [name] 
-     * @param {string} [query] If set it will return results where the query value is contained in the name field. Query values with spaces need to be URL encoded.
+     * @param {TeamsApiSearchTeamsRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof TeamsApi
      */
-    public searchTeams(page?: number, perpage?: number, name?: string, query?: string, options?: RawAxiosRequestConfig) {
-        return TeamsApiFp(this.configuration).searchTeams(page, perpage, name, query, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * Takes user emails, and updates team members and admins to the provided lists of users. Any current team members and admins not in the provided lists will be removed.
-     * @summary Set team memberships.
-     * @param {string} teamId 
-     * @param {SetTeamMembershipsCommand} body 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof TeamsApi
-     */
-    public setTeamMemberships(teamId: string, body: SetTeamMembershipsCommand, options?: RawAxiosRequestConfig) {
-        return TeamsApiFp(this.configuration).setTeamMemberships(teamId, body, options).then((request) => request(this.axios, this.basePath));
+    public searchTeams(requestParameters: TeamsApiSearchTeamsRequest = {}, options?: RawAxiosRequestConfig) {
+        return TeamsApiFp(this.configuration).searchTeams(requestParameters.page, requestParameters.perpage, requestParameters.name, requestParameters.query, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
      * @summary Update Team.
-     * @param {string} teamId 
-     * @param {UpdateTeamCommand} body 
+     * @param {TeamsApiUpdateTeamRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof TeamsApi
      */
-    public updateTeam(teamId: string, body: UpdateTeamCommand, options?: RawAxiosRequestConfig) {
-        return TeamsApiFp(this.configuration).updateTeam(teamId, body, options).then((request) => request(this.axios, this.basePath));
+    public updateTeam(requestParameters: TeamsApiUpdateTeamRequest, options?: RawAxiosRequestConfig) {
+        return TeamsApiFp(this.configuration).updateTeam(requestParameters.teamId, requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
      * @summary Update Team Member.
-     * @param {string} teamId 
-     * @param {number} userId 
-     * @param {UpdateTeamMemberCommand} body 
+     * @param {TeamsApiUpdateTeamMemberRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof TeamsApi
      */
-    public updateTeamMember(teamId: string, userId: number, body: UpdateTeamMemberCommand, options?: RawAxiosRequestConfig) {
-        return TeamsApiFp(this.configuration).updateTeamMember(teamId, userId, body, options).then((request) => request(this.axios, this.basePath));
+    public updateTeamMember(requestParameters: TeamsApiUpdateTeamMemberRequest, options?: RawAxiosRequestConfig) {
+        return TeamsApiFp(this.configuration).updateTeamMember(requestParameters.teamId, requestParameters.userId, requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
      * @summary Update Team Preferences.
-     * @param {string} teamId 
-     * @param {UpdatePrefsCmd} body 
+     * @param {TeamsApiUpdateTeamPreferencesRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof TeamsApi
      */
-    public updateTeamPreferences(teamId: string, body: UpdatePrefsCmd, options?: RawAxiosRequestConfig) {
-        return TeamsApiFp(this.configuration).updateTeamPreferences(teamId, body, options).then((request) => request(this.axios, this.basePath));
+    public updateTeamPreferences(requestParameters: TeamsApiUpdateTeamPreferencesRequest, options?: RawAxiosRequestConfig) {
+        return TeamsApiFp(this.configuration).updateTeamPreferences(requestParameters.teamId, requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -46925,25 +48346,53 @@ export const UserPreferencesApiFactory = function (configuration?: Configuration
         /**
          * 
          * @summary Patch user preferences.
-         * @param {PatchPrefsCmd} body 
+         * @param {UserPreferencesApiPatchUserPreferencesRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        patchUserPreferences(body: PatchPrefsCmd, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
-            return localVarFp.patchUserPreferences(body, options).then((request) => request(axios, basePath));
+        patchUserPreferences(requestParameters: UserPreferencesApiPatchUserPreferencesRequest, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
+            return localVarFp.patchUserPreferences(requestParameters.body, options).then((request) => request(axios, basePath));
         },
         /**
          * Omitting a key (`theme`, `homeDashboardId`, `timezone`) will cause the current value to be replaced with the system default value.
          * @summary Update user preferences.
-         * @param {UpdatePrefsCmd} body 
+         * @param {UserPreferencesApiUpdateUserPreferencesRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateUserPreferences(body: UpdatePrefsCmd, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
-            return localVarFp.updateUserPreferences(body, options).then((request) => request(axios, basePath));
+        updateUserPreferences(requestParameters: UserPreferencesApiUpdateUserPreferencesRequest, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
+            return localVarFp.updateUserPreferences(requestParameters.body, options).then((request) => request(axios, basePath));
         },
     };
 };
+
+/**
+ * Request parameters for patchUserPreferences operation in UserPreferencesApi.
+ * @export
+ * @interface UserPreferencesApiPatchUserPreferencesRequest
+ */
+export interface UserPreferencesApiPatchUserPreferencesRequest {
+    /**
+     * 
+     * @type {PatchPrefsCmd}
+     * @memberof UserPreferencesApiPatchUserPreferences
+     */
+    readonly body: PatchPrefsCmd
+}
+
+/**
+ * Request parameters for updateUserPreferences operation in UserPreferencesApi.
+ * @export
+ * @interface UserPreferencesApiUpdateUserPreferencesRequest
+ */
+export interface UserPreferencesApiUpdateUserPreferencesRequest {
+    /**
+     * 
+     * @type {UpdatePrefsCmd}
+     * @memberof UserPreferencesApiUpdateUserPreferences
+     */
+    readonly body: UpdatePrefsCmd
+}
 
 /**
  * UserPreferencesApi - object-oriented interface
@@ -46966,25 +48415,25 @@ export class UserPreferencesApi extends BaseAPI {
     /**
      * 
      * @summary Patch user preferences.
-     * @param {PatchPrefsCmd} body 
+     * @param {UserPreferencesApiPatchUserPreferencesRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof UserPreferencesApi
      */
-    public patchUserPreferences(body: PatchPrefsCmd, options?: RawAxiosRequestConfig) {
-        return UserPreferencesApiFp(this.configuration).patchUserPreferences(body, options).then((request) => request(this.axios, this.basePath));
+    public patchUserPreferences(requestParameters: UserPreferencesApiPatchUserPreferencesRequest, options?: RawAxiosRequestConfig) {
+        return UserPreferencesApiFp(this.configuration).patchUserPreferences(requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Omitting a key (`theme`, `homeDashboardId`, `timezone`) will cause the current value to be replaced with the system default value.
      * @summary Update user preferences.
-     * @param {UpdatePrefsCmd} body 
+     * @param {UserPreferencesApiUpdateUserPreferencesRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof UserPreferencesApi
      */
-    public updateUserPreferences(body: UpdatePrefsCmd, options?: RawAxiosRequestConfig) {
-        return UserPreferencesApiFp(this.configuration).updateUserPreferences(body, options).then((request) => request(this.axios, this.basePath));
+    public updateUserPreferences(requestParameters: UserPreferencesApiUpdateUserPreferencesRequest, options?: RawAxiosRequestConfig) {
+        return UserPreferencesApiFp(this.configuration).updateUserPreferences(requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -47409,53 +48858,52 @@ export const UsersApiFactory = function (configuration?: Configuration, basePath
         /**
          * 
          * @summary Get user by id.
-         * @param {number} userId 
+         * @param {UsersApiGetUserByIDRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getUserByID(userId: number, options?: RawAxiosRequestConfig): AxiosPromise<UserProfileDTO> {
-            return localVarFp.getUserByID(userId, options).then((request) => request(axios, basePath));
+        getUserByID(requestParameters: UsersApiGetUserByIDRequest, options?: RawAxiosRequestConfig): AxiosPromise<UserProfileDTO> {
+            return localVarFp.getUserByID(requestParameters.userId, options).then((request) => request(axios, basePath));
         },
         /**
          * 
          * @summary Get user by login or email.
-         * @param {string} loginOrEmail loginOrEmail of the user
+         * @param {UsersApiGetUserByLoginOrEmailRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getUserByLoginOrEmail(loginOrEmail: string, options?: RawAxiosRequestConfig): AxiosPromise<UserProfileDTO> {
-            return localVarFp.getUserByLoginOrEmail(loginOrEmail, options).then((request) => request(axios, basePath));
+        getUserByLoginOrEmail(requestParameters: UsersApiGetUserByLoginOrEmailRequest, options?: RawAxiosRequestConfig): AxiosPromise<UserProfileDTO> {
+            return localVarFp.getUserByLoginOrEmail(requestParameters.loginOrEmail, options).then((request) => request(axios, basePath));
         },
         /**
          * Get organizations for user identified by id.
          * @summary Get organizations for user.
-         * @param {number} userId 
+         * @param {UsersApiGetUserOrgListRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getUserOrgList(userId: number, options?: RawAxiosRequestConfig): AxiosPromise<Array<UserOrgDTO>> {
-            return localVarFp.getUserOrgList(userId, options).then((request) => request(axios, basePath));
+        getUserOrgList(requestParameters: UsersApiGetUserOrgListRequest, options?: RawAxiosRequestConfig): AxiosPromise<Array<UserOrgDTO>> {
+            return localVarFp.getUserOrgList(requestParameters.userId, options).then((request) => request(axios, basePath));
         },
         /**
          * Get teams for user identified by id.
          * @summary Get teams for user.
-         * @param {number} userId 
+         * @param {UsersApiGetUserTeamsRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getUserTeams(userId: number, options?: RawAxiosRequestConfig): AxiosPromise<Array<TeamDTO>> {
-            return localVarFp.getUserTeams(userId, options).then((request) => request(axios, basePath));
+        getUserTeams(requestParameters: UsersApiGetUserTeamsRequest, options?: RawAxiosRequestConfig): AxiosPromise<Array<TeamDTO>> {
+            return localVarFp.getUserTeams(requestParameters.userId, options).then((request) => request(axios, basePath));
         },
         /**
          * Returns all users that the authenticated user has permission to view, admin permission required.
          * @summary Get users.
-         * @param {number} [perpage] Limit the maximum number of users to return per page
-         * @param {number} [page] Page index for starting fetching users
+         * @param {UsersApiSearchUsersRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        searchUsers(perpage?: number, page?: number, options?: RawAxiosRequestConfig): AxiosPromise<Array<UserSearchHitDTO>> {
-            return localVarFp.searchUsers(perpage, page, options).then((request) => request(axios, basePath));
+        searchUsers(requestParameters: UsersApiSearchUsersRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<Array<UserSearchHitDTO>> {
+            return localVarFp.searchUsers(requestParameters.perpage, requestParameters.page, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -47469,16 +48917,113 @@ export const UsersApiFactory = function (configuration?: Configuration, basePath
         /**
          * Update the user identified by id.
          * @summary Update user.
-         * @param {number} userId 
-         * @param {UpdateUserCommand} body To change the email, name, login, theme, provide another one.
+         * @param {UsersApiUpdateUserRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateUser(userId: number, body: UpdateUserCommand, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
-            return localVarFp.updateUser(userId, body, options).then((request) => request(axios, basePath));
+        updateUser(requestParameters: UsersApiUpdateUserRequest, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
+            return localVarFp.updateUser(requestParameters.userId, requestParameters.body, options).then((request) => request(axios, basePath));
         },
     };
 };
+
+/**
+ * Request parameters for getUserByID operation in UsersApi.
+ * @export
+ * @interface UsersApiGetUserByIDRequest
+ */
+export interface UsersApiGetUserByIDRequest {
+    /**
+     * 
+     * @type {number}
+     * @memberof UsersApiGetUserByID
+     */
+    readonly userId: number
+}
+
+/**
+ * Request parameters for getUserByLoginOrEmail operation in UsersApi.
+ * @export
+ * @interface UsersApiGetUserByLoginOrEmailRequest
+ */
+export interface UsersApiGetUserByLoginOrEmailRequest {
+    /**
+     * loginOrEmail of the user
+     * @type {string}
+     * @memberof UsersApiGetUserByLoginOrEmail
+     */
+    readonly loginOrEmail: string
+}
+
+/**
+ * Request parameters for getUserOrgList operation in UsersApi.
+ * @export
+ * @interface UsersApiGetUserOrgListRequest
+ */
+export interface UsersApiGetUserOrgListRequest {
+    /**
+     * 
+     * @type {number}
+     * @memberof UsersApiGetUserOrgList
+     */
+    readonly userId: number
+}
+
+/**
+ * Request parameters for getUserTeams operation in UsersApi.
+ * @export
+ * @interface UsersApiGetUserTeamsRequest
+ */
+export interface UsersApiGetUserTeamsRequest {
+    /**
+     * 
+     * @type {number}
+     * @memberof UsersApiGetUserTeams
+     */
+    readonly userId: number
+}
+
+/**
+ * Request parameters for searchUsers operation in UsersApi.
+ * @export
+ * @interface UsersApiSearchUsersRequest
+ */
+export interface UsersApiSearchUsersRequest {
+    /**
+     * Limit the maximum number of users to return per page
+     * @type {number}
+     * @memberof UsersApiSearchUsers
+     */
+    readonly perpage?: number
+
+    /**
+     * Page index for starting fetching users
+     * @type {number}
+     * @memberof UsersApiSearchUsers
+     */
+    readonly page?: number
+}
+
+/**
+ * Request parameters for updateUser operation in UsersApi.
+ * @export
+ * @interface UsersApiUpdateUserRequest
+ */
+export interface UsersApiUpdateUserRequest {
+    /**
+     * 
+     * @type {number}
+     * @memberof UsersApiUpdateUser
+     */
+    readonly userId: number
+
+    /**
+     * To change the email, name, login, theme, provide another one.
+     * @type {UpdateUserCommand}
+     * @memberof UsersApiUpdateUser
+     */
+    readonly body: UpdateUserCommand
+}
 
 /**
  * UsersApi - object-oriented interface
@@ -47490,62 +49035,61 @@ export class UsersApi extends BaseAPI {
     /**
      * 
      * @summary Get user by id.
-     * @param {number} userId 
+     * @param {UsersApiGetUserByIDRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof UsersApi
      */
-    public getUserByID(userId: number, options?: RawAxiosRequestConfig) {
-        return UsersApiFp(this.configuration).getUserByID(userId, options).then((request) => request(this.axios, this.basePath));
+    public getUserByID(requestParameters: UsersApiGetUserByIDRequest, options?: RawAxiosRequestConfig) {
+        return UsersApiFp(this.configuration).getUserByID(requestParameters.userId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
      * @summary Get user by login or email.
-     * @param {string} loginOrEmail loginOrEmail of the user
+     * @param {UsersApiGetUserByLoginOrEmailRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof UsersApi
      */
-    public getUserByLoginOrEmail(loginOrEmail: string, options?: RawAxiosRequestConfig) {
-        return UsersApiFp(this.configuration).getUserByLoginOrEmail(loginOrEmail, options).then((request) => request(this.axios, this.basePath));
+    public getUserByLoginOrEmail(requestParameters: UsersApiGetUserByLoginOrEmailRequest, options?: RawAxiosRequestConfig) {
+        return UsersApiFp(this.configuration).getUserByLoginOrEmail(requestParameters.loginOrEmail, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Get organizations for user identified by id.
      * @summary Get organizations for user.
-     * @param {number} userId 
+     * @param {UsersApiGetUserOrgListRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof UsersApi
      */
-    public getUserOrgList(userId: number, options?: RawAxiosRequestConfig) {
-        return UsersApiFp(this.configuration).getUserOrgList(userId, options).then((request) => request(this.axios, this.basePath));
+    public getUserOrgList(requestParameters: UsersApiGetUserOrgListRequest, options?: RawAxiosRequestConfig) {
+        return UsersApiFp(this.configuration).getUserOrgList(requestParameters.userId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Get teams for user identified by id.
      * @summary Get teams for user.
-     * @param {number} userId 
+     * @param {UsersApiGetUserTeamsRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof UsersApi
      */
-    public getUserTeams(userId: number, options?: RawAxiosRequestConfig) {
-        return UsersApiFp(this.configuration).getUserTeams(userId, options).then((request) => request(this.axios, this.basePath));
+    public getUserTeams(requestParameters: UsersApiGetUserTeamsRequest, options?: RawAxiosRequestConfig) {
+        return UsersApiFp(this.configuration).getUserTeams(requestParameters.userId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Returns all users that the authenticated user has permission to view, admin permission required.
      * @summary Get users.
-     * @param {number} [perpage] Limit the maximum number of users to return per page
-     * @param {number} [page] Page index for starting fetching users
+     * @param {UsersApiSearchUsersRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof UsersApi
      */
-    public searchUsers(perpage?: number, page?: number, options?: RawAxiosRequestConfig) {
-        return UsersApiFp(this.configuration).searchUsers(perpage, page, options).then((request) => request(this.axios, this.basePath));
+    public searchUsers(requestParameters: UsersApiSearchUsersRequest = {}, options?: RawAxiosRequestConfig) {
+        return UsersApiFp(this.configuration).searchUsers(requestParameters.perpage, requestParameters.page, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -47562,14 +49106,13 @@ export class UsersApi extends BaseAPI {
     /**
      * Update the user identified by id.
      * @summary Update user.
-     * @param {number} userId 
-     * @param {UpdateUserCommand} body To change the email, name, login, theme, provide another one.
+     * @param {UsersApiUpdateUserRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof UsersApi
      */
-    public updateUser(userId: number, body: UpdateUserCommand, options?: RawAxiosRequestConfig) {
-        return UsersApiFp(this.configuration).updateUser(userId, body, options).then((request) => request(this.axios, this.basePath));
+    public updateUser(requestParameters: UsersApiUpdateUserRequest, options?: RawAxiosRequestConfig) {
+        return UsersApiFp(this.configuration).updateUser(requestParameters.userId, requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
 }
 

@@ -30,12 +30,6 @@ import {
 export interface Route {
     /**
      * 
-     * @type {Array<string>}
-     * @memberof Route
-     */
-    activeTimeIntervals?: Array<string>;
-    /**
-     * 
      * @type {boolean}
      * @memberof Route
      */
@@ -133,7 +127,6 @@ export function RouteFromJSONTyped(json: any, ignoreDiscriminator: boolean): Rou
     }
     return {
         
-        'activeTimeIntervals': json['active_time_intervals'] == null ? undefined : json['active_time_intervals'],
         '_continue': json['continue'] == null ? undefined : json['continue'],
         'groupBy': json['group_by'] == null ? undefined : json['group_by'],
         'groupInterval': json['group_interval'] == null ? undefined : json['group_interval'],
@@ -161,7 +154,6 @@ export function RouteToJSONTyped(value?: Route | null, ignoreDiscriminator: bool
 
     return {
         
-        'active_time_intervals': value['activeTimeIntervals'],
         'continue': value['_continue'],
         'group_by': value['groupBy'],
         'group_interval': value['groupInterval'],

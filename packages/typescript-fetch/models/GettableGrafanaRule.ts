@@ -27,20 +27,6 @@ import {
     AlertRuleNotificationSettingsToJSON,
     AlertRuleNotificationSettingsToJSONTyped,
 } from './AlertRuleNotificationSettings';
-import type { AlertRuleMetadata } from './AlertRuleMetadata';
-import {
-    AlertRuleMetadataFromJSON,
-    AlertRuleMetadataFromJSONTyped,
-    AlertRuleMetadataToJSON,
-    AlertRuleMetadataToJSONTyped,
-} from './AlertRuleMetadata';
-import type { Record } from './Record';
-import {
-    RecordFromJSON,
-    RecordFromJSONTyped,
-    RecordToJSON,
-    RecordToJSONTyped,
-} from './Record';
 
 /**
  * 
@@ -86,12 +72,6 @@ export interface GettableGrafanaRule {
     isPaused?: boolean;
     /**
      * 
-     * @type {AlertRuleMetadata}
-     * @memberof GettableGrafanaRule
-     */
-    metadata?: AlertRuleMetadata;
-    /**
-     * 
      * @type {string}
      * @memberof GettableGrafanaRule
      */
@@ -120,12 +100,6 @@ export interface GettableGrafanaRule {
      * @memberof GettableGrafanaRule
      */
     provenance?: string;
-    /**
-     * 
-     * @type {Record}
-     * @memberof GettableGrafanaRule
-     */
-    record?: Record;
     /**
      * 
      * @type {string}
@@ -203,13 +177,11 @@ export function GettableGrafanaRuleFromJSONTyped(json: any, ignoreDiscriminator:
         'id': json['id'] == null ? undefined : json['id'],
         'intervalSeconds': json['intervalSeconds'] == null ? undefined : json['intervalSeconds'],
         'isPaused': json['is_paused'] == null ? undefined : json['is_paused'],
-        'metadata': json['metadata'] == null ? undefined : AlertRuleMetadataFromJSON(json['metadata']),
         'namespaceUid': json['namespace_uid'] == null ? undefined : json['namespace_uid'],
         'noDataState': json['no_data_state'] == null ? undefined : json['no_data_state'],
         'notificationSettings': json['notification_settings'] == null ? undefined : AlertRuleNotificationSettingsFromJSON(json['notification_settings']),
         'orgId': json['orgId'] == null ? undefined : json['orgId'],
         'provenance': json['provenance'] == null ? undefined : json['provenance'],
-        'record': json['record'] == null ? undefined : RecordFromJSON(json['record']),
         'ruleGroup': json['rule_group'] == null ? undefined : json['rule_group'],
         'title': json['title'] == null ? undefined : json['title'],
         'uid': json['uid'] == null ? undefined : json['uid'],
@@ -235,13 +207,11 @@ export function GettableGrafanaRuleToJSONTyped(value?: GettableGrafanaRule | nul
         'id': value['id'],
         'intervalSeconds': value['intervalSeconds'],
         'is_paused': value['isPaused'],
-        'metadata': AlertRuleMetadataToJSON(value['metadata']),
         'namespace_uid': value['namespaceUid'],
         'no_data_state': value['noDataState'],
         'notification_settings': AlertRuleNotificationSettingsToJSON(value['notificationSettings']),
         'orgId': value['orgId'],
         'provenance': value['provenance'],
-        'record': RecordToJSON(value['record']),
         'rule_group': value['ruleGroup'],
         'title': value['title'],
         'uid': value['uid'],

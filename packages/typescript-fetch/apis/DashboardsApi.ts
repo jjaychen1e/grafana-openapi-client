@@ -24,7 +24,6 @@ import type {
   ImportDashboardRequest,
   ImportDashboardResponse,
   PostDashboard200Response,
-  RestoreDeletedDashboardCommand,
   SaveDashboardCommand,
 } from '../models/index';
 import {
@@ -46,8 +45,6 @@ import {
     ImportDashboardResponseToJSON,
     PostDashboard200ResponseFromJSON,
     PostDashboard200ResponseToJSON,
-    RestoreDeletedDashboardCommandFromJSON,
-    RestoreDeletedDashboardCommandToJSON,
     SaveDashboardCommandFromJSON,
     SaveDashboardCommandToJSON,
 } from '../models/index';
@@ -64,21 +61,12 @@ export interface DashboardsApiGetDashboardByUIDRequest {
     uid: string;
 }
 
-export interface DashboardsApiHardDeleteDashboardByUIDRequest {
-    uid: string;
-}
-
 export interface DashboardsApiImportDashboardOperationRequest {
     body: ImportDashboardRequest;
 }
 
 export interface DashboardsApiPostDashboardRequest {
     body: SaveDashboardCommand;
-}
-
-export interface DashboardsApiRestoreDeletedDashboardByUIDRequest {
-    uid: string;
-    body: RestoreDeletedDashboardCommand;
 }
 
 /**
@@ -280,48 +268,6 @@ export class DashboardsApi extends runtime.BaseAPI {
     }
 
     /**
-     * Will delete the dashboard given the specified unique identifier (uid).
-     * Hard delete dashboard by uid.
-     */
-    async hardDeleteDashboardByUIDRaw(requestParameters: DashboardsApiHardDeleteDashboardByUIDRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<DeleteDashboardByUID200Response>> {
-        if (requestParameters['uid'] == null) {
-            throw new runtime.RequiredError(
-                'uid',
-                'Required parameter "uid" was null or undefined when calling hardDeleteDashboardByUID().'
-            );
-        }
-
-        const queryParameters: any = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        if (this.configuration && this.configuration.apiKey) {
-            headerParameters["Authorization"] = await this.configuration.apiKey("Authorization"); // api_key authentication
-        }
-
-        if (this.configuration && (this.configuration.username !== undefined || this.configuration.password !== undefined)) {
-            headerParameters["Authorization"] = "Basic " + btoa(this.configuration.username + ":" + this.configuration.password);
-        }
-        const response = await this.request({
-            path: `/dashboards/uid/{uid}/trash`.replace(`{${"uid"}}`, encodeURIComponent(String(requestParameters['uid']))),
-            method: 'DELETE',
-            headers: headerParameters,
-            query: queryParameters,
-        }, initOverrides);
-
-        return new runtime.JSONApiResponse(response, (jsonValue) => DeleteDashboardByUID200ResponseFromJSON(jsonValue));
-    }
-
-    /**
-     * Will delete the dashboard given the specified unique identifier (uid).
-     * Hard delete dashboard by uid.
-     */
-    async hardDeleteDashboardByUID(requestParameters: DashboardsApiHardDeleteDashboardByUIDRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<DeleteDashboardByUID200Response> {
-        const response = await this.hardDeleteDashboardByUIDRaw(requestParameters, initOverrides);
-        return await response.value();
-    }
-
-    /**
      * Import dashboard.
      */
     async importDashboardRaw(requestParameters: DashboardsApiImportDashboardOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ImportDashboardResponse>> {
@@ -406,56 +352,6 @@ export class DashboardsApi extends runtime.BaseAPI {
      */
     async postDashboard(requestParameters: DashboardsApiPostDashboardRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<PostDashboard200Response> {
         const response = await this.postDashboardRaw(requestParameters, initOverrides);
-        return await response.value();
-    }
-
-    /**
-     * Restore a dashboard to a given dashboard version using UID.
-     */
-    async restoreDeletedDashboardByUIDRaw(requestParameters: DashboardsApiRestoreDeletedDashboardByUIDRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<PostDashboard200Response>> {
-        if (requestParameters['uid'] == null) {
-            throw new runtime.RequiredError(
-                'uid',
-                'Required parameter "uid" was null or undefined when calling restoreDeletedDashboardByUID().'
-            );
-        }
-
-        if (requestParameters['body'] == null) {
-            throw new runtime.RequiredError(
-                'body',
-                'Required parameter "body" was null or undefined when calling restoreDeletedDashboardByUID().'
-            );
-        }
-
-        const queryParameters: any = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        headerParameters['Content-Type'] = 'application/json';
-
-        if (this.configuration && this.configuration.apiKey) {
-            headerParameters["Authorization"] = await this.configuration.apiKey("Authorization"); // api_key authentication
-        }
-
-        if (this.configuration && (this.configuration.username !== undefined || this.configuration.password !== undefined)) {
-            headerParameters["Authorization"] = "Basic " + btoa(this.configuration.username + ":" + this.configuration.password);
-        }
-        const response = await this.request({
-            path: `/dashboards/uid/{uid}/trash`.replace(`{${"uid"}}`, encodeURIComponent(String(requestParameters['uid']))),
-            method: 'PATCH',
-            headers: headerParameters,
-            query: queryParameters,
-            body: RestoreDeletedDashboardCommandToJSON(requestParameters['body']),
-        }, initOverrides);
-
-        return new runtime.JSONApiResponse(response, (jsonValue) => PostDashboard200ResponseFromJSON(jsonValue));
-    }
-
-    /**
-     * Restore a dashboard to a given dashboard version using UID.
-     */
-    async restoreDeletedDashboardByUID(requestParameters: DashboardsApiRestoreDeletedDashboardByUIDRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<PostDashboard200Response> {
-        const response = await this.restoreDeletedDashboardByUIDRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

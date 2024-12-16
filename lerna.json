@@ -3,6 +3,8 @@
   "version": "independent",
   "npmClient": "npm",
   "packages": ["packages/*"],
+  "changelog": false,
+  "push": false,
   "command": {
     "publish": {
       "conventionalCommits": true,

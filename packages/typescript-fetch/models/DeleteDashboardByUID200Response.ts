@@ -20,6 +20,12 @@ import { mapValues } from '../runtime';
  */
 export interface DeleteDashboardByUID200Response {
     /**
+     * ID Identifier of the deleted dashboard.
+     * @type {number}
+     * @memberof DeleteDashboardByUID200Response
+     */
+    id: number;
+    /**
      * Message Message of the deleted dashboard.
      * @type {string}
      * @memberof DeleteDashboardByUID200Response
@@ -31,21 +37,15 @@ export interface DeleteDashboardByUID200Response {
      * @memberof DeleteDashboardByUID200Response
      */
     title: string;
-    /**
-     * UID Identifier of the deleted dashboard.
-     * @type {string}
-     * @memberof DeleteDashboardByUID200Response
-     */
-    uid: string;
 }
 
 /**
  * Check if a given object implements the DeleteDashboardByUID200Response interface.
  */
 export function instanceOfDeleteDashboardByUID200Response(value: object): value is DeleteDashboardByUID200Response {
+    if (!('id' in value) || value['id'] === undefined) return false;
     if (!('message' in value) || value['message'] === undefined) return false;
     if (!('title' in value) || value['title'] === undefined) return false;
-    if (!('uid' in value) || value['uid'] === undefined) return false;
     return true;
 }
 
@@ -59,9 +59,9 @@ export function DeleteDashboardByUID200ResponseFromJSONTyped(json: any, ignoreDi
     }
     return {
         
+        'id': json['id'],
         'message': json['message'],
         'title': json['title'],
-        'uid': json['uid'],
     };
 }
 
@@ -76,9 +76,9 @@ export function DeleteDashboardByUID200ResponseToJSONTyped(value?: DeleteDashboa
 
     return {
         
+        'id': value['id'],
         'message': value['message'],
         'title': value['title'],
-        'uid': value['uid'],
     };
 }
 

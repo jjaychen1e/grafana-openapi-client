@@ -103,7 +103,6 @@ export interface AccessControlApiGetRoleAssignmentsRequest {
 
 export interface AccessControlApiListRolesRequest {
     delegatable?: boolean;
-    includeHidden?: boolean;
 }
 
 export interface AccessControlApiListTeamRolesRequest {
@@ -552,7 +551,7 @@ export class AccessControlApi extends runtime.BaseAPI {
     }
 
     /**
-     * Get role assignments for the role with the given UID. Does not include role assignments mapped through group attribute sync.  You need to have a permission with action `teams.roles:list` and scope `teams:id:*` and `users.roles:list` and scope `users:id:*`.
+     * Get role assignments for the role with the given UID.  You need to have a permission with action `teams.roles:list` and scope `teams:id:*` and `users.roles:list` and scope `users:id:*`.
      * Get role assignments.
      */
     async getRoleAssignmentsRaw(requestParameters: AccessControlApiGetRoleAssignmentsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<RoleAssignmentsDTO>> {
@@ -585,7 +584,7 @@ export class AccessControlApi extends runtime.BaseAPI {
     }
 
     /**
-     * Get role assignments for the role with the given UID. Does not include role assignments mapped through group attribute sync.  You need to have a permission with action `teams.roles:list` and scope `teams:id:*` and `users.roles:list` and scope `users:id:*`.
+     * Get role assignments for the role with the given UID.  You need to have a permission with action `teams.roles:list` and scope `teams:id:*` and `users.roles:list` and scope `users:id:*`.
      * Get role assignments.
      */
     async getRoleAssignments(requestParameters: AccessControlApiGetRoleAssignmentsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<RoleAssignmentsDTO> {
@@ -594,7 +593,7 @@ export class AccessControlApi extends runtime.BaseAPI {
     }
 
     /**
-     * Gets all existing roles. The response contains all global and organization local roles, for the organization which user is signed in.  You need to have a permission with action `roles:read` and scope `roles:*`.  The `delegatable` flag reduces the set of roles to only those for which the signed-in user has permissions to assign.
+     * Gets all existing roles. The response contains all global and organization local roles, for the organization which user is signed in.  You need to have a permission with action `roles:read` and scope `roles:*`.
      * Get all roles.
      */
     async listRolesRaw(requestParameters: AccessControlApiListRolesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<RoleDTO>>> {
@@ -602,10 +601,6 @@ export class AccessControlApi extends runtime.BaseAPI {
 
         if (requestParameters['delegatable'] != null) {
             queryParameters['delegatable'] = requestParameters['delegatable'];
-        }
-
-        if (requestParameters['includeHidden'] != null) {
-            queryParameters['includeHidden'] = requestParameters['includeHidden'];
         }
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -628,7 +623,7 @@ export class AccessControlApi extends runtime.BaseAPI {
     }
 
     /**
-     * Gets all existing roles. The response contains all global and organization local roles, for the organization which user is signed in.  You need to have a permission with action `roles:read` and scope `roles:*`.  The `delegatable` flag reduces the set of roles to only those for which the signed-in user has permissions to assign.
+     * Gets all existing roles. The response contains all global and organization local roles, for the organization which user is signed in.  You need to have a permission with action `roles:read` and scope `roles:*`.
      * Get all roles.
      */
     async listRoles(requestParameters: AccessControlApiListRolesRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<RoleDTO>> {
@@ -1264,7 +1259,7 @@ export class AccessControlApi extends runtime.BaseAPI {
     }
 
     /**
-     * Update the user’s role assignments to match the provided set of UIDs. This will remove any assigned roles that aren’t in the request and add roles that are in the set but are not already assigned to the user. Roles mapped through group attribute sync are not impacted. If you want to add or remove a single role, consider using Add a user role assignment or Remove a user role assignment instead.  You need to have a permission with action `users.roles:add` and `users.roles:remove` and scope `permissions:type:delegate` for each. `permissions:type:delegate`  scope ensures that users can only assign or unassign roles which have same, or a subset of permissions which the user has. For example, if a user does not have required permissions for creating users, they won’t be able to assign or unassign a role which will allow to do that. This is done to prevent escalation of privileges.
+     * Update the user’s role assignments to match the provided set of UIDs. This will remove any assigned roles that aren’t in the request and add roles that are in the set but are not already assigned to the user. If you want to add or remove a single role, consider using Add a user role assignment or Remove a user role assignment instead.  You need to have a permission with action `users.roles:add` and `users.roles:remove` and scope `permissions:type:delegate` for each. `permissions:type:delegate`  scope ensures that users can only assign or unassign roles which have same, or a subset of permissions which the user has. For example, if a user does not have required permissions for creating users, they won’t be able to assign or unassign a role which will allow to do that. This is done to prevent escalation of privileges.
      * Set user role assignments.
      */
     async setUserRolesRaw(requestParameters: AccessControlApiSetUserRolesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SuccessResponseBody>> {
@@ -1307,7 +1302,7 @@ export class AccessControlApi extends runtime.BaseAPI {
     }
 
     /**
-     * Update the user’s role assignments to match the provided set of UIDs. This will remove any assigned roles that aren’t in the request and add roles that are in the set but are not already assigned to the user. Roles mapped through group attribute sync are not impacted. If you want to add or remove a single role, consider using Add a user role assignment or Remove a user role assignment instead.  You need to have a permission with action `users.roles:add` and `users.roles:remove` and scope `permissions:type:delegate` for each. `permissions:type:delegate`  scope ensures that users can only assign or unassign roles which have same, or a subset of permissions which the user has. For example, if a user does not have required permissions for creating users, they won’t be able to assign or unassign a role which will allow to do that. This is done to prevent escalation of privileges.
+     * Update the user’s role assignments to match the provided set of UIDs. This will remove any assigned roles that aren’t in the request and add roles that are in the set but are not already assigned to the user. If you want to add or remove a single role, consider using Add a user role assignment or Remove a user role assignment instead.  You need to have a permission with action `users.roles:add` and `users.roles:remove` and scope `permissions:type:delegate` for each. `permissions:type:delegate`  scope ensures that users can only assign or unassign roles which have same, or a subset of permissions which the user has. For example, if a user does not have required permissions for creating users, they won’t be able to assign or unassign a role which will allow to do that. This is done to prevent escalation of privileges.
      * Set user role assignments.
      */
     async setUserRoles(requestParameters: AccessControlApiSetUserRolesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SuccessResponseBody> {

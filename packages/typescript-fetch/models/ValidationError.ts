@@ -24,7 +24,7 @@ export interface ValidationError {
      * @type {string}
      * @memberof ValidationError
      */
-    message?: string;
+    msg?: string;
 }
 
 /**
@@ -44,7 +44,7 @@ export function ValidationErrorFromJSONTyped(json: any, ignoreDiscriminator: boo
     }
     return {
         
-        'message': json['message'] == null ? undefined : json['message'],
+        'msg': json['msg'] == null ? undefined : json['msg'],
     };
 }
 
@@ -59,7 +59,7 @@ export function ValidationErrorToJSONTyped(value?: ValidationError | null, ignor
 
     return {
         
-        'message': value['message'],
+        'msg': value['msg'],
     };
 }
 

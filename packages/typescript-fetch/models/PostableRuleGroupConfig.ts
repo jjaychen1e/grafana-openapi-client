@@ -28,18 +28,6 @@ import {
  */
 export interface PostableRuleGroupConfig {
     /**
-     * 
-     * @type {boolean}
-     * @memberof PostableRuleGroupConfig
-     */
-    alignEvaluationTimeOnInterval?: boolean;
-    /**
-     * 
-     * @type {string}
-     * @memberof PostableRuleGroupConfig
-     */
-    evaluationDelay?: string;
-    /**
      * A Duration represents the elapsed time between two instants
      * as an int64 nanosecond count. The representation limits the
      * largest representable duration to approximately 290 years.
@@ -49,34 +37,16 @@ export interface PostableRuleGroupConfig {
     interval?: number;
     /**
      * 
-     * @type {number}
-     * @memberof PostableRuleGroupConfig
-     */
-    limit?: number;
-    /**
-     * 
      * @type {string}
      * @memberof PostableRuleGroupConfig
      */
     name?: string;
     /**
      * 
-     * @type {string}
-     * @memberof PostableRuleGroupConfig
-     */
-    queryOffset?: string;
-    /**
-     * 
      * @type {Array<PostableExtendedRuleNode>}
      * @memberof PostableRuleGroupConfig
      */
     rules?: Array<PostableExtendedRuleNode>;
-    /**
-     * 
-     * @type {Array<string>}
-     * @memberof PostableRuleGroupConfig
-     */
-    sourceTenants?: Array<string>;
 }
 
 /**
@@ -96,14 +66,9 @@ export function PostableRuleGroupConfigFromJSONTyped(json: any, ignoreDiscrimina
     }
     return {
         
-        'alignEvaluationTimeOnInterval': json['align_evaluation_time_on_interval'] == null ? undefined : json['align_evaluation_time_on_interval'],
-        'evaluationDelay': json['evaluation_delay'] == null ? undefined : json['evaluation_delay'],
         'interval': json['interval'] == null ? undefined : json['interval'],
-        'limit': json['limit'] == null ? undefined : json['limit'],
         'name': json['name'] == null ? undefined : json['name'],
-        'queryOffset': json['query_offset'] == null ? undefined : json['query_offset'],
         'rules': json['rules'] == null ? undefined : ((json['rules'] as Array<any>).map(PostableExtendedRuleNodeFromJSON)),
-        'sourceTenants': json['source_tenants'] == null ? undefined : json['source_tenants'],
     };
 }
 
@@ -118,14 +83,9 @@ export function PostableRuleGroupConfigToJSONTyped(value?: PostableRuleGroupConf
 
     return {
         
-        'align_evaluation_time_on_interval': value['alignEvaluationTimeOnInterval'],
-        'evaluation_delay': value['evaluationDelay'],
         'interval': value['interval'],
-        'limit': value['limit'],
         'name': value['name'],
-        'query_offset': value['queryOffset'],
         'rules': value['rules'] == null ? undefined : ((value['rules'] as Array<any>).map(PostableExtendedRuleNodeToJSON)),
-        'source_tenants': value['sourceTenants'],
     };
 }
 

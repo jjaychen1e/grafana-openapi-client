@@ -29,7 +29,7 @@ import {
 } from './Matcher';
 
 /**
- * GettableSilence gettable silence
+ * 
  * @export
  * @interface GettableSilence
  */

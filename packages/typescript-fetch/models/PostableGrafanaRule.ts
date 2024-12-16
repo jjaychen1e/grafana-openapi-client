@@ -27,20 +27,6 @@ import {
     AlertRuleNotificationSettingsToJSON,
     AlertRuleNotificationSettingsToJSONTyped,
 } from './AlertRuleNotificationSettings';
-import type { AlertRuleMetadata } from './AlertRuleMetadata';
-import {
-    AlertRuleMetadataFromJSON,
-    AlertRuleMetadataFromJSONTyped,
-    AlertRuleMetadataToJSON,
-    AlertRuleMetadataToJSONTyped,
-} from './AlertRuleMetadata';
-import type { Record } from './Record';
-import {
-    RecordFromJSON,
-    RecordFromJSONTyped,
-    RecordToJSON,
-    RecordToJSONTyped,
-} from './Record';
 
 /**
  * 
@@ -74,12 +60,6 @@ export interface PostableGrafanaRule {
     isPaused?: boolean;
     /**
      * 
-     * @type {AlertRuleMetadata}
-     * @memberof PostableGrafanaRule
-     */
-    metadata?: AlertRuleMetadata;
-    /**
-     * 
      * @type {string}
      * @memberof PostableGrafanaRule
      */
@@ -90,12 +70,6 @@ export interface PostableGrafanaRule {
      * @memberof PostableGrafanaRule
      */
     notificationSettings?: AlertRuleNotificationSettings;
-    /**
-     * 
-     * @type {Record}
-     * @memberof PostableGrafanaRule
-     */
-    record?: Record;
     /**
      * 
      * @type {string}
@@ -153,10 +127,8 @@ export function PostableGrafanaRuleFromJSONTyped(json: any, ignoreDiscriminator:
         'data': json['data'] == null ? undefined : ((json['data'] as Array<any>).map(AlertQueryFromJSON)),
         'execErrState': json['exec_err_state'] == null ? undefined : json['exec_err_state'],
         'isPaused': json['is_paused'] == null ? undefined : json['is_paused'],
-        'metadata': json['metadata'] == null ? undefined : AlertRuleMetadataFromJSON(json['metadata']),
         'noDataState': json['no_data_state'] == null ? undefined : json['no_data_state'],
         'notificationSettings': json['notification_settings'] == null ? undefined : AlertRuleNotificationSettingsFromJSON(json['notification_settings']),
-        'record': json['record'] == null ? undefined : RecordFromJSON(json['record']),
         'title': json['title'] == null ? undefined : json['title'],
         'uid': json['uid'] == null ? undefined : json['uid'],
     };
@@ -177,10 +149,8 @@ export function PostableGrafanaRuleToJSONTyped(value?: PostableGrafanaRule | nul
         'data': value['data'] == null ? undefined : ((value['data'] as Array<any>).map(AlertQueryToJSON)),
         'exec_err_state': value['execErrState'],
         'is_paused': value['isPaused'],
-        'metadata': AlertRuleMetadataToJSON(value['metadata']),
         'no_data_state': value['noDataState'],
         'notification_settings': AlertRuleNotificationSettingsToJSON(value['notificationSettings']),
-        'record': RecordToJSON(value['record']),
         'title': value['title'],
         'uid': value['uid'],
     };

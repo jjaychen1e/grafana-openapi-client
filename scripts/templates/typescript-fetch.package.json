@@ -1,6 +1,6 @@
 {
   "name": "@grafana-openapi-client/fetch",
-  "version": "11.0.0",
+  "version": "1.0.0",
   "description": "Generated Grafana OpenAPI client using typescript-fetch",
   "repository": {
     "type": "git",
@@ -11,11 +11,7 @@
   "bugs": {
     "url": "https://github.com/jjaychen1e/grafana-openapi-client/issues"
   },
-  "keywords": [
-    "grafana",
-    "typescript",
-    "fetch"
-  ],
+  "keywords": ["grafana", "typescript", "fetch"],
   "author": "jjaychen1e <jjaychen1e@gmail.com>",
   "license": "MIT",
   "main": "dist/index.js",
@@ -24,9 +20,7 @@
   "scripts": {
     "build": "tsup"
   },
-  "files": [
-    "dist"
-  ],
+  "files": ["dist"],
   "publishConfig": {
     "access": "public"
   },
