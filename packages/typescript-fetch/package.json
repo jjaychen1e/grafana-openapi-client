@@ -1,0 +1,21 @@
+{
+  "name": "@grafana-openapi-client/fetch",
+  "version": "11.3.2",
+  "description": "Generated Grafana OpenAPI client using typescript-fetch",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsup"
+  },
+  "files": [
+    "dist"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "devDependencies": {
+    "tsup": "^8.3.5",
+    "typescript": "^5.7.2"
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "name": "grafana-openapi-client",
+  "version": "1.0.0",
+  "description": "Grafana OpenAPI Client for JavaScript and TypeScript",
+  "main": "index.js",
+  "author": "Junjie Chen <jjaychen1e@gmail.com>",
+  "license": "MIT",
+  "workspaces": [
+    "packages/*"
+  ],
+  "private": true,
+  "devDependencies": {
+    "typescript": "^5.7.2",
+    "@openapitools/openapi-generator-cli": "^2.15.3",
+    "lerna": "^8.1.9"
+  },
+  "scripts": {
+    "generate": "./openapi/generate.sh",
+    "build": "lerna run build",
+    "publish": "lerna publish"
+  }
+}
