@@ -1,6 +1,6 @@
 {
   "name": "@grafana-openapi-client/axios",
-  "version": "1.0.0",
+  "version": "10.4.0-pre",
   "description": "Generated Grafana OpenAPI client using typescript-axios",
   "repository": {
     "type": "git",
@@ -11,7 +11,11 @@
   "bugs": {
     "url": "https://github.com/jjaychen1e/grafana-openapi-client/issues"
   },
-  "keywords": ["grafana", "typescript", "axios"],
+  "keywords": [
+    "grafana",
+    "typescript",
+    "axios"
+  ],
   "author": "jjaychen1e <jjaychen1e@gmail.com>",
   "license": "MIT",
   "main": "dist/index.js",
@@ -20,7 +24,9 @@
   "scripts": {
     "build": "tsup"
   },
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "publishConfig": {
     "access": "public"
   },
