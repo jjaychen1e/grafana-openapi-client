@@ -117,9 +117,9 @@ for pkg in typescript-fetch typescript-axios; do
   tarball_name="${pkg}-${PACKAGE_VERSION}.tgz"
 
   # Retry logic for npm pack
-  max_attempts=5
+  max_attempts=100
   attempt=1
-  sleep_time=5
+  sleep_time=10
   sleep $sleep_time
   while [ $attempt -le $max_attempts ]; do
     if npm pack "@grafana-openapi-client/${pkg}@${PACKAGE_VERSION}" \

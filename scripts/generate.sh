@@ -37,7 +37,7 @@ API_SPEC=$(curl -sf "$GITHUB_URL") || {
   exit 1
 }
 
-PROCESSED_SPEC=$(echo "$API_SPEC" | jq 'del(.definitions.SecretURL.title)') || {
+PROCESSED_SPEC=$(echo "$API_SPEC" | jq 'del(.definitions.SecretURL.title, .definitions.ObjectMatchers.description)') || {
   echo "Failed to process API spec"
   exit 1
 }
