@@ -7,7 +7,7 @@
     "url": "git+https://github.com/jjaychen1e/grafana-openapi-client.git",
     "directory": "packages/typescript-fetch"
   },
-  "homepage": "https://github.com/jjaychen1e/grafana-openapi-client/tree/main/packages/typescript-fetch#readme",
+  "homepage": "https://github.com/jjaychen1e/grafana-openapi-client/",
   "bugs": {
     "url": "https://github.com/jjaychen1e/grafana-openapi-client/issues"
   },

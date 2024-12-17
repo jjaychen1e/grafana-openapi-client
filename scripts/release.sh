@@ -100,7 +100,7 @@ yarn build || cleanupOnError "Failed to build packages"
 # Step 4: Git add and commit the changes
 echo "Committing changes..."
 git add .
-git commit -m "chore: generated clients for ${GRAFANA_VERSION}" || cleanupOnError "Failed to commit changes"
+git commit -m "chore: generate clients for ${GRAFANA_VERSION}" || cleanupOnError "Failed to commit changes"
 
 # Step 5: Publish packages with explicit version
 echo "Publishing packages..."
