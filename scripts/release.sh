@@ -53,6 +53,7 @@ cleanupGit() {
     git branch -D "release/${PACKAGE_VERSION}"
     git push origin --delete "release/${PACKAGE_VERSION}" || echo "Warning: Failed to delete remote branch"
   fi
+  git clean -fd
 }
 
 cleanupOnError() {
@@ -111,40 +112,28 @@ npx lerna publish ${PACKAGE_VERSION} \
 
 # Create separate GitHub releases for each package
 echo "Creating GitHub releases..."
-for pkg in typescript-fetch typescript-axios; do
-  echo "Downloading @grafana-openapi-client/${pkg}@${PACKAGE_VERSION}..."
+npm pack --ws || cleanupOnError "Failed to create tarballs"
 
-  tarball_name="${pkg}-${PACKAGE_VERSION}.tgz"
+for pkg in fetch axios; do
+  tarball_name="grafana-openapi-client-${pkg}-${PACKAGE_VERSION}.tgz"
 
-  # Retry logic for npm pack
-  max_attempts=100
-  attempt=1
-  sleep_time=10
-  sleep $sleep_time
-  while [ $attempt -le $max_attempts ]; do
-    if npm pack "@grafana-openapi-client/${pkg}@${PACKAGE_VERSION}" \
-      --pack-destination . \
-      --filename "${tarball_name}"; then
-      echo "Package downloaded successfully"
-      break
-    else
-      if [ $attempt -eq $max_attempts ]; then
-        cleanupOnError "Failed to download package after $max_attempts attempts"
-      fi
-      echo "Download ${attempt}/${max_attempts} failed. Waiting before retry..."
-      sleep $sleep_time
-      ((attempt++))
-    fi
-  done
+  echo "Creating GitHub release for ${pkg}..."
 
-  gh release create "${pkg}-v${PACKAGE_VERSION}" \
-    --title "${pkg} v${PACKAGE_VERSION}" \
-    --notes "Generated from Grafana v${GRAFANA_VERSION}" \
+  gh release create "@grafana-openapi-client/${pkg}@${PACKAGE_VERSION}" \
+    --title "@grafana-openapi-client/${pkg}@${PACKAGE_VERSION}" \
+    --notes "Generated from Grafana v${GRAFANA_VERSION}
+
+This package is auto-generated using [OpenAPI Generator](https://openapi-generator.tech/) from Grafana's OpenAPI specification.
+
+📦 NPM Registry: https://www.npmjs.com/package/@grafana-openapi-client/${pkg}/v/${PACKAGE_VERSION}
+
+For usage instructions, please refer to the package README." \
     "${tarball_name}" || cleanupOnError "Failed to create GitHub release for ${pkg}"
 
-  # Clean up the downloaded tarball
   rm "${tarball_name}"
 done
+
+SHOULD_CLEANUP_BRANCH=false
 
 cleanupGit
 
