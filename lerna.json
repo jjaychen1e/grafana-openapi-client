@@ -3,12 +3,14 @@
   "version": "independent",
   "npmClient": "npm",
   "packages": ["packages/*"],
-  "changelog": false,
-  "push": false,
+  "changelog": true,
+  "push": true,
   "command": {
     "publish": {
       "conventionalCommits": true,
-      "yes": true
+      "yes": true,
+      "createRelease": "github",
+      "message": "chore(release): publish %s"
     }
   }
 }
