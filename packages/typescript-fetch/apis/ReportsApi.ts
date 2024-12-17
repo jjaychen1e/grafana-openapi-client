@@ -15,7 +15,7 @@
 
 import * as runtime from '../runtime';
 import type {
-  CreateOrUpdateReportConfig,
+  CreateOrUpdateReport,
   CreateReport200Response,
   ErrorResponseBody,
   Report,
@@ -24,8 +24,8 @@ import type {
   SuccessResponseBody,
 } from '../models/index';
 import {
-    CreateOrUpdateReportConfigFromJSON,
-    CreateOrUpdateReportConfigToJSON,
+    CreateOrUpdateReportFromJSON,
+    CreateOrUpdateReportToJSON,
     CreateReport200ResponseFromJSON,
     CreateReport200ResponseToJSON,
     ErrorResponseBodyFromJSON,
@@ -41,7 +41,7 @@ import {
 } from '../models/index';
 
 export interface ReportsApiCreateReportRequest {
-    body: CreateOrUpdateReportConfig;
+    body: CreateOrUpdateReport;
 }
 
 export interface ReportsApiDeleteReportRequest {
@@ -52,8 +52,13 @@ export interface ReportsApiGetReportRequest {
     id: number;
 }
 
+export interface ReportsApiRenderReportCSVsRequest {
+    dashboards?: string;
+    title?: string;
+}
+
 export interface ReportsApiRenderReportPDFsRequest {
-    dashboardID?: string;
+    dashboards?: string;
     orientation?: string;
     layout?: string;
     title?: string;
@@ -70,12 +75,12 @@ export interface ReportsApiSendReportRequest {
 }
 
 export interface ReportsApiSendTestEmailRequest {
-    body: CreateOrUpdateReportConfig;
+    body: CreateOrUpdateReport;
 }
 
 export interface ReportsApiUpdateReportRequest {
     id: number;
-    body: CreateOrUpdateReportConfig;
+    body: CreateOrUpdateReport;
 }
 
 /**
@@ -113,7 +118,7 @@ export class ReportsApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: CreateOrUpdateReportConfigToJSON(requestParameters['body']),
+            body: CreateOrUpdateReportToJSON(requestParameters['body']),
         }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => CreateReport200ResponseFromJSON(jsonValue));
@@ -214,7 +219,7 @@ export class ReportsApi extends runtime.BaseAPI {
 
     /**
      * Available to org admins only and with a valid or expired license.  You need to have a permission with action `reports.settings:read`x.
-     * Get settings.
+     * Get report settings.
      */
     async getReportSettingsRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ReportSettings>> {
         const queryParameters: any = {};
@@ -240,7 +245,7 @@ export class ReportsApi extends runtime.BaseAPI {
 
     /**
      * Available to org admins only and with a valid or expired license.  You need to have a permission with action `reports.settings:read`x.
-     * Get settings.
+     * Get report settings.
      */
     async getReportSettings(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ReportSettings> {
         const response = await this.getReportSettingsRaw(initOverrides);
@@ -283,14 +288,92 @@ export class ReportsApi extends runtime.BaseAPI {
     }
 
     /**
+     * Available to org admins only and with a valid or expired license.  You need to have a permission with action `reports.settings:read`.
+     * Get custom branding report image.
+     */
+    async getSettingsImageRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<number>>> {
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["Authorization"] = await this.configuration.apiKey("Authorization"); // api_key authentication
+        }
+
+        if (this.configuration && (this.configuration.username !== undefined || this.configuration.password !== undefined)) {
+            headerParameters["Authorization"] = "Basic " + btoa(this.configuration.username + ":" + this.configuration.password);
+        }
+        const response = await this.request({
+            path: `/reports/images/:image`,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse<any>(response);
+    }
+
+    /**
+     * Available to org admins only and with a valid or expired license.  You need to have a permission with action `reports.settings:read`.
+     * Get custom branding report image.
+     */
+    async getSettingsImage(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<number>> {
+        const response = await this.getSettingsImageRaw(initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Available to all users and with a valid license.
+     * Download a CSV report.
+     */
+    async renderReportCSVsRaw(requestParameters: ReportsApiRenderReportCSVsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<number>>> {
+        const queryParameters: any = {};
+
+        if (requestParameters['dashboards'] != null) {
+            queryParameters['dashboards'] = requestParameters['dashboards'];
+        }
+
+        if (requestParameters['title'] != null) {
+            queryParameters['title'] = requestParameters['title'];
+        }
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["Authorization"] = await this.configuration.apiKey("Authorization"); // api_key authentication
+        }
+
+        if (this.configuration && (this.configuration.username !== undefined || this.configuration.password !== undefined)) {
+            headerParameters["Authorization"] = "Basic " + btoa(this.configuration.username + ":" + this.configuration.password);
+        }
+        const response = await this.request({
+            path: `/reports/render/csvs`,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse<any>(response);
+    }
+
+    /**
+     * Available to all users and with a valid license.
+     * Download a CSV report.
+     */
+    async renderReportCSVs(requestParameters: ReportsApiRenderReportCSVsRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<number>> {
+        const response = await this.renderReportCSVsRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
      * Available to all users and with a valid license.
      * Render report for multiple dashboards.
      */
     async renderReportPDFsRaw(requestParameters: ReportsApiRenderReportPDFsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<number>>> {
         const queryParameters: any = {};
 
-        if (requestParameters['dashboardID'] != null) {
-            queryParameters['dashboardID'] = requestParameters['dashboardID'];
+        if (requestParameters['dashboards'] != null) {
+            queryParameters['dashboards'] = requestParameters['dashboards'];
         }
 
         if (requestParameters['orientation'] != null) {
@@ -461,7 +544,7 @@ export class ReportsApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: CreateOrUpdateReportConfigToJSON(requestParameters['body']),
+            body: CreateOrUpdateReportToJSON(requestParameters['body']),
         }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => SuccessResponseBodyFromJSON(jsonValue));
@@ -513,7 +596,7 @@ export class ReportsApi extends runtime.BaseAPI {
             method: 'PUT',
             headers: headerParameters,
             query: queryParameters,
-            body: CreateOrUpdateReportConfigToJSON(requestParameters['body']),
+            body: CreateOrUpdateReportToJSON(requestParameters['body']),
         }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => SuccessResponseBodyFromJSON(jsonValue));

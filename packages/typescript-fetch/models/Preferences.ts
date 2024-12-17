@@ -13,6 +13,13 @@
  */
 
 import { mapValues } from '../runtime';
+import type { NavbarPreference } from './NavbarPreference';
+import {
+    NavbarPreferenceFromJSON,
+    NavbarPreferenceFromJSONTyped,
+    NavbarPreferenceToJSON,
+    NavbarPreferenceToJSONTyped,
+} from './NavbarPreference';
 import type { QueryHistoryPreference } from './QueryHistoryPreference';
 import {
     QueryHistoryPreferenceFromJSON,
@@ -52,6 +59,12 @@ export interface Preferences {
      * @memberof Preferences
      */
     language?: string;
+    /**
+     * 
+     * @type {NavbarPreference}
+     * @memberof Preferences
+     */
+    navbar?: NavbarPreference;
     /**
      * 
      * @type {QueryHistoryPreference}
@@ -99,6 +112,7 @@ export function PreferencesFromJSONTyped(json: any, ignoreDiscriminator: boolean
         'cookiePreferences': json['cookiePreferences'] == null ? undefined : CookiePreferencesFromJSON(json['cookiePreferences']),
         'homeDashboardUID': json['homeDashboardUID'] == null ? undefined : json['homeDashboardUID'],
         'language': json['language'] == null ? undefined : json['language'],
+        'navbar': json['navbar'] == null ? undefined : NavbarPreferenceFromJSON(json['navbar']),
         'queryHistory': json['queryHistory'] == null ? undefined : QueryHistoryPreferenceFromJSON(json['queryHistory']),
         'theme': json['theme'] == null ? undefined : json['theme'],
         'timezone': json['timezone'] == null ? undefined : json['timezone'],
@@ -120,6 +134,7 @@ export function PreferencesToJSONTyped(value?: Preferences | null, ignoreDiscrim
         'cookiePreferences': CookiePreferencesToJSON(value['cookiePreferences']),
         'homeDashboardUID': value['homeDashboardUID'],
         'language': value['language'],
+        'navbar': NavbarPreferenceToJSON(value['navbar']),
         'queryHistory': QueryHistoryPreferenceToJSON(value['queryHistory']),
         'theme': value['theme'],
         'timezone': value['timezone'],

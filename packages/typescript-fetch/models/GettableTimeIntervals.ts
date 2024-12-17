@@ -45,6 +45,12 @@ export interface GettableTimeIntervals {
      * @memberof GettableTimeIntervals
      */
     timeIntervals?: Array<TimeIntervalItem>;
+    /**
+     * 
+     * @type {string}
+     * @memberof GettableTimeIntervals
+     */
+    version?: string;
 }
 
 /**
@@ -67,6 +73,7 @@ export function GettableTimeIntervalsFromJSONTyped(json: any, ignoreDiscriminato
         'name': json['name'] == null ? undefined : json['name'],
         'provenance': json['provenance'] == null ? undefined : json['provenance'],
         'timeIntervals': json['time_intervals'] == null ? undefined : ((json['time_intervals'] as Array<any>).map(TimeIntervalItemFromJSON)),
+        'version': json['version'] == null ? undefined : json['version'],
     };
 }
 
@@ -84,6 +91,7 @@ export function GettableTimeIntervalsToJSONTyped(value?: GettableTimeIntervals |
         'name': value['name'],
         'provenance': value['provenance'],
         'time_intervals': value['timeIntervals'] == null ? undefined : ((value['timeIntervals'] as Array<any>).map(TimeIntervalItemToJSON)),
+        'version': value['version'],
     };
 }
 

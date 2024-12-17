@@ -13,6 +13,13 @@
  */
 
 import { mapValues } from '../runtime';
+import type { AlertRuleRecordExport } from './AlertRuleRecordExport';
+import {
+    AlertRuleRecordExportFromJSON,
+    AlertRuleRecordExportFromJSONTyped,
+    AlertRuleRecordExportToJSON,
+    AlertRuleRecordExportToJSONTyped,
+} from './AlertRuleRecordExport';
 import type { AlertQueryExport } from './AlertQueryExport';
 import {
     AlertQueryExportFromJSON,
@@ -51,7 +58,7 @@ export interface AlertRuleExport {
      * @type {string}
      * @memberof AlertRuleExport
      */
-    dasboardUid?: string;
+    dashboardUid?: string;
     /**
      * 
      * @type {Array<AlertQueryExport>}
@@ -102,6 +109,12 @@ export interface AlertRuleExport {
      * @memberof AlertRuleExport
      */
     panelId?: number;
+    /**
+     * 
+     * @type {AlertRuleRecordExport}
+     * @memberof AlertRuleExport
+     */
+    record?: AlertRuleRecordExport;
     /**
      * 
      * @type {string}
@@ -157,7 +170,7 @@ export function AlertRuleExportFromJSONTyped(json: any, ignoreDiscriminator: boo
         
         'annotations': json['annotations'] == null ? undefined : json['annotations'],
         'condition': json['condition'] == null ? undefined : json['condition'],
-        'dasboardUid': json['dasboardUid'] == null ? undefined : json['dasboardUid'],
+        'dashboardUid': json['dashboardUid'] == null ? undefined : json['dashboardUid'],
         'data': json['data'] == null ? undefined : ((json['data'] as Array<any>).map(AlertQueryExportFromJSON)),
         'execErrState': json['execErrState'] == null ? undefined : json['execErrState'],
         '_for': json['for'] == null ? undefined : json['for'],
@@ -166,6 +179,7 @@ export function AlertRuleExportFromJSONTyped(json: any, ignoreDiscriminator: boo
         'noDataState': json['noDataState'] == null ? undefined : json['noDataState'],
         'notificationSettings': json['notification_settings'] == null ? undefined : AlertRuleNotificationSettingsExportFromJSON(json['notification_settings']),
         'panelId': json['panelId'] == null ? undefined : json['panelId'],
+        'record': json['record'] == null ? undefined : AlertRuleRecordExportFromJSON(json['record']),
         'title': json['title'] == null ? undefined : json['title'],
         'uid': json['uid'] == null ? undefined : json['uid'],
     };
@@ -184,7 +198,7 @@ export function AlertRuleExportToJSONTyped(value?: AlertRuleExport | null, ignor
         
         'annotations': value['annotations'],
         'condition': value['condition'],
-        'dasboardUid': value['dasboardUid'],
+        'dashboardUid': value['dashboardUid'],
         'data': value['data'] == null ? undefined : ((value['data'] as Array<any>).map(AlertQueryExportToJSON)),
         'execErrState': value['execErrState'],
         'for': value['_for'],
@@ -193,6 +207,7 @@ export function AlertRuleExportToJSONTyped(value?: AlertRuleExport | null, ignor
         'noDataState': value['noDataState'],
         'notification_settings': AlertRuleNotificationSettingsExportToJSON(value['notificationSettings']),
         'panelId': value['panelId'],
+        'record': AlertRuleRecordExportToJSON(value['record']),
         'title': value['title'],
         'uid': value['uid'],
     };

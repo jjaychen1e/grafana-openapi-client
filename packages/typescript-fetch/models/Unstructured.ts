@@ -23,10 +23,10 @@ export interface Unstructured {
     /**
      * Object is a JSON compatible map with string, float, int, bool, []interface{},
      * or map[string]interface{} children.
-     * @type {object}
+     * @type {{ [key: string]: object; }}
      * @memberof Unstructured
      */
-    object?: object;
+    object?: { [key: string]: object; };
 }
 
 /**

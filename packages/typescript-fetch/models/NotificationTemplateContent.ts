@@ -25,6 +25,12 @@ export interface NotificationTemplateContent {
      * @memberof NotificationTemplateContent
      */
     template?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof NotificationTemplateContent
+     */
+    version?: string;
 }
 
 /**
@@ -45,6 +51,7 @@ export function NotificationTemplateContentFromJSONTyped(json: any, ignoreDiscri
     return {
         
         'template': json['template'] == null ? undefined : json['template'],
+        'version': json['version'] == null ? undefined : json['version'],
     };
 }
 
@@ -60,6 +67,7 @@ export function NotificationTemplateContentToJSONTyped(value?: NotificationTempl
     return {
         
         'template': value['template'],
+        'version': value['version'],
     };
 }
 

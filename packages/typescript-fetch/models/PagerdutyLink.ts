@@ -14,7 +14,7 @@
 
 import { mapValues } from '../runtime';
 /**
- * PagerdutyLink is a link
+ * 
  * @export
  * @interface PagerdutyLink
  */

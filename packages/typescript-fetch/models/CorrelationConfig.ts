@@ -35,10 +35,10 @@ export interface CorrelationConfig {
     field: string;
     /**
      * Target data query
-     * @type {object}
+     * @type {{ [key: string]: object; }}
      * @memberof CorrelationConfig
      */
-    target: object;
+    target: { [key: string]: object; };
     /**
      * 
      * @type {Array<Transformation>}

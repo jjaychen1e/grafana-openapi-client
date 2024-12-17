@@ -39,6 +39,12 @@ export interface PostableTimeIntervals {
      * @memberof PostableTimeIntervals
      */
     timeIntervals?: Array<TimeIntervalItem>;
+    /**
+     * 
+     * @type {string}
+     * @memberof PostableTimeIntervals
+     */
+    version?: string;
 }
 
 /**
@@ -60,6 +66,7 @@ export function PostableTimeIntervalsFromJSONTyped(json: any, ignoreDiscriminato
         
         'name': json['name'] == null ? undefined : json['name'],
         'timeIntervals': json['time_intervals'] == null ? undefined : ((json['time_intervals'] as Array<any>).map(TimeIntervalItemFromJSON)),
+        'version': json['version'] == null ? undefined : json['version'],
     };
 }
 
@@ -76,6 +83,7 @@ export function PostableTimeIntervalsToJSONTyped(value?: PostableTimeIntervals |
         
         'name': value['name'],
         'time_intervals': value['timeIntervals'] == null ? undefined : ((value['timeIntervals'] as Array<any>).map(TimeIntervalItemToJSON)),
+        'version': value['version'],
     };
 }
 

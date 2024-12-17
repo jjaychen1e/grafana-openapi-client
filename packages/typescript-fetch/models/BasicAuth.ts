@@ -32,6 +32,12 @@ export interface BasicAuth {
      */
     passwordFile?: string;
     /**
+     * PasswordRef is the name of the secret within the secret manager to use as the password.
+     * @type {string}
+     * @memberof BasicAuth
+     */
+    passwordRef?: string;
+    /**
      * 
      * @type {string}
      * @memberof BasicAuth
@@ -43,6 +49,12 @@ export interface BasicAuth {
      * @memberof BasicAuth
      */
     usernameFile?: string;
+    /**
+     * UsernameRef is the name of the secret within the secret manager to use as the username.
+     * @type {string}
+     * @memberof BasicAuth
+     */
+    usernameRef?: string;
 }
 
 /**
@@ -64,8 +76,10 @@ export function BasicAuthFromJSONTyped(json: any, ignoreDiscriminator: boolean):
         
         'password': json['password'] == null ? undefined : json['password'],
         'passwordFile': json['password_file'] == null ? undefined : json['password_file'],
+        'passwordRef': json['password_ref'] == null ? undefined : json['password_ref'],
         'username': json['username'] == null ? undefined : json['username'],
         'usernameFile': json['username_file'] == null ? undefined : json['username_file'],
+        'usernameRef': json['username_ref'] == null ? undefined : json['username_ref'],
     };
 }
 
@@ -82,8 +96,10 @@ export function BasicAuthToJSONTyped(value?: BasicAuth | null, ignoreDiscriminat
         
         'password': value['password'],
         'password_file': value['passwordFile'],
+        'password_ref': value['passwordRef'],
         'username': value['username'],
         'username_file': value['usernameFile'],
+        'username_ref': value['usernameRef'],
     };
 }
 

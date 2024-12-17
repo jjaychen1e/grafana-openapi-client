@@ -35,10 +35,10 @@ export interface AlertQueryExport {
     datasourceUid?: string;
     /**
      * 
-     * @type {object}
+     * @type {{ [key: string]: object; }}
      * @memberof AlertQueryExport
      */
-    model?: object;
+    model?: { [key: string]: object; };
     /**
      * 
      * @type {string}

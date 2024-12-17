@@ -21,6 +21,7 @@ import type {
   ErrorResponseBody,
   Preferences,
   SearchTeamQueryResult,
+  SetTeamMembershipsCommand,
   SuccessResponseBody,
   TeamDTO,
   TeamMemberDTO,
@@ -41,6 +42,8 @@ import {
     PreferencesToJSON,
     SearchTeamQueryResultFromJSON,
     SearchTeamQueryResultToJSON,
+    SetTeamMembershipsCommandFromJSON,
+    SetTeamMembershipsCommandToJSON,
     SuccessResponseBodyFromJSON,
     SuccessResponseBodyToJSON,
     TeamDTOFromJSON,
@@ -90,6 +93,11 @@ export interface TeamsApiSearchTeamsRequest {
     perpage?: number;
     name?: string;
     query?: string;
+}
+
+export interface TeamsApiSetTeamMembershipsRequest {
+    teamId: string;
+    body: SetTeamMembershipsCommand;
 }
 
 export interface TeamsApiUpdateTeamRequest {
@@ -459,6 +467,58 @@ export class TeamsApi extends runtime.BaseAPI {
      */
     async searchTeams(requestParameters: TeamsApiSearchTeamsRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SearchTeamQueryResult> {
         const response = await this.searchTeamsRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Takes user emails, and updates team members and admins to the provided lists of users. Any current team members and admins not in the provided lists will be removed.
+     * Set team memberships.
+     */
+    async setTeamMembershipsRaw(requestParameters: TeamsApiSetTeamMembershipsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SuccessResponseBody>> {
+        if (requestParameters['teamId'] == null) {
+            throw new runtime.RequiredError(
+                'teamId',
+                'Required parameter "teamId" was null or undefined when calling setTeamMemberships().'
+            );
+        }
+
+        if (requestParameters['body'] == null) {
+            throw new runtime.RequiredError(
+                'body',
+                'Required parameter "body" was null or undefined when calling setTeamMemberships().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["Authorization"] = await this.configuration.apiKey("Authorization"); // api_key authentication
+        }
+
+        if (this.configuration && (this.configuration.username !== undefined || this.configuration.password !== undefined)) {
+            headerParameters["Authorization"] = "Basic " + btoa(this.configuration.username + ":" + this.configuration.password);
+        }
+        const response = await this.request({
+            path: `/teams/{team_id}/members`.replace(`{${"team_id"}}`, encodeURIComponent(String(requestParameters['teamId']))),
+            method: 'PUT',
+            headers: headerParameters,
+            query: queryParameters,
+            body: SetTeamMembershipsCommandToJSON(requestParameters['body']),
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => SuccessResponseBodyFromJSON(jsonValue));
+    }
+
+    /**
+     * Takes user emails, and updates team members and admins to the provided lists of users. Any current team members and admins not in the provided lists will be removed.
+     * Set team memberships.
+     */
+    async setTeamMemberships(requestParameters: TeamsApiSetTeamMembershipsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SuccessResponseBody> {
+        const response = await this.setTeamMembershipsRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

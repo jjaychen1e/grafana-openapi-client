@@ -20,7 +20,7 @@ import { mapValues } from '../runtime';
  */
 export interface Hit {
     /**
-     * Deprecated: use FolderUID instead
+     * 
      * @type {number}
      * @memberof Hit
      */
@@ -54,7 +54,19 @@ export interface Hit {
      * @type {boolean}
      * @memberof Hit
      */
+    isDeleted?: boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof Hit
+     */
     isStarred?: boolean;
+    /**
+     * 
+     * @type {Date}
+     * @memberof Hit
+     */
+    permanentlyDeleteDate?: Date;
     /**
      * 
      * @type {string}
@@ -133,7 +145,9 @@ export function HitFromJSONTyped(json: any, ignoreDiscriminator: boolean): Hit {
         'folderUid': json['folderUid'] == null ? undefined : json['folderUid'],
         'folderUrl': json['folderUrl'] == null ? undefined : json['folderUrl'],
         'id': json['id'] == null ? undefined : json['id'],
+        'isDeleted': json['isDeleted'] == null ? undefined : json['isDeleted'],
         'isStarred': json['isStarred'] == null ? undefined : json['isStarred'],
+        'permanentlyDeleteDate': json['permanentlyDeleteDate'] == null ? undefined : (new Date(json['permanentlyDeleteDate'])),
         'slug': json['slug'] == null ? undefined : json['slug'],
         'sortMeta': json['sortMeta'] == null ? undefined : json['sortMeta'],
         'sortMetaName': json['sortMetaName'] == null ? undefined : json['sortMetaName'],
@@ -162,7 +176,9 @@ export function HitToJSONTyped(value?: Hit | null, ignoreDiscriminator: boolean 
         'folderUid': value['folderUid'],
         'folderUrl': value['folderUrl'],
         'id': value['id'],
+        'isDeleted': value['isDeleted'],
         'isStarred': value['isStarred'],
+        'permanentlyDeleteDate': value['permanentlyDeleteDate'] == null ? undefined : ((value['permanentlyDeleteDate']).toISOString()),
         'slug': value['slug'],
         'sortMeta': value['sortMeta'],
         'sortMetaName': value['sortMetaName'],

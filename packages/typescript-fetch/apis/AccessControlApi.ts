@@ -103,6 +103,7 @@ export interface AccessControlApiGetRoleAssignmentsRequest {
 
 export interface AccessControlApiListRolesRequest {
     delegatable?: boolean;
+    includeHidden?: boolean;
 }
 
 export interface AccessControlApiListTeamRolesRequest {
@@ -593,7 +594,7 @@ export class AccessControlApi extends runtime.BaseAPI {
     }
 
     /**
-     * Gets all existing roles. The response contains all global and organization local roles, for the organization which user is signed in.  You need to have a permission with action `roles:read` and scope `roles:*`.
+     * Gets all existing roles. The response contains all global and organization local roles, for the organization which user is signed in.  You need to have a permission with action `roles:read` and scope `roles:*`.  The `delegatable` flag reduces the set of roles to only those for which the signed-in user has permissions to assign.
      * Get all roles.
      */
     async listRolesRaw(requestParameters: AccessControlApiListRolesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<RoleDTO>>> {
@@ -601,6 +602,10 @@ export class AccessControlApi extends runtime.BaseAPI {
 
         if (requestParameters['delegatable'] != null) {
             queryParameters['delegatable'] = requestParameters['delegatable'];
+        }
+
+        if (requestParameters['includeHidden'] != null) {
+            queryParameters['includeHidden'] = requestParameters['includeHidden'];
         }
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -623,7 +628,7 @@ export class AccessControlApi extends runtime.BaseAPI {
     }
 
     /**
-     * Gets all existing roles. The response contains all global and organization local roles, for the organization which user is signed in.  You need to have a permission with action `roles:read` and scope `roles:*`.
+     * Gets all existing roles. The response contains all global and organization local roles, for the organization which user is signed in.  You need to have a permission with action `roles:read` and scope `roles:*`.  The `delegatable` flag reduces the set of roles to only those for which the signed-in user has permissions to assign.
      * Get all roles.
      */
     async listRoles(requestParameters: AccessControlApiListRolesRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<RoleDTO>> {

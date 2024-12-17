@@ -38,95 +38,95 @@ import {
 /**
  * 
  * @export
- * @interface CreateOrUpdateReportConfig
+ * @interface CreateOrUpdateReport
  */
-export interface CreateOrUpdateReportConfig {
+export interface CreateOrUpdateReport {
     /**
      * 
      * @type {Array<ReportDashboard>}
-     * @memberof CreateOrUpdateReportConfig
+     * @memberof CreateOrUpdateReport
      */
     dashboards?: Array<ReportDashboard>;
     /**
      * 
      * @type {boolean}
-     * @memberof CreateOrUpdateReportConfig
+     * @memberof CreateOrUpdateReport
      */
     enableCsv?: boolean;
     /**
      * 
      * @type {boolean}
-     * @memberof CreateOrUpdateReportConfig
+     * @memberof CreateOrUpdateReport
      */
     enableDashboardUrl?: boolean;
     /**
      * 
      * @type {Array<string>}
-     * @memberof CreateOrUpdateReportConfig
+     * @memberof CreateOrUpdateReport
      */
     formats?: Array<string>;
     /**
      * 
      * @type {string}
-     * @memberof CreateOrUpdateReportConfig
+     * @memberof CreateOrUpdateReport
      */
     message?: string;
     /**
      * 
      * @type {string}
-     * @memberof CreateOrUpdateReportConfig
+     * @memberof CreateOrUpdateReport
      */
     name?: string;
     /**
      * 
      * @type {ReportOptions}
-     * @memberof CreateOrUpdateReportConfig
+     * @memberof CreateOrUpdateReport
      */
     options?: ReportOptions;
     /**
      * 
      * @type {string}
-     * @memberof CreateOrUpdateReportConfig
+     * @memberof CreateOrUpdateReport
      */
     recipients?: string;
     /**
      * 
      * @type {string}
-     * @memberof CreateOrUpdateReportConfig
+     * @memberof CreateOrUpdateReport
      */
     replyTo?: string;
     /**
      * 
      * @type {number}
-     * @memberof CreateOrUpdateReportConfig
+     * @memberof CreateOrUpdateReport
      */
     scaleFactor?: number;
     /**
      * 
      * @type {ReportSchedule}
-     * @memberof CreateOrUpdateReportConfig
+     * @memberof CreateOrUpdateReport
      */
     schedule?: ReportSchedule;
     /**
-     * 
+     * +enum
      * @type {string}
-     * @memberof CreateOrUpdateReportConfig
+     * @memberof CreateOrUpdateReport
      */
     state?: string;
 }
 
 /**
- * Check if a given object implements the CreateOrUpdateReportConfig interface.
+ * Check if a given object implements the CreateOrUpdateReport interface.
  */
-export function instanceOfCreateOrUpdateReportConfig(value: object): value is CreateOrUpdateReportConfig {
+export function instanceOfCreateOrUpdateReport(value: object): value is CreateOrUpdateReport {
     return true;
 }
 
-export function CreateOrUpdateReportConfigFromJSON(json: any): CreateOrUpdateReportConfig {
-    return CreateOrUpdateReportConfigFromJSONTyped(json, false);
+export function CreateOrUpdateReportFromJSON(json: any): CreateOrUpdateReport {
+    return CreateOrUpdateReportFromJSONTyped(json, false);
 }
 
-export function CreateOrUpdateReportConfigFromJSONTyped(json: any, ignoreDiscriminator: boolean): CreateOrUpdateReportConfig {
+export function CreateOrUpdateReportFromJSONTyped(json: any, ignoreDiscriminator: boolean): CreateOrUpdateReport {
     if (json == null) {
         return json;
     }
@@ -147,11 +147,11 @@ export function CreateOrUpdateReportConfigFromJSONTyped(json: any, ignoreDiscrim
     };
 }
 
-export function CreateOrUpdateReportConfigToJSON(json: any): CreateOrUpdateReportConfig {
-    return CreateOrUpdateReportConfigToJSONTyped(json, false);
+export function CreateOrUpdateReportToJSON(json: any): CreateOrUpdateReport {
+    return CreateOrUpdateReportToJSONTyped(json, false);
 }
 
-export function CreateOrUpdateReportConfigToJSONTyped(value?: CreateOrUpdateReportConfig | null, ignoreDiscriminator: boolean = false): any {
+export function CreateOrUpdateReportToJSONTyped(value?: CreateOrUpdateReport | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }

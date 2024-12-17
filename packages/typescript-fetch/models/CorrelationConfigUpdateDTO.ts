@@ -35,10 +35,10 @@ export interface CorrelationConfigUpdateDTO {
     field?: string;
     /**
      * Target data query
-     * @type {object}
+     * @type {{ [key: string]: object; }}
      * @memberof CorrelationConfigUpdateDTO
      */
-    target?: object;
+    target?: { [key: string]: object; };
     /**
      * Source data transformations
      * @type {Array<Transformation>}

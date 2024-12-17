@@ -1117,47 +1117,8 @@ function AlertStatusToJSONTyped(value, ignoreDiscriminator = false) {
   };
 }
 
-// models/Integration.ts
-function instanceOfIntegration(value) {
-  if (!("name" in value) || value["name"] === void 0) return false;
-  if (!("sendResolved" in value) || value["sendResolved"] === void 0) return false;
-  return true;
-}
-function IntegrationFromJSON(json) {
-  return IntegrationFromJSONTyped(json);
-}
-function IntegrationFromJSONTyped(json, ignoreDiscriminator) {
-  if (json == null) {
-    return json;
-  }
-  return {
-    "lastNotifyAttempt": json["lastNotifyAttempt"] == null ? void 0 : new Date(json["lastNotifyAttempt"]),
-    "lastNotifyAttemptDuration": json["lastNotifyAttemptDuration"] == null ? void 0 : json["lastNotifyAttemptDuration"],
-    "lastNotifyAttemptError": json["lastNotifyAttemptError"] == null ? void 0 : json["lastNotifyAttemptError"],
-    "name": json["name"],
-    "sendResolved": json["sendResolved"]
-  };
-}
-function IntegrationToJSON(json) {
-  return IntegrationToJSONTyped(json, false);
-}
-function IntegrationToJSONTyped(value, ignoreDiscriminator = false) {
-  if (value == null) {
-    return value;
-  }
-  return {
-    "lastNotifyAttempt": value["lastNotifyAttempt"] == null ? void 0 : value["lastNotifyAttempt"].toISOString(),
-    "lastNotifyAttemptDuration": value["lastNotifyAttemptDuration"],
-    "lastNotifyAttemptError": value["lastNotifyAttemptError"],
-    "name": value["name"],
-    "sendResolved": value["sendResolved"]
-  };
-}
-
 // models/Receiver.ts
 function instanceOfReceiver(value) {
-  if (!("active" in value) || value["active"] === void 0) return false;
-  if (!("integrations" in value) || value["integrations"] === void 0) return false;
   if (!("name" in value) || value["name"] === void 0) return false;
   return true;
 }
@@ -1169,8 +1130,6 @@ function ReceiverFromJSONTyped(json, ignoreDiscriminator) {
     return json;
   }
   return {
-    "active": json["active"],
-    "integrations": json["integrations"].map(IntegrationFromJSON),
     "name": json["name"]
   };
 }
@@ -1182,8 +1141,6 @@ function ReceiverToJSONTyped(value, ignoreDiscriminator = false) {
     return value;
   }
   return {
-    "active": value["active"],
-    "integrations": value["integrations"].map(IntegrationToJSON),
     "name": value["name"]
   };
 }
@@ -1518,6 +1475,35 @@ function AlertResponseToJSONTyped(value, ignoreDiscriminator = false) {
   };
 }
 
+// models/AlertRuleRecordExport.ts
+function instanceOfAlertRuleRecordExport(value) {
+  return true;
+}
+function AlertRuleRecordExportFromJSON(json) {
+  return AlertRuleRecordExportFromJSONTyped(json);
+}
+function AlertRuleRecordExportFromJSONTyped(json, ignoreDiscriminator) {
+  if (json == null) {
+    return json;
+  }
+  return {
+    "from": json["from"] == null ? void 0 : json["from"],
+    "metric": json["metric"] == null ? void 0 : json["metric"]
+  };
+}
+function AlertRuleRecordExportToJSON(json) {
+  return AlertRuleRecordExportToJSONTyped(json, false);
+}
+function AlertRuleRecordExportToJSONTyped(value, ignoreDiscriminator = false) {
+  if (value == null) {
+    return value;
+  }
+  return {
+    "from": value["from"],
+    "metric": value["metric"]
+  };
+}
+
 // models/AlertRuleNotificationSettingsExport.ts
 function instanceOfAlertRuleNotificationSettingsExport(value) {
   return true;
@@ -1579,7 +1565,7 @@ function AlertRuleExportFromJSONTyped(json, ignoreDiscriminator) {
   return {
     "annotations": json["annotations"] == null ? void 0 : json["annotations"],
     "condition": json["condition"] == null ? void 0 : json["condition"],
-    "dasboardUid": json["dasboardUid"] == null ? void 0 : json["dasboardUid"],
+    "dashboardUid": json["dashboardUid"] == null ? void 0 : json["dashboardUid"],
     "data": json["data"] == null ? void 0 : json["data"].map(AlertQueryExportFromJSON),
     "execErrState": json["execErrState"] == null ? void 0 : json["execErrState"],
     "_for": json["for"] == null ? void 0 : json["for"],
@@ -1588,6 +1574,7 @@ function AlertRuleExportFromJSONTyped(json, ignoreDiscriminator) {
     "noDataState": json["noDataState"] == null ? void 0 : json["noDataState"],
     "notificationSettings": json["notification_settings"] == null ? void 0 : AlertRuleNotificationSettingsExportFromJSON(json["notification_settings"]),
     "panelId": json["panelId"] == null ? void 0 : json["panelId"],
+    "record": json["record"] == null ? void 0 : AlertRuleRecordExportFromJSON(json["record"]),
     "title": json["title"] == null ? void 0 : json["title"],
     "uid": json["uid"] == null ? void 0 : json["uid"]
   };
@@ -1602,7 +1589,7 @@ function AlertRuleExportToJSONTyped(value, ignoreDiscriminator = false) {
   return {
     "annotations": value["annotations"],
     "condition": value["condition"],
-    "dasboardUid": value["dasboardUid"],
+    "dashboardUid": value["dashboardUid"],
     "data": value["data"] == null ? void 0 : value["data"].map(AlertQueryExportToJSON),
     "execErrState": value["execErrState"],
     "for": value["_for"],
@@ -1611,6 +1598,7 @@ function AlertRuleExportToJSONTyped(value, ignoreDiscriminator = false) {
     "noDataState": value["noDataState"],
     "notification_settings": AlertRuleNotificationSettingsExportToJSON(value["notificationSettings"]),
     "panelId": value["panelId"],
+    "record": AlertRuleRecordExportToJSON(value["record"]),
     "title": value["title"],
     "uid": value["uid"]
   };
@@ -1651,6 +1639,37 @@ function AlertRuleNotificationSettingsToJSONTyped(value, ignoreDiscriminator = f
     "mute_time_intervals": value["muteTimeIntervals"],
     "receiver": value["receiver"],
     "repeat_interval": value["repeatInterval"]
+  };
+}
+
+// models/Record.ts
+function instanceOfRecord(value) {
+  if (!("from" in value) || value["from"] === void 0) return false;
+  if (!("metric" in value) || value["metric"] === void 0) return false;
+  return true;
+}
+function RecordFromJSON(json) {
+  return RecordFromJSONTyped(json);
+}
+function RecordFromJSONTyped(json, ignoreDiscriminator) {
+  if (json == null) {
+    return json;
+  }
+  return {
+    "from": json["from"],
+    "metric": json["metric"]
+  };
+}
+function RecordToJSON(json) {
+  return RecordToJSONTyped(json, false);
+}
+function RecordToJSONTyped(value, ignoreDiscriminator = false) {
+  if (value == null) {
+    return value;
+  }
+  return {
+    "from": value["from"],
+    "metric": value["metric"]
   };
 }
 
@@ -1698,6 +1717,7 @@ function ProvisionedAlertRuleFromJSONTyped(json, ignoreDiscriminator) {
     "notificationSettings": json["notification_settings"] == null ? void 0 : AlertRuleNotificationSettingsFromJSON(json["notification_settings"]),
     "orgID": json["orgID"],
     "provenance": json["provenance"] == null ? void 0 : json["provenance"],
+    "record": json["record"] == null ? void 0 : RecordFromJSON(json["record"]),
     "ruleGroup": json["ruleGroup"],
     "title": json["title"],
     "uid": json["uid"] == null ? void 0 : json["uid"],
@@ -1725,6 +1745,7 @@ function ProvisionedAlertRuleToJSONTyped(value, ignoreDiscriminator = false) {
     "notification_settings": AlertRuleNotificationSettingsToJSON(value["notificationSettings"]),
     "orgID": value["orgID"],
     "provenance": value["provenance"],
+    "record": RecordToJSON(value["record"]),
     "ruleGroup": value["ruleGroup"],
     "title": value["title"],
     "uid": value["uid"]
@@ -2121,6 +2142,33 @@ function AlertingFileExportToJSONTyped(value, ignoreDiscriminator = false) {
   };
 }
 
+// models/Label.ts
+function instanceOfLabel(value) {
+  return true;
+}
+function LabelFromJSON(json) {
+  return LabelFromJSONTyped(json);
+}
+function LabelFromJSONTyped(json, ignoreDiscriminator) {
+  if (json == null) {
+    return json;
+  }
+  return {
+    "name": json["Name"] == null ? void 0 : json["Name"]
+  };
+}
+function LabelToJSON(json) {
+  return LabelToJSONTyped(json, false);
+}
+function LabelToJSONTyped(value, ignoreDiscriminator = false) {
+  if (value == null) {
+    return value;
+  }
+  return {
+    "Name": value["name"]
+  };
+}
+
 // models/AlertingRule.ts
 function instanceOfAlertingRule(value) {
   if (!("activeAt" in value) || value["activeAt"] === void 0) return false;
@@ -2142,11 +2190,11 @@ function AlertingRuleFromJSONTyped(json, ignoreDiscriminator) {
   return {
     "activeAt": new Date(json["activeAt"]),
     "alerts": json["alerts"] == null ? void 0 : json["alerts"].map(AlertFromJSON),
-    "annotations": json["annotations"],
+    "annotations": json["annotations"].map(LabelFromJSON),
     "duration": json["duration"] == null ? void 0 : json["duration"],
     "evaluationTime": json["evaluationTime"] == null ? void 0 : json["evaluationTime"],
     "health": json["health"],
-    "labels": json["labels"] == null ? void 0 : json["labels"],
+    "labels": json["labels"] == null ? void 0 : json["labels"].map(LabelFromJSON),
     "lastError": json["lastError"] == null ? void 0 : json["lastError"],
     "lastEvaluation": json["lastEvaluation"] == null ? void 0 : new Date(json["lastEvaluation"]),
     "name": json["name"],
@@ -2167,11 +2215,11 @@ function AlertingRuleToJSONTyped(value, ignoreDiscriminator = false) {
   return {
     "activeAt": value["activeAt"].toISOString(),
     "alerts": value["alerts"] == null ? void 0 : value["alerts"].map(AlertToJSON),
-    "annotations": value["annotations"],
+    "annotations": value["annotations"].map(LabelToJSON),
     "duration": value["duration"],
     "evaluationTime": value["evaluationTime"],
     "health": value["health"],
-    "labels": value["labels"],
+    "labels": value["labels"] == null ? void 0 : value["labels"].map(LabelToJSON),
     "lastError": value["lastError"],
     "lastEvaluation": value["lastEvaluation"] == null ? void 0 : value["lastEvaluation"].toISOString(),
     "name": value["name"],
@@ -2851,6 +2899,7 @@ function AuthorizationFromJSONTyped(json, ignoreDiscriminator) {
   return {
     "credentials": json["credentials"] == null ? void 0 : json["credentials"],
     "credentialsFile": json["credentials_file"] == null ? void 0 : json["credentials_file"],
+    "credentialsRef": json["credentials_ref"] == null ? void 0 : json["credentials_ref"],
     "type": json["type"] == null ? void 0 : json["type"]
   };
 }
@@ -2864,6 +2913,7 @@ function AuthorizationToJSONTyped(value, ignoreDiscriminator = false) {
   return {
     "credentials": value["credentials"],
     "credentials_file": value["credentialsFile"],
+    "credentials_ref": value["credentialsRef"],
     "type": value["type"]
   };
 }
@@ -2932,8 +2982,10 @@ function BasicAuthFromJSONTyped(json, ignoreDiscriminator) {
   return {
     "password": json["password"] == null ? void 0 : json["password"],
     "passwordFile": json["password_file"] == null ? void 0 : json["password_file"],
+    "passwordRef": json["password_ref"] == null ? void 0 : json["password_ref"],
     "username": json["username"] == null ? void 0 : json["username"],
-    "usernameFile": json["username_file"] == null ? void 0 : json["username_file"]
+    "usernameFile": json["username_file"] == null ? void 0 : json["username_file"],
+    "usernameRef": json["username_ref"] == null ? void 0 : json["username_ref"]
   };
 }
 function BasicAuthToJSON(json) {
@@ -2946,8 +2998,135 @@ function BasicAuthToJSONTyped(value, ignoreDiscriminator = false) {
   return {
     "password": value["password"],
     "password_file": value["passwordFile"],
+    "password_ref": value["passwordRef"],
     "username": value["username"],
-    "username_file": value["usernameFile"]
+    "username_file": value["usernameFile"],
+    "username_ref": value["usernameRef"]
+  };
+}
+
+// models/CacheConfig.ts
+function instanceOfCacheConfig(value) {
+  return true;
+}
+function CacheConfigFromJSON(json) {
+  return CacheConfigFromJSONTyped(json);
+}
+function CacheConfigFromJSONTyped(json, ignoreDiscriminator) {
+  if (json == null) {
+    return json;
+  }
+  return {
+    "created": json["created"] == null ? void 0 : new Date(json["created"]),
+    "dataSourceID": json["dataSourceID"] == null ? void 0 : json["dataSourceID"],
+    "dataSourceUID": json["dataSourceUID"] == null ? void 0 : json["dataSourceUID"],
+    "defaultTTLMs": json["defaultTTLMs"] == null ? void 0 : json["defaultTTLMs"],
+    "enabled": json["enabled"] == null ? void 0 : json["enabled"],
+    "ttlQueriesMs": json["ttlQueriesMs"] == null ? void 0 : json["ttlQueriesMs"],
+    "ttlResourcesMs": json["ttlResourcesMs"] == null ? void 0 : json["ttlResourcesMs"],
+    "updated": json["updated"] == null ? void 0 : new Date(json["updated"]),
+    "useDefaultTTL": json["useDefaultTTL"] == null ? void 0 : json["useDefaultTTL"]
+  };
+}
+function CacheConfigToJSON(json) {
+  return CacheConfigToJSONTyped(json, false);
+}
+function CacheConfigToJSONTyped(value, ignoreDiscriminator = false) {
+  if (value == null) {
+    return value;
+  }
+  return {
+    "created": value["created"] == null ? void 0 : value["created"].toISOString(),
+    "dataSourceID": value["dataSourceID"],
+    "dataSourceUID": value["dataSourceUID"],
+    "defaultTTLMs": value["defaultTTLMs"],
+    "enabled": value["enabled"],
+    "ttlQueriesMs": value["ttlQueriesMs"],
+    "ttlResourcesMs": value["ttlResourcesMs"],
+    "updated": value["updated"] == null ? void 0 : value["updated"].toISOString(),
+    "useDefaultTTL": value["useDefaultTTL"]
+  };
+}
+
+// models/CacheConfigResponse.ts
+function instanceOfCacheConfigResponse(value) {
+  return true;
+}
+function CacheConfigResponseFromJSON(json) {
+  return CacheConfigResponseFromJSONTyped(json);
+}
+function CacheConfigResponseFromJSONTyped(json, ignoreDiscriminator) {
+  if (json == null) {
+    return json;
+  }
+  return {
+    "created": json["created"] == null ? void 0 : new Date(json["created"]),
+    "dataSourceID": json["dataSourceID"] == null ? void 0 : json["dataSourceID"],
+    "dataSourceUID": json["dataSourceUID"] == null ? void 0 : json["dataSourceUID"],
+    "defaultTTLMs": json["defaultTTLMs"] == null ? void 0 : json["defaultTTLMs"],
+    "enabled": json["enabled"] == null ? void 0 : json["enabled"],
+    "message": json["message"] == null ? void 0 : json["message"],
+    "ttlQueriesMs": json["ttlQueriesMs"] == null ? void 0 : json["ttlQueriesMs"],
+    "ttlResourcesMs": json["ttlResourcesMs"] == null ? void 0 : json["ttlResourcesMs"],
+    "updated": json["updated"] == null ? void 0 : new Date(json["updated"]),
+    "useDefaultTTL": json["useDefaultTTL"] == null ? void 0 : json["useDefaultTTL"]
+  };
+}
+function CacheConfigResponseToJSON(json) {
+  return CacheConfigResponseToJSONTyped(json, false);
+}
+function CacheConfigResponseToJSONTyped(value, ignoreDiscriminator = false) {
+  if (value == null) {
+    return value;
+  }
+  return {
+    "created": value["created"] == null ? void 0 : value["created"].toISOString(),
+    "dataSourceID": value["dataSourceID"],
+    "dataSourceUID": value["dataSourceUID"],
+    "defaultTTLMs": value["defaultTTLMs"],
+    "enabled": value["enabled"],
+    "message": value["message"],
+    "ttlQueriesMs": value["ttlQueriesMs"],
+    "ttlResourcesMs": value["ttlResourcesMs"],
+    "updated": value["updated"] == null ? void 0 : value["updated"].toISOString(),
+    "useDefaultTTL": value["useDefaultTTL"]
+  };
+}
+
+// models/CacheConfigSetter.ts
+function instanceOfCacheConfigSetter(value) {
+  return true;
+}
+function CacheConfigSetterFromJSON(json) {
+  return CacheConfigSetterFromJSONTyped(json);
+}
+function CacheConfigSetterFromJSONTyped(json, ignoreDiscriminator) {
+  if (json == null) {
+    return json;
+  }
+  return {
+    "dataSourceID": json["dataSourceID"] == null ? void 0 : json["dataSourceID"],
+    "dataSourceUID": json["dataSourceUID"] == null ? void 0 : json["dataSourceUID"],
+    "enabled": json["enabled"] == null ? void 0 : json["enabled"],
+    "ttlQueriesMs": json["ttlQueriesMs"] == null ? void 0 : json["ttlQueriesMs"],
+    "ttlResourcesMs": json["ttlResourcesMs"] == null ? void 0 : json["ttlResourcesMs"],
+    "useDefaultTTL": json["useDefaultTTL"] == null ? void 0 : json["useDefaultTTL"]
+  };
+}
+function CacheConfigSetterToJSON(json) {
+  return CacheConfigSetterToJSONTyped(json, false);
+}
+function CacheConfigSetterToJSONTyped(value, ignoreDiscriminator = false) {
+  if (value == null) {
+    return value;
+  }
+  return {
+    "dataSourceID": value["dataSourceID"],
+    "dataSourceUID": value["dataSourceUID"],
+    "enabled": value["enabled"],
+    "ttlQueriesMs": value["ttlQueriesMs"],
+    "ttlResourcesMs": value["ttlResourcesMs"],
+    "useDefaultTTL": value["useDefaultTTL"]
   };
 }
 
@@ -3199,6 +3378,7 @@ function CertificateFromJSONTyped(json, ignoreDiscriminator) {
     "permittedEmailAddresses": json["PermittedEmailAddresses"] == null ? void 0 : json["PermittedEmailAddresses"],
     "permittedIPRanges": json["PermittedIPRanges"] == null ? void 0 : json["PermittedIPRanges"].map(IPNetFromJSON),
     "permittedURIDomains": json["PermittedURIDomains"] == null ? void 0 : json["PermittedURIDomains"],
+    "policies": json["Policies"] == null ? void 0 : json["Policies"],
     "policyIdentifiers": json["PolicyIdentifiers"] == null ? void 0 : json["PolicyIdentifiers"],
     "publicKey": json["PublicKey"] == null ? void 0 : json["PublicKey"],
     "publicKeyAlgorithm": json["PublicKeyAlgorithm"] == null ? void 0 : json["PublicKeyAlgorithm"],
@@ -3252,6 +3432,7 @@ function CertificateToJSONTyped(value, ignoreDiscriminator = false) {
     "PermittedEmailAddresses": value["permittedEmailAddresses"],
     "PermittedIPRanges": value["permittedIPRanges"] == null ? void 0 : value["permittedIPRanges"].map(IPNetToJSON),
     "PermittedURIDomains": value["permittedURIDomains"],
+    "Policies": value["policies"],
     "PolicyIdentifiers": value["policyIdentifiers"],
     "PublicKey": value["publicKey"],
     "PublicKeyAlgorithm": value["publicKeyAlgorithm"],
@@ -3327,6 +3508,147 @@ function ClearHelpFlags200ResponseToJSONTyped(value, ignoreDiscriminator = false
   return {
     "helpFlags1": value["helpFlags1"],
     "message": value["message"]
+  };
+}
+
+// models/MigrateDataResponseListDTO.ts
+function instanceOfMigrateDataResponseListDTO(value) {
+  return true;
+}
+function MigrateDataResponseListDTOFromJSON(json) {
+  return MigrateDataResponseListDTOFromJSONTyped(json);
+}
+function MigrateDataResponseListDTOFromJSONTyped(json, ignoreDiscriminator) {
+  if (json == null) {
+    return json;
+  }
+  return {
+    "uid": json["uid"] == null ? void 0 : json["uid"]
+  };
+}
+function MigrateDataResponseListDTOToJSON(json) {
+  return MigrateDataResponseListDTOToJSONTyped(json, false);
+}
+function MigrateDataResponseListDTOToJSONTyped(value, ignoreDiscriminator = false) {
+  if (value == null) {
+    return value;
+  }
+  return {
+    "uid": value["uid"]
+  };
+}
+
+// models/CloudMigrationRunListDTO.ts
+function instanceOfCloudMigrationRunListDTO(value) {
+  return true;
+}
+function CloudMigrationRunListDTOFromJSON(json) {
+  return CloudMigrationRunListDTOFromJSONTyped(json);
+}
+function CloudMigrationRunListDTOFromJSONTyped(json, ignoreDiscriminator) {
+  if (json == null) {
+    return json;
+  }
+  return {
+    "runs": json["runs"] == null ? void 0 : json["runs"].map(MigrateDataResponseListDTOFromJSON)
+  };
+}
+function CloudMigrationRunListDTOToJSON(json) {
+  return CloudMigrationRunListDTOToJSONTyped(json, false);
+}
+function CloudMigrationRunListDTOToJSONTyped(value, ignoreDiscriminator = false) {
+  if (value == null) {
+    return value;
+  }
+  return {
+    "runs": value["runs"] == null ? void 0 : value["runs"].map(MigrateDataResponseListDTOToJSON)
+  };
+}
+
+// models/CloudMigrationSessionResponseDTO.ts
+function instanceOfCloudMigrationSessionResponseDTO(value) {
+  return true;
+}
+function CloudMigrationSessionResponseDTOFromJSON(json) {
+  return CloudMigrationSessionResponseDTOFromJSONTyped(json);
+}
+function CloudMigrationSessionResponseDTOFromJSONTyped(json, ignoreDiscriminator) {
+  if (json == null) {
+    return json;
+  }
+  return {
+    "created": json["created"] == null ? void 0 : new Date(json["created"]),
+    "slug": json["slug"] == null ? void 0 : json["slug"],
+    "uid": json["uid"] == null ? void 0 : json["uid"],
+    "updated": json["updated"] == null ? void 0 : new Date(json["updated"])
+  };
+}
+function CloudMigrationSessionResponseDTOToJSON(json) {
+  return CloudMigrationSessionResponseDTOToJSONTyped(json, false);
+}
+function CloudMigrationSessionResponseDTOToJSONTyped(value, ignoreDiscriminator = false) {
+  if (value == null) {
+    return value;
+  }
+  return {
+    "created": value["created"] == null ? void 0 : value["created"].toISOString(),
+    "slug": value["slug"],
+    "uid": value["uid"],
+    "updated": value["updated"] == null ? void 0 : value["updated"].toISOString()
+  };
+}
+
+// models/CloudMigrationSessionListResponseDTO.ts
+function instanceOfCloudMigrationSessionListResponseDTO(value) {
+  return true;
+}
+function CloudMigrationSessionListResponseDTOFromJSON(json) {
+  return CloudMigrationSessionListResponseDTOFromJSONTyped(json);
+}
+function CloudMigrationSessionListResponseDTOFromJSONTyped(json, ignoreDiscriminator) {
+  if (json == null) {
+    return json;
+  }
+  return {
+    "sessions": json["sessions"] == null ? void 0 : json["sessions"].map(CloudMigrationSessionResponseDTOFromJSON)
+  };
+}
+function CloudMigrationSessionListResponseDTOToJSON(json) {
+  return CloudMigrationSessionListResponseDTOToJSONTyped(json, false);
+}
+function CloudMigrationSessionListResponseDTOToJSONTyped(value, ignoreDiscriminator = false) {
+  if (value == null) {
+    return value;
+  }
+  return {
+    "sessions": value["sessions"] == null ? void 0 : value["sessions"].map(CloudMigrationSessionResponseDTOToJSON)
+  };
+}
+
+// models/CloudMigrationSessionRequestDTO.ts
+function instanceOfCloudMigrationSessionRequestDTO(value) {
+  return true;
+}
+function CloudMigrationSessionRequestDTOFromJSON(json) {
+  return CloudMigrationSessionRequestDTOFromJSONTyped(json);
+}
+function CloudMigrationSessionRequestDTOFromJSONTyped(json, ignoreDiscriminator) {
+  if (json == null) {
+    return json;
+  }
+  return {
+    "authToken": json["authToken"] == null ? void 0 : json["authToken"]
+  };
+}
+function CloudMigrationSessionRequestDTOToJSON(json) {
+  return CloudMigrationSessionRequestDTOToJSONTyped(json, false);
+}
+function CloudMigrationSessionRequestDTOToJSONTyped(value, ignoreDiscriminator = false) {
+  if (value == null) {
+    return value;
+  }
+  return {
+    "authToken": value["authToken"]
   };
 }
 
@@ -3441,11 +3763,14 @@ function TLSConfigFromJSONTyped(json, ignoreDiscriminator) {
   return {
     "ca": json["ca"] == null ? void 0 : json["ca"],
     "caFile": json["ca_file"] == null ? void 0 : json["ca_file"],
+    "caRef": json["ca_ref"] == null ? void 0 : json["ca_ref"],
     "cert": json["cert"] == null ? void 0 : json["cert"],
     "certFile": json["cert_file"] == null ? void 0 : json["cert_file"],
+    "certRef": json["cert_ref"] == null ? void 0 : json["cert_ref"],
     "insecureSkipVerify": json["insecure_skip_verify"] == null ? void 0 : json["insecure_skip_verify"],
     "key": json["key"] == null ? void 0 : json["key"],
     "keyFile": json["key_file"] == null ? void 0 : json["key_file"],
+    "keyRef": json["key_ref"] == null ? void 0 : json["key_ref"],
     "maxVersion": json["max_version"] == null ? void 0 : json["max_version"],
     "minVersion": json["min_version"] == null ? void 0 : json["min_version"],
     "serverName": json["server_name"] == null ? void 0 : json["server_name"]
@@ -3461,11 +3786,14 @@ function TLSConfigToJSONTyped(value, ignoreDiscriminator = false) {
   return {
     "ca": value["ca"],
     "ca_file": value["caFile"],
+    "ca_ref": value["caRef"],
     "cert": value["cert"],
     "cert_file": value["certFile"],
+    "cert_ref": value["certRef"],
     "insecure_skip_verify": value["insecureSkipVerify"],
     "key": value["key"],
     "key_file": value["keyFile"],
+    "key_ref": value["keyRef"],
     "max_version": value["maxVersion"],
     "min_version": value["minVersion"],
     "server_name": value["serverName"]
@@ -3488,6 +3816,7 @@ function OAuth2FromJSONTyped(json, ignoreDiscriminator) {
     "clientId": json["client_id"] == null ? void 0 : json["client_id"],
     "clientSecret": json["client_secret"] == null ? void 0 : json["client_secret"],
     "clientSecretFile": json["client_secret_file"] == null ? void 0 : json["client_secret_file"],
+    "clientSecretRef": json["client_secret_ref"] == null ? void 0 : json["client_secret_ref"],
     "endpointParams": json["endpoint_params"] == null ? void 0 : json["endpoint_params"],
     "noProxy": json["no_proxy"] == null ? void 0 : json["no_proxy"],
     "proxyConnectHeader": json["proxy_connect_header"] == null ? void 0 : json["proxy_connect_header"],
@@ -3509,6 +3838,7 @@ function OAuth2ToJSONTyped(value, ignoreDiscriminator = false) {
     "client_id": value["clientId"],
     "client_secret": value["clientSecret"],
     "client_secret_file": value["clientSecretFile"],
+    "client_secret_ref": value["clientSecretRef"],
     "endpoint_params": value["endpointParams"],
     "no_proxy": value["noProxy"],
     "proxy_connect_header": value["proxyConnectHeader"],
@@ -3516,6 +3846,64 @@ function OAuth2ToJSONTyped(value, ignoreDiscriminator = false) {
     "proxy_url": URLToJSON(value["proxyUrl"]),
     "scopes": value["scopes"],
     "token_url": value["tokenUrl"]
+  };
+}
+
+// models/Header.ts
+function instanceOfHeader(value) {
+  return true;
+}
+function HeaderFromJSON(json) {
+  return HeaderFromJSONTyped(json);
+}
+function HeaderFromJSONTyped(json, ignoreDiscriminator) {
+  if (json == null) {
+    return json;
+  }
+  return {
+    "files": json["files"] == null ? void 0 : json["files"],
+    "secrets": json["secrets"] == null ? void 0 : json["secrets"],
+    "values": json["values"] == null ? void 0 : json["values"]
+  };
+}
+function HeaderToJSON(json) {
+  return HeaderToJSONTyped(json, false);
+}
+function HeaderToJSONTyped(value, ignoreDiscriminator = false) {
+  if (value == null) {
+    return value;
+  }
+  return {
+    "files": value["files"],
+    "secrets": value["secrets"],
+    "values": value["values"]
+  };
+}
+
+// models/Headers.ts
+function instanceOfHeaders(value) {
+  return true;
+}
+function HeadersFromJSON(json) {
+  return HeadersFromJSONTyped(json);
+}
+function HeadersFromJSONTyped(json, ignoreDiscriminator) {
+  if (json == null) {
+    return json;
+  }
+  return {
+    "headers": json["Headers"] == null ? void 0 : mapValues(json["Headers"], HeaderFromJSON)
+  };
+}
+function HeadersToJSON(json) {
+  return HeadersToJSONTyped(json, false);
+}
+function HeadersToJSONTyped(value, ignoreDiscriminator = false) {
+  if (value == null) {
+    return value;
+  }
+  return {
+    "Headers": value["headers"] == null ? void 0 : mapValues(value["headers"], HeaderToJSON)
   };
 }
 
@@ -3537,6 +3925,7 @@ function HTTPClientConfigFromJSONTyped(json, ignoreDiscriminator) {
     "bearerTokenFile": json["bearer_token_file"] == null ? void 0 : json["bearer_token_file"],
     "enableHttp2": json["enable_http2"] == null ? void 0 : json["enable_http2"],
     "followRedirects": json["follow_redirects"] == null ? void 0 : json["follow_redirects"],
+    "httpHeaders": json["http_headers"] == null ? void 0 : HeadersFromJSON(json["http_headers"]),
     "noProxy": json["no_proxy"] == null ? void 0 : json["no_proxy"],
     "oauth2": json["oauth2"] == null ? void 0 : OAuth2FromJSON(json["oauth2"]),
     "proxyConnectHeader": json["proxy_connect_header"] == null ? void 0 : json["proxy_connect_header"],
@@ -3559,6 +3948,7 @@ function HTTPClientConfigToJSONTyped(value, ignoreDiscriminator = false) {
     "bearer_token_file": value["bearerTokenFile"],
     "enable_http2": value["enableHttp2"],
     "follow_redirects": value["followRedirects"],
+    "http_headers": HeadersToJSON(value["httpHeaders"]),
     "no_proxy": value["noProxy"],
     "oauth2": OAuth2ToJSON(value["oauth2"]),
     "proxy_connect_header": value["proxyConnectHeader"],
@@ -3906,6 +4296,33 @@ function CorrelationConfigUpdateDTOToJSONTyped(value, ignoreDiscriminator = fals
     "target": value["target"],
     "transformations": value["transformations"] == null ? void 0 : value["transformations"].map(TransformationToJSON),
     "type": value["type"]
+  };
+}
+
+// models/CreateAccessTokenResponseDTO.ts
+function instanceOfCreateAccessTokenResponseDTO(value) {
+  return true;
+}
+function CreateAccessTokenResponseDTOFromJSON(json) {
+  return CreateAccessTokenResponseDTOFromJSONTyped(json);
+}
+function CreateAccessTokenResponseDTOFromJSONTyped(json, ignoreDiscriminator) {
+  if (json == null) {
+    return json;
+  }
+  return {
+    "token": json["token"] == null ? void 0 : json["token"]
+  };
+}
+function CreateAccessTokenResponseDTOToJSON(json) {
+  return CreateAccessTokenResponseDTOToJSONTyped(json, false);
+}
+function CreateAccessTokenResponseDTOToJSONTyped(value, ignoreDiscriminator = false) {
+  if (value == null) {
+    return value;
+  }
+  return {
+    "token": value["token"]
   };
 }
 
@@ -4314,14 +4731,14 @@ function ReportOptionsToJSONTyped(value, ignoreDiscriminator = false) {
   };
 }
 
-// models/CreateOrUpdateReportConfig.ts
-function instanceOfCreateOrUpdateReportConfig(value) {
+// models/CreateOrUpdateReport.ts
+function instanceOfCreateOrUpdateReport(value) {
   return true;
 }
-function CreateOrUpdateReportConfigFromJSON(json) {
-  return CreateOrUpdateReportConfigFromJSONTyped(json);
+function CreateOrUpdateReportFromJSON(json) {
+  return CreateOrUpdateReportFromJSONTyped(json);
 }
-function CreateOrUpdateReportConfigFromJSONTyped(json, ignoreDiscriminator) {
+function CreateOrUpdateReportFromJSONTyped(json, ignoreDiscriminator) {
   if (json == null) {
     return json;
   }
@@ -4340,10 +4757,10 @@ function CreateOrUpdateReportConfigFromJSONTyped(json, ignoreDiscriminator) {
     "state": json["state"] == null ? void 0 : json["state"]
   };
 }
-function CreateOrUpdateReportConfigToJSON(json) {
-  return CreateOrUpdateReportConfigToJSONTyped(json, false);
+function CreateOrUpdateReportToJSON(json) {
+  return CreateOrUpdateReportToJSONTyped(json, false);
 }
-function CreateOrUpdateReportConfigToJSONTyped(value, ignoreDiscriminator = false) {
+function CreateOrUpdateReportToJSONTyped(value, ignoreDiscriminator = false) {
   if (value == null) {
     return value;
   }
@@ -4661,6 +5078,33 @@ function CreateServiceAccountFormToJSONTyped(value, ignoreDiscriminator = false)
   };
 }
 
+// models/CreateSnapshotResponseDTO.ts
+function instanceOfCreateSnapshotResponseDTO(value) {
+  return true;
+}
+function CreateSnapshotResponseDTOFromJSON(json) {
+  return CreateSnapshotResponseDTOFromJSONTyped(json);
+}
+function CreateSnapshotResponseDTOFromJSONTyped(json, ignoreDiscriminator) {
+  if (json == null) {
+    return json;
+  }
+  return {
+    "uid": json["uid"] == null ? void 0 : json["uid"]
+  };
+}
+function CreateSnapshotResponseDTOToJSON(json) {
+  return CreateSnapshotResponseDTOToJSONTyped(json, false);
+}
+function CreateSnapshotResponseDTOToJSONTyped(value, ignoreDiscriminator = false) {
+  if (value == null) {
+    return value;
+  }
+  return {
+    "uid": value["uid"]
+  };
+}
+
 // models/CreateTeam200Response.ts
 function instanceOfCreateTeam200Response(value) {
   return true;
@@ -4903,7 +5347,6 @@ function DashboardMetaFromJSONTyped(json, ignoreDiscriminator) {
     "provisioned": json["provisioned"] == null ? void 0 : json["provisioned"],
     "provisionedExternalId": json["provisionedExternalId"] == null ? void 0 : json["provisionedExternalId"],
     "publicDashboardEnabled": json["publicDashboardEnabled"] == null ? void 0 : json["publicDashboardEnabled"],
-    "publicDashboardUid": json["publicDashboardUid"] == null ? void 0 : json["publicDashboardUid"],
     "slug": json["slug"] == null ? void 0 : json["slug"],
     "type": json["type"] == null ? void 0 : json["type"],
     "updated": json["updated"] == null ? void 0 : new Date(json["updated"]),
@@ -4940,7 +5383,6 @@ function DashboardMetaToJSONTyped(value, ignoreDiscriminator = false) {
     "provisioned": value["provisioned"],
     "provisionedExternalId": value["provisionedExternalId"],
     "publicDashboardEnabled": value["publicDashboardEnabled"],
-    "publicDashboardUid": value["publicDashboardUid"],
     "slug": value["slug"],
     "type": value["type"],
     "updated": value["updated"] == null ? void 0 : value["updated"].toISOString(),
@@ -5760,9 +6202,9 @@ function DeleteCorrelationResponseBodyToJSONTyped(value, ignoreDiscriminator = f
 
 // models/DeleteDashboardByUID200Response.ts
 function instanceOfDeleteDashboardByUID200Response(value) {
-  if (!("id" in value) || value["id"] === void 0) return false;
   if (!("message" in value) || value["message"] === void 0) return false;
   if (!("title" in value) || value["title"] === void 0) return false;
+  if (!("uid" in value) || value["uid"] === void 0) return false;
   return true;
 }
 function DeleteDashboardByUID200ResponseFromJSON(json) {
@@ -5773,9 +6215,9 @@ function DeleteDashboardByUID200ResponseFromJSONTyped(json, ignoreDiscriminator)
     return json;
   }
   return {
-    "id": json["id"],
     "message": json["message"],
-    "title": json["title"]
+    "title": json["title"],
+    "uid": json["uid"]
   };
 }
 function DeleteDashboardByUID200ResponseToJSON(json) {
@@ -5786,9 +6228,9 @@ function DeleteDashboardByUID200ResponseToJSONTyped(value, ignoreDiscriminator =
     return value;
   }
   return {
-    "id": value["id"],
     "message": value["message"],
-    "title": value["title"]
+    "title": value["title"],
+    "uid": value["uid"]
   };
 }
 
@@ -7256,6 +7698,43 @@ function GenericPublicErrorToJSONTyped(value, ignoreDiscriminator = false) {
   };
 }
 
+// models/GetAccessTokenResponseDTO.ts
+function instanceOfGetAccessTokenResponseDTO(value) {
+  return true;
+}
+function GetAccessTokenResponseDTOFromJSON(json) {
+  return GetAccessTokenResponseDTOFromJSONTyped(json);
+}
+function GetAccessTokenResponseDTOFromJSONTyped(json, ignoreDiscriminator) {
+  if (json == null) {
+    return json;
+  }
+  return {
+    "createdAt": json["createdAt"] == null ? void 0 : json["createdAt"],
+    "displayName": json["displayName"] == null ? void 0 : json["displayName"],
+    "expiresAt": json["expiresAt"] == null ? void 0 : json["expiresAt"],
+    "firstUsedAt": json["firstUsedAt"] == null ? void 0 : json["firstUsedAt"],
+    "id": json["id"] == null ? void 0 : json["id"],
+    "lastUsedAt": json["lastUsedAt"] == null ? void 0 : json["lastUsedAt"]
+  };
+}
+function GetAccessTokenResponseDTOToJSON(json) {
+  return GetAccessTokenResponseDTOToJSONTyped(json, false);
+}
+function GetAccessTokenResponseDTOToJSONTyped(value, ignoreDiscriminator = false) {
+  if (value == null) {
+    return value;
+  }
+  return {
+    "createdAt": value["createdAt"],
+    "displayName": value["displayName"],
+    "expiresAt": value["expiresAt"],
+    "firstUsedAt": value["firstUsedAt"],
+    "id": value["id"],
+    "lastUsedAt": value["lastUsedAt"]
+  };
+}
+
 // models/GetAnnotationTagsResponse.ts
 function instanceOfGetAnnotationTagsResponse(value) {
   return true;
@@ -7370,6 +7849,136 @@ function GetSharingOptions200ResponseToJSONTyped(value, ignoreDiscriminator = fa
     "externalEnabled": value["externalEnabled"],
     "externalSnapshotName": value["externalSnapshotName"],
     "externalSnapshotURL": value["externalSnapshotURL"]
+  };
+}
+
+// models/MigrateDataResponseItemDTO.ts
+var MigrateDataResponseItemDTOStatusEnum = {
+  Ok: "OK",
+  Warning: "WARNING",
+  Error: "ERROR",
+  Pending: "PENDING",
+  Unknown: "UNKNOWN"
+};
+var MigrateDataResponseItemDTOTypeEnum = {
+  Dashboard: "DASHBOARD",
+  Datasource: "DATASOURCE",
+  Folder: "FOLDER"
+};
+function instanceOfMigrateDataResponseItemDTO(value) {
+  if (!("refId" in value) || value["refId"] === void 0) return false;
+  if (!("status" in value) || value["status"] === void 0) return false;
+  if (!("type" in value) || value["type"] === void 0) return false;
+  return true;
+}
+function MigrateDataResponseItemDTOFromJSON(json) {
+  return MigrateDataResponseItemDTOFromJSONTyped(json);
+}
+function MigrateDataResponseItemDTOFromJSONTyped(json, ignoreDiscriminator) {
+  if (json == null) {
+    return json;
+  }
+  return {
+    "message": json["message"] == null ? void 0 : json["message"],
+    "refId": json["refId"],
+    "status": json["status"],
+    "type": json["type"]
+  };
+}
+function MigrateDataResponseItemDTOToJSON(json) {
+  return MigrateDataResponseItemDTOToJSONTyped(json, false);
+}
+function MigrateDataResponseItemDTOToJSONTyped(value, ignoreDiscriminator = false) {
+  if (value == null) {
+    return value;
+  }
+  return {
+    "message": value["message"],
+    "refId": value["refId"],
+    "status": value["status"],
+    "type": value["type"]
+  };
+}
+
+// models/SnapshotResourceStats.ts
+function instanceOfSnapshotResourceStats(value) {
+  return true;
+}
+function SnapshotResourceStatsFromJSON(json) {
+  return SnapshotResourceStatsFromJSONTyped(json);
+}
+function SnapshotResourceStatsFromJSONTyped(json, ignoreDiscriminator) {
+  if (json == null) {
+    return json;
+  }
+  return {
+    "statuses": json["statuses"] == null ? void 0 : json["statuses"],
+    "total": json["total"] == null ? void 0 : json["total"],
+    "types": json["types"] == null ? void 0 : json["types"]
+  };
+}
+function SnapshotResourceStatsToJSON(json) {
+  return SnapshotResourceStatsToJSONTyped(json, false);
+}
+function SnapshotResourceStatsToJSONTyped(value, ignoreDiscriminator = false) {
+  if (value == null) {
+    return value;
+  }
+  return {
+    "statuses": value["statuses"],
+    "total": value["total"],
+    "types": value["types"]
+  };
+}
+
+// models/GetSnapshotResponseDTO.ts
+var GetSnapshotResponseDTOStatusEnum = {
+  Initializing: "INITIALIZING",
+  Creating: "CREATING",
+  PendingUpload: "PENDING_UPLOAD",
+  Uploading: "UPLOADING",
+  PendingProcessing: "PENDING_PROCESSING",
+  Processing: "PROCESSING",
+  Finished: "FINISHED",
+  Canceled: "CANCELED",
+  Error: "ERROR",
+  Unknown: "UNKNOWN"
+};
+function instanceOfGetSnapshotResponseDTO(value) {
+  return true;
+}
+function GetSnapshotResponseDTOFromJSON(json) {
+  return GetSnapshotResponseDTOFromJSONTyped(json);
+}
+function GetSnapshotResponseDTOFromJSONTyped(json, ignoreDiscriminator) {
+  if (json == null) {
+    return json;
+  }
+  return {
+    "created": json["created"] == null ? void 0 : new Date(json["created"]),
+    "finished": json["finished"] == null ? void 0 : new Date(json["finished"]),
+    "results": json["results"] == null ? void 0 : json["results"].map(MigrateDataResponseItemDTOFromJSON),
+    "sessionUid": json["sessionUid"] == null ? void 0 : json["sessionUid"],
+    "stats": json["stats"] == null ? void 0 : SnapshotResourceStatsFromJSON(json["stats"]),
+    "status": json["status"] == null ? void 0 : json["status"],
+    "uid": json["uid"] == null ? void 0 : json["uid"]
+  };
+}
+function GetSnapshotResponseDTOToJSON(json) {
+  return GetSnapshotResponseDTOToJSONTyped(json, false);
+}
+function GetSnapshotResponseDTOToJSONTyped(value, ignoreDiscriminator = false) {
+  if (value == null) {
+    return value;
+  }
+  return {
+    "created": value["created"] == null ? void 0 : value["created"].toISOString(),
+    "finished": value["finished"] == null ? void 0 : value["finished"].toISOString(),
+    "results": value["results"] == null ? void 0 : value["results"].map(MigrateDataResponseItemDTOToJSON),
+    "sessionUid": value["sessionUid"],
+    "stats": SnapshotResourceStatsToJSON(value["stats"]),
+    "status": value["status"],
+    "uid": value["uid"]
   };
 }
 
@@ -7767,6 +8376,7 @@ function GettableGrafanaRuleFromJSONTyped(json, ignoreDiscriminator) {
     "notificationSettings": json["notification_settings"] == null ? void 0 : AlertRuleNotificationSettingsFromJSON(json["notification_settings"]),
     "orgId": json["orgId"] == null ? void 0 : json["orgId"],
     "provenance": json["provenance"] == null ? void 0 : json["provenance"],
+    "record": json["record"] == null ? void 0 : RecordFromJSON(json["record"]),
     "ruleGroup": json["rule_group"] == null ? void 0 : json["rule_group"],
     "title": json["title"] == null ? void 0 : json["title"],
     "uid": json["uid"] == null ? void 0 : json["uid"],
@@ -7793,6 +8403,7 @@ function GettableGrafanaRuleToJSONTyped(value, ignoreDiscriminator = false) {
     "notification_settings": AlertRuleNotificationSettingsToJSON(value["notificationSettings"]),
     "orgId": value["orgId"],
     "provenance": value["provenance"],
+    "record": RecordToJSON(value["record"]),
     "rule_group": value["ruleGroup"],
     "title": value["title"],
     "uid": value["uid"],
@@ -7866,6 +8477,121 @@ function GettableGrafanaReceiversToJSONTyped(value, ignoreDiscriminator = false)
   }
   return {
     "grafana_managed_receiver_configs": value["grafanaManagedReceiverConfigs"] == null ? void 0 : value["grafanaManagedReceiverConfigs"].map(GettableGrafanaReceiverToJSON)
+  };
+}
+
+// models/SilenceStatus.ts
+var SilenceStatusStateEnum = {
+  ExpiredActivePending: "[expired active pending]"
+};
+function instanceOfSilenceStatus(value) {
+  if (!("state" in value) || value["state"] === void 0) return false;
+  return true;
+}
+function SilenceStatusFromJSON(json) {
+  return SilenceStatusFromJSONTyped(json);
+}
+function SilenceStatusFromJSONTyped(json, ignoreDiscriminator) {
+  if (json == null) {
+    return json;
+  }
+  return {
+    "state": json["state"]
+  };
+}
+function SilenceStatusToJSON(json) {
+  return SilenceStatusToJSONTyped(json, false);
+}
+function SilenceStatusToJSONTyped(value, ignoreDiscriminator = false) {
+  if (value == null) {
+    return value;
+  }
+  return {
+    "state": value["state"]
+  };
+}
+
+// models/SilenceMetadata.ts
+function instanceOfSilenceMetadata(value) {
+  return true;
+}
+function SilenceMetadataFromJSON(json) {
+  return SilenceMetadataFromJSONTyped(json);
+}
+function SilenceMetadataFromJSONTyped(json, ignoreDiscriminator) {
+  if (json == null) {
+    return json;
+  }
+  return {
+    "folderUid": json["folder_uid"] == null ? void 0 : json["folder_uid"],
+    "ruleTitle": json["rule_title"] == null ? void 0 : json["rule_title"],
+    "ruleUid": json["rule_uid"] == null ? void 0 : json["rule_uid"]
+  };
+}
+function SilenceMetadataToJSON(json) {
+  return SilenceMetadataToJSONTyped(json, false);
+}
+function SilenceMetadataToJSONTyped(value, ignoreDiscriminator = false) {
+  if (value == null) {
+    return value;
+  }
+  return {
+    "folder_uid": value["folderUid"],
+    "rule_title": value["ruleTitle"],
+    "rule_uid": value["ruleUid"]
+  };
+}
+
+// models/GettableGrafanaSilence.ts
+function instanceOfGettableGrafanaSilence(value) {
+  if (!("comment" in value) || value["comment"] === void 0) return false;
+  if (!("createdBy" in value) || value["createdBy"] === void 0) return false;
+  if (!("endsAt" in value) || value["endsAt"] === void 0) return false;
+  if (!("id" in value) || value["id"] === void 0) return false;
+  if (!("matchers" in value) || value["matchers"] === void 0) return false;
+  if (!("startsAt" in value) || value["startsAt"] === void 0) return false;
+  if (!("status" in value) || value["status"] === void 0) return false;
+  if (!("updatedAt" in value) || value["updatedAt"] === void 0) return false;
+  return true;
+}
+function GettableGrafanaSilenceFromJSON(json) {
+  return GettableGrafanaSilenceFromJSONTyped(json);
+}
+function GettableGrafanaSilenceFromJSONTyped(json, ignoreDiscriminator) {
+  if (json == null) {
+    return json;
+  }
+  return {
+    "accessControl": json["accessControl"] == null ? void 0 : json["accessControl"],
+    "comment": json["comment"],
+    "createdBy": json["createdBy"],
+    "endsAt": new Date(json["endsAt"]),
+    "id": json["id"],
+    "matchers": json["matchers"].map(MatcherFromJSON),
+    "metadata": json["metadata"] == null ? void 0 : SilenceMetadataFromJSON(json["metadata"]),
+    "startsAt": new Date(json["startsAt"]),
+    "status": SilenceStatusFromJSON(json["status"]),
+    "updatedAt": new Date(json["updatedAt"])
+  };
+}
+function GettableGrafanaSilenceToJSON(json) {
+  return GettableGrafanaSilenceToJSONTyped(json, false);
+}
+function GettableGrafanaSilenceToJSONTyped(value, ignoreDiscriminator = false) {
+  if (value == null) {
+    return value;
+  }
+  return {
+    "accessControl": value["accessControl"],
+    "comment": value["comment"],
+    "createdBy": value["createdBy"],
+    "endsAt": value["endsAt"].toISOString(),
+    "id": value["id"],
+    "matchers": value["matchers"].map(MatcherToJSON),
+    "metadata": SilenceMetadataToJSON(value["metadata"]),
+    "startsAt": value["startsAt"].toISOString(),
+    "status": SilenceStatusToJSON(value["status"]),
+    "updatedAt": value["updatedAt"].toISOString()
   };
 }
 
@@ -7966,37 +8692,6 @@ function GettableRuleGroupConfigToJSONTyped(value, ignoreDiscriminator = false) 
     "name": value["name"],
     "rules": value["rules"] == null ? void 0 : value["rules"].map(GettableExtendedRuleNodeToJSON),
     "source_tenants": value["sourceTenants"]
-  };
-}
-
-// models/SilenceStatus.ts
-var SilenceStatusStateEnum = {
-  ExpiredActivePending: "[expired active pending]"
-};
-function instanceOfSilenceStatus(value) {
-  if (!("state" in value) || value["state"] === void 0) return false;
-  return true;
-}
-function SilenceStatusFromJSON(json) {
-  return SilenceStatusFromJSONTyped(json);
-}
-function SilenceStatusFromJSONTyped(json, ignoreDiscriminator) {
-  if (json == null) {
-    return json;
-  }
-  return {
-    "state": json["state"]
-  };
-}
-function SilenceStatusToJSON(json) {
-  return SilenceStatusToJSONTyped(json, false);
-}
-function SilenceStatusToJSONTyped(value, ignoreDiscriminator = false) {
-  if (value == null) {
-    return value;
-  }
-  return {
-    "state": value["state"]
   };
 }
 
@@ -8260,7 +8955,8 @@ function GettableTimeIntervalsFromJSONTyped(json, ignoreDiscriminator) {
   return {
     "name": json["name"] == null ? void 0 : json["name"],
     "provenance": json["provenance"] == null ? void 0 : json["provenance"],
-    "timeIntervals": json["time_intervals"] == null ? void 0 : json["time_intervals"].map(TimeIntervalItemFromJSON)
+    "timeIntervals": json["time_intervals"] == null ? void 0 : json["time_intervals"].map(TimeIntervalItemFromJSON),
+    "version": json["version"] == null ? void 0 : json["version"]
   };
 }
 function GettableTimeIntervalsToJSON(json) {
@@ -8273,7 +8969,8 @@ function GettableTimeIntervalsToJSONTyped(value, ignoreDiscriminator = false) {
   return {
     "name": value["name"],
     "provenance": value["provenance"],
-    "time_intervals": value["timeIntervals"] == null ? void 0 : value["timeIntervals"].map(TimeIntervalItemToJSON)
+    "time_intervals": value["timeIntervals"] == null ? void 0 : value["timeIntervals"].map(TimeIntervalItemToJSON),
+    "version": value["version"]
   };
 }
 
@@ -8308,6 +9005,39 @@ function GettableUserConfigToJSONTyped(value, ignoreDiscriminator = false) {
   };
 }
 
+// models/HealthResponse.ts
+function instanceOfHealthResponse(value) {
+  return true;
+}
+function HealthResponseFromJSON(json) {
+  return HealthResponseFromJSONTyped(json);
+}
+function HealthResponseFromJSONTyped(json, ignoreDiscriminator) {
+  if (json == null) {
+    return json;
+  }
+  return {
+    "commit": json["commit"] == null ? void 0 : json["commit"],
+    "database": json["database"] == null ? void 0 : json["database"],
+    "enterpriseCommit": json["enterpriseCommit"] == null ? void 0 : json["enterpriseCommit"],
+    "version": json["version"] == null ? void 0 : json["version"]
+  };
+}
+function HealthResponseToJSON(json) {
+  return HealthResponseToJSONTyped(json, false);
+}
+function HealthResponseToJSONTyped(value, ignoreDiscriminator = false) {
+  if (value == null) {
+    return value;
+  }
+  return {
+    "commit": value["commit"],
+    "database": value["database"],
+    "enterpriseCommit": value["enterpriseCommit"],
+    "version": value["version"]
+  };
+}
+
 // models/Hit.ts
 function instanceOfHit(value) {
   return true;
@@ -8325,7 +9055,9 @@ function HitFromJSONTyped(json, ignoreDiscriminator) {
     "folderUid": json["folderUid"] == null ? void 0 : json["folderUid"],
     "folderUrl": json["folderUrl"] == null ? void 0 : json["folderUrl"],
     "id": json["id"] == null ? void 0 : json["id"],
+    "isDeleted": json["isDeleted"] == null ? void 0 : json["isDeleted"],
     "isStarred": json["isStarred"] == null ? void 0 : json["isStarred"],
+    "permanentlyDeleteDate": json["permanentlyDeleteDate"] == null ? void 0 : new Date(json["permanentlyDeleteDate"]),
     "slug": json["slug"] == null ? void 0 : json["slug"],
     "sortMeta": json["sortMeta"] == null ? void 0 : json["sortMeta"],
     "sortMetaName": json["sortMetaName"] == null ? void 0 : json["sortMetaName"],
@@ -8350,7 +9082,9 @@ function HitToJSONTyped(value, ignoreDiscriminator = false) {
     "folderUid": value["folderUid"],
     "folderUrl": value["folderUrl"],
     "id": value["id"],
+    "isDeleted": value["isDeleted"],
     "isStarred": value["isStarred"],
+    "permanentlyDeleteDate": value["permanentlyDeleteDate"] == null ? void 0 : value["permanentlyDeleteDate"].toISOString(),
     "slug": value["slug"],
     "sortMeta": value["sortMeta"],
     "sortMetaName": value["sortMetaName"],
@@ -8528,33 +9262,6 @@ function JSONWebKeyToJSONTyped(value, ignoreDiscriminator = false) {
     "Key": value["key"],
     "KeyID": value["keyID"],
     "Use": value["use"]
-  };
-}
-
-// models/Label.ts
-function instanceOfLabel(value) {
-  return true;
-}
-function LabelFromJSON(json) {
-  return LabelFromJSONTyped(json);
-}
-function LabelFromJSONTyped(json, ignoreDiscriminator) {
-  if (json == null) {
-    return json;
-  }
-  return {
-    "name": json["Name"] == null ? void 0 : json["Name"]
-  };
-}
-function LabelToJSON(json) {
-  return LabelToJSONTyped(json, false);
-}
-function LabelToJSONTyped(value, ignoreDiscriminator = false) {
-  if (value == null) {
-    return value;
-  }
-  return {
-    "Name": value["name"]
   };
 }
 
@@ -8994,6 +9701,35 @@ function MetricRequestToJSONTyped(value, ignoreDiscriminator = false) {
   };
 }
 
+// models/MigrateDataResponseDTO.ts
+function instanceOfMigrateDataResponseDTO(value) {
+  return true;
+}
+function MigrateDataResponseDTOFromJSON(json) {
+  return MigrateDataResponseDTOFromJSONTyped(json);
+}
+function MigrateDataResponseDTOFromJSONTyped(json, ignoreDiscriminator) {
+  if (json == null) {
+    return json;
+  }
+  return {
+    "items": json["items"] == null ? void 0 : json["items"].map(MigrateDataResponseItemDTOFromJSON),
+    "uid": json["uid"] == null ? void 0 : json["uid"]
+  };
+}
+function MigrateDataResponseDTOToJSON(json) {
+  return MigrateDataResponseDTOToJSONTyped(json, false);
+}
+function MigrateDataResponseDTOToJSONTyped(value, ignoreDiscriminator = false) {
+  if (value == null) {
+    return value;
+  }
+  return {
+    "items": value["items"] == null ? void 0 : value["items"].map(MigrateDataResponseItemDTOToJSON),
+    "uid": value["uid"]
+  };
+}
+
 // models/MoveFolderCommand.ts
 function instanceOfMoveFolderCommand(value) {
   return true;
@@ -9018,6 +9754,33 @@ function MoveFolderCommandToJSONTyped(value, ignoreDiscriminator = false) {
   }
   return {
     "parentUid": value["parentUid"]
+  };
+}
+
+// models/NavbarPreference.ts
+function instanceOfNavbarPreference(value) {
+  return true;
+}
+function NavbarPreferenceFromJSON(json) {
+  return NavbarPreferenceFromJSONTyped(json);
+}
+function NavbarPreferenceFromJSONTyped(json, ignoreDiscriminator) {
+  if (json == null) {
+    return json;
+  }
+  return {
+    "bookmarkUrls": json["bookmarkUrls"] == null ? void 0 : json["bookmarkUrls"]
+  };
+}
+function NavbarPreferenceToJSON(json) {
+  return NavbarPreferenceToJSONTyped(json, false);
+}
+function NavbarPreferenceToJSONTyped(value, ignoreDiscriminator = false) {
+  if (value == null) {
+    return value;
+  }
+  return {
+    "bookmarkUrls": value["bookmarkUrls"]
   };
 }
 
@@ -9066,7 +9829,8 @@ function NotificationTemplateFromJSONTyped(json, ignoreDiscriminator) {
   return {
     "name": json["name"] == null ? void 0 : json["name"],
     "provenance": json["provenance"] == null ? void 0 : json["provenance"],
-    "template": json["template"] == null ? void 0 : json["template"]
+    "template": json["template"] == null ? void 0 : json["template"],
+    "version": json["version"] == null ? void 0 : json["version"]
   };
 }
 function NotificationTemplateToJSON(json) {
@@ -9079,7 +9843,8 @@ function NotificationTemplateToJSONTyped(value, ignoreDiscriminator = false) {
   return {
     "name": value["name"],
     "provenance": value["provenance"],
-    "template": value["template"]
+    "template": value["template"],
+    "version": value["version"]
   };
 }
 
@@ -9095,7 +9860,8 @@ function NotificationTemplateContentFromJSONTyped(json, ignoreDiscriminator) {
     return json;
   }
   return {
-    "template": json["template"] == null ? void 0 : json["template"]
+    "template": json["template"] == null ? void 0 : json["template"],
+    "version": json["version"] == null ? void 0 : json["version"]
   };
 }
 function NotificationTemplateContentToJSON(json) {
@@ -9106,7 +9872,8 @@ function NotificationTemplateContentToJSONTyped(value, ignoreDiscriminator = fal
     return value;
   }
   return {
-    "template": value["template"]
+    "template": value["template"],
+    "version": value["version"]
   };
 }
 
@@ -9379,6 +10146,7 @@ function PatchPrefsCmdFromJSONTyped(json, ignoreDiscriminator) {
     "homeDashboardId": json["homeDashboardId"] == null ? void 0 : json["homeDashboardId"],
     "homeDashboardUID": json["homeDashboardUID"] == null ? void 0 : json["homeDashboardUID"],
     "language": json["language"] == null ? void 0 : json["language"],
+    "navbar": json["navbar"] == null ? void 0 : NavbarPreferenceFromJSON(json["navbar"]),
     "queryHistory": json["queryHistory"] == null ? void 0 : QueryHistoryPreferenceFromJSON(json["queryHistory"]),
     "theme": json["theme"] == null ? void 0 : json["theme"],
     "timezone": json["timezone"] == null ? void 0 : json["timezone"],
@@ -9397,6 +10165,7 @@ function PatchPrefsCmdToJSONTyped(value, ignoreDiscriminator = false) {
     "homeDashboardId": value["homeDashboardId"],
     "homeDashboardUID": value["homeDashboardUID"],
     "language": value["language"],
+    "navbar": NavbarPreferenceToJSON(value["navbar"]),
     "queryHistory": QueryHistoryPreferenceToJSON(value["queryHistory"]),
     "theme": value["theme"],
     "timezone": value["timezone"],
@@ -9807,6 +10576,7 @@ function PostableGrafanaRuleFromJSONTyped(json, ignoreDiscriminator) {
     "isPaused": json["is_paused"] == null ? void 0 : json["is_paused"],
     "noDataState": json["no_data_state"] == null ? void 0 : json["no_data_state"],
     "notificationSettings": json["notification_settings"] == null ? void 0 : AlertRuleNotificationSettingsFromJSON(json["notification_settings"]),
+    "record": json["record"] == null ? void 0 : RecordFromJSON(json["record"]),
     "title": json["title"] == null ? void 0 : json["title"],
     "uid": json["uid"] == null ? void 0 : json["uid"]
   };
@@ -9825,6 +10595,7 @@ function PostableGrafanaRuleToJSONTyped(value, ignoreDiscriminator = false) {
     "is_paused": value["isPaused"],
     "no_data_state": value["noDataState"],
     "notification_settings": AlertRuleNotificationSettingsToJSON(value["notificationSettings"]),
+    "record": RecordToJSON(value["record"]),
     "title": value["title"],
     "uid": value["uid"]
   };
@@ -10050,7 +10821,8 @@ function PostableTimeIntervalsFromJSONTyped(json, ignoreDiscriminator) {
   }
   return {
     "name": json["name"] == null ? void 0 : json["name"],
-    "timeIntervals": json["time_intervals"] == null ? void 0 : json["time_intervals"].map(TimeIntervalItemFromJSON)
+    "timeIntervals": json["time_intervals"] == null ? void 0 : json["time_intervals"].map(TimeIntervalItemFromJSON),
+    "version": json["version"] == null ? void 0 : json["version"]
   };
 }
 function PostableTimeIntervalsToJSON(json) {
@@ -10062,7 +10834,8 @@ function PostableTimeIntervalsToJSONTyped(value, ignoreDiscriminator = false) {
   }
   return {
     "name": value["name"],
-    "time_intervals": value["timeIntervals"] == null ? void 0 : value["timeIntervals"].map(TimeIntervalItemToJSON)
+    "time_intervals": value["timeIntervals"] == null ? void 0 : value["timeIntervals"].map(TimeIntervalItemToJSON),
+    "version": value["version"]
   };
 }
 
@@ -10110,6 +10883,7 @@ function PreferencesFromJSONTyped(json, ignoreDiscriminator) {
     "cookiePreferences": json["cookiePreferences"] == null ? void 0 : CookiePreferencesFromJSON(json["cookiePreferences"]),
     "homeDashboardUID": json["homeDashboardUID"] == null ? void 0 : json["homeDashboardUID"],
     "language": json["language"] == null ? void 0 : json["language"],
+    "navbar": json["navbar"] == null ? void 0 : NavbarPreferenceFromJSON(json["navbar"]),
     "queryHistory": json["queryHistory"] == null ? void 0 : QueryHistoryPreferenceFromJSON(json["queryHistory"]),
     "theme": json["theme"] == null ? void 0 : json["theme"],
     "timezone": json["timezone"] == null ? void 0 : json["timezone"],
@@ -10127,6 +10901,7 @@ function PreferencesToJSONTyped(value, ignoreDiscriminator = false) {
     "cookiePreferences": CookiePreferencesToJSON(value["cookiePreferences"]),
     "homeDashboardUID": value["homeDashboardUID"],
     "language": value["language"],
+    "navbar": NavbarPreferenceToJSON(value["navbar"]),
     "queryHistory": QueryHistoryPreferenceToJSON(value["queryHistory"]),
     "theme": value["theme"],
     "timezone": value["timezone"],
@@ -10885,6 +11660,33 @@ function RestoreDashboardVersionCommandToJSONTyped(value, ignoreDiscriminator = 
   };
 }
 
+// models/RestoreDeletedDashboardCommand.ts
+function instanceOfRestoreDeletedDashboardCommand(value) {
+  return true;
+}
+function RestoreDeletedDashboardCommandFromJSON(json) {
+  return RestoreDeletedDashboardCommandFromJSONTyped(json);
+}
+function RestoreDeletedDashboardCommandFromJSONTyped(json, ignoreDiscriminator) {
+  if (json == null) {
+    return json;
+  }
+  return {
+    "folderUid": json["folderUid"] == null ? void 0 : json["folderUid"]
+  };
+}
+function RestoreDeletedDashboardCommandToJSON(json) {
+  return RestoreDeletedDashboardCommandToJSONTyped(json, false);
+}
+function RestoreDeletedDashboardCommandToJSONTyped(value, ignoreDiscriminator = false) {
+  if (value == null) {
+    return value;
+  }
+  return {
+    "folderUid": value["folderUid"]
+  };
+}
+
 // models/RetrieveJWKS200Response.ts
 function instanceOfRetrieveJWKS200Response(value) {
   return true;
@@ -11072,7 +11874,7 @@ function RuleFromJSONTyped(json, ignoreDiscriminator) {
   return {
     "evaluationTime": json["evaluationTime"] == null ? void 0 : json["evaluationTime"],
     "health": json["health"],
-    "labels": json["labels"] == null ? void 0 : json["labels"],
+    "labels": json["labels"] == null ? void 0 : json["labels"].map(LabelFromJSON),
     "lastError": json["lastError"] == null ? void 0 : json["lastError"],
     "lastEvaluation": json["lastEvaluation"] == null ? void 0 : new Date(json["lastEvaluation"]),
     "name": json["name"],
@@ -11090,7 +11892,7 @@ function RuleToJSONTyped(value, ignoreDiscriminator = false) {
   return {
     "evaluationTime": value["evaluationTime"],
     "health": value["health"],
-    "labels": value["labels"],
+    "labels": value["labels"] == null ? void 0 : value["labels"].map(LabelToJSON),
     "lastError": value["lastError"],
     "lastEvaluation": value["lastEvaluation"] == null ? void 0 : value["lastEvaluation"].toISOString(),
     "name": value["name"],
@@ -11309,6 +12111,45 @@ function SaveDashboardCommandToJSONTyped(value, ignoreDiscriminator = false) {
     "isFolder": value["isFolder"],
     "message": value["message"],
     "overwrite": value["overwrite"],
+    "userId": value["userId"]
+  };
+}
+
+// models/SearchDTO.ts
+function instanceOfSearchDTO(value) {
+  return true;
+}
+function SearchDTOFromJSON(json) {
+  return SearchDTOFromJSONTyped(json);
+}
+function SearchDTOFromJSONTyped(json, ignoreDiscriminator) {
+  if (json == null) {
+    return json;
+  }
+  return {
+    "action": json["action"] == null ? void 0 : json["action"],
+    "basicRole": json["basicRole"] == null ? void 0 : json["basicRole"],
+    "onlyRoles": json["onlyRoles"] == null ? void 0 : json["onlyRoles"],
+    "roleName": json["roleName"] == null ? void 0 : json["roleName"],
+    "scope": json["scope"] == null ? void 0 : json["scope"],
+    "teamId": json["teamId"] == null ? void 0 : json["teamId"],
+    "userId": json["userId"] == null ? void 0 : json["userId"]
+  };
+}
+function SearchDTOToJSON(json) {
+  return SearchDTOToJSONTyped(json, false);
+}
+function SearchDTOToJSONTyped(value, ignoreDiscriminator = false) {
+  if (value == null) {
+    return value;
+  }
+  return {
+    "action": value["action"],
+    "basicRole": value["basicRole"],
+    "onlyRoles": value["onlyRoles"],
+    "roleName": value["roleName"],
+    "scope": value["scope"],
+    "teamId": value["teamId"],
     "userId": value["userId"]
   };
 }
@@ -11852,6 +12693,35 @@ function SetRoleAssignmentsCommandToJSONTyped(value, ignoreDiscriminator = false
   };
 }
 
+// models/SetTeamMembershipsCommand.ts
+function instanceOfSetTeamMembershipsCommand(value) {
+  return true;
+}
+function SetTeamMembershipsCommandFromJSON(json) {
+  return SetTeamMembershipsCommandFromJSONTyped(json);
+}
+function SetTeamMembershipsCommandFromJSONTyped(json, ignoreDiscriminator) {
+  if (json == null) {
+    return json;
+  }
+  return {
+    "admins": json["admins"] == null ? void 0 : json["admins"],
+    "members": json["members"] == null ? void 0 : json["members"]
+  };
+}
+function SetTeamMembershipsCommandToJSON(json) {
+  return SetTeamMembershipsCommandToJSONTyped(json, false);
+}
+function SetTeamMembershipsCommandToJSONTyped(value, ignoreDiscriminator = false) {
+  if (value == null) {
+    return value;
+  }
+  return {
+    "admins": value["admins"],
+    "members": value["members"]
+  };
+}
+
 // models/SetUserRolesCommand.ts
 function instanceOfSetUserRolesCommand(value) {
   return true;
@@ -11920,6 +12790,80 @@ function SilenceToJSONTyped(value, ignoreDiscriminator = false) {
     "endsAt": value["endsAt"].toISOString(),
     "matchers": value["matchers"].map(MatcherToJSON),
     "startsAt": value["startsAt"].toISOString()
+  };
+}
+
+// models/SnapshotDTO.ts
+var SnapshotDTOStatusEnum = {
+  Initializing: "INITIALIZING",
+  Creating: "CREATING",
+  PendingUpload: "PENDING_UPLOAD",
+  Uploading: "UPLOADING",
+  PendingProcessing: "PENDING_PROCESSING",
+  Processing: "PROCESSING",
+  Finished: "FINISHED",
+  Canceled: "CANCELED",
+  Error: "ERROR",
+  Unknown: "UNKNOWN"
+};
+function instanceOfSnapshotDTO(value) {
+  return true;
+}
+function SnapshotDTOFromJSON(json) {
+  return SnapshotDTOFromJSONTyped(json);
+}
+function SnapshotDTOFromJSONTyped(json, ignoreDiscriminator) {
+  if (json == null) {
+    return json;
+  }
+  return {
+    "created": json["created"] == null ? void 0 : new Date(json["created"]),
+    "finished": json["finished"] == null ? void 0 : new Date(json["finished"]),
+    "sessionUid": json["sessionUid"] == null ? void 0 : json["sessionUid"],
+    "status": json["status"] == null ? void 0 : json["status"],
+    "uid": json["uid"] == null ? void 0 : json["uid"]
+  };
+}
+function SnapshotDTOToJSON(json) {
+  return SnapshotDTOToJSONTyped(json, false);
+}
+function SnapshotDTOToJSONTyped(value, ignoreDiscriminator = false) {
+  if (value == null) {
+    return value;
+  }
+  return {
+    "created": value["created"] == null ? void 0 : value["created"].toISOString(),
+    "finished": value["finished"] == null ? void 0 : value["finished"].toISOString(),
+    "sessionUid": value["sessionUid"],
+    "status": value["status"],
+    "uid": value["uid"]
+  };
+}
+
+// models/SnapshotListResponseDTO.ts
+function instanceOfSnapshotListResponseDTO(value) {
+  return true;
+}
+function SnapshotListResponseDTOFromJSON(json) {
+  return SnapshotListResponseDTOFromJSONTyped(json);
+}
+function SnapshotListResponseDTOFromJSONTyped(json, ignoreDiscriminator) {
+  if (json == null) {
+    return json;
+  }
+  return {
+    "snapshots": json["snapshots"] == null ? void 0 : json["snapshots"].map(SnapshotDTOFromJSON)
+  };
+}
+function SnapshotListResponseDTOToJSON(json) {
+  return SnapshotListResponseDTOToJSONTyped(json, false);
+}
+function SnapshotListResponseDTOToJSONTyped(value, ignoreDiscriminator = false) {
+  if (value == null) {
+    return value;
+  }
+  return {
+    "snapshots": value["snapshots"] == null ? void 0 : value["snapshots"].map(SnapshotDTOToJSON)
   };
 }
 
@@ -12955,6 +13899,7 @@ function UpdatePrefsCmdFromJSONTyped(json, ignoreDiscriminator) {
     "homeDashboardId": json["homeDashboardId"] == null ? void 0 : json["homeDashboardId"],
     "homeDashboardUID": json["homeDashboardUID"] == null ? void 0 : json["homeDashboardUID"],
     "language": json["language"] == null ? void 0 : json["language"],
+    "navbar": json["navbar"] == null ? void 0 : NavbarPreferenceFromJSON(json["navbar"]),
     "queryHistory": json["queryHistory"] == null ? void 0 : QueryHistoryPreferenceFromJSON(json["queryHistory"]),
     "theme": json["theme"] == null ? void 0 : json["theme"],
     "timezone": json["timezone"] == null ? void 0 : json["timezone"],
@@ -12973,6 +13918,7 @@ function UpdatePrefsCmdToJSONTyped(value, ignoreDiscriminator = false) {
     "homeDashboardId": value["homeDashboardId"],
     "homeDashboardUID": value["homeDashboardUID"],
     "language": value["language"],
+    "navbar": NavbarPreferenceToJSON(value["navbar"]),
     "queryHistory": QueryHistoryPreferenceToJSON(value["queryHistory"]),
     "theme": value["theme"],
     "timezone": value["timezone"],
@@ -13824,13 +14770,16 @@ var AccessControlApi = class extends BaseAPI {
     return await response.value();
   }
   /**
-   * Gets all existing roles. The response contains all global and organization local roles, for the organization which user is signed in.  You need to have a permission with action `roles:read` and scope `roles:*`.
+   * Gets all existing roles. The response contains all global and organization local roles, for the organization which user is signed in.  You need to have a permission with action `roles:read` and scope `roles:*`.  The `delegatable` flag reduces the set of roles to only those for which the signed-in user has permissions to assign.
    * Get all roles.
    */
   async listRolesRaw(requestParameters, initOverrides) {
     const queryParameters = {};
     if (requestParameters["delegatable"] != null) {
       queryParameters["delegatable"] = requestParameters["delegatable"];
+    }
+    if (requestParameters["includeHidden"] != null) {
+      queryParameters["includeHidden"] = requestParameters["includeHidden"];
     }
     const headerParameters = {};
     if (this.configuration && this.configuration.apiKey) {
@@ -13848,7 +14797,7 @@ var AccessControlApi = class extends BaseAPI {
     return new JSONApiResponse(response, (jsonValue) => jsonValue.map(RoleDTOFromJSON));
   }
   /**
-   * Gets all existing roles. The response contains all global and organization local roles, for the organization which user is signed in.  You need to have a permission with action `roles:read` and scope `roles:*`.
+   * Gets all existing roles. The response contains all global and organization local roles, for the organization which user is signed in.  You need to have a permission with action `roles:read` and scope `roles:*`.  The `delegatable` flag reduces the set of roles to only those for which the signed-in user has permissions to assign.
    * Get all roles.
    */
   async listRoles(requestParameters = {}, initOverrides) {
@@ -16736,6 +17685,41 @@ var DashboardsApi = class extends BaseAPI {
     return await response.value();
   }
   /**
+   * Will delete the dashboard given the specified unique identifier (uid).
+   * Hard delete dashboard by uid.
+   */
+  async hardDeleteDashboardByUIDRaw(requestParameters, initOverrides) {
+    if (requestParameters["uid"] == null) {
+      throw new RequiredError(
+        "uid",
+        'Required parameter "uid" was null or undefined when calling hardDeleteDashboardByUID().'
+      );
+    }
+    const queryParameters = {};
+    const headerParameters = {};
+    if (this.configuration && this.configuration.apiKey) {
+      headerParameters["Authorization"] = await this.configuration.apiKey("Authorization");
+    }
+    if (this.configuration && (this.configuration.username !== void 0 || this.configuration.password !== void 0)) {
+      headerParameters["Authorization"] = "Basic " + btoa(this.configuration.username + ":" + this.configuration.password);
+    }
+    const response = await this.request({
+      path: `/dashboards/uid/{uid}/trash`.replace(`{${"uid"}}`, encodeURIComponent(String(requestParameters["uid"]))),
+      method: "DELETE",
+      headers: headerParameters,
+      query: queryParameters
+    }, initOverrides);
+    return new JSONApiResponse(response, (jsonValue) => DeleteDashboardByUID200ResponseFromJSON(jsonValue));
+  }
+  /**
+   * Will delete the dashboard given the specified unique identifier (uid).
+   * Hard delete dashboard by uid.
+   */
+  async hardDeleteDashboardByUID(requestParameters, initOverrides) {
+    const response = await this.hardDeleteDashboardByUIDRaw(requestParameters, initOverrides);
+    return await response.value();
+  }
+  /**
    * Import dashboard.
    */
   async importDashboardRaw(requestParameters, initOverrides) {
@@ -16805,6 +17789,47 @@ var DashboardsApi = class extends BaseAPI {
    */
   async postDashboard(requestParameters, initOverrides) {
     const response = await this.postDashboardRaw(requestParameters, initOverrides);
+    return await response.value();
+  }
+  /**
+   * Restore a dashboard to a given dashboard version using UID.
+   */
+  async restoreDeletedDashboardByUIDRaw(requestParameters, initOverrides) {
+    if (requestParameters["uid"] == null) {
+      throw new RequiredError(
+        "uid",
+        'Required parameter "uid" was null or undefined when calling restoreDeletedDashboardByUID().'
+      );
+    }
+    if (requestParameters["body"] == null) {
+      throw new RequiredError(
+        "body",
+        'Required parameter "body" was null or undefined when calling restoreDeletedDashboardByUID().'
+      );
+    }
+    const queryParameters = {};
+    const headerParameters = {};
+    headerParameters["Content-Type"] = "application/json";
+    if (this.configuration && this.configuration.apiKey) {
+      headerParameters["Authorization"] = await this.configuration.apiKey("Authorization");
+    }
+    if (this.configuration && (this.configuration.username !== void 0 || this.configuration.password !== void 0)) {
+      headerParameters["Authorization"] = "Basic " + btoa(this.configuration.username + ":" + this.configuration.password);
+    }
+    const response = await this.request({
+      path: `/dashboards/uid/{uid}/trash`.replace(`{${"uid"}}`, encodeURIComponent(String(requestParameters["uid"]))),
+      method: "PATCH",
+      headers: headerParameters,
+      query: queryParameters,
+      body: RestoreDeletedDashboardCommandToJSON(requestParameters["body"])
+    }, initOverrides);
+    return new JSONApiResponse(response, (jsonValue) => PostDashboard200ResponseFromJSON(jsonValue));
+  }
+  /**
+   * Restore a dashboard to a given dashboard version using UID.
+   */
+  async restoreDeletedDashboardByUID(requestParameters, initOverrides) {
+    const response = await this.restoreDeletedDashboardByUIDRaw(requestParameters, initOverrides);
     return await response.value();
   }
 };
@@ -17886,6 +18911,39 @@ var EnterpriseApi = class extends BaseAPI {
     return await response.value();
   }
   /**
+   * clean cache for a single data source
+   */
+  async cleanDataSourceCacheRaw(requestParameters, initOverrides) {
+    if (requestParameters["dataSourceUID"] == null) {
+      throw new RequiredError(
+        "dataSourceUID",
+        'Required parameter "dataSourceUID" was null or undefined when calling cleanDataSourceCache().'
+      );
+    }
+    const queryParameters = {};
+    const headerParameters = {};
+    if (this.configuration && this.configuration.apiKey) {
+      headerParameters["Authorization"] = await this.configuration.apiKey("Authorization");
+    }
+    if (this.configuration && (this.configuration.username !== void 0 || this.configuration.password !== void 0)) {
+      headerParameters["Authorization"] = "Basic " + btoa(this.configuration.username + ":" + this.configuration.password);
+    }
+    const response = await this.request({
+      path: `/datasources/{dataSourceUID}/cache/clean`.replace(`{${"dataSourceUID"}}`, encodeURIComponent(String(requestParameters["dataSourceUID"]))),
+      method: "POST",
+      headers: headerParameters,
+      query: queryParameters
+    }, initOverrides);
+    return new JSONApiResponse(response, (jsonValue) => CacheConfigResponseFromJSON(jsonValue));
+  }
+  /**
+   * clean cache for a single data source
+   */
+  async cleanDataSourceCache(requestParameters, initOverrides) {
+    const response = await this.cleanDataSourceCacheRaw(requestParameters, initOverrides);
+    return await response.value();
+  }
+  /**
    * Create a recording rule that is then registered and started.
    */
   async createRecordingRuleRaw(requestParameters, initOverrides) {
@@ -17982,7 +19040,7 @@ var EnterpriseApi = class extends BaseAPI {
       method: "POST",
       headers: headerParameters,
       query: queryParameters,
-      body: CreateOrUpdateReportConfigToJSON(requestParameters["body"])
+      body: CreateOrUpdateReportToJSON(requestParameters["body"])
     }, initOverrides);
     return new JSONApiResponse(response, (jsonValue) => CreateReport200ResponseFromJSON(jsonValue));
   }
@@ -18205,6 +19263,72 @@ var EnterpriseApi = class extends BaseAPI {
     return await response.value();
   }
   /**
+   * disable cache for a single data source
+   */
+  async disableDataSourceCacheRaw(requestParameters, initOverrides) {
+    if (requestParameters["dataSourceUID"] == null) {
+      throw new RequiredError(
+        "dataSourceUID",
+        'Required parameter "dataSourceUID" was null or undefined when calling disableDataSourceCache().'
+      );
+    }
+    const queryParameters = {};
+    const headerParameters = {};
+    if (this.configuration && this.configuration.apiKey) {
+      headerParameters["Authorization"] = await this.configuration.apiKey("Authorization");
+    }
+    if (this.configuration && (this.configuration.username !== void 0 || this.configuration.password !== void 0)) {
+      headerParameters["Authorization"] = "Basic " + btoa(this.configuration.username + ":" + this.configuration.password);
+    }
+    const response = await this.request({
+      path: `/datasources/{dataSourceUID}/cache/disable`.replace(`{${"dataSourceUID"}}`, encodeURIComponent(String(requestParameters["dataSourceUID"]))),
+      method: "POST",
+      headers: headerParameters,
+      query: queryParameters
+    }, initOverrides);
+    return new JSONApiResponse(response, (jsonValue) => CacheConfigResponseFromJSON(jsonValue));
+  }
+  /**
+   * disable cache for a single data source
+   */
+  async disableDataSourceCache(requestParameters, initOverrides) {
+    const response = await this.disableDataSourceCacheRaw(requestParameters, initOverrides);
+    return await response.value();
+  }
+  /**
+   * enable cache for a single data source
+   */
+  async enableDataSourceCacheRaw(requestParameters, initOverrides) {
+    if (requestParameters["dataSourceUID"] == null) {
+      throw new RequiredError(
+        "dataSourceUID",
+        'Required parameter "dataSourceUID" was null or undefined when calling enableDataSourceCache().'
+      );
+    }
+    const queryParameters = {};
+    const headerParameters = {};
+    if (this.configuration && this.configuration.apiKey) {
+      headerParameters["Authorization"] = await this.configuration.apiKey("Authorization");
+    }
+    if (this.configuration && (this.configuration.username !== void 0 || this.configuration.password !== void 0)) {
+      headerParameters["Authorization"] = "Basic " + btoa(this.configuration.username + ":" + this.configuration.password);
+    }
+    const response = await this.request({
+      path: `/datasources/{dataSourceUID}/cache/enable`.replace(`{${"dataSourceUID"}}`, encodeURIComponent(String(requestParameters["dataSourceUID"]))),
+      method: "POST",
+      headers: headerParameters,
+      query: queryParameters
+    }, initOverrides);
+    return new JSONApiResponse(response, (jsonValue) => CacheConfigResponseFromJSON(jsonValue));
+  }
+  /**
+   * enable cache for a single data source
+   */
+  async enableDataSourceCache(requestParameters, initOverrides) {
+    const response = await this.enableDataSourceCacheRaw(requestParameters, initOverrides);
+    return await response.value();
+  }
+  /**
    * Returns an indicator to check if fine-grained access control is enabled or not.  You need to have a permission with action `status:accesscontrol` and scope `services:accesscontrol`.
    * Get status.
    */
@@ -18296,6 +19420,39 @@ var EnterpriseApi = class extends BaseAPI {
    */
   async getCustomPermissionsReport(initOverrides) {
     await this.getCustomPermissionsReportRaw(initOverrides);
+  }
+  /**
+   * get cache config for a single data source
+   */
+  async getDataSourceCacheConfigRaw(requestParameters, initOverrides) {
+    if (requestParameters["dataSourceUID"] == null) {
+      throw new RequiredError(
+        "dataSourceUID",
+        'Required parameter "dataSourceUID" was null or undefined when calling getDataSourceCacheConfig().'
+      );
+    }
+    const queryParameters = {};
+    const headerParameters = {};
+    if (this.configuration && this.configuration.apiKey) {
+      headerParameters["Authorization"] = await this.configuration.apiKey("Authorization");
+    }
+    if (this.configuration && (this.configuration.username !== void 0 || this.configuration.password !== void 0)) {
+      headerParameters["Authorization"] = "Basic " + btoa(this.configuration.username + ":" + this.configuration.password);
+    }
+    const response = await this.request({
+      path: `/datasources/{dataSourceUID}/cache`.replace(`{${"dataSourceUID"}}`, encodeURIComponent(String(requestParameters["dataSourceUID"]))),
+      method: "GET",
+      headers: headerParameters,
+      query: queryParameters
+    }, initOverrides);
+    return new JSONApiResponse(response, (jsonValue) => CacheConfigResponseFromJSON(jsonValue));
+  }
+  /**
+   * get cache config for a single data source
+   */
+  async getDataSourceCacheConfig(requestParameters, initOverrides) {
+    const response = await this.getDataSourceCacheConfigRaw(requestParameters, initOverrides);
+    return await response.value();
   }
   /**
    * You need to have a permission with action `licensing:read`.
@@ -18417,7 +19574,7 @@ var EnterpriseApi = class extends BaseAPI {
   }
   /**
    * Available to org admins only and with a valid or expired license.  You need to have a permission with action `reports.settings:read`x.
-   * Get settings.
+   * Get report settings.
    */
   async getReportSettingsRaw(initOverrides) {
     const queryParameters = {};
@@ -18438,7 +19595,7 @@ var EnterpriseApi = class extends BaseAPI {
   }
   /**
    * Available to org admins only and with a valid or expired license.  You need to have a permission with action `reports.settings:read`x.
-   * Get settings.
+   * Get report settings.
    */
   async getReportSettings(initOverrides) {
     const response = await this.getReportSettingsRaw(initOverrides);
@@ -18598,6 +19755,35 @@ var EnterpriseApi = class extends BaseAPI {
     await this.getSLORaw(initOverrides);
   }
   /**
+   * Available to org admins only and with a valid or expired license.  You need to have a permission with action `reports.settings:read`.
+   * Get custom branding report image.
+   */
+  async getSettingsImageRaw(initOverrides) {
+    const queryParameters = {};
+    const headerParameters = {};
+    if (this.configuration && this.configuration.apiKey) {
+      headerParameters["Authorization"] = await this.configuration.apiKey("Authorization");
+    }
+    if (this.configuration && (this.configuration.username !== void 0 || this.configuration.password !== void 0)) {
+      headerParameters["Authorization"] = "Basic " + btoa(this.configuration.username + ":" + this.configuration.password);
+    }
+    const response = await this.request({
+      path: `/reports/images/:image`,
+      method: "GET",
+      headers: headerParameters,
+      query: queryParameters
+    }, initOverrides);
+    return new JSONApiResponse(response);
+  }
+  /**
+   * Available to org admins only and with a valid or expired license.  You need to have a permission with action `reports.settings:read`.
+   * Get custom branding report image.
+   */
+  async getSettingsImage(initOverrides) {
+    const response = await this.getSettingsImageRaw(initOverrides);
+    return await response.value();
+  }
+  /**
    * Check license availability.
    */
   async getStatusRaw(initOverrides) {
@@ -18686,6 +19872,39 @@ var EnterpriseApi = class extends BaseAPI {
     return await response.value();
   }
   /**
+   * Retrieves LBAC rules for a team.
+   */
+  async getTeamLBACRulesApiRaw(requestParameters, initOverrides) {
+    if (requestParameters["uid"] == null) {
+      throw new RequiredError(
+        "uid",
+        'Required parameter "uid" was null or undefined when calling getTeamLBACRulesApi().'
+      );
+    }
+    const queryParameters = {};
+    const headerParameters = {};
+    if (this.configuration && this.configuration.apiKey) {
+      headerParameters["Authorization"] = await this.configuration.apiKey("Authorization");
+    }
+    if (this.configuration && (this.configuration.username !== void 0 || this.configuration.password !== void 0)) {
+      headerParameters["Authorization"] = "Basic " + btoa(this.configuration.username + ":" + this.configuration.password);
+    }
+    const response = await this.request({
+      path: `/datasources/uid/{uid}/lbac/teams`.replace(`{${"uid"}}`, encodeURIComponent(String(requestParameters["uid"]))),
+      method: "GET",
+      headers: headerParameters,
+      query: queryParameters
+    }, initOverrides);
+    return new JSONApiResponse(response, (jsonValue) => SuccessResponseBodyFromJSON(jsonValue));
+  }
+  /**
+   * Retrieves LBAC rules for a team.
+   */
+  async getTeamLBACRulesApi(requestParameters, initOverrides) {
+    const response = await this.getTeamLBACRulesApiRaw(requestParameters, initOverrides);
+    return await response.value();
+  }
+  /**
    * Lists all rules in the database: active or deleted.
    */
   async listRecordingRulesRaw(initOverrides) {
@@ -18713,13 +19932,16 @@ var EnterpriseApi = class extends BaseAPI {
     return await response.value();
   }
   /**
-   * Gets all existing roles. The response contains all global and organization local roles, for the organization which user is signed in.  You need to have a permission with action `roles:read` and scope `roles:*`.
+   * Gets all existing roles. The response contains all global and organization local roles, for the organization which user is signed in.  You need to have a permission with action `roles:read` and scope `roles:*`.  The `delegatable` flag reduces the set of roles to only those for which the signed-in user has permissions to assign.
    * Get all roles.
    */
   async listRolesRaw(requestParameters, initOverrides) {
     const queryParameters = {};
     if (requestParameters["delegatable"] != null) {
       queryParameters["delegatable"] = requestParameters["delegatable"];
+    }
+    if (requestParameters["includeHidden"] != null) {
+      queryParameters["includeHidden"] = requestParameters["includeHidden"];
     }
     const headerParameters = {};
     if (this.configuration && this.configuration.apiKey) {
@@ -18737,7 +19959,7 @@ var EnterpriseApi = class extends BaseAPI {
     return new JSONApiResponse(response, (jsonValue) => jsonValue.map(RoleDTOFromJSON));
   }
   /**
-   * Gets all existing roles. The response contains all global and organization local roles, for the organization which user is signed in.  You need to have a permission with action `roles:read` and scope `roles:*`.
+   * Gets all existing roles. The response contains all global and organization local roles, for the organization which user is signed in.  You need to have a permission with action `roles:read` and scope `roles:*`.  The `delegatable` flag reduces the set of roles to only those for which the signed-in user has permissions to assign.
    * Get all roles.
    */
   async listRoles(requestParameters = {}, initOverrides) {
@@ -19176,12 +20398,47 @@ var EnterpriseApi = class extends BaseAPI {
   }
   /**
    * Available to all users and with a valid license.
+   * Download a CSV report.
+   */
+  async renderReportCSVsRaw(requestParameters, initOverrides) {
+    const queryParameters = {};
+    if (requestParameters["dashboards"] != null) {
+      queryParameters["dashboards"] = requestParameters["dashboards"];
+    }
+    if (requestParameters["title"] != null) {
+      queryParameters["title"] = requestParameters["title"];
+    }
+    const headerParameters = {};
+    if (this.configuration && this.configuration.apiKey) {
+      headerParameters["Authorization"] = await this.configuration.apiKey("Authorization");
+    }
+    if (this.configuration && (this.configuration.username !== void 0 || this.configuration.password !== void 0)) {
+      headerParameters["Authorization"] = "Basic " + btoa(this.configuration.username + ":" + this.configuration.password);
+    }
+    const response = await this.request({
+      path: `/reports/render/csvs`,
+      method: "GET",
+      headers: headerParameters,
+      query: queryParameters
+    }, initOverrides);
+    return new JSONApiResponse(response);
+  }
+  /**
+   * Available to all users and with a valid license.
+   * Download a CSV report.
+   */
+  async renderReportCSVs(requestParameters = {}, initOverrides) {
+    const response = await this.renderReportCSVsRaw(requestParameters, initOverrides);
+    return await response.value();
+  }
+  /**
+   * Available to all users and with a valid license.
    * Render report for multiple dashboards.
    */
   async renderReportPDFsRaw(requestParameters, initOverrides) {
     const queryParameters = {};
-    if (requestParameters["dashboardID"] != null) {
-      queryParameters["dashboardID"] = requestParameters["dashboardID"];
+    if (requestParameters["dashboards"] != null) {
+      queryParameters["dashboards"] = requestParameters["dashboards"];
     }
     if (requestParameters["orientation"] != null) {
       queryParameters["orientation"] = requestParameters["orientation"];
@@ -19349,7 +20606,7 @@ var EnterpriseApi = class extends BaseAPI {
       method: "POST",
       headers: headerParameters,
       query: queryParameters,
-      body: CreateOrUpdateReportConfigToJSON(requestParameters["body"])
+      body: CreateOrUpdateReportToJSON(requestParameters["body"])
     }, initOverrides);
     return new JSONApiResponse(response, (jsonValue) => SuccessResponseBodyFromJSON(jsonValue));
   }
@@ -19359,6 +20616,47 @@ var EnterpriseApi = class extends BaseAPI {
    */
   async sendTestEmail(requestParameters, initOverrides) {
     const response = await this.sendTestEmailRaw(requestParameters, initOverrides);
+    return await response.value();
+  }
+  /**
+   * set cache config for a single data source
+   */
+  async setDataSourceCacheConfigRaw(requestParameters, initOverrides) {
+    if (requestParameters["dataSourceUID"] == null) {
+      throw new RequiredError(
+        "dataSourceUID",
+        'Required parameter "dataSourceUID" was null or undefined when calling setDataSourceCacheConfig().'
+      );
+    }
+    if (requestParameters["body"] == null) {
+      throw new RequiredError(
+        "body",
+        'Required parameter "body" was null or undefined when calling setDataSourceCacheConfig().'
+      );
+    }
+    const queryParameters = {};
+    const headerParameters = {};
+    headerParameters["Content-Type"] = "application/json";
+    if (this.configuration && this.configuration.apiKey) {
+      headerParameters["Authorization"] = await this.configuration.apiKey("Authorization");
+    }
+    if (this.configuration && (this.configuration.username !== void 0 || this.configuration.password !== void 0)) {
+      headerParameters["Authorization"] = "Basic " + btoa(this.configuration.username + ":" + this.configuration.password);
+    }
+    const response = await this.request({
+      path: `/datasources/{dataSourceUID}/cache`.replace(`{${"dataSourceUID"}}`, encodeURIComponent(String(requestParameters["dataSourceUID"]))),
+      method: "POST",
+      headers: headerParameters,
+      query: queryParameters,
+      body: CacheConfigSetterToJSON(requestParameters["body"])
+    }, initOverrides);
+    return new JSONApiResponse(response, (jsonValue) => CacheConfigResponseFromJSON(jsonValue));
+  }
+  /**
+   * set cache config for a single data source
+   */
+  async setDataSourceCacheConfig(requestParameters, initOverrides) {
+    const response = await this.setDataSourceCacheConfigRaw(requestParameters, initOverrides);
     return await response.value();
   }
   /**
@@ -19583,7 +20881,7 @@ var EnterpriseApi = class extends BaseAPI {
       method: "PUT",
       headers: headerParameters,
       query: queryParameters,
-      body: CreateOrUpdateReportConfigToJSON(requestParameters["body"])
+      body: CreateOrUpdateReportToJSON(requestParameters["body"])
     }, initOverrides);
     return new JSONApiResponse(response, (jsonValue) => SuccessResponseBodyFromJSON(jsonValue));
   }
@@ -19636,6 +20934,39 @@ var EnterpriseApi = class extends BaseAPI {
    */
   async updateRole(requestParameters, initOverrides) {
     const response = await this.updateRoleRaw(requestParameters, initOverrides);
+    return await response.value();
+  }
+  /**
+   * Updates LBAC rules for a team.
+   */
+  async updateTeamLBACRulesApiRaw(requestParameters, initOverrides) {
+    if (requestParameters["uid"] == null) {
+      throw new RequiredError(
+        "uid",
+        'Required parameter "uid" was null or undefined when calling updateTeamLBACRulesApi().'
+      );
+    }
+    const queryParameters = {};
+    const headerParameters = {};
+    if (this.configuration && this.configuration.apiKey) {
+      headerParameters["Authorization"] = await this.configuration.apiKey("Authorization");
+    }
+    if (this.configuration && (this.configuration.username !== void 0 || this.configuration.password !== void 0)) {
+      headerParameters["Authorization"] = "Basic " + btoa(this.configuration.username + ":" + this.configuration.password);
+    }
+    const response = await this.request({
+      path: `/datasources/uid/{uid}/lbac/teams`.replace(`{${"uid"}}`, encodeURIComponent(String(requestParameters["uid"]))),
+      method: "PUT",
+      headers: headerParameters,
+      query: queryParameters
+    }, initOverrides);
+    return new JSONApiResponse(response, (jsonValue) => SuccessResponseBodyFromJSON(jsonValue));
+  }
+  /**
+   * Updates LBAC rules for a team.
+   */
+  async updateTeamLBACRulesApi(requestParameters, initOverrides) {
+    const response = await this.updateTeamLBACRulesApiRaw(requestParameters, initOverrides);
     return await response.value();
   }
 };
@@ -20056,6 +21387,37 @@ var GetCurrentOrgApi = class extends BaseAPI {
    */
   async getCurrentOrgQuota(initOverrides) {
     const response = await this.getCurrentOrgQuotaRaw(initOverrides);
+    return await response.value();
+  }
+};
+
+// apis/HealthApi.ts
+var HealthApi = class extends BaseAPI {
+  /**
+   * apiHealthHandler will return ok if Grafana\'s web server is running and it can access the database. If the database cannot be accessed it will return http status code 503.
+   */
+  async getHealthRaw(initOverrides) {
+    const queryParameters = {};
+    const headerParameters = {};
+    if (this.configuration && this.configuration.apiKey) {
+      headerParameters["Authorization"] = await this.configuration.apiKey("Authorization");
+    }
+    if (this.configuration && (this.configuration.username !== void 0 || this.configuration.password !== void 0)) {
+      headerParameters["Authorization"] = "Basic " + btoa(this.configuration.username + ":" + this.configuration.password);
+    }
+    const response = await this.request({
+      path: `/health`,
+      method: "GET",
+      headers: headerParameters,
+      query: queryParameters
+    }, initOverrides);
+    return new JSONApiResponse(response, (jsonValue) => HealthResponseFromJSON(jsonValue));
+  }
+  /**
+   * apiHealthHandler will return ok if Grafana\'s web server is running and it can access the database. If the database cannot be accessed it will return http status code 503.
+   */
+  async getHealth(initOverrides) {
+    const response = await this.getHealthRaw(initOverrides);
     return await response.value();
   }
 };
@@ -20633,6 +21995,521 @@ var LicensingApi = class extends BaseAPI {
   async refreshLicenseStats(initOverrides) {
     const response = await this.refreshLicenseStatsRaw(initOverrides);
     return await response.value();
+  }
+};
+
+// apis/MigrationsApi.ts
+var MigrationsApi = class extends BaseAPI {
+  /**
+   * TODO: Implement
+   * Cancel a snapshot, wherever it is in its processing chain.
+   */
+  async cancelSnapshotRaw(requestParameters, initOverrides) {
+    if (requestParameters["uid"] == null) {
+      throw new RequiredError(
+        "uid",
+        'Required parameter "uid" was null or undefined when calling cancelSnapshot().'
+      );
+    }
+    if (requestParameters["snapshotUid"] == null) {
+      throw new RequiredError(
+        "snapshotUid",
+        'Required parameter "snapshotUid" was null or undefined when calling cancelSnapshot().'
+      );
+    }
+    const queryParameters = {};
+    const headerParameters = {};
+    if (this.configuration && this.configuration.apiKey) {
+      headerParameters["Authorization"] = await this.configuration.apiKey("Authorization");
+    }
+    if (this.configuration && (this.configuration.username !== void 0 || this.configuration.password !== void 0)) {
+      headerParameters["Authorization"] = "Basic " + btoa(this.configuration.username + ":" + this.configuration.password);
+    }
+    const response = await this.request({
+      path: `/cloudmigration/migration/{uid}/snapshot/{snapshotUid}/cancel`.replace(`{${"uid"}}`, encodeURIComponent(String(requestParameters["uid"]))).replace(`{${"snapshotUid"}}`, encodeURIComponent(String(requestParameters["snapshotUid"]))),
+      method: "POST",
+      headers: headerParameters,
+      query: queryParameters
+    }, initOverrides);
+    return new VoidApiResponse(response);
+  }
+  /**
+   * TODO: Implement
+   * Cancel a snapshot, wherever it is in its processing chain.
+   */
+  async cancelSnapshot(requestParameters, initOverrides) {
+    await this.cancelSnapshotRaw(requestParameters, initOverrides);
+  }
+  /**
+   * Create gcom access token.
+   */
+  async createCloudMigrationTokenRaw(initOverrides) {
+    const queryParameters = {};
+    const headerParameters = {};
+    if (this.configuration && this.configuration.apiKey) {
+      headerParameters["Authorization"] = await this.configuration.apiKey("Authorization");
+    }
+    if (this.configuration && (this.configuration.username !== void 0 || this.configuration.password !== void 0)) {
+      headerParameters["Authorization"] = "Basic " + btoa(this.configuration.username + ":" + this.configuration.password);
+    }
+    const response = await this.request({
+      path: `/cloudmigration/token`,
+      method: "POST",
+      headers: headerParameters,
+      query: queryParameters
+    }, initOverrides);
+    return new JSONApiResponse(response, (jsonValue) => CreateAccessTokenResponseDTOFromJSON(jsonValue));
+  }
+  /**
+   * Create gcom access token.
+   */
+  async createCloudMigrationToken(initOverrides) {
+    const response = await this.createCloudMigrationTokenRaw(initOverrides);
+    return await response.value();
+  }
+  /**
+   * Create a migration session.
+   */
+  async createSessionRaw(requestParameters, initOverrides) {
+    if (requestParameters["body"] == null) {
+      throw new RequiredError(
+        "body",
+        'Required parameter "body" was null or undefined when calling createSession().'
+      );
+    }
+    const queryParameters = {};
+    const headerParameters = {};
+    headerParameters["Content-Type"] = "application/json";
+    if (this.configuration && this.configuration.apiKey) {
+      headerParameters["Authorization"] = await this.configuration.apiKey("Authorization");
+    }
+    if (this.configuration && (this.configuration.username !== void 0 || this.configuration.password !== void 0)) {
+      headerParameters["Authorization"] = "Basic " + btoa(this.configuration.username + ":" + this.configuration.password);
+    }
+    const response = await this.request({
+      path: `/cloudmigration/migration`,
+      method: "POST",
+      headers: headerParameters,
+      query: queryParameters,
+      body: CloudMigrationSessionRequestDTOToJSON(requestParameters["body"])
+    }, initOverrides);
+    return new JSONApiResponse(response, (jsonValue) => CloudMigrationSessionResponseDTOFromJSON(jsonValue));
+  }
+  /**
+   * Create a migration session.
+   */
+  async createSession(requestParameters, initOverrides) {
+    const response = await this.createSessionRaw(requestParameters, initOverrides);
+    return await response.value();
+  }
+  /**
+   * If the snapshot initialization is successful, the snapshot uid is returned.
+   * Trigger the creation of an instance snapshot associated with the provided session.
+   */
+  async createSnapshotRaw(requestParameters, initOverrides) {
+    if (requestParameters["uid"] == null) {
+      throw new RequiredError(
+        "uid",
+        'Required parameter "uid" was null or undefined when calling createSnapshot().'
+      );
+    }
+    const queryParameters = {};
+    const headerParameters = {};
+    if (this.configuration && this.configuration.apiKey) {
+      headerParameters["Authorization"] = await this.configuration.apiKey("Authorization");
+    }
+    if (this.configuration && (this.configuration.username !== void 0 || this.configuration.password !== void 0)) {
+      headerParameters["Authorization"] = "Basic " + btoa(this.configuration.username + ":" + this.configuration.password);
+    }
+    const response = await this.request({
+      path: `/cloudmigration/migration/{uid}/snapshot`.replace(`{${"uid"}}`, encodeURIComponent(String(requestParameters["uid"]))),
+      method: "POST",
+      headers: headerParameters,
+      query: queryParameters
+    }, initOverrides);
+    return new JSONApiResponse(response, (jsonValue) => CreateSnapshotResponseDTOFromJSON(jsonValue));
+  }
+  /**
+   * If the snapshot initialization is successful, the snapshot uid is returned.
+   * Trigger the creation of an instance snapshot associated with the provided session.
+   */
+  async createSnapshot(requestParameters, initOverrides) {
+    const response = await this.createSnapshotRaw(requestParameters, initOverrides);
+    return await response.value();
+  }
+  /**
+   * Deletes a cloud migration token.
+   */
+  async deleteCloudMigrationTokenRaw(requestParameters, initOverrides) {
+    if (requestParameters["uid"] == null) {
+      throw new RequiredError(
+        "uid",
+        'Required parameter "uid" was null or undefined when calling deleteCloudMigrationToken().'
+      );
+    }
+    const queryParameters = {};
+    const headerParameters = {};
+    if (this.configuration && this.configuration.apiKey) {
+      headerParameters["Authorization"] = await this.configuration.apiKey("Authorization");
+    }
+    if (this.configuration && (this.configuration.username !== void 0 || this.configuration.password !== void 0)) {
+      headerParameters["Authorization"] = "Basic " + btoa(this.configuration.username + ":" + this.configuration.password);
+    }
+    const response = await this.request({
+      path: `/cloudmigration/token/{uid}`.replace(`{${"uid"}}`, encodeURIComponent(String(requestParameters["uid"]))),
+      method: "DELETE",
+      headers: headerParameters,
+      query: queryParameters
+    }, initOverrides);
+    return new VoidApiResponse(response);
+  }
+  /**
+   * Deletes a cloud migration token.
+   */
+  async deleteCloudMigrationToken(requestParameters, initOverrides) {
+    await this.deleteCloudMigrationTokenRaw(requestParameters, initOverrides);
+  }
+  /**
+   * Delete a migration session by its uid.
+   */
+  async deleteSessionRaw(requestParameters, initOverrides) {
+    if (requestParameters["uid"] == null) {
+      throw new RequiredError(
+        "uid",
+        'Required parameter "uid" was null or undefined when calling deleteSession().'
+      );
+    }
+    const queryParameters = {};
+    const headerParameters = {};
+    if (this.configuration && this.configuration.apiKey) {
+      headerParameters["Authorization"] = await this.configuration.apiKey("Authorization");
+    }
+    if (this.configuration && (this.configuration.username !== void 0 || this.configuration.password !== void 0)) {
+      headerParameters["Authorization"] = "Basic " + btoa(this.configuration.username + ":" + this.configuration.password);
+    }
+    const response = await this.request({
+      path: `/cloudmigration/migration/{uid}`.replace(`{${"uid"}}`, encodeURIComponent(String(requestParameters["uid"]))),
+      method: "DELETE",
+      headers: headerParameters,
+      query: queryParameters
+    }, initOverrides);
+    return new VoidApiResponse(response);
+  }
+  /**
+   * Delete a migration session by its uid.
+   */
+  async deleteSession(requestParameters, initOverrides) {
+    await this.deleteSessionRaw(requestParameters, initOverrides);
+  }
+  /**
+   * Get the result of a single migration run.
+   */
+  async getCloudMigrationRunRaw(requestParameters, initOverrides) {
+    if (requestParameters["runUID"] == null) {
+      throw new RequiredError(
+        "runUID",
+        'Required parameter "runUID" was null or undefined when calling getCloudMigrationRun().'
+      );
+    }
+    const queryParameters = {};
+    const headerParameters = {};
+    if (this.configuration && this.configuration.apiKey) {
+      headerParameters["Authorization"] = await this.configuration.apiKey("Authorization");
+    }
+    if (this.configuration && (this.configuration.username !== void 0 || this.configuration.password !== void 0)) {
+      headerParameters["Authorization"] = "Basic " + btoa(this.configuration.username + ":" + this.configuration.password);
+    }
+    const response = await this.request({
+      path: `/cloudmigration/migration/run/{runUID}`.replace(`{${"runUID"}}`, encodeURIComponent(String(requestParameters["runUID"]))),
+      method: "GET",
+      headers: headerParameters,
+      query: queryParameters
+    }, initOverrides);
+    return new JSONApiResponse(response, (jsonValue) => MigrateDataResponseDTOFromJSON(jsonValue));
+  }
+  /**
+   * Get the result of a single migration run.
+   */
+  async getCloudMigrationRun(requestParameters, initOverrides) {
+    const response = await this.getCloudMigrationRunRaw(requestParameters, initOverrides);
+    return await response.value();
+  }
+  /**
+   * Get a list of migration runs for a migration.
+   */
+  async getCloudMigrationRunListRaw(requestParameters, initOverrides) {
+    if (requestParameters["uid"] == null) {
+      throw new RequiredError(
+        "uid",
+        'Required parameter "uid" was null or undefined when calling getCloudMigrationRunList().'
+      );
+    }
+    const queryParameters = {};
+    const headerParameters = {};
+    if (this.configuration && this.configuration.apiKey) {
+      headerParameters["Authorization"] = await this.configuration.apiKey("Authorization");
+    }
+    if (this.configuration && (this.configuration.username !== void 0 || this.configuration.password !== void 0)) {
+      headerParameters["Authorization"] = "Basic " + btoa(this.configuration.username + ":" + this.configuration.password);
+    }
+    const response = await this.request({
+      path: `/cloudmigration/migration/{uid}/run`.replace(`{${"uid"}}`, encodeURIComponent(String(requestParameters["uid"]))),
+      method: "GET",
+      headers: headerParameters,
+      query: queryParameters
+    }, initOverrides);
+    return new JSONApiResponse(response, (jsonValue) => CloudMigrationRunListDTOFromJSON(jsonValue));
+  }
+  /**
+   * Get a list of migration runs for a migration.
+   */
+  async getCloudMigrationRunList(requestParameters, initOverrides) {
+    const response = await this.getCloudMigrationRunListRaw(requestParameters, initOverrides);
+    return await response.value();
+  }
+  /**
+   * Fetch the cloud migration token if it exists.
+   */
+  async getCloudMigrationTokenRaw(initOverrides) {
+    const queryParameters = {};
+    const headerParameters = {};
+    if (this.configuration && this.configuration.apiKey) {
+      headerParameters["Authorization"] = await this.configuration.apiKey("Authorization");
+    }
+    if (this.configuration && (this.configuration.username !== void 0 || this.configuration.password !== void 0)) {
+      headerParameters["Authorization"] = "Basic " + btoa(this.configuration.username + ":" + this.configuration.password);
+    }
+    const response = await this.request({
+      path: `/cloudmigration/token`,
+      method: "GET",
+      headers: headerParameters,
+      query: queryParameters
+    }, initOverrides);
+    return new JSONApiResponse(response, (jsonValue) => GetAccessTokenResponseDTOFromJSON(jsonValue));
+  }
+  /**
+   * Fetch the cloud migration token if it exists.
+   */
+  async getCloudMigrationToken(initOverrides) {
+    const response = await this.getCloudMigrationTokenRaw(initOverrides);
+    return await response.value();
+  }
+  /**
+   * Get a cloud migration session by its uid.
+   */
+  async getSessionRaw(requestParameters, initOverrides) {
+    if (requestParameters["uid"] == null) {
+      throw new RequiredError(
+        "uid",
+        'Required parameter "uid" was null or undefined when calling getSession().'
+      );
+    }
+    const queryParameters = {};
+    const headerParameters = {};
+    if (this.configuration && this.configuration.apiKey) {
+      headerParameters["Authorization"] = await this.configuration.apiKey("Authorization");
+    }
+    if (this.configuration && (this.configuration.username !== void 0 || this.configuration.password !== void 0)) {
+      headerParameters["Authorization"] = "Basic " + btoa(this.configuration.username + ":" + this.configuration.password);
+    }
+    const response = await this.request({
+      path: `/cloudmigration/migration/{uid}`.replace(`{${"uid"}}`, encodeURIComponent(String(requestParameters["uid"]))),
+      method: "GET",
+      headers: headerParameters,
+      query: queryParameters
+    }, initOverrides);
+    return new JSONApiResponse(response, (jsonValue) => CloudMigrationSessionResponseDTOFromJSON(jsonValue));
+  }
+  /**
+   * Get a cloud migration session by its uid.
+   */
+  async getSession(requestParameters, initOverrides) {
+    const response = await this.getSessionRaw(requestParameters, initOverrides);
+    return await response.value();
+  }
+  /**
+   * Get a list of all cloud migration sessions that have been created.
+   */
+  async getSessionListRaw(initOverrides) {
+    const queryParameters = {};
+    const headerParameters = {};
+    if (this.configuration && this.configuration.apiKey) {
+      headerParameters["Authorization"] = await this.configuration.apiKey("Authorization");
+    }
+    if (this.configuration && (this.configuration.username !== void 0 || this.configuration.password !== void 0)) {
+      headerParameters["Authorization"] = "Basic " + btoa(this.configuration.username + ":" + this.configuration.password);
+    }
+    const response = await this.request({
+      path: `/cloudmigration/migration`,
+      method: "GET",
+      headers: headerParameters,
+      query: queryParameters
+    }, initOverrides);
+    return new JSONApiResponse(response, (jsonValue) => CloudMigrationSessionListResponseDTOFromJSON(jsonValue));
+  }
+  /**
+   * Get a list of all cloud migration sessions that have been created.
+   */
+  async getSessionList(initOverrides) {
+    const response = await this.getSessionListRaw(initOverrides);
+    return await response.value();
+  }
+  /**
+   * Get a list of snapshots for a session.
+   */
+  async getShapshotListRaw(requestParameters, initOverrides) {
+    if (requestParameters["uid"] == null) {
+      throw new RequiredError(
+        "uid",
+        'Required parameter "uid" was null or undefined when calling getShapshotList().'
+      );
+    }
+    const queryParameters = {};
+    if (requestParameters["page"] != null) {
+      queryParameters["page"] = requestParameters["page"];
+    }
+    if (requestParameters["limit"] != null) {
+      queryParameters["limit"] = requestParameters["limit"];
+    }
+    const headerParameters = {};
+    if (this.configuration && this.configuration.apiKey) {
+      headerParameters["Authorization"] = await this.configuration.apiKey("Authorization");
+    }
+    if (this.configuration && (this.configuration.username !== void 0 || this.configuration.password !== void 0)) {
+      headerParameters["Authorization"] = "Basic " + btoa(this.configuration.username + ":" + this.configuration.password);
+    }
+    const response = await this.request({
+      path: `/cloudmigration/migration/{uid}/snapshots`.replace(`{${"uid"}}`, encodeURIComponent(String(requestParameters["uid"]))),
+      method: "GET",
+      headers: headerParameters,
+      query: queryParameters
+    }, initOverrides);
+    return new JSONApiResponse(response, (jsonValue) => SnapshotListResponseDTOFromJSON(jsonValue));
+  }
+  /**
+   * Get a list of snapshots for a session.
+   */
+  async getShapshotList(requestParameters, initOverrides) {
+    const response = await this.getShapshotListRaw(requestParameters, initOverrides);
+    return await response.value();
+  }
+  /**
+   * Get metadata about a snapshot, including where it is in its processing and final results.
+   */
+  async getSnapshotRaw(requestParameters, initOverrides) {
+    if (requestParameters["uid"] == null) {
+      throw new RequiredError(
+        "uid",
+        'Required parameter "uid" was null or undefined when calling getSnapshot().'
+      );
+    }
+    if (requestParameters["snapshotUid"] == null) {
+      throw new RequiredError(
+        "snapshotUid",
+        'Required parameter "snapshotUid" was null or undefined when calling getSnapshot().'
+      );
+    }
+    const queryParameters = {};
+    if (requestParameters["resultPage"] != null) {
+      queryParameters["resultPage"] = requestParameters["resultPage"];
+    }
+    if (requestParameters["resultLimit"] != null) {
+      queryParameters["resultLimit"] = requestParameters["resultLimit"];
+    }
+    const headerParameters = {};
+    if (this.configuration && this.configuration.apiKey) {
+      headerParameters["Authorization"] = await this.configuration.apiKey("Authorization");
+    }
+    if (this.configuration && (this.configuration.username !== void 0 || this.configuration.password !== void 0)) {
+      headerParameters["Authorization"] = "Basic " + btoa(this.configuration.username + ":" + this.configuration.password);
+    }
+    const response = await this.request({
+      path: `/cloudmigration/migration/{uid}/snapshot/{snapshotUid}`.replace(`{${"uid"}}`, encodeURIComponent(String(requestParameters["uid"]))).replace(`{${"snapshotUid"}}`, encodeURIComponent(String(requestParameters["snapshotUid"]))),
+      method: "GET",
+      headers: headerParameters,
+      query: queryParameters
+    }, initOverrides);
+    return new JSONApiResponse(response, (jsonValue) => GetSnapshotResponseDTOFromJSON(jsonValue));
+  }
+  /**
+   * Get metadata about a snapshot, including where it is in its processing and final results.
+   */
+  async getSnapshot(requestParameters, initOverrides) {
+    const response = await this.getSnapshotRaw(requestParameters, initOverrides);
+    return await response.value();
+  }
+  /**
+   * It returns migrations that has been created.
+   * Trigger the run of a migration to the Grafana Cloud.
+   */
+  async runCloudMigrationRaw(requestParameters, initOverrides) {
+    if (requestParameters["uid"] == null) {
+      throw new RequiredError(
+        "uid",
+        'Required parameter "uid" was null or undefined when calling runCloudMigration().'
+      );
+    }
+    const queryParameters = {};
+    const headerParameters = {};
+    if (this.configuration && this.configuration.apiKey) {
+      headerParameters["Authorization"] = await this.configuration.apiKey("Authorization");
+    }
+    if (this.configuration && (this.configuration.username !== void 0 || this.configuration.password !== void 0)) {
+      headerParameters["Authorization"] = "Basic " + btoa(this.configuration.username + ":" + this.configuration.password);
+    }
+    const response = await this.request({
+      path: `/cloudmigration/migration/{uid}/run`.replace(`{${"uid"}}`, encodeURIComponent(String(requestParameters["uid"]))),
+      method: "POST",
+      headers: headerParameters,
+      query: queryParameters
+    }, initOverrides);
+    return new JSONApiResponse(response, (jsonValue) => MigrateDataResponseDTOFromJSON(jsonValue));
+  }
+  /**
+   * It returns migrations that has been created.
+   * Trigger the run of a migration to the Grafana Cloud.
+   */
+  async runCloudMigration(requestParameters, initOverrides) {
+    const response = await this.runCloudMigrationRaw(requestParameters, initOverrides);
+    return await response.value();
+  }
+  /**
+   * Upload a snapshot to the Grafana Migration Service for processing.
+   */
+  async uploadSnapshotRaw(requestParameters, initOverrides) {
+    if (requestParameters["uid"] == null) {
+      throw new RequiredError(
+        "uid",
+        'Required parameter "uid" was null or undefined when calling uploadSnapshot().'
+      );
+    }
+    if (requestParameters["snapshotUid"] == null) {
+      throw new RequiredError(
+        "snapshotUid",
+        'Required parameter "snapshotUid" was null or undefined when calling uploadSnapshot().'
+      );
+    }
+    const queryParameters = {};
+    const headerParameters = {};
+    if (this.configuration && this.configuration.apiKey) {
+      headerParameters["Authorization"] = await this.configuration.apiKey("Authorization");
+    }
+    if (this.configuration && (this.configuration.username !== void 0 || this.configuration.password !== void 0)) {
+      headerParameters["Authorization"] = "Basic " + btoa(this.configuration.username + ":" + this.configuration.password);
+    }
+    const response = await this.request({
+      path: `/cloudmigration/migration/{uid}/snapshot/{snapshotUid}/upload`.replace(`{${"uid"}}`, encodeURIComponent(String(requestParameters["uid"]))).replace(`{${"snapshotUid"}}`, encodeURIComponent(String(requestParameters["snapshotUid"]))),
+      method: "POST",
+      headers: headerParameters,
+      query: queryParameters
+    }, initOverrides);
+    return new VoidApiResponse(response);
+  }
+  /**
+   * Upload a snapshot to the Grafana Migration Service for processing.
+   */
+  async uploadSnapshot(requestParameters, initOverrides) {
+    await this.uploadSnapshotRaw(requestParameters, initOverrides);
   }
 };
 
@@ -21970,7 +23847,13 @@ var ProvisioningApi = class extends BaseAPI {
       );
     }
     const queryParameters = {};
+    if (requestParameters["version"] != null) {
+      queryParameters["version"] = requestParameters["version"];
+    }
     const headerParameters = {};
+    if (requestParameters["xDisableProvenance"] != null) {
+      headerParameters["X-Disable-Provenance"] = String(requestParameters["xDisableProvenance"]);
+    }
     if (this.configuration && this.configuration.apiKey) {
       headerParameters["Authorization"] = await this.configuration.apiKey("Authorization");
     }
@@ -22002,6 +23885,9 @@ var ProvisioningApi = class extends BaseAPI {
       );
     }
     const queryParameters = {};
+    if (requestParameters["version"] != null) {
+      queryParameters["version"] = requestParameters["version"];
+    }
     const headerParameters = {};
     if (this.configuration && this.configuration.apiKey) {
       headerParameters["Authorization"] = await this.configuration.apiKey("Authorization");
@@ -23479,7 +25365,7 @@ var ReportsApi = class extends BaseAPI {
       method: "POST",
       headers: headerParameters,
       query: queryParameters,
-      body: CreateOrUpdateReportConfigToJSON(requestParameters["body"])
+      body: CreateOrUpdateReportToJSON(requestParameters["body"])
     }, initOverrides);
     return new JSONApiResponse(response, (jsonValue) => CreateReport200ResponseFromJSON(jsonValue));
   }
@@ -23563,7 +25449,7 @@ var ReportsApi = class extends BaseAPI {
   }
   /**
    * Available to org admins only and with a valid or expired license.  You need to have a permission with action `reports.settings:read`x.
-   * Get settings.
+   * Get report settings.
    */
   async getReportSettingsRaw(initOverrides) {
     const queryParameters = {};
@@ -23584,7 +25470,7 @@ var ReportsApi = class extends BaseAPI {
   }
   /**
    * Available to org admins only and with a valid or expired license.  You need to have a permission with action `reports.settings:read`x.
-   * Get settings.
+   * Get report settings.
    */
   async getReportSettings(initOverrides) {
     const response = await this.getReportSettingsRaw(initOverrides);
@@ -23620,13 +25506,77 @@ var ReportsApi = class extends BaseAPI {
     return await response.value();
   }
   /**
+   * Available to org admins only and with a valid or expired license.  You need to have a permission with action `reports.settings:read`.
+   * Get custom branding report image.
+   */
+  async getSettingsImageRaw(initOverrides) {
+    const queryParameters = {};
+    const headerParameters = {};
+    if (this.configuration && this.configuration.apiKey) {
+      headerParameters["Authorization"] = await this.configuration.apiKey("Authorization");
+    }
+    if (this.configuration && (this.configuration.username !== void 0 || this.configuration.password !== void 0)) {
+      headerParameters["Authorization"] = "Basic " + btoa(this.configuration.username + ":" + this.configuration.password);
+    }
+    const response = await this.request({
+      path: `/reports/images/:image`,
+      method: "GET",
+      headers: headerParameters,
+      query: queryParameters
+    }, initOverrides);
+    return new JSONApiResponse(response);
+  }
+  /**
+   * Available to org admins only and with a valid or expired license.  You need to have a permission with action `reports.settings:read`.
+   * Get custom branding report image.
+   */
+  async getSettingsImage(initOverrides) {
+    const response = await this.getSettingsImageRaw(initOverrides);
+    return await response.value();
+  }
+  /**
+   * Available to all users and with a valid license.
+   * Download a CSV report.
+   */
+  async renderReportCSVsRaw(requestParameters, initOverrides) {
+    const queryParameters = {};
+    if (requestParameters["dashboards"] != null) {
+      queryParameters["dashboards"] = requestParameters["dashboards"];
+    }
+    if (requestParameters["title"] != null) {
+      queryParameters["title"] = requestParameters["title"];
+    }
+    const headerParameters = {};
+    if (this.configuration && this.configuration.apiKey) {
+      headerParameters["Authorization"] = await this.configuration.apiKey("Authorization");
+    }
+    if (this.configuration && (this.configuration.username !== void 0 || this.configuration.password !== void 0)) {
+      headerParameters["Authorization"] = "Basic " + btoa(this.configuration.username + ":" + this.configuration.password);
+    }
+    const response = await this.request({
+      path: `/reports/render/csvs`,
+      method: "GET",
+      headers: headerParameters,
+      query: queryParameters
+    }, initOverrides);
+    return new JSONApiResponse(response);
+  }
+  /**
+   * Available to all users and with a valid license.
+   * Download a CSV report.
+   */
+  async renderReportCSVs(requestParameters = {}, initOverrides) {
+    const response = await this.renderReportCSVsRaw(requestParameters, initOverrides);
+    return await response.value();
+  }
+  /**
    * Available to all users and with a valid license.
    * Render report for multiple dashboards.
    */
   async renderReportPDFsRaw(requestParameters, initOverrides) {
     const queryParameters = {};
-    if (requestParameters["dashboardID"] != null) {
-      queryParameters["dashboardID"] = requestParameters["dashboardID"];
+    if (requestParameters["dashboards"] != null) {
+      queryParameters["dashboards"] = requestParameters["dashboards"];
     }
     if (requestParameters["orientation"] != null) {
       queryParameters["orientation"] = requestParameters["orientation"];
@@ -23765,7 +25715,7 @@ var ReportsApi = class extends BaseAPI {
       method: "POST",
       headers: headerParameters,
       query: queryParameters,
-      body: CreateOrUpdateReportConfigToJSON(requestParameters["body"])
+      body: CreateOrUpdateReportToJSON(requestParameters["body"])
     }, initOverrides);
     return new JSONApiResponse(response, (jsonValue) => SuccessResponseBodyFromJSON(jsonValue));
   }
@@ -23808,7 +25758,7 @@ var ReportsApi = class extends BaseAPI {
       method: "PUT",
       headers: headerParameters,
       query: queryParameters,
-      body: CreateOrUpdateReportConfigToJSON(requestParameters["body"])
+      body: CreateOrUpdateReportToJSON(requestParameters["body"])
     }, initOverrides);
     return new JSONApiResponse(response, (jsonValue) => SuccessResponseBodyFromJSON(jsonValue));
   }
@@ -24038,6 +25988,9 @@ var SearchApi = class extends BaseAPI {
     }
     if (requestParameters["sort"] != null) {
       queryParameters["sort"] = requestParameters["sort"];
+    }
+    if (requestParameters["deleted"] != null) {
+      queryParameters["deleted"] = requestParameters["deleted"];
     }
     const headerParameters = {};
     if (this.configuration && this.configuration.apiKey) {
@@ -25643,6 +27596,49 @@ var TeamsApi = class extends BaseAPI {
     return await response.value();
   }
   /**
+   * Takes user emails, and updates team members and admins to the provided lists of users. Any current team members and admins not in the provided lists will be removed.
+   * Set team memberships.
+   */
+  async setTeamMembershipsRaw(requestParameters, initOverrides) {
+    if (requestParameters["teamId"] == null) {
+      throw new RequiredError(
+        "teamId",
+        'Required parameter "teamId" was null or undefined when calling setTeamMemberships().'
+      );
+    }
+    if (requestParameters["body"] == null) {
+      throw new RequiredError(
+        "body",
+        'Required parameter "body" was null or undefined when calling setTeamMemberships().'
+      );
+    }
+    const queryParameters = {};
+    const headerParameters = {};
+    headerParameters["Content-Type"] = "application/json";
+    if (this.configuration && this.configuration.apiKey) {
+      headerParameters["Authorization"] = await this.configuration.apiKey("Authorization");
+    }
+    if (this.configuration && (this.configuration.username !== void 0 || this.configuration.password !== void 0)) {
+      headerParameters["Authorization"] = "Basic " + btoa(this.configuration.username + ":" + this.configuration.password);
+    }
+    const response = await this.request({
+      path: `/teams/{team_id}/members`.replace(`{${"team_id"}}`, encodeURIComponent(String(requestParameters["teamId"]))),
+      method: "PUT",
+      headers: headerParameters,
+      query: queryParameters,
+      body: SetTeamMembershipsCommandToJSON(requestParameters["body"])
+    }, initOverrides);
+    return new JSONApiResponse(response, (jsonValue) => SuccessResponseBodyFromJSON(jsonValue));
+  }
+  /**
+   * Takes user emails, and updates team members and admins to the provided lists of users. Any current team members and admins not in the provided lists will be removed.
+   * Set team memberships.
+   */
+  async setTeamMemberships(requestParameters, initOverrides) {
+    const response = await this.setTeamMembershipsRaw(requestParameters, initOverrides);
+    return await response.value();
+  }
+  /**
    * Update Team.
    */
   async updateTeamRaw(requestParameters, initOverrides) {
@@ -26293,6 +28289,10 @@ exports.AlertRuleNotificationSettingsFromJSON = AlertRuleNotificationSettingsFro
 exports.AlertRuleNotificationSettingsFromJSONTyped = AlertRuleNotificationSettingsFromJSONTyped;
 exports.AlertRuleNotificationSettingsToJSON = AlertRuleNotificationSettingsToJSON;
 exports.AlertRuleNotificationSettingsToJSONTyped = AlertRuleNotificationSettingsToJSONTyped;
+exports.AlertRuleRecordExportFromJSON = AlertRuleRecordExportFromJSON;
+exports.AlertRuleRecordExportFromJSONTyped = AlertRuleRecordExportFromJSONTyped;
+exports.AlertRuleRecordExportToJSON = AlertRuleRecordExportToJSON;
+exports.AlertRuleRecordExportToJSONTyped = AlertRuleRecordExportToJSONTyped;
 exports.AlertStatusFromJSON = AlertStatusFromJSON;
 exports.AlertStatusFromJSONTyped = AlertStatusFromJSONTyped;
 exports.AlertStatusStateEnum = AlertStatusStateEnum;
@@ -26385,6 +28385,18 @@ exports.BasicAuthToJSON = BasicAuthToJSON;
 exports.BasicAuthToJSONTyped = BasicAuthToJSONTyped;
 exports.BlobApiResponse = BlobApiResponse;
 exports.COLLECTION_FORMATS = COLLECTION_FORMATS;
+exports.CacheConfigFromJSON = CacheConfigFromJSON;
+exports.CacheConfigFromJSONTyped = CacheConfigFromJSONTyped;
+exports.CacheConfigResponseFromJSON = CacheConfigResponseFromJSON;
+exports.CacheConfigResponseFromJSONTyped = CacheConfigResponseFromJSONTyped;
+exports.CacheConfigResponseToJSON = CacheConfigResponseToJSON;
+exports.CacheConfigResponseToJSONTyped = CacheConfigResponseToJSONTyped;
+exports.CacheConfigSetterFromJSON = CacheConfigSetterFromJSON;
+exports.CacheConfigSetterFromJSONTyped = CacheConfigSetterFromJSONTyped;
+exports.CacheConfigSetterToJSON = CacheConfigSetterToJSON;
+exports.CacheConfigSetterToJSONTyped = CacheConfigSetterToJSONTyped;
+exports.CacheConfigToJSON = CacheConfigToJSON;
+exports.CacheConfigToJSONTyped = CacheConfigToJSONTyped;
 exports.CalculateDashboardDiffRequestDiffTypeEnum = CalculateDashboardDiffRequestDiffTypeEnum;
 exports.CalculateDashboardDiffRequestFromJSON = CalculateDashboardDiffRequestFromJSON;
 exports.CalculateDashboardDiffRequestFromJSONTyped = CalculateDashboardDiffRequestFromJSONTyped;
@@ -26406,6 +28418,22 @@ exports.ClearHelpFlags200ResponseFromJSON = ClearHelpFlags200ResponseFromJSON;
 exports.ClearHelpFlags200ResponseFromJSONTyped = ClearHelpFlags200ResponseFromJSONTyped;
 exports.ClearHelpFlags200ResponseToJSON = ClearHelpFlags200ResponseToJSON;
 exports.ClearHelpFlags200ResponseToJSONTyped = ClearHelpFlags200ResponseToJSONTyped;
+exports.CloudMigrationRunListDTOFromJSON = CloudMigrationRunListDTOFromJSON;
+exports.CloudMigrationRunListDTOFromJSONTyped = CloudMigrationRunListDTOFromJSONTyped;
+exports.CloudMigrationRunListDTOToJSON = CloudMigrationRunListDTOToJSON;
+exports.CloudMigrationRunListDTOToJSONTyped = CloudMigrationRunListDTOToJSONTyped;
+exports.CloudMigrationSessionListResponseDTOFromJSON = CloudMigrationSessionListResponseDTOFromJSON;
+exports.CloudMigrationSessionListResponseDTOFromJSONTyped = CloudMigrationSessionListResponseDTOFromJSONTyped;
+exports.CloudMigrationSessionListResponseDTOToJSON = CloudMigrationSessionListResponseDTOToJSON;
+exports.CloudMigrationSessionListResponseDTOToJSONTyped = CloudMigrationSessionListResponseDTOToJSONTyped;
+exports.CloudMigrationSessionRequestDTOFromJSON = CloudMigrationSessionRequestDTOFromJSON;
+exports.CloudMigrationSessionRequestDTOFromJSONTyped = CloudMigrationSessionRequestDTOFromJSONTyped;
+exports.CloudMigrationSessionRequestDTOToJSON = CloudMigrationSessionRequestDTOToJSON;
+exports.CloudMigrationSessionRequestDTOToJSONTyped = CloudMigrationSessionRequestDTOToJSONTyped;
+exports.CloudMigrationSessionResponseDTOFromJSON = CloudMigrationSessionResponseDTOFromJSON;
+exports.CloudMigrationSessionResponseDTOFromJSONTyped = CloudMigrationSessionResponseDTOFromJSONTyped;
+exports.CloudMigrationSessionResponseDTOToJSON = CloudMigrationSessionResponseDTOToJSON;
+exports.CloudMigrationSessionResponseDTOToJSONTyped = CloudMigrationSessionResponseDTOToJSONTyped;
 exports.ClusterStatusFromJSON = ClusterStatusFromJSON;
 exports.ClusterStatusFromJSONTyped = ClusterStatusFromJSONTyped;
 exports.ClusterStatusStatusEnum = ClusterStatusStatusEnum;
@@ -26437,6 +28465,10 @@ exports.CorrelationFromJSONTyped = CorrelationFromJSONTyped;
 exports.CorrelationToJSON = CorrelationToJSON;
 exports.CorrelationToJSONTyped = CorrelationToJSONTyped;
 exports.CorrelationsApi = CorrelationsApi;
+exports.CreateAccessTokenResponseDTOFromJSON = CreateAccessTokenResponseDTOFromJSON;
+exports.CreateAccessTokenResponseDTOFromJSONTyped = CreateAccessTokenResponseDTOFromJSONTyped;
+exports.CreateAccessTokenResponseDTOToJSON = CreateAccessTokenResponseDTOToJSON;
+exports.CreateAccessTokenResponseDTOToJSONTyped = CreateAccessTokenResponseDTOToJSONTyped;
 exports.CreateCorrelationCommandFromJSON = CreateCorrelationCommandFromJSON;
 exports.CreateCorrelationCommandFromJSONTyped = CreateCorrelationCommandFromJSONTyped;
 exports.CreateCorrelationCommandToJSON = CreateCorrelationCommandToJSON;
@@ -26462,10 +28494,10 @@ exports.CreateLibraryElementCommandFromJSONTyped = CreateLibraryElementCommandFr
 exports.CreateLibraryElementCommandKindEnum = CreateLibraryElementCommandKindEnum;
 exports.CreateLibraryElementCommandToJSON = CreateLibraryElementCommandToJSON;
 exports.CreateLibraryElementCommandToJSONTyped = CreateLibraryElementCommandToJSONTyped;
-exports.CreateOrUpdateReportConfigFromJSON = CreateOrUpdateReportConfigFromJSON;
-exports.CreateOrUpdateReportConfigFromJSONTyped = CreateOrUpdateReportConfigFromJSONTyped;
-exports.CreateOrUpdateReportConfigToJSON = CreateOrUpdateReportConfigToJSON;
-exports.CreateOrUpdateReportConfigToJSONTyped = CreateOrUpdateReportConfigToJSONTyped;
+exports.CreateOrUpdateReportFromJSON = CreateOrUpdateReportFromJSON;
+exports.CreateOrUpdateReportFromJSONTyped = CreateOrUpdateReportFromJSONTyped;
+exports.CreateOrUpdateReportToJSON = CreateOrUpdateReportToJSON;
+exports.CreateOrUpdateReportToJSONTyped = CreateOrUpdateReportToJSONTyped;
 exports.CreateOrg200ResponseFromJSON = CreateOrg200ResponseFromJSON;
 exports.CreateOrg200ResponseFromJSONTyped = CreateOrg200ResponseFromJSONTyped;
 exports.CreateOrg200ResponseToJSON = CreateOrg200ResponseToJSON;
@@ -26495,6 +28527,10 @@ exports.CreateServiceAccountFormFromJSONTyped = CreateServiceAccountFormFromJSON
 exports.CreateServiceAccountFormRoleEnum = CreateServiceAccountFormRoleEnum;
 exports.CreateServiceAccountFormToJSON = CreateServiceAccountFormToJSON;
 exports.CreateServiceAccountFormToJSONTyped = CreateServiceAccountFormToJSONTyped;
+exports.CreateSnapshotResponseDTOFromJSON = CreateSnapshotResponseDTOFromJSON;
+exports.CreateSnapshotResponseDTOFromJSONTyped = CreateSnapshotResponseDTOFromJSONTyped;
+exports.CreateSnapshotResponseDTOToJSON = CreateSnapshotResponseDTOToJSON;
+exports.CreateSnapshotResponseDTOToJSONTyped = CreateSnapshotResponseDTOToJSONTyped;
 exports.CreateTeam200ResponseFromJSON = CreateTeam200ResponseFromJSON;
 exports.CreateTeam200ResponseFromJSONTyped = CreateTeam200ResponseFromJSONTyped;
 exports.CreateTeam200ResponseToJSON = CreateTeam200ResponseToJSON;
@@ -26698,6 +28734,10 @@ exports.GenericPublicErrorFromJSON = GenericPublicErrorFromJSON;
 exports.GenericPublicErrorFromJSONTyped = GenericPublicErrorFromJSONTyped;
 exports.GenericPublicErrorToJSON = GenericPublicErrorToJSON;
 exports.GenericPublicErrorToJSONTyped = GenericPublicErrorToJSONTyped;
+exports.GetAccessTokenResponseDTOFromJSON = GetAccessTokenResponseDTOFromJSON;
+exports.GetAccessTokenResponseDTOFromJSONTyped = GetAccessTokenResponseDTOFromJSONTyped;
+exports.GetAccessTokenResponseDTOToJSON = GetAccessTokenResponseDTOToJSON;
+exports.GetAccessTokenResponseDTOToJSONTyped = GetAccessTokenResponseDTOToJSONTyped;
 exports.GetAnnotationTagsResponseFromJSON = GetAnnotationTagsResponseFromJSON;
 exports.GetAnnotationTagsResponseFromJSONTyped = GetAnnotationTagsResponseFromJSONTyped;
 exports.GetAnnotationTagsResponseToJSON = GetAnnotationTagsResponseToJSON;
@@ -26719,6 +28759,11 @@ exports.GetSharingOptions200ResponseFromJSON = GetSharingOptions200ResponseFromJ
 exports.GetSharingOptions200ResponseFromJSONTyped = GetSharingOptions200ResponseFromJSONTyped;
 exports.GetSharingOptions200ResponseToJSON = GetSharingOptions200ResponseToJSON;
 exports.GetSharingOptions200ResponseToJSONTyped = GetSharingOptions200ResponseToJSONTyped;
+exports.GetSnapshotResponseDTOFromJSON = GetSnapshotResponseDTOFromJSON;
+exports.GetSnapshotResponseDTOFromJSONTyped = GetSnapshotResponseDTOFromJSONTyped;
+exports.GetSnapshotResponseDTOStatusEnum = GetSnapshotResponseDTOStatusEnum;
+exports.GetSnapshotResponseDTOToJSON = GetSnapshotResponseDTOToJSON;
+exports.GetSnapshotResponseDTOToJSONTyped = GetSnapshotResponseDTOToJSONTyped;
 exports.GettableAlertFromJSON = GettableAlertFromJSON;
 exports.GettableAlertFromJSONTyped = GettableAlertFromJSONTyped;
 exports.GettableAlertToJSON = GettableAlertToJSON;
@@ -26753,6 +28798,10 @@ exports.GettableGrafanaRuleFromJSONTyped = GettableGrafanaRuleFromJSONTyped;
 exports.GettableGrafanaRuleNoDataStateEnum = GettableGrafanaRuleNoDataStateEnum;
 exports.GettableGrafanaRuleToJSON = GettableGrafanaRuleToJSON;
 exports.GettableGrafanaRuleToJSONTyped = GettableGrafanaRuleToJSONTyped;
+exports.GettableGrafanaSilenceFromJSON = GettableGrafanaSilenceFromJSON;
+exports.GettableGrafanaSilenceFromJSONTyped = GettableGrafanaSilenceFromJSONTyped;
+exports.GettableGrafanaSilenceToJSON = GettableGrafanaSilenceToJSON;
+exports.GettableGrafanaSilenceToJSONTyped = GettableGrafanaSilenceToJSONTyped;
 exports.GettableHistoricUserConfigFromJSON = GettableHistoricUserConfigFromJSON;
 exports.GettableHistoricUserConfigFromJSONTyped = GettableHistoricUserConfigFromJSONTyped;
 exports.GettableHistoricUserConfigToJSON = GettableHistoricUserConfigToJSON;
@@ -26790,6 +28839,19 @@ exports.HTTPClientConfigFromJSON = HTTPClientConfigFromJSON;
 exports.HTTPClientConfigFromJSONTyped = HTTPClientConfigFromJSONTyped;
 exports.HTTPClientConfigToJSON = HTTPClientConfigToJSON;
 exports.HTTPClientConfigToJSONTyped = HTTPClientConfigToJSONTyped;
+exports.HeaderFromJSON = HeaderFromJSON;
+exports.HeaderFromJSONTyped = HeaderFromJSONTyped;
+exports.HeaderToJSON = HeaderToJSON;
+exports.HeaderToJSONTyped = HeaderToJSONTyped;
+exports.HeadersFromJSON = HeadersFromJSON;
+exports.HeadersFromJSONTyped = HeadersFromJSONTyped;
+exports.HeadersToJSON = HeadersToJSON;
+exports.HeadersToJSONTyped = HeadersToJSONTyped;
+exports.HealthApi = HealthApi;
+exports.HealthResponseFromJSON = HealthResponseFromJSON;
+exports.HealthResponseFromJSONTyped = HealthResponseFromJSONTyped;
+exports.HealthResponseToJSON = HealthResponseToJSON;
+exports.HealthResponseToJSONTyped = HealthResponseToJSONTyped;
 exports.HitFromJSON = HitFromJSON;
 exports.HitFromJSONTyped = HitFromJSONTyped;
 exports.HitToJSON = HitToJSON;
@@ -26818,10 +28880,6 @@ exports.InhibitRuleFromJSON = InhibitRuleFromJSON;
 exports.InhibitRuleFromJSONTyped = InhibitRuleFromJSONTyped;
 exports.InhibitRuleToJSON = InhibitRuleToJSON;
 exports.InhibitRuleToJSONTyped = InhibitRuleToJSONTyped;
-exports.IntegrationFromJSON = IntegrationFromJSON;
-exports.IntegrationFromJSONTyped = IntegrationFromJSONTyped;
-exports.IntegrationToJSON = IntegrationToJSON;
-exports.IntegrationToJSONTyped = IntegrationToJSONTyped;
 exports.InternalDataLinkFromJSON = InternalDataLinkFromJSON;
 exports.InternalDataLinkFromJSONTyped = InternalDataLinkFromJSONTyped;
 exports.InternalDataLinkToJSON = InternalDataLinkToJSON;
@@ -26902,6 +28960,21 @@ exports.MetricRequestFromJSON = MetricRequestFromJSON;
 exports.MetricRequestFromJSONTyped = MetricRequestFromJSONTyped;
 exports.MetricRequestToJSON = MetricRequestToJSON;
 exports.MetricRequestToJSONTyped = MetricRequestToJSONTyped;
+exports.MigrateDataResponseDTOFromJSON = MigrateDataResponseDTOFromJSON;
+exports.MigrateDataResponseDTOFromJSONTyped = MigrateDataResponseDTOFromJSONTyped;
+exports.MigrateDataResponseDTOToJSON = MigrateDataResponseDTOToJSON;
+exports.MigrateDataResponseDTOToJSONTyped = MigrateDataResponseDTOToJSONTyped;
+exports.MigrateDataResponseItemDTOFromJSON = MigrateDataResponseItemDTOFromJSON;
+exports.MigrateDataResponseItemDTOFromJSONTyped = MigrateDataResponseItemDTOFromJSONTyped;
+exports.MigrateDataResponseItemDTOStatusEnum = MigrateDataResponseItemDTOStatusEnum;
+exports.MigrateDataResponseItemDTOToJSON = MigrateDataResponseItemDTOToJSON;
+exports.MigrateDataResponseItemDTOToJSONTyped = MigrateDataResponseItemDTOToJSONTyped;
+exports.MigrateDataResponseItemDTOTypeEnum = MigrateDataResponseItemDTOTypeEnum;
+exports.MigrateDataResponseListDTOFromJSON = MigrateDataResponseListDTOFromJSON;
+exports.MigrateDataResponseListDTOFromJSONTyped = MigrateDataResponseListDTOFromJSONTyped;
+exports.MigrateDataResponseListDTOToJSON = MigrateDataResponseListDTOToJSON;
+exports.MigrateDataResponseListDTOToJSONTyped = MigrateDataResponseListDTOToJSONTyped;
+exports.MigrationsApi = MigrationsApi;
 exports.MoveFolderCommandFromJSON = MoveFolderCommandFromJSON;
 exports.MoveFolderCommandFromJSONTyped = MoveFolderCommandFromJSONTyped;
 exports.MoveFolderCommandToJSON = MoveFolderCommandToJSON;
@@ -26918,6 +28991,10 @@ exports.NameFromJSON = NameFromJSON;
 exports.NameFromJSONTyped = NameFromJSONTyped;
 exports.NameToJSON = NameToJSON;
 exports.NameToJSONTyped = NameToJSONTyped;
+exports.NavbarPreferenceFromJSON = NavbarPreferenceFromJSON;
+exports.NavbarPreferenceFromJSONTyped = NavbarPreferenceFromJSONTyped;
+exports.NavbarPreferenceToJSON = NavbarPreferenceToJSON;
+exports.NavbarPreferenceToJSONTyped = NavbarPreferenceToJSONTyped;
 exports.NewApiKeyResultFromJSON = NewApiKeyResultFromJSON;
 exports.NewApiKeyResultFromJSONTyped = NewApiKeyResultFromJSONTyped;
 exports.NewApiKeyResultToJSON = NewApiKeyResultToJSON;
@@ -27193,6 +29270,10 @@ exports.ReceiverFromJSON = ReceiverFromJSON;
 exports.ReceiverFromJSONTyped = ReceiverFromJSONTyped;
 exports.ReceiverToJSON = ReceiverToJSON;
 exports.ReceiverToJSONTyped = ReceiverToJSONTyped;
+exports.RecordFromJSON = RecordFromJSON;
+exports.RecordFromJSONTyped = RecordFromJSONTyped;
+exports.RecordToJSON = RecordToJSON;
+exports.RecordToJSONTyped = RecordToJSONTyped;
 exports.RecordingRuleJSONFromJSON = RecordingRuleJSONFromJSON;
 exports.RecordingRuleJSONFromJSONTyped = RecordingRuleJSONFromJSONTyped;
 exports.RecordingRuleJSONToJSON = RecordingRuleJSONToJSON;
@@ -27257,6 +29338,10 @@ exports.RestoreDashboardVersionCommandFromJSON = RestoreDashboardVersionCommandF
 exports.RestoreDashboardVersionCommandFromJSONTyped = RestoreDashboardVersionCommandFromJSONTyped;
 exports.RestoreDashboardVersionCommandToJSON = RestoreDashboardVersionCommandToJSON;
 exports.RestoreDashboardVersionCommandToJSONTyped = RestoreDashboardVersionCommandToJSONTyped;
+exports.RestoreDeletedDashboardCommandFromJSON = RestoreDeletedDashboardCommandFromJSON;
+exports.RestoreDeletedDashboardCommandFromJSONTyped = RestoreDeletedDashboardCommandFromJSONTyped;
+exports.RestoreDeletedDashboardCommandToJSON = RestoreDeletedDashboardCommandToJSON;
+exports.RestoreDeletedDashboardCommandToJSONTyped = RestoreDeletedDashboardCommandToJSONTyped;
 exports.RetrieveJWKS200ResponseFromJSON = RetrieveJWKS200ResponseFromJSON;
 exports.RetrieveJWKS200ResponseFromJSONTyped = RetrieveJWKS200ResponseFromJSONTyped;
 exports.RetrieveJWKS200ResponseToJSON = RetrieveJWKS200ResponseToJSON;
@@ -27325,6 +29410,10 @@ exports.SaveDashboardCommandFromJSONTyped = SaveDashboardCommandFromJSONTyped;
 exports.SaveDashboardCommandToJSON = SaveDashboardCommandToJSON;
 exports.SaveDashboardCommandToJSONTyped = SaveDashboardCommandToJSONTyped;
 exports.SearchApi = SearchApi;
+exports.SearchDTOFromJSON = SearchDTOFromJSON;
+exports.SearchDTOFromJSONTyped = SearchDTOFromJSONTyped;
+exports.SearchDTOToJSON = SearchDTOToJSON;
+exports.SearchDTOToJSONTyped = SearchDTOToJSONTyped;
 exports.SearchDeviceQueryResultFromJSON = SearchDeviceQueryResultFromJSON;
 exports.SearchDeviceQueryResultFromJSONTyped = SearchDeviceQueryResultFromJSONTyped;
 exports.SearchDeviceQueryResultToJSON = SearchDeviceQueryResultToJSON;
@@ -27382,6 +29471,10 @@ exports.SetRoleAssignmentsCommandFromJSON = SetRoleAssignmentsCommandFromJSON;
 exports.SetRoleAssignmentsCommandFromJSONTyped = SetRoleAssignmentsCommandFromJSONTyped;
 exports.SetRoleAssignmentsCommandToJSON = SetRoleAssignmentsCommandToJSON;
 exports.SetRoleAssignmentsCommandToJSONTyped = SetRoleAssignmentsCommandToJSONTyped;
+exports.SetTeamMembershipsCommandFromJSON = SetTeamMembershipsCommandFromJSON;
+exports.SetTeamMembershipsCommandFromJSONTyped = SetTeamMembershipsCommandFromJSONTyped;
+exports.SetTeamMembershipsCommandToJSON = SetTeamMembershipsCommandToJSON;
+exports.SetTeamMembershipsCommandToJSONTyped = SetTeamMembershipsCommandToJSONTyped;
 exports.SetUserRolesCommandFromJSON = SetUserRolesCommandFromJSON;
 exports.SetUserRolesCommandFromJSONTyped = SetUserRolesCommandFromJSONTyped;
 exports.SetUserRolesCommandToJSON = SetUserRolesCommandToJSON;
@@ -27394,6 +29487,10 @@ exports.SignedInUserApi = SignedInUserApi;
 exports.SigningKeysApi = SigningKeysApi;
 exports.SilenceFromJSON = SilenceFromJSON;
 exports.SilenceFromJSONTyped = SilenceFromJSONTyped;
+exports.SilenceMetadataFromJSON = SilenceMetadataFromJSON;
+exports.SilenceMetadataFromJSONTyped = SilenceMetadataFromJSONTyped;
+exports.SilenceMetadataToJSON = SilenceMetadataToJSON;
+exports.SilenceMetadataToJSONTyped = SilenceMetadataToJSONTyped;
 exports.SilenceStatusFromJSON = SilenceStatusFromJSON;
 exports.SilenceStatusFromJSONTyped = SilenceStatusFromJSONTyped;
 exports.SilenceStatusStateEnum = SilenceStatusStateEnum;
@@ -27417,6 +29514,19 @@ exports.SlackFieldFromJSON = SlackFieldFromJSON;
 exports.SlackFieldFromJSONTyped = SlackFieldFromJSONTyped;
 exports.SlackFieldToJSON = SlackFieldToJSON;
 exports.SlackFieldToJSONTyped = SlackFieldToJSONTyped;
+exports.SnapshotDTOFromJSON = SnapshotDTOFromJSON;
+exports.SnapshotDTOFromJSONTyped = SnapshotDTOFromJSONTyped;
+exports.SnapshotDTOStatusEnum = SnapshotDTOStatusEnum;
+exports.SnapshotDTOToJSON = SnapshotDTOToJSON;
+exports.SnapshotDTOToJSONTyped = SnapshotDTOToJSONTyped;
+exports.SnapshotListResponseDTOFromJSON = SnapshotListResponseDTOFromJSON;
+exports.SnapshotListResponseDTOFromJSONTyped = SnapshotListResponseDTOFromJSONTyped;
+exports.SnapshotListResponseDTOToJSON = SnapshotListResponseDTOToJSON;
+exports.SnapshotListResponseDTOToJSONTyped = SnapshotListResponseDTOToJSONTyped;
+exports.SnapshotResourceStatsFromJSON = SnapshotResourceStatsFromJSON;
+exports.SnapshotResourceStatsFromJSONTyped = SnapshotResourceStatsFromJSONTyped;
+exports.SnapshotResourceStatsToJSON = SnapshotResourceStatsToJSON;
+exports.SnapshotResourceStatsToJSONTyped = SnapshotResourceStatsToJSONTyped;
 exports.SnapshotsApi = SnapshotsApi;
 exports.SpanFromJSON = SpanFromJSON;
 exports.SpanFromJSONTyped = SpanFromJSONTyped;
@@ -27728,6 +29838,7 @@ exports.instanceOfAlertRuleGroupExport = instanceOfAlertRuleGroupExport;
 exports.instanceOfAlertRuleGroupMetadata = instanceOfAlertRuleGroupMetadata;
 exports.instanceOfAlertRuleNotificationSettings = instanceOfAlertRuleNotificationSettings;
 exports.instanceOfAlertRuleNotificationSettingsExport = instanceOfAlertRuleNotificationSettingsExport;
+exports.instanceOfAlertRuleRecordExport = instanceOfAlertRuleRecordExport;
 exports.instanceOfAlertStatus = instanceOfAlertStatus;
 exports.instanceOfAlertingFileExport = instanceOfAlertingFileExport;
 exports.instanceOfAlertingRule = instanceOfAlertingRule;
@@ -27748,11 +29859,18 @@ exports.instanceOfAttributeTypeAndValue = instanceOfAttributeTypeAndValue;
 exports.instanceOfAuthorization = instanceOfAuthorization;
 exports.instanceOfBacktestConfig = instanceOfBacktestConfig;
 exports.instanceOfBasicAuth = instanceOfBasicAuth;
+exports.instanceOfCacheConfig = instanceOfCacheConfig;
+exports.instanceOfCacheConfigResponse = instanceOfCacheConfigResponse;
+exports.instanceOfCacheConfigSetter = instanceOfCacheConfigSetter;
 exports.instanceOfCalculateDashboardDiffRequest = instanceOfCalculateDashboardDiffRequest;
 exports.instanceOfCalculateDiffTarget = instanceOfCalculateDiffTarget;
 exports.instanceOfCertificate = instanceOfCertificate;
 exports.instanceOfChangeUserPasswordCommand = instanceOfChangeUserPasswordCommand;
 exports.instanceOfClearHelpFlags200Response = instanceOfClearHelpFlags200Response;
+exports.instanceOfCloudMigrationRunListDTO = instanceOfCloudMigrationRunListDTO;
+exports.instanceOfCloudMigrationSessionListResponseDTO = instanceOfCloudMigrationSessionListResponseDTO;
+exports.instanceOfCloudMigrationSessionRequestDTO = instanceOfCloudMigrationSessionRequestDTO;
+exports.instanceOfCloudMigrationSessionResponseDTO = instanceOfCloudMigrationSessionResponseDTO;
 exports.instanceOfClusterStatus = instanceOfClusterStatus;
 exports.instanceOfConfig = instanceOfConfig;
 exports.instanceOfContactPointExport = instanceOfContactPointExport;
@@ -27760,13 +29878,14 @@ exports.instanceOfCookiePreferences = instanceOfCookiePreferences;
 exports.instanceOfCorrelation = instanceOfCorrelation;
 exports.instanceOfCorrelationConfig = instanceOfCorrelationConfig;
 exports.instanceOfCorrelationConfigUpdateDTO = instanceOfCorrelationConfigUpdateDTO;
+exports.instanceOfCreateAccessTokenResponseDTO = instanceOfCreateAccessTokenResponseDTO;
 exports.instanceOfCreateCorrelationCommand = instanceOfCreateCorrelationCommand;
 exports.instanceOfCreateCorrelationResponseBody = instanceOfCreateCorrelationResponseBody;
 exports.instanceOfCreateDashboardSnapshot200Response = instanceOfCreateDashboardSnapshot200Response;
 exports.instanceOfCreateDashboardSnapshotCommand = instanceOfCreateDashboardSnapshotCommand;
 exports.instanceOfCreateFolderCommand = instanceOfCreateFolderCommand;
 exports.instanceOfCreateLibraryElementCommand = instanceOfCreateLibraryElementCommand;
-exports.instanceOfCreateOrUpdateReportConfig = instanceOfCreateOrUpdateReportConfig;
+exports.instanceOfCreateOrUpdateReport = instanceOfCreateOrUpdateReport;
 exports.instanceOfCreateOrg200Response = instanceOfCreateOrg200Response;
 exports.instanceOfCreateOrgCommand = instanceOfCreateOrgCommand;
 exports.instanceOfCreatePlaylistCommand = instanceOfCreatePlaylistCommand;
@@ -27774,6 +29893,7 @@ exports.instanceOfCreateQueryInQueryHistoryCommand = instanceOfCreateQueryInQuer
 exports.instanceOfCreateReport200Response = instanceOfCreateReport200Response;
 exports.instanceOfCreateRoleForm = instanceOfCreateRoleForm;
 exports.instanceOfCreateServiceAccountForm = instanceOfCreateServiceAccountForm;
+exports.instanceOfCreateSnapshotResponseDTO = instanceOfCreateSnapshotResponseDTO;
 exports.instanceOfCreateTeam200Response = instanceOfCreateTeam200Response;
 exports.instanceOfCreateTeamCommand = instanceOfCreateTeamCommand;
 exports.instanceOfDashboardACLInfoDTO = instanceOfDashboardACLInfoDTO;
@@ -27821,10 +29941,12 @@ exports.instanceOfForbiddenError = instanceOfForbiddenError;
 exports.instanceOfFrame = instanceOfFrame;
 exports.instanceOfFrameMeta = instanceOfFrameMeta;
 exports.instanceOfGenericPublicError = instanceOfGenericPublicError;
+exports.instanceOfGetAccessTokenResponseDTO = instanceOfGetAccessTokenResponseDTO;
 exports.instanceOfGetAnnotationTagsResponse = instanceOfGetAnnotationTagsResponse;
 exports.instanceOfGetDataSourceIdByName200Response = instanceOfGetDataSourceIdByName200Response;
 exports.instanceOfGetHomeDashboardResponse = instanceOfGetHomeDashboardResponse;
 exports.instanceOfGetSharingOptions200Response = instanceOfGetSharingOptions200Response;
+exports.instanceOfGetSnapshotResponseDTO = instanceOfGetSnapshotResponseDTO;
 exports.instanceOfGettableAlert = instanceOfGettableAlert;
 exports.instanceOfGettableAlertmanagers = instanceOfGettableAlertmanagers;
 exports.instanceOfGettableApiAlertingConfig = instanceOfGettableApiAlertingConfig;
@@ -27833,6 +29955,7 @@ exports.instanceOfGettableExtendedRuleNode = instanceOfGettableExtendedRuleNode;
 exports.instanceOfGettableGrafanaReceiver = instanceOfGettableGrafanaReceiver;
 exports.instanceOfGettableGrafanaReceivers = instanceOfGettableGrafanaReceivers;
 exports.instanceOfGettableGrafanaRule = instanceOfGettableGrafanaRule;
+exports.instanceOfGettableGrafanaSilence = instanceOfGettableGrafanaSilence;
 exports.instanceOfGettableHistoricUserConfig = instanceOfGettableHistoricUserConfig;
 exports.instanceOfGettableNGalertConfig = instanceOfGettableNGalertConfig;
 exports.instanceOfGettableRuleGroupConfig = instanceOfGettableRuleGroupConfig;
@@ -27842,6 +29965,9 @@ exports.instanceOfGettableTimeIntervals = instanceOfGettableTimeIntervals;
 exports.instanceOfGettableUserConfig = instanceOfGettableUserConfig;
 exports.instanceOfGlobalConfig = instanceOfGlobalConfig;
 exports.instanceOfHTTPClientConfig = instanceOfHTTPClientConfig;
+exports.instanceOfHeader = instanceOfHeader;
+exports.instanceOfHeaders = instanceOfHeaders;
+exports.instanceOfHealthResponse = instanceOfHealthResponse;
 exports.instanceOfHit = instanceOfHit;
 exports.instanceOfHostPort = instanceOfHostPort;
 exports.instanceOfIPNet = instanceOfIPNet;
@@ -27849,7 +29975,6 @@ exports.instanceOfImportDashboardInput = instanceOfImportDashboardInput;
 exports.instanceOfImportDashboardRequest = instanceOfImportDashboardRequest;
 exports.instanceOfImportDashboardResponse = instanceOfImportDashboardResponse;
 exports.instanceOfInhibitRule = instanceOfInhibitRule;
-exports.instanceOfIntegration = instanceOfIntegration;
 exports.instanceOfInternalDataLink = instanceOfInternalDataLink;
 exports.instanceOfJSONWebKey = instanceOfJSONWebKey;
 exports.instanceOfLabel = instanceOfLabel;
@@ -27869,10 +29994,14 @@ exports.instanceOfMSTeamsConfig = instanceOfMSTeamsConfig;
 exports.instanceOfMassDeleteAnnotationsCmd = instanceOfMassDeleteAnnotationsCmd;
 exports.instanceOfMatcher = instanceOfMatcher;
 exports.instanceOfMetricRequest = instanceOfMetricRequest;
+exports.instanceOfMigrateDataResponseDTO = instanceOfMigrateDataResponseDTO;
+exports.instanceOfMigrateDataResponseItemDTO = instanceOfMigrateDataResponseItemDTO;
+exports.instanceOfMigrateDataResponseListDTO = instanceOfMigrateDataResponseListDTO;
 exports.instanceOfMoveFolderCommand = instanceOfMoveFolderCommand;
 exports.instanceOfMuteTimeInterval = instanceOfMuteTimeInterval;
 exports.instanceOfMuteTimeIntervalExport = instanceOfMuteTimeIntervalExport;
 exports.instanceOfName = instanceOfName;
+exports.instanceOfNavbarPreference = instanceOfNavbarPreference;
 exports.instanceOfNewApiKeyResult = instanceOfNewApiKeyResult;
 exports.instanceOfNotice = instanceOfNotice;
 exports.instanceOfNotificationPolicyExport = instanceOfNotificationPolicyExport;
@@ -27938,6 +30067,7 @@ exports.instanceOfQueryStat = instanceOfQueryStat;
 exports.instanceOfQuotaDTO = instanceOfQuotaDTO;
 exports.instanceOfReceiver = instanceOfReceiver;
 exports.instanceOfReceiverExport = instanceOfReceiverExport;
+exports.instanceOfRecord = instanceOfRecord;
 exports.instanceOfRecordingRuleJSON = instanceOfRecordingRuleJSON;
 exports.instanceOfRelativeTimeRange = instanceOfRelativeTimeRange;
 exports.instanceOfRelativeTimeRangeExport = instanceOfRelativeTimeRangeExport;
@@ -27953,6 +30083,7 @@ exports.instanceOfReportTimeRange = instanceOfReportTimeRange;
 exports.instanceOfResourcePermissionDTO = instanceOfResourcePermissionDTO;
 exports.instanceOfResponseDetails = instanceOfResponseDetails;
 exports.instanceOfRestoreDashboardVersionCommand = instanceOfRestoreDashboardVersionCommand;
+exports.instanceOfRestoreDeletedDashboardCommand = instanceOfRestoreDeletedDashboardCommand;
 exports.instanceOfRetrieveJWKS200Response = instanceOfRetrieveJWKS200Response;
 exports.instanceOfRevokeAuthTokenCmd = instanceOfRevokeAuthTokenCmd;
 exports.instanceOfRoleAssignmentsDTO = instanceOfRoleAssignmentsDTO;
@@ -27968,6 +30099,7 @@ exports.instanceOfRuleResponse = instanceOfRuleResponse;
 exports.instanceOfSNSConfig = instanceOfSNSConfig;
 exports.instanceOfSample = instanceOfSample;
 exports.instanceOfSaveDashboardCommand = instanceOfSaveDashboardCommand;
+exports.instanceOfSearchDTO = instanceOfSearchDTO;
 exports.instanceOfSearchDeviceQueryResult = instanceOfSearchDeviceQueryResult;
 exports.instanceOfSearchOrgServiceAccountsResult = instanceOfSearchOrgServiceAccountsResult;
 exports.instanceOfSearchOrgUsersQueryResult = instanceOfSearchOrgUsersQueryResult;
@@ -27981,14 +30113,19 @@ exports.instanceOfSetPermissionCommand = instanceOfSetPermissionCommand;
 exports.instanceOfSetPermissionsCommand = instanceOfSetPermissionsCommand;
 exports.instanceOfSetResourcePermissionCommand = instanceOfSetResourcePermissionCommand;
 exports.instanceOfSetRoleAssignmentsCommand = instanceOfSetRoleAssignmentsCommand;
+exports.instanceOfSetTeamMembershipsCommand = instanceOfSetTeamMembershipsCommand;
 exports.instanceOfSetUserRolesCommand = instanceOfSetUserRolesCommand;
 exports.instanceOfSigV4Config = instanceOfSigV4Config;
 exports.instanceOfSilence = instanceOfSilence;
+exports.instanceOfSilenceMetadata = instanceOfSilenceMetadata;
 exports.instanceOfSilenceStatus = instanceOfSilenceStatus;
 exports.instanceOfSlackAction = instanceOfSlackAction;
 exports.instanceOfSlackConfig = instanceOfSlackConfig;
 exports.instanceOfSlackConfirmationField = instanceOfSlackConfirmationField;
 exports.instanceOfSlackField = instanceOfSlackField;
+exports.instanceOfSnapshotDTO = instanceOfSnapshotDTO;
+exports.instanceOfSnapshotListResponseDTO = instanceOfSnapshotListResponseDTO;
+exports.instanceOfSnapshotResourceStats = instanceOfSnapshotResourceStats;
 exports.instanceOfSpan = instanceOfSpan;
 exports.instanceOfSuccessResponseBody = instanceOfSuccessResponseBody;
 exports.instanceOfSyncResult = instanceOfSyncResult;

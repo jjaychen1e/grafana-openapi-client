@@ -799,10 +799,10 @@ export interface AlertQueryExport {
     'datasourceUid'?: string;
     /**
      * 
-     * @type {object}
+     * @type {{ [key: string]: object; }}
      * @memberof AlertQueryExport
      */
-    'model'?: object;
+    'model'?: { [key: string]: object; };
     /**
      * 
      * @type {string}
@@ -876,7 +876,7 @@ export interface AlertRuleExport {
      * @type {string}
      * @memberof AlertRuleExport
      */
-    'dasboardUid'?: string;
+    'dashboardUid'?: string;
     /**
      * 
      * @type {Array<AlertQueryExport>}
@@ -925,6 +925,12 @@ export interface AlertRuleExport {
      * @memberof AlertRuleExport
      */
     'panelId'?: number;
+    /**
+     * 
+     * @type {AlertRuleRecordExport}
+     * @memberof AlertRuleExport
+     */
+    'record'?: AlertRuleRecordExport;
     /**
      * 
      * @type {string}
@@ -1122,6 +1128,25 @@ export interface AlertRuleNotificationSettingsExport {
     'repeat_interval'?: string;
 }
 /**
+ * 
+ * @export
+ * @interface AlertRuleRecordExport
+ */
+export interface AlertRuleRecordExport {
+    /**
+     * 
+     * @type {string}
+     * @memberof AlertRuleRecordExport
+     */
+    'from'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof AlertRuleRecordExport
+     */
+    'metric'?: string;
+}
+/**
  * AlertStatus alert status
  * @export
  * @interface AlertStatus
@@ -1209,11 +1234,11 @@ export interface AlertingRule {
      */
     'alerts'?: Array<Alert>;
     /**
-     * The custom marshaling for labels.Labels ends up doing this anyways.
-     * @type {{ [key: string]: string; }}
+     * Labels is a sorted set of labels. Order has to be guaranteed upon instantiation.
+     * @type {Array<Label>}
      * @memberof AlertingRule
      */
-    'annotations': { [key: string]: string; };
+    'annotations': Array<Label>;
     /**
      * 
      * @type {number}
@@ -1233,11 +1258,11 @@ export interface AlertingRule {
      */
     'health': string;
     /**
-     * The custom marshaling for labels.Labels ends up doing this anyways.
-     * @type {{ [key: string]: string; }}
+     * Labels is a sorted set of labels. Order has to be guaranteed upon instantiation.
+     * @type {Array<Label>}
      * @memberof AlertingRule
      */
-    'labels'?: { [key: string]: string; };
+    'labels'?: Array<Label>;
     /**
      * 
      * @type {string}
@@ -1873,6 +1898,12 @@ export interface Authorization {
      */
     'credentials_file'?: string;
     /**
+     * CredentialsRef is the name of the secret within the secret manager to use as credentials.
+     * @type {string}
+     * @memberof Authorization
+     */
+    'credentials_ref'?: string;
+    /**
      * 
      * @type {string}
      * @memberof Authorization
@@ -1974,6 +2005,12 @@ export interface BasicAuth {
      */
     'password_file'?: string;
     /**
+     * PasswordRef is the name of the secret within the secret manager to use as the password.
+     * @type {string}
+     * @memberof BasicAuth
+     */
+    'password_ref'?: string;
+    /**
      * 
      * @type {string}
      * @memberof BasicAuth
@@ -1985,6 +2022,183 @@ export interface BasicAuth {
      * @memberof BasicAuth
      */
     'username_file'?: string;
+    /**
+     * UsernameRef is the name of the secret within the secret manager to use as the username.
+     * @type {string}
+     * @memberof BasicAuth
+     */
+    'username_ref'?: string;
+}
+/**
+ * Config defines the internal representation of a cache configuration, including fields not set by the API caller
+ * @export
+ * @interface CacheConfig
+ */
+export interface CacheConfig {
+    /**
+     * 
+     * @type {string}
+     * @memberof CacheConfig
+     */
+    'created'?: string;
+    /**
+     * Fields that can be set by the API caller - read/write
+     * @type {number}
+     * @memberof CacheConfig
+     */
+    'dataSourceID'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof CacheConfig
+     */
+    'dataSourceUID'?: string;
+    /**
+     * These are returned by the HTTP API, but are managed internally - read-only Note: \'created\' and \'updated\' are special properties managed automatically by xorm, but we are setting them manually
+     * @type {number}
+     * @memberof CacheConfig
+     */
+    'defaultTTLMs'?: number;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof CacheConfig
+     */
+    'enabled'?: boolean;
+    /**
+     * TTL MS, or \"time to live\", is how long a cached item will stay in the cache before it is removed (in milliseconds)
+     * @type {number}
+     * @memberof CacheConfig
+     */
+    'ttlQueriesMs'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof CacheConfig
+     */
+    'ttlResourcesMs'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof CacheConfig
+     */
+    'updated'?: string;
+    /**
+     * If UseDefaultTTL is enabled, then the TTLQueriesMS and TTLResourcesMS in this object is always sent as the default TTL located in grafana.ini
+     * @type {boolean}
+     * @memberof CacheConfig
+     */
+    'useDefaultTTL'?: boolean;
+}
+/**
+ * 
+ * @export
+ * @interface CacheConfigResponse
+ */
+export interface CacheConfigResponse {
+    /**
+     * 
+     * @type {string}
+     * @memberof CacheConfigResponse
+     */
+    'created'?: string;
+    /**
+     * Fields that can be set by the API caller - read/write
+     * @type {number}
+     * @memberof CacheConfigResponse
+     */
+    'dataSourceID'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof CacheConfigResponse
+     */
+    'dataSourceUID'?: string;
+    /**
+     * These are returned by the HTTP API, but are managed internally - read-only Note: \'created\' and \'updated\' are special properties managed automatically by xorm, but we are setting them manually
+     * @type {number}
+     * @memberof CacheConfigResponse
+     */
+    'defaultTTLMs'?: number;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof CacheConfigResponse
+     */
+    'enabled'?: boolean;
+    /**
+     * 
+     * @type {string}
+     * @memberof CacheConfigResponse
+     */
+    'message'?: string;
+    /**
+     * TTL MS, or \"time to live\", is how long a cached item will stay in the cache before it is removed (in milliseconds)
+     * @type {number}
+     * @memberof CacheConfigResponse
+     */
+    'ttlQueriesMs'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof CacheConfigResponse
+     */
+    'ttlResourcesMs'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof CacheConfigResponse
+     */
+    'updated'?: string;
+    /**
+     * If UseDefaultTTL is enabled, then the TTLQueriesMS and TTLResourcesMS in this object is always sent as the default TTL located in grafana.ini
+     * @type {boolean}
+     * @memberof CacheConfigResponse
+     */
+    'useDefaultTTL'?: boolean;
+}
+/**
+ * ConfigSetter defines the cache parameters that users can configure per datasource This is only intended to be consumed by the SetCache HTTP Handler
+ * @export
+ * @interface CacheConfigSetter
+ */
+export interface CacheConfigSetter {
+    /**
+     * 
+     * @type {number}
+     * @memberof CacheConfigSetter
+     */
+    'dataSourceID'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof CacheConfigSetter
+     */
+    'dataSourceUID'?: string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof CacheConfigSetter
+     */
+    'enabled'?: boolean;
+    /**
+     * TTL MS, or \"time to live\", is how long a cached item will stay in the cache before it is removed (in milliseconds)
+     * @type {number}
+     * @memberof CacheConfigSetter
+     */
+    'ttlQueriesMs'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof CacheConfigSetter
+     */
+    'ttlResourcesMs'?: number;
+    /**
+     * If UseDefaultTTL is enabled, then the TTLQueriesMS and TTLResourcesMS in this object is always sent as the default TTL located in grafana.ini
+     * @type {boolean}
+     * @memberof CacheConfigSetter
+     */
+    'useDefaultTTL'?: boolean;
 }
 /**
  * 
@@ -2207,7 +2421,13 @@ export interface Certificate {
      */
     'PermittedURIDomains'?: Array<string>;
     /**
-     * 
+     * Policies contains all policy identifiers included in the certificate. In Go 1.22, encoding/gob cannot handle and ignores this field.
+     * @type {Array<object>}
+     * @memberof Certificate
+     */
+    'Policies'?: Array<object>;
+    /**
+     * PolicyIdentifiers contains asn1.ObjectIdentifiers, the components of which are limited to int32. If a certificate contains a policy which cannot be represented by asn1.ObjectIdentifier, it will not be included in PolicyIdentifiers, but will be present in Policies, which contains all parsed policy OIDs.
      * @type {Array<Array<number>>}
      * @memberof Certificate
      */
@@ -2348,6 +2568,76 @@ export interface ClearHelpFlags200Response {
     'message'?: string;
 }
 /**
+ * 
+ * @export
+ * @interface CloudMigrationRunListDTO
+ */
+export interface CloudMigrationRunListDTO {
+    /**
+     * 
+     * @type {Array<MigrateDataResponseListDTO>}
+     * @memberof CloudMigrationRunListDTO
+     */
+    'runs'?: Array<MigrateDataResponseListDTO>;
+}
+/**
+ * 
+ * @export
+ * @interface CloudMigrationSessionListResponseDTO
+ */
+export interface CloudMigrationSessionListResponseDTO {
+    /**
+     * 
+     * @type {Array<CloudMigrationSessionResponseDTO>}
+     * @memberof CloudMigrationSessionListResponseDTO
+     */
+    'sessions'?: Array<CloudMigrationSessionResponseDTO>;
+}
+/**
+ * 
+ * @export
+ * @interface CloudMigrationSessionRequestDTO
+ */
+export interface CloudMigrationSessionRequestDTO {
+    /**
+     * 
+     * @type {string}
+     * @memberof CloudMigrationSessionRequestDTO
+     */
+    'authToken'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface CloudMigrationSessionResponseDTO
+ */
+export interface CloudMigrationSessionResponseDTO {
+    /**
+     * 
+     * @type {string}
+     * @memberof CloudMigrationSessionResponseDTO
+     */
+    'created'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CloudMigrationSessionResponseDTO
+     */
+    'slug'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CloudMigrationSessionResponseDTO
+     */
+    'uid'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CloudMigrationSessionResponseDTO
+     */
+    'updated'?: string;
+}
+/**
  * ClusterStatus cluster status
  * @export
  * @interface ClusterStatus
@@ -2455,22 +2745,22 @@ export interface ContactPointExport {
 export interface CookiePreferences {
     /**
      * 
-     * @type {object}
+     * @type {{ [key: string]: object; }}
      * @memberof CookiePreferences
      */
-    'analytics'?: object;
+    'analytics'?: { [key: string]: object; };
     /**
      * 
-     * @type {object}
+     * @type {{ [key: string]: object; }}
      * @memberof CookiePreferences
      */
-    'functional'?: object;
+    'functional'?: { [key: string]: object; };
     /**
      * 
-     * @type {object}
+     * @type {{ [key: string]: object; }}
      * @memberof CookiePreferences
      */
-    'performance'?: object;
+    'performance'?: { [key: string]: object; };
 }
 /**
  * Correlation is the model for correlations definitions
@@ -2541,10 +2831,10 @@ export interface CorrelationConfig {
     'field': string;
     /**
      * Target data query
-     * @type {object}
+     * @type {{ [key: string]: object; }}
      * @memberof CorrelationConfig
      */
-    'target': object;
+    'target': { [key: string]: object; };
     /**
      * 
      * @type {Array<Transformation>}
@@ -2572,10 +2862,10 @@ export interface CorrelationConfigUpdateDTO {
     'field'?: string;
     /**
      * Target data query
-     * @type {object}
+     * @type {{ [key: string]: object; }}
      * @memberof CorrelationConfigUpdateDTO
      */
-    'target'?: object;
+    'target'?: { [key: string]: object; };
     /**
      * Source data transformations
      * @type {Array<Transformation>}
@@ -2588,6 +2878,19 @@ export interface CorrelationConfigUpdateDTO {
      * @memberof CorrelationConfigUpdateDTO
      */
     'type'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface CreateAccessTokenResponseDTO
+ */
+export interface CreateAccessTokenResponseDTO {
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateAccessTokenResponseDTO
+     */
+    'token'?: string;
 }
 /**
  * CreateCorrelationCommand is the command for creating a correlation
@@ -2822,79 +3125,79 @@ export type CreateLibraryElementCommandKindEnum = typeof CreateLibraryElementCom
 /**
  * 
  * @export
- * @interface CreateOrUpdateReportConfig
+ * @interface CreateOrUpdateReport
  */
-export interface CreateOrUpdateReportConfig {
+export interface CreateOrUpdateReport {
     /**
      * 
      * @type {Array<ReportDashboard>}
-     * @memberof CreateOrUpdateReportConfig
+     * @memberof CreateOrUpdateReport
      */
     'dashboards'?: Array<ReportDashboard>;
     /**
      * 
      * @type {boolean}
-     * @memberof CreateOrUpdateReportConfig
+     * @memberof CreateOrUpdateReport
      */
     'enableCsv'?: boolean;
     /**
      * 
      * @type {boolean}
-     * @memberof CreateOrUpdateReportConfig
+     * @memberof CreateOrUpdateReport
      */
     'enableDashboardUrl'?: boolean;
     /**
      * 
      * @type {Array<string>}
-     * @memberof CreateOrUpdateReportConfig
+     * @memberof CreateOrUpdateReport
      */
     'formats'?: Array<string>;
     /**
      * 
      * @type {string}
-     * @memberof CreateOrUpdateReportConfig
+     * @memberof CreateOrUpdateReport
      */
     'message'?: string;
     /**
      * 
      * @type {string}
-     * @memberof CreateOrUpdateReportConfig
+     * @memberof CreateOrUpdateReport
      */
     'name'?: string;
     /**
      * 
      * @type {ReportOptions}
-     * @memberof CreateOrUpdateReportConfig
+     * @memberof CreateOrUpdateReport
      */
     'options'?: ReportOptions;
     /**
      * 
      * @type {string}
-     * @memberof CreateOrUpdateReportConfig
+     * @memberof CreateOrUpdateReport
      */
     'recipients'?: string;
     /**
      * 
      * @type {string}
-     * @memberof CreateOrUpdateReportConfig
+     * @memberof CreateOrUpdateReport
      */
     'replyTo'?: string;
     /**
      * 
      * @type {number}
-     * @memberof CreateOrUpdateReportConfig
+     * @memberof CreateOrUpdateReport
      */
     'scaleFactor'?: number;
     /**
      * 
      * @type {ReportSchedule}
-     * @memberof CreateOrUpdateReportConfig
+     * @memberof CreateOrUpdateReport
      */
     'schedule'?: ReportSchedule;
     /**
-     * 
+     * +enum
      * @type {string}
-     * @memberof CreateOrUpdateReportConfig
+     * @memberof CreateOrUpdateReport
      */
     'state'?: string;
 }
@@ -3089,6 +3392,19 @@ export const CreateServiceAccountFormRoleEnum = {
 
 export type CreateServiceAccountFormRoleEnum = typeof CreateServiceAccountFormRoleEnum[keyof typeof CreateServiceAccountFormRoleEnum];
 
+/**
+ * 
+ * @export
+ * @interface CreateSnapshotResponseDTO
+ */
+export interface CreateSnapshotResponseDTO {
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateSnapshotResponseDTO
+     */
+    'uid'?: string;
+}
 /**
  * 
  * @export
@@ -3505,12 +3821,6 @@ export interface DashboardMeta {
      * @memberof DashboardMeta
      */
     'publicDashboardEnabled'?: boolean;
-    /**
-     * 
-     * @type {string}
-     * @memberof DashboardMeta
-     */
-    'publicDashboardUid'?: string;
     /**
      * 
      * @type {string}
@@ -4015,12 +4325,6 @@ export interface DeleteCorrelationResponseBody {
  */
 export interface DeleteDashboardByUID200Response {
     /**
-     * ID Identifier of the deleted dashboard.
-     * @type {number}
-     * @memberof DeleteDashboardByUID200Response
-     */
-    'id': number;
-    /**
      * Message Message of the deleted dashboard.
      * @type {string}
      * @memberof DeleteDashboardByUID200Response
@@ -4032,6 +4336,12 @@ export interface DeleteDashboardByUID200Response {
      * @memberof DeleteDashboardByUID200Response
      */
     'title': string;
+    /**
+     * UID Identifier of the deleted dashboard.
+     * @type {string}
+     * @memberof DeleteDashboardByUID200Response
+     */
+    'uid': string;
 }
 /**
  * 
@@ -4696,16 +5006,16 @@ export interface Field {
 export interface FieldConfig {
     /**
      * Map values to a display color NOTE: this interface is under development in the frontend... so simple map for now
-     * @type {object}
+     * @type {{ [key: string]: object; }}
      * @memberof FieldConfig
      */
-    'color'?: object;
+    'color'?: { [key: string]: object; };
     /**
      * Panel Specific Values
-     * @type {object}
+     * @type {{ [key: string]: object; }}
      * @memberof FieldConfig
      */
-    'custom'?: object;
+    'custom'?: { [key: string]: object; };
     /**
      * 
      * @type {number}
@@ -5175,6 +5485,49 @@ export interface GenericPublicError {
 /**
  * 
  * @export
+ * @interface GetAccessTokenResponseDTO
+ */
+export interface GetAccessTokenResponseDTO {
+    /**
+     * 
+     * @type {string}
+     * @memberof GetAccessTokenResponseDTO
+     */
+    'createdAt'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetAccessTokenResponseDTO
+     */
+    'displayName'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetAccessTokenResponseDTO
+     */
+    'expiresAt'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetAccessTokenResponseDTO
+     */
+    'firstUsedAt'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetAccessTokenResponseDTO
+     */
+    'id'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetAccessTokenResponseDTO
+     */
+    'lastUsedAt'?: string;
+}
+/**
+ * 
+ * @export
  * @interface GetAnnotationTagsResponse
  */
 export interface GetAnnotationTagsResponse {
@@ -5248,6 +5601,71 @@ export interface GetSharingOptions200Response {
      */
     'externalSnapshotURL'?: string;
 }
+/**
+ * 
+ * @export
+ * @interface GetSnapshotResponseDTO
+ */
+export interface GetSnapshotResponseDTO {
+    /**
+     * 
+     * @type {string}
+     * @memberof GetSnapshotResponseDTO
+     */
+    'created'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetSnapshotResponseDTO
+     */
+    'finished'?: string;
+    /**
+     * 
+     * @type {Array<MigrateDataResponseItemDTO>}
+     * @memberof GetSnapshotResponseDTO
+     */
+    'results'?: Array<MigrateDataResponseItemDTO>;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetSnapshotResponseDTO
+     */
+    'sessionUid'?: string;
+    /**
+     * 
+     * @type {SnapshotResourceStats}
+     * @memberof GetSnapshotResponseDTO
+     */
+    'stats'?: SnapshotResourceStats;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetSnapshotResponseDTO
+     */
+    'status'?: GetSnapshotResponseDTOStatusEnum;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetSnapshotResponseDTO
+     */
+    'uid'?: string;
+}
+
+export const GetSnapshotResponseDTOStatusEnum = {
+    Initializing: 'INITIALIZING',
+    Creating: 'CREATING',
+    PendingUpload: 'PENDING_UPLOAD',
+    Uploading: 'UPLOADING',
+    PendingProcessing: 'PENDING_PROCESSING',
+    Processing: 'PROCESSING',
+    Finished: 'FINISHED',
+    Canceled: 'CANCELED',
+    Error: 'ERROR',
+    Unknown: 'UNKNOWN'
+} as const;
+
+export type GetSnapshotResponseDTOStatusEnum = typeof GetSnapshotResponseDTOStatusEnum[keyof typeof GetSnapshotResponseDTOStatusEnum];
+
 /**
  * GettableAlert gettable alert
  * @export
@@ -5671,6 +6089,12 @@ export interface GettableGrafanaRule {
     'provenance'?: string;
     /**
      * 
+     * @type {Record}
+     * @memberof GettableGrafanaRule
+     */
+    'record'?: Record;
+    /**
+     * 
      * @type {string}
      * @memberof GettableGrafanaRule
      */
@@ -5716,6 +6140,73 @@ export const GettableGrafanaRuleNoDataStateEnum = {
 
 export type GettableGrafanaRuleNoDataStateEnum = typeof GettableGrafanaRuleNoDataStateEnum[keyof typeof GettableGrafanaRuleNoDataStateEnum];
 
+/**
+ * 
+ * @export
+ * @interface GettableGrafanaSilence
+ */
+export interface GettableGrafanaSilence {
+    /**
+     * 
+     * @type {{ [key: string]: boolean; }}
+     * @memberof GettableGrafanaSilence
+     */
+    'accessControl'?: { [key: string]: boolean; };
+    /**
+     * comment
+     * @type {string}
+     * @memberof GettableGrafanaSilence
+     */
+    'comment': string;
+    /**
+     * created by
+     * @type {string}
+     * @memberof GettableGrafanaSilence
+     */
+    'createdBy': string;
+    /**
+     * ends at
+     * @type {string}
+     * @memberof GettableGrafanaSilence
+     */
+    'endsAt': string;
+    /**
+     * id
+     * @type {string}
+     * @memberof GettableGrafanaSilence
+     */
+    'id': string;
+    /**
+     * Matchers matchers
+     * @type {Array<Matcher>}
+     * @memberof GettableGrafanaSilence
+     */
+    'matchers': Array<Matcher>;
+    /**
+     * 
+     * @type {SilenceMetadata}
+     * @memberof GettableGrafanaSilence
+     */
+    'metadata'?: SilenceMetadata;
+    /**
+     * starts at
+     * @type {string}
+     * @memberof GettableGrafanaSilence
+     */
+    'startsAt': string;
+    /**
+     * 
+     * @type {SilenceStatus}
+     * @memberof GettableGrafanaSilence
+     */
+    'status': SilenceStatus;
+    /**
+     * updated at
+     * @type {string}
+     * @memberof GettableGrafanaSilence
+     */
+    'updatedAt': string;
+}
 /**
  * 
  * @export
@@ -5807,7 +6298,7 @@ export interface GettableRuleGroupConfig {
     'source_tenants'?: Array<string>;
 }
 /**
- * 
+ * GettableSilence gettable silence
  * @export
  * @interface GettableSilence
  */
@@ -5916,6 +6407,12 @@ export interface GettableTimeIntervals {
      * @memberof GettableTimeIntervals
      */
     'time_intervals'?: Array<TimeIntervalItem>;
+    /**
+     * 
+     * @type {string}
+     * @memberof GettableTimeIntervals
+     */
+    'version'?: string;
 }
 /**
  * 
@@ -6142,6 +6639,12 @@ export interface HTTPClientConfig {
      */
     'follow_redirects'?: boolean;
     /**
+     * 
+     * @type {Headers}
+     * @memberof HTTPClientConfig
+     */
+    'http_headers'?: Headers;
+    /**
      * NoProxy contains addresses that should not use a proxy.
      * @type {string}
      * @memberof HTTPClientConfig
@@ -6181,11 +6684,80 @@ export interface HTTPClientConfig {
 /**
  * 
  * @export
+ * @interface Header
+ */
+export interface Header {
+    /**
+     * 
+     * @type {Array<string>}
+     * @memberof Header
+     */
+    'files'?: Array<string>;
+    /**
+     * 
+     * @type {Array<string>}
+     * @memberof Header
+     */
+    'secrets'?: Array<string>;
+    /**
+     * 
+     * @type {Array<string>}
+     * @memberof Header
+     */
+    'values'?: Array<string>;
+}
+/**
+ * 
+ * @export
+ * @interface Headers
+ */
+export interface Headers {
+    /**
+     * 
+     * @type {{ [key: string]: Header; }}
+     * @memberof Headers
+     */
+    'Headers'?: { [key: string]: Header; };
+}
+/**
+ * 
+ * @export
+ * @interface HealthResponse
+ */
+export interface HealthResponse {
+    /**
+     * 
+     * @type {string}
+     * @memberof HealthResponse
+     */
+    'commit'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof HealthResponse
+     */
+    'database'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof HealthResponse
+     */
+    'enterpriseCommit'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof HealthResponse
+     */
+    'version'?: string;
+}
+/**
+ * 
+ * @export
  * @interface Hit
  */
 export interface Hit {
     /**
-     * Deprecated: use FolderUID instead
+     * 
      * @type {number}
      * @memberof Hit
      */
@@ -6219,7 +6791,19 @@ export interface Hit {
      * @type {boolean}
      * @memberof Hit
      */
+    'isDeleted'?: boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof Hit
+     */
     'isStarred'?: boolean;
+    /**
+     * 
+     * @type {string}
+     * @memberof Hit
+     */
+    'permanentlyDeleteDate'?: string;
     /**
      * 
      * @type {string}
@@ -6307,7 +6891,7 @@ export interface IPNet {
      */
     'IP'?: string;
     /**
-     * See type IPNet and func ParseCIDR for details.
+     * See type [IPNet] and func [ParseCIDR] for details.
      * @type {Array<number>}
      * @memberof IPNet
      */
@@ -6538,43 +7122,6 @@ export interface InhibitRule {
      * @memberof InhibitRule
      */
     'target_matchers'?: Array<Matcher>;
-}
-/**
- * Integration integration
- * @export
- * @interface Integration
- */
-export interface Integration {
-    /**
-     * A timestamp indicating the last attempt to deliver a notification regardless of the outcome. Format: date-time
-     * @type {string}
-     * @memberof Integration
-     */
-    'lastNotifyAttempt'?: string;
-    /**
-     * Duration of the last attempt to deliver a notification in humanized format (`1s` or `15ms`, etc).
-     * @type {string}
-     * @memberof Integration
-     */
-    'lastNotifyAttemptDuration'?: string;
-    /**
-     * Error string for the last attempt to deliver a notification. Empty if the last attempt was successful.
-     * @type {string}
-     * @memberof Integration
-     */
-    'lastNotifyAttemptError'?: string;
-    /**
-     * name
-     * @type {string}
-     * @memberof Integration
-     */
-    'name': string;
-    /**
-     * send resolved
-     * @type {boolean}
-     * @memberof Integration
-     */
-    'sendResolved': boolean;
 }
 /**
  * InternalDataLink definition to allow Explore links to be constructed in the backend
@@ -7029,10 +7576,10 @@ export interface ListAllProvidersSettings200ResponseInner {
     'provider'?: string;
     /**
      * 
-     * @type {object}
+     * @type {{ [key: string]: object; }}
      * @memberof ListAllProvidersSettings200ResponseInner
      */
-    'settings'?: object;
+    'settings'?: { [key: string]: object; };
     /**
      * 
      * @type {string}
@@ -7214,6 +7761,87 @@ export interface MetricRequest {
     'to': string;
 }
 /**
+ * 
+ * @export
+ * @interface MigrateDataResponseDTO
+ */
+export interface MigrateDataResponseDTO {
+    /**
+     * 
+     * @type {Array<MigrateDataResponseItemDTO>}
+     * @memberof MigrateDataResponseDTO
+     */
+    'items'?: Array<MigrateDataResponseItemDTO>;
+    /**
+     * 
+     * @type {string}
+     * @memberof MigrateDataResponseDTO
+     */
+    'uid'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface MigrateDataResponseItemDTO
+ */
+export interface MigrateDataResponseItemDTO {
+    /**
+     * 
+     * @type {string}
+     * @memberof MigrateDataResponseItemDTO
+     */
+    'message'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof MigrateDataResponseItemDTO
+     */
+    'refId': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof MigrateDataResponseItemDTO
+     */
+    'status': MigrateDataResponseItemDTOStatusEnum;
+    /**
+     * 
+     * @type {string}
+     * @memberof MigrateDataResponseItemDTO
+     */
+    'type': MigrateDataResponseItemDTOTypeEnum;
+}
+
+export const MigrateDataResponseItemDTOStatusEnum = {
+    Ok: 'OK',
+    Warning: 'WARNING',
+    Error: 'ERROR',
+    Pending: 'PENDING',
+    Unknown: 'UNKNOWN'
+} as const;
+
+export type MigrateDataResponseItemDTOStatusEnum = typeof MigrateDataResponseItemDTOStatusEnum[keyof typeof MigrateDataResponseItemDTOStatusEnum];
+export const MigrateDataResponseItemDTOTypeEnum = {
+    Dashboard: 'DASHBOARD',
+    Datasource: 'DATASOURCE',
+    Folder: 'FOLDER'
+} as const;
+
+export type MigrateDataResponseItemDTOTypeEnum = typeof MigrateDataResponseItemDTOTypeEnum[keyof typeof MigrateDataResponseItemDTOTypeEnum];
+
+/**
+ * 
+ * @export
+ * @interface MigrateDataResponseListDTO
+ */
+export interface MigrateDataResponseListDTO {
+    /**
+     * 
+     * @type {string}
+     * @memberof MigrateDataResponseListDTO
+     */
+    'uid'?: string;
+}
+/**
  * MoveFolderCommand captures the information required by the folder service to move a folder.
  * @export
  * @interface MoveFolderCommand
@@ -7271,7 +7899,7 @@ export interface MuteTimeIntervalExport {
     'time_intervals'?: Array<TimeInterval>;
 }
 /**
- * Name represents an X.509 distinguished name. This only includes the common elements of a DN. Note that Name is only an approximation of the X.509 structure. If an accurate representation is needed, asn1.Unmarshal the raw subject or issuer as an RDNSequence.
+ * Name represents an X.509 distinguished name. This only includes the common elements of a DN. Note that Name is only an approximation of the X.509 structure. If an accurate representation is needed, asn1.Unmarshal the raw subject or issuer as an [RDNSequence].
  * @export
  * @interface Name
  */
@@ -7312,6 +7940,19 @@ export interface Name {
      * @memberof Name
      */
     'StreetAddress'?: Array<string>;
+}
+/**
+ * 
+ * @export
+ * @interface NavbarPreference
+ */
+export interface NavbarPreference {
+    /**
+     * 
+     * @type {Array<string>}
+     * @memberof NavbarPreference
+     */
+    'bookmarkUrls'?: Array<string>;
 }
 /**
  * 
@@ -7478,6 +8119,12 @@ export interface NotificationTemplate {
      * @memberof NotificationTemplate
      */
     'template'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof NotificationTemplate
+     */
+    'version'?: string;
 }
 /**
  * 
@@ -7491,6 +8138,12 @@ export interface NotificationTemplateContent {
      * @memberof NotificationTemplateContent
      */
     'template'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof NotificationTemplateContent
+     */
+    'version'?: string;
 }
 /**
  * 
@@ -7535,6 +8188,12 @@ export interface OAuth2 {
      * @memberof OAuth2
      */
     'client_secret_file'?: string;
+    /**
+     * ClientSecretRef is the name of the secret within the secret manager to use as the client secret.
+     * @type {string}
+     * @memberof OAuth2
+     */
+    'client_secret_ref'?: string;
     /**
      * 
      * @type {{ [key: string]: string; }}
@@ -7957,7 +8616,7 @@ export interface PagerdutyConfig {
     'url'?: URL;
 }
 /**
- * PagerdutyImage is an image
+ * 
  * @export
  * @interface PagerdutyImage
  */
@@ -7982,7 +8641,7 @@ export interface PagerdutyImage {
     'src'?: string;
 }
 /**
- * PagerdutyLink is a link
+ * 
  * @export
  * @interface PagerdutyLink
  */
@@ -8130,6 +8789,12 @@ export interface PatchPrefsCmd {
      * @memberof PatchPrefsCmd
      */
     'language'?: string;
+    /**
+     * 
+     * @type {NavbarPreference}
+     * @memberof PatchPrefsCmd
+     */
+    'navbar'?: NavbarPreference;
     /**
      * 
      * @type {QueryHistoryPreference}
@@ -8941,6 +9606,12 @@ export interface PostableGrafanaRule {
     'notification_settings'?: AlertRuleNotificationSettings;
     /**
      * 
+     * @type {Record}
+     * @memberof PostableGrafanaRule
+     */
+    'record'?: Record;
+    /**
+     * 
      * @type {string}
      * @memberof PostableGrafanaRule
      */
@@ -9076,6 +9747,12 @@ export interface PostableTimeIntervals {
      * @memberof PostableTimeIntervals
      */
     'time_intervals'?: Array<TimeIntervalItem>;
+    /**
+     * 
+     * @type {string}
+     * @memberof PostableTimeIntervals
+     */
+    'version'?: string;
 }
 /**
  * 
@@ -9120,6 +9797,12 @@ export interface Preferences {
      * @memberof Preferences
      */
     'language'?: string;
+    /**
+     * 
+     * @type {NavbarPreference}
+     * @memberof Preferences
+     */
+    'navbar'?: NavbarPreference;
     /**
      * 
      * @type {QueryHistoryPreference}
@@ -9254,6 +9937,12 @@ export interface ProvisionedAlertRule {
      * @memberof ProvisionedAlertRule
      */
     'provenance'?: string;
+    /**
+     * 
+     * @type {Record}
+     * @memberof ProvisionedAlertRule
+     */
+    'record'?: Record;
     /**
      * 
      * @type {string}
@@ -9530,10 +10219,10 @@ export interface PublicDashboardListResponseWithPagination {
 export interface PublicError {
     /**
      * Extra Additional information about the error
-     * @type {object}
+     * @type {{ [key: string]: object; }}
      * @memberof PublicError
      */
-    'extra'?: object;
+    'extra'?: { [key: string]: object; };
     /**
      * Message A human readable message
      * @type {string}
@@ -9821,16 +10510,16 @@ export interface QueryHistorySearchResult {
 export interface QueryStat {
     /**
      * Map values to a display color NOTE: this interface is under development in the frontend... so simple map for now
-     * @type {object}
+     * @type {{ [key: string]: object; }}
      * @memberof QueryStat
      */
-    'color'?: object;
+    'color'?: { [key: string]: object; };
     /**
      * Panel Specific Values
-     * @type {object}
+     * @type {{ [key: string]: object; }}
      * @memberof QueryStat
      */
-    'custom'?: object;
+    'custom'?: { [key: string]: object; };
     /**
      * 
      * @type {number}
@@ -9972,23 +10661,11 @@ export interface QuotaDTO {
     'user_id'?: number;
 }
 /**
- * 
+ * Receiver receiver
  * @export
  * @interface Receiver
  */
 export interface Receiver {
-    /**
-     * active
-     * @type {boolean}
-     * @memberof Receiver
-     */
-    'active': boolean;
-    /**
-     * integrations
-     * @type {Array<Integration>}
-     * @memberof Receiver
-     */
-    'integrations': Array<Integration>;
     /**
      * name
      * @type {string}
@@ -10026,6 +10703,25 @@ export interface ReceiverExport {
      * @memberof ReceiverExport
      */
     'uid'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface Record
+ */
+export interface Record {
+    /**
+     * Which expression node should be used as the input for the recorded metric.
+     * @type {string}
+     * @memberof Record
+     */
+    'from': string;
+    /**
+     * Name of the recorded metric.
+     * @type {string}
+     * @memberof Record
+     */
+    'metric': string;
 }
 /**
  * RecordingRuleJSON is the external representation of a recording rule
@@ -10083,10 +10779,10 @@ export interface RecordingRuleJSON {
     'prom_name'?: string;
     /**
      * 
-     * @type {Array<object>}
+     * @type {Array<{ [key: string]: object; }>}
      * @memberof RecordingRuleJSON
      */
-    'queries'?: Array<object>;
+    'queries'?: Array<{ [key: string]: object; }>;
     /**
      * 
      * @type {number}
@@ -10139,7 +10835,7 @@ export interface RelativeTimeRangeExport {
     'to'?: number;
 }
 /**
- * ConfigDTO is model representation in transfer
+ * 
  * @export
  * @interface Report
  */
@@ -10229,7 +10925,7 @@ export interface Report {
      */
     'schedule'?: ReportSchedule;
     /**
-     * 
+     * +enum
      * @type {string}
      * @memberof Report
      */
@@ -10615,6 +11311,19 @@ export interface RestoreDashboardVersionCommand {
 /**
  * 
  * @export
+ * @interface RestoreDeletedDashboardCommand
+ */
+export interface RestoreDeletedDashboardCommand {
+    /**
+     * 
+     * @type {string}
+     * @memberof RestoreDeletedDashboardCommand
+     */
+    'folderUid'?: string;
+}
+/**
+ * 
+ * @export
  * @interface RetrieveJWKS200Response
  */
 export interface RetrieveJWKS200Response {
@@ -10962,11 +11671,11 @@ export interface Rule {
      */
     'health': string;
     /**
-     * The custom marshaling for labels.Labels ends up doing this anyways.
-     * @type {{ [key: string]: string; }}
+     * Labels is a sorted set of labels. Order has to be guaranteed upon instantiation.
+     * @type {Array<Label>}
      * @memberof Rule
      */
-    'labels'?: { [key: string]: string; };
+    'labels'?: Array<Label>;
     /**
      * 
      * @type {string}
@@ -11280,6 +11989,55 @@ export interface SaveDashboardCommand {
      * @memberof SaveDashboardCommand
      */
     'userId'?: number;
+}
+/**
+ * 
+ * @export
+ * @interface SearchDTO
+ */
+export interface SearchDTO {
+    /**
+     * 
+     * @type {string}
+     * @memberof SearchDTO
+     */
+    'action'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof SearchDTO
+     */
+    'basicRole'?: string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof SearchDTO
+     */
+    'onlyRoles'?: boolean;
+    /**
+     * 
+     * @type {string}
+     * @memberof SearchDTO
+     */
+    'roleName'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof SearchDTO
+     */
+    'scope'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof SearchDTO
+     */
+    'teamId'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof SearchDTO
+     */
+    'userId'?: string;
 }
 /**
  * 
@@ -11747,6 +12505,25 @@ export interface SetRoleAssignmentsCommand {
 /**
  * 
  * @export
+ * @interface SetTeamMembershipsCommand
+ */
+export interface SetTeamMembershipsCommand {
+    /**
+     * 
+     * @type {Array<string>}
+     * @memberof SetTeamMembershipsCommand
+     */
+    'admins'?: Array<string>;
+    /**
+     * 
+     * @type {Array<string>}
+     * @memberof SetTeamMembershipsCommand
+     */
+    'members'?: Array<string>;
+}
+/**
+ * 
+ * @export
  * @interface SetUserRolesCommand
  */
 export interface SetUserRolesCommand {
@@ -11842,6 +12619,31 @@ export interface Silence {
      * @memberof Silence
      */
     'startsAt': string;
+}
+/**
+ * 
+ * @export
+ * @interface SilenceMetadata
+ */
+export interface SilenceMetadata {
+    /**
+     * 
+     * @type {string}
+     * @memberof SilenceMetadata
+     */
+    'folder_uid'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof SilenceMetadata
+     */
+    'rule_title'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof SilenceMetadata
+     */
+    'rule_uid'?: string;
 }
 /**
  * SilenceStatus silence status
@@ -12114,6 +12916,97 @@ export interface SlackField {
     'value'?: string;
 }
 /**
+ * Base snapshot without results
+ * @export
+ * @interface SnapshotDTO
+ */
+export interface SnapshotDTO {
+    /**
+     * 
+     * @type {string}
+     * @memberof SnapshotDTO
+     */
+    'created'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof SnapshotDTO
+     */
+    'finished'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof SnapshotDTO
+     */
+    'sessionUid'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof SnapshotDTO
+     */
+    'status'?: SnapshotDTOStatusEnum;
+    /**
+     * 
+     * @type {string}
+     * @memberof SnapshotDTO
+     */
+    'uid'?: string;
+}
+
+export const SnapshotDTOStatusEnum = {
+    Initializing: 'INITIALIZING',
+    Creating: 'CREATING',
+    PendingUpload: 'PENDING_UPLOAD',
+    Uploading: 'UPLOADING',
+    PendingProcessing: 'PENDING_PROCESSING',
+    Processing: 'PROCESSING',
+    Finished: 'FINISHED',
+    Canceled: 'CANCELED',
+    Error: 'ERROR',
+    Unknown: 'UNKNOWN'
+} as const;
+
+export type SnapshotDTOStatusEnum = typeof SnapshotDTOStatusEnum[keyof typeof SnapshotDTOStatusEnum];
+
+/**
+ * 
+ * @export
+ * @interface SnapshotListResponseDTO
+ */
+export interface SnapshotListResponseDTO {
+    /**
+     * 
+     * @type {Array<SnapshotDTO>}
+     * @memberof SnapshotListResponseDTO
+     */
+    'snapshots'?: Array<SnapshotDTO>;
+}
+/**
+ * 
+ * @export
+ * @interface SnapshotResourceStats
+ */
+export interface SnapshotResourceStats {
+    /**
+     * 
+     * @type {{ [key: string]: number; }}
+     * @memberof SnapshotResourceStats
+     */
+    'statuses'?: { [key: string]: number; };
+    /**
+     * 
+     * @type {number}
+     * @memberof SnapshotResourceStats
+     */
+    'total'?: number;
+    /**
+     * 
+     * @type {{ [key: string]: number; }}
+     * @memberof SnapshotResourceStats
+     */
+    'types'?: { [key: string]: number; };
+}
+/**
  * 
  * @export
  * @interface Span
@@ -12201,6 +13094,12 @@ export interface TLSConfig {
      */
     'ca_file'?: string;
     /**
+     * CARef is the name of the secret within the secret manager to use as the CA cert for the targets.
+     * @type {string}
+     * @memberof TLSConfig
+     */
+    'ca_ref'?: string;
+    /**
      * Text of the client cert file for the targets.
      * @type {string}
      * @memberof TLSConfig
@@ -12212,6 +13111,12 @@ export interface TLSConfig {
      * @memberof TLSConfig
      */
     'cert_file'?: string;
+    /**
+     * CertRef is the name of the secret within the secret manager to use as the client cert for the targets.
+     * @type {string}
+     * @memberof TLSConfig
+     */
+    'cert_ref'?: string;
     /**
      * Disable target certificate validation.
      * @type {boolean}
@@ -12230,6 +13135,12 @@ export interface TLSConfig {
      * @memberof TLSConfig
      */
     'key_file'?: string;
+    /**
+     * KeyRef is the name of the secret within the secret manager to use as the client key for the targets.
+     * @type {string}
+     * @memberof TLSConfig
+     */
+    'key_ref'?: string;
     /**
      * 
      * @type {number}
@@ -13258,7 +14169,7 @@ export interface TypeMeta {
     'kind'?: string;
 }
 /**
- * The general form represented is:  [scheme:][//[userinfo@]host][/]path[?query][#fragment]  URLs that do not start with a slash after the scheme are interpreted as:  scheme:opaque[?query][#fragment]  Note that the Path field is stored in decoded form: /%47%6f%2f becomes /Go/. A consequence is that it is impossible to tell which slashes in the Path were slashes in the raw URL and which were %2f. This distinction is rarely important, but when it is, the code should use the EscapedPath method, which preserves the original encoding of Path.  The RawPath field is an optional field which is only set when the default encoding of Path is different from the escaped path. See the EscapedPath method for more details.  URL\'s String method uses the EscapedPath method to obtain the path.
+ * The general form represented is:  [scheme:][//[userinfo@]host][/]path[?query][#fragment]  URLs that do not start with a slash after the scheme are interpreted as:  scheme:opaque[?query][#fragment]  The Host field contains the host and port subcomponents of the URL. When the port is present, it is separated from the host with a colon. When the host is an IPv6 address, it must be enclosed in square brackets: \"[fe80::1]:80\". The [net.JoinHostPort] function combines a host and port into a string suitable for the Host field, adding square brackets to the host when necessary.  Note that the Path field is stored in decoded form: /%47%6f%2f becomes /Go/. A consequence is that it is impossible to tell which slashes in the Path were slashes in the raw URL and which were %2f. This distinction is rarely important, but when it is, the code should use the [URL.EscapedPath] method, which preserves the original encoding of Path.  The RawPath field is an optional field which is only set when the default encoding of Path is different from the escaped path. See the EscapedPath method for more details.  URL\'s String method uses the EscapedPath method to obtain the path.
  * @export
  * @interface URL
  */
@@ -13324,7 +14235,7 @@ export interface URL {
      */
     'Scheme'?: string;
     /**
-     * The Userinfo type is an immutable encapsulation of username and password details for a URL. An existing Userinfo value is guaranteed to have a username set (potentially empty, as allowed by RFC 2396), and optionally a password.
+     * The Userinfo type is an immutable encapsulation of username and password details for a [URL]. An existing Userinfo value is guaranteed to have a username set (potentially empty, as allowed by RFC 2396), and optionally a password.
      * @type {object}
      * @memberof URL
      */
@@ -13338,10 +14249,10 @@ export interface URL {
 export interface Unstructured {
     /**
      * Object is a JSON compatible map with string, float, int, bool, []interface{}, or map[string]interface{} children.
-     * @type {object}
+     * @type {{ [key: string]: object; }}
      * @memberof Unstructured
      */
-    'Object'?: object;
+    'Object'?: { [key: string]: object; };
 }
 /**
  * 
@@ -13707,6 +14618,12 @@ export interface UpdatePrefsCmd {
     'language'?: string;
     /**
      * 
+     * @type {NavbarPreference}
+     * @memberof UpdatePrefsCmd
+     */
+    'navbar'?: NavbarPreference;
+    /**
+     * 
      * @type {QueryHistoryPreference}
      * @memberof UpdatePrefsCmd
      */
@@ -13765,10 +14682,10 @@ export interface UpdateProviderSettingsRequest {
     'provider'?: string;
     /**
      * 
-     * @type {object}
+     * @type {{ [key: string]: object; }}
      * @memberof UpdateProviderSettingsRequest
      */
-    'settings'?: object;
+    'settings'?: { [key: string]: object; };
 }
 /**
  * 
@@ -15020,13 +15937,14 @@ export const AccessControlApiAxiosParamCreator = function (configuration?: Confi
             };
         },
         /**
-         * Gets all existing roles. The response contains all global and organization local roles, for the organization which user is signed in.  You need to have a permission with action `roles:read` and scope `roles:*`.
+         * Gets all existing roles. The response contains all global and organization local roles, for the organization which user is signed in.  You need to have a permission with action `roles:read` and scope `roles:*`.  The `delegatable` flag reduces the set of roles to only those for which the signed-in user has permissions to assign.
          * @summary Get all roles.
          * @param {boolean} [delegatable] 
+         * @param {boolean} [includeHidden] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        listRoles: async (delegatable?: boolean, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        listRoles: async (delegatable?: boolean, includeHidden?: boolean, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/access-control/roles`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -15048,6 +15966,10 @@ export const AccessControlApiAxiosParamCreator = function (configuration?: Confi
 
             if (delegatable !== undefined) {
                 localVarQueryParameter['delegatable'] = delegatable;
+            }
+
+            if (includeHidden !== undefined) {
+                localVarQueryParameter['includeHidden'] = includeHidden;
             }
 
 
@@ -15854,14 +16776,15 @@ export const AccessControlApiFp = function(configuration?: Configuration) {
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
-         * Gets all existing roles. The response contains all global and organization local roles, for the organization which user is signed in.  You need to have a permission with action `roles:read` and scope `roles:*`.
+         * Gets all existing roles. The response contains all global and organization local roles, for the organization which user is signed in.  You need to have a permission with action `roles:read` and scope `roles:*`.  The `delegatable` flag reduces the set of roles to only those for which the signed-in user has permissions to assign.
          * @summary Get all roles.
          * @param {boolean} [delegatable] 
+         * @param {boolean} [includeHidden] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async listRoles(delegatable?: boolean, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<RoleDTO>>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.listRoles(delegatable, options);
+        async listRoles(delegatable?: boolean, includeHidden?: boolean, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<RoleDTO>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.listRoles(delegatable, includeHidden, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['AccessControlApi.listRoles']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -16165,14 +17088,14 @@ export const AccessControlApiFactory = function (configuration?: Configuration, 
             return localVarFp.getRoleAssignments(requestParameters.roleUID, options).then((request) => request(axios, basePath));
         },
         /**
-         * Gets all existing roles. The response contains all global and organization local roles, for the organization which user is signed in.  You need to have a permission with action `roles:read` and scope `roles:*`.
+         * Gets all existing roles. The response contains all global and organization local roles, for the organization which user is signed in.  You need to have a permission with action `roles:read` and scope `roles:*`.  The `delegatable` flag reduces the set of roles to only those for which the signed-in user has permissions to assign.
          * @summary Get all roles.
          * @param {AccessControlApiListRolesRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
         listRoles(requestParameters: AccessControlApiListRolesRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<Array<RoleDTO>> {
-            return localVarFp.listRoles(requestParameters.delegatable, options).then((request) => request(axios, basePath));
+            return localVarFp.listRoles(requestParameters.delegatable, requestParameters.includeHidden, options).then((request) => request(axios, basePath));
         },
         /**
          * You need to have a permission with action `teams.roles:read` and scope `teams:id:<team ID>`.
@@ -16476,6 +17399,13 @@ export interface AccessControlApiListRolesRequest {
      * @memberof AccessControlApiListRoles
      */
     readonly delegatable?: boolean
+
+    /**
+     * 
+     * @type {boolean}
+     * @memberof AccessControlApiListRoles
+     */
+    readonly includeHidden?: boolean
 }
 
 /**
@@ -16908,7 +17838,7 @@ export class AccessControlApi extends BaseAPI {
     }
 
     /**
-     * Gets all existing roles. The response contains all global and organization local roles, for the organization which user is signed in.  You need to have a permission with action `roles:read` and scope `roles:*`.
+     * Gets all existing roles. The response contains all global and organization local roles, for the organization which user is signed in.  You need to have a permission with action `roles:read` and scope `roles:*`.  The `delegatable` flag reduces the set of roles to only those for which the signed-in user has permissions to assign.
      * @summary Get all roles.
      * @param {AccessControlApiListRolesRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
@@ -16916,7 +17846,7 @@ export class AccessControlApi extends BaseAPI {
      * @memberof AccessControlApi
      */
     public listRoles(requestParameters: AccessControlApiListRolesRequest = {}, options?: RawAxiosRequestConfig) {
-        return AccessControlApiFp(this.configuration).listRoles(requestParameters.delegatable, options).then((request) => request(this.axios, this.basePath));
+        return AccessControlApiFp(this.configuration).listRoles(requestParameters.delegatable, requestParameters.includeHidden, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -23127,6 +24057,47 @@ export const DashboardsApiAxiosParamCreator = function (configuration?: Configur
             };
         },
         /**
+         * Will delete the dashboard given the specified unique identifier (uid).
+         * @summary Hard delete dashboard by uid.
+         * @param {string} uid 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        hardDeleteDashboardByUID: async (uid: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'uid' is not null or undefined
+            assertParamExists('hardDeleteDashboardByUID', 'uid', uid)
+            const localVarPath = `/dashboards/uid/{uid}/trash`
+                .replace(`{${"uid"}}`, encodeURIComponent(String(uid)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication api_key required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+            // authentication basic required
+            // http basic authentication required
+            setBasicAuthToObject(localVarRequestOptions, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
          * 
          * @summary Import dashboard.
          * @param {ImportDashboardRequest} body 
@@ -23188,6 +24159,53 @@ export const DashboardsApiAxiosParamCreator = function (configuration?: Configur
             }
 
             const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication api_key required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+            // authentication basic required
+            // http basic authentication required
+            setBasicAuthToObject(localVarRequestOptions, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(body, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Restore a dashboard to a given dashboard version using UID.
+         * @param {string} uid 
+         * @param {RestoreDeletedDashboardCommand} body 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        restoreDeletedDashboardByUID: async (uid: string, body: RestoreDeletedDashboardCommand, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'uid' is not null or undefined
+            assertParamExists('restoreDeletedDashboardByUID', 'uid', uid)
+            // verify required parameter 'body' is not null or undefined
+            assertParamExists('restoreDeletedDashboardByUID', 'body', body)
+            const localVarPath = `/dashboards/uid/{uid}/trash`
+                .replace(`{${"uid"}}`, encodeURIComponent(String(uid)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PATCH', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
@@ -23286,6 +24304,19 @@ export const DashboardsApiFp = function(configuration?: Configuration) {
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
+         * Will delete the dashboard given the specified unique identifier (uid).
+         * @summary Hard delete dashboard by uid.
+         * @param {string} uid 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async hardDeleteDashboardByUID(uid: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<DeleteDashboardByUID200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.hardDeleteDashboardByUID(uid, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['DashboardsApi.hardDeleteDashboardByUID']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
          * 
          * @summary Import dashboard.
          * @param {ImportDashboardRequest} body 
@@ -23309,6 +24340,20 @@ export const DashboardsApiFp = function(configuration?: Configuration) {
             const localVarAxiosArgs = await localVarAxiosParamCreator.postDashboard(body, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['DashboardsApi.postDashboard']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @summary Restore a dashboard to a given dashboard version using UID.
+         * @param {string} uid 
+         * @param {RestoreDeletedDashboardCommand} body 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async restoreDeletedDashboardByUID(uid: string, body: RestoreDeletedDashboardCommand, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PostDashboard200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.restoreDeletedDashboardByUID(uid, body, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['DashboardsApi.restoreDeletedDashboardByUID']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
     }
@@ -23370,6 +24415,16 @@ export const DashboardsApiFactory = function (configuration?: Configuration, bas
             return localVarFp.getHomeDashboard(options).then((request) => request(axios, basePath));
         },
         /**
+         * Will delete the dashboard given the specified unique identifier (uid).
+         * @summary Hard delete dashboard by uid.
+         * @param {DashboardsApiHardDeleteDashboardByUIDRequest} requestParameters Request parameters.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        hardDeleteDashboardByUID(requestParameters: DashboardsApiHardDeleteDashboardByUIDRequest, options?: RawAxiosRequestConfig): AxiosPromise<DeleteDashboardByUID200Response> {
+            return localVarFp.hardDeleteDashboardByUID(requestParameters.uid, options).then((request) => request(axios, basePath));
+        },
+        /**
          * 
          * @summary Import dashboard.
          * @param {DashboardsApiImportDashboardRequest} requestParameters Request parameters.
@@ -23388,6 +24443,16 @@ export const DashboardsApiFactory = function (configuration?: Configuration, bas
          */
         postDashboard(requestParameters: DashboardsApiPostDashboardRequest, options?: RawAxiosRequestConfig): AxiosPromise<PostDashboard200Response> {
             return localVarFp.postDashboard(requestParameters.body, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Restore a dashboard to a given dashboard version using UID.
+         * @param {DashboardsApiRestoreDeletedDashboardByUIDRequest} requestParameters Request parameters.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        restoreDeletedDashboardByUID(requestParameters: DashboardsApiRestoreDeletedDashboardByUIDRequest, options?: RawAxiosRequestConfig): AxiosPromise<PostDashboard200Response> {
+            return localVarFp.restoreDeletedDashboardByUID(requestParameters.uid, requestParameters.body, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -23435,6 +24500,20 @@ export interface DashboardsApiGetDashboardByUIDRequest {
 }
 
 /**
+ * Request parameters for hardDeleteDashboardByUID operation in DashboardsApi.
+ * @export
+ * @interface DashboardsApiHardDeleteDashboardByUIDRequest
+ */
+export interface DashboardsApiHardDeleteDashboardByUIDRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof DashboardsApiHardDeleteDashboardByUID
+     */
+    readonly uid: string
+}
+
+/**
  * Request parameters for importDashboard operation in DashboardsApi.
  * @export
  * @interface DashboardsApiImportDashboardRequest
@@ -23460,6 +24539,27 @@ export interface DashboardsApiPostDashboardRequest {
      * @memberof DashboardsApiPostDashboard
      */
     readonly body: SaveDashboardCommand
+}
+
+/**
+ * Request parameters for restoreDeletedDashboardByUID operation in DashboardsApi.
+ * @export
+ * @interface DashboardsApiRestoreDeletedDashboardByUIDRequest
+ */
+export interface DashboardsApiRestoreDeletedDashboardByUIDRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof DashboardsApiRestoreDeletedDashboardByUID
+     */
+    readonly uid: string
+
+    /**
+     * 
+     * @type {RestoreDeletedDashboardCommand}
+     * @memberof DashboardsApiRestoreDeletedDashboardByUID
+     */
+    readonly body: RestoreDeletedDashboardCommand
 }
 
 /**
@@ -23528,6 +24628,18 @@ export class DashboardsApi extends BaseAPI {
     }
 
     /**
+     * Will delete the dashboard given the specified unique identifier (uid).
+     * @summary Hard delete dashboard by uid.
+     * @param {DashboardsApiHardDeleteDashboardByUIDRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DashboardsApi
+     */
+    public hardDeleteDashboardByUID(requestParameters: DashboardsApiHardDeleteDashboardByUIDRequest, options?: RawAxiosRequestConfig) {
+        return DashboardsApiFp(this.configuration).hardDeleteDashboardByUID(requestParameters.uid, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
      * 
      * @summary Import dashboard.
      * @param {DashboardsApiImportDashboardRequest} requestParameters Request parameters.
@@ -23549,6 +24661,18 @@ export class DashboardsApi extends BaseAPI {
      */
     public postDashboard(requestParameters: DashboardsApiPostDashboardRequest, options?: RawAxiosRequestConfig) {
         return DashboardsApiFp(this.configuration).postDashboard(requestParameters.body, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Restore a dashboard to a given dashboard version using UID.
+     * @param {DashboardsApiRestoreDeletedDashboardByUIDRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DashboardsApi
+     */
+    public restoreDeletedDashboardByUID(requestParameters: DashboardsApiRestoreDeletedDashboardByUIDRequest, options?: RawAxiosRequestConfig) {
+        return DashboardsApiFp(this.configuration).restoreDeletedDashboardByUID(requestParameters.uid, requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -26141,6 +27265,46 @@ export const EnterpriseApiAxiosParamCreator = function (configuration?: Configur
             };
         },
         /**
+         * clean cache for a single data source
+         * @param {string} dataSourceUID 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        cleanDataSourceCache: async (dataSourceUID: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'dataSourceUID' is not null or undefined
+            assertParamExists('cleanDataSourceCache', 'dataSourceUID', dataSourceUID)
+            const localVarPath = `/datasources/{dataSourceUID}/cache/clean`
+                .replace(`{${"dataSourceUID"}}`, encodeURIComponent(String(dataSourceUID)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication api_key required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+            // authentication basic required
+            // http basic authentication required
+            setBasicAuthToObject(localVarRequestOptions, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
          * 
          * @summary Create a recording rule that is then registered and started.
          * @param {RecordingRuleJSON} body 
@@ -26229,11 +27393,11 @@ export const EnterpriseApiAxiosParamCreator = function (configuration?: Configur
         /**
          * Available to org admins only and with a valid license.  You need to have a permission with action `reports.admin:create`.
          * @summary Create a report.
-         * @param {CreateOrUpdateReportConfig} body 
+         * @param {CreateOrUpdateReport} body 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createReport: async (body: CreateOrUpdateReportConfig, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        createReport: async (body: CreateOrUpdateReport, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'body' is not null or undefined
             assertParamExists('createReport', 'body', body)
             const localVarPath = `/reports`;
@@ -26526,6 +27690,86 @@ export const EnterpriseApiAxiosParamCreator = function (configuration?: Configur
             };
         },
         /**
+         * disable cache for a single data source
+         * @param {string} dataSourceUID 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        disableDataSourceCache: async (dataSourceUID: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'dataSourceUID' is not null or undefined
+            assertParamExists('disableDataSourceCache', 'dataSourceUID', dataSourceUID)
+            const localVarPath = `/datasources/{dataSourceUID}/cache/disable`
+                .replace(`{${"dataSourceUID"}}`, encodeURIComponent(String(dataSourceUID)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication api_key required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+            // authentication basic required
+            // http basic authentication required
+            setBasicAuthToObject(localVarRequestOptions, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * enable cache for a single data source
+         * @param {string} dataSourceUID 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        enableDataSourceCache: async (dataSourceUID: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'dataSourceUID' is not null or undefined
+            assertParamExists('enableDataSourceCache', 'dataSourceUID', dataSourceUID)
+            const localVarPath = `/datasources/{dataSourceUID}/cache/enable`
+                .replace(`{${"dataSourceUID"}}`, encodeURIComponent(String(dataSourceUID)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication api_key required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+            // authentication basic required
+            // http basic authentication required
+            setBasicAuthToObject(localVarRequestOptions, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
          * Returns an indicator to check if fine-grained access control is enabled or not.  You need to have a permission with action `status:accesscontrol` and scope `services:accesscontrol`.
          * @summary Get status.
          * @param {*} [options] Override http request option.
@@ -26609,6 +27853,46 @@ export const EnterpriseApiAxiosParamCreator = function (configuration?: Configur
          */
         getCustomPermissionsReport: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/licensing/custom-permissions`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication api_key required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+            // authentication basic required
+            // http basic authentication required
+            setBasicAuthToObject(localVarRequestOptions, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * get cache config for a single data source
+         * @param {string} dataSourceUID 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getDataSourceCacheConfig: async (dataSourceUID: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'dataSourceUID' is not null or undefined
+            assertParamExists('getDataSourceCacheConfig', 'dataSourceUID', dataSourceUID)
+            const localVarPath = `/datasources/{dataSourceUID}/cache`
+                .replace(`{${"dataSourceUID"}}`, encodeURIComponent(String(dataSourceUID)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -26792,7 +28076,7 @@ export const EnterpriseApiAxiosParamCreator = function (configuration?: Configur
         },
         /**
          * Available to org admins only and with a valid or expired license.  You need to have a permission with action `reports.settings:read`x.
-         * @summary Get settings.
+         * @summary Get report settings.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -27021,6 +28305,43 @@ export const EnterpriseApiAxiosParamCreator = function (configuration?: Configur
             };
         },
         /**
+         * Available to org admins only and with a valid or expired license.  You need to have a permission with action `reports.settings:read`.
+         * @summary Get custom branding report image.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getSettingsImage: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/reports/images/:image`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication api_key required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+            // authentication basic required
+            // http basic authentication required
+            setBasicAuthToObject(localVarRequestOptions, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
          * 
          * @summary Check license availability.
          * @param {*} [options] Override http request option.
@@ -27137,6 +28458,47 @@ export const EnterpriseApiAxiosParamCreator = function (configuration?: Configur
         },
         /**
          * 
+         * @summary Retrieves LBAC rules for a team.
+         * @param {string} uid 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getTeamLBACRulesApi: async (uid: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'uid' is not null or undefined
+            assertParamExists('getTeamLBACRulesApi', 'uid', uid)
+            const localVarPath = `/datasources/uid/{uid}/lbac/teams`
+                .replace(`{${"uid"}}`, encodeURIComponent(String(uid)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication api_key required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+            // authentication basic required
+            // http basic authentication required
+            setBasicAuthToObject(localVarRequestOptions, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
          * @summary Lists all rules in the database: active or deleted.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -27173,13 +28535,14 @@ export const EnterpriseApiAxiosParamCreator = function (configuration?: Configur
             };
         },
         /**
-         * Gets all existing roles. The response contains all global and organization local roles, for the organization which user is signed in.  You need to have a permission with action `roles:read` and scope `roles:*`.
+         * Gets all existing roles. The response contains all global and organization local roles, for the organization which user is signed in.  You need to have a permission with action `roles:read` and scope `roles:*`.  The `delegatable` flag reduces the set of roles to only those for which the signed-in user has permissions to assign.
          * @summary Get all roles.
          * @param {boolean} [delegatable] 
+         * @param {boolean} [includeHidden] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        listRoles: async (delegatable?: boolean, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        listRoles: async (delegatable?: boolean, includeHidden?: boolean, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/access-control/roles`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -27201,6 +28564,10 @@ export const EnterpriseApiAxiosParamCreator = function (configuration?: Configur
 
             if (delegatable !== undefined) {
                 localVarQueryParameter['delegatable'] = delegatable;
+            }
+
+            if (includeHidden !== undefined) {
+                localVarQueryParameter['includeHidden'] = includeHidden;
             }
 
 
@@ -27737,8 +29104,55 @@ export const EnterpriseApiAxiosParamCreator = function (configuration?: Configur
         },
         /**
          * Available to all users and with a valid license.
+         * @summary Download a CSV report.
+         * @param {string} [dashboards] 
+         * @param {string} [title] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        renderReportCSVs: async (dashboards?: string, title?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/reports/render/csvs`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication api_key required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+            // authentication basic required
+            // http basic authentication required
+            setBasicAuthToObject(localVarRequestOptions, configuration)
+
+            if (dashboards !== undefined) {
+                localVarQueryParameter['dashboards'] = dashboards;
+            }
+
+            if (title !== undefined) {
+                localVarQueryParameter['title'] = title;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Available to all users and with a valid license.
          * @summary Render report for multiple dashboards.
-         * @param {string} [dashboardID] 
+         * @param {string} [dashboards] 
          * @param {string} [orientation] 
          * @param {string} [layout] 
          * @param {string} [title] 
@@ -27747,7 +29161,7 @@ export const EnterpriseApiAxiosParamCreator = function (configuration?: Configur
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        renderReportPDFs: async (dashboardID?: string, orientation?: string, layout?: string, title?: string, scaleFactor?: string, includeTables?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        renderReportPDFs: async (dashboards?: string, orientation?: string, layout?: string, title?: string, scaleFactor?: string, includeTables?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/reports/render/pdfs`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -27767,8 +29181,8 @@ export const EnterpriseApiAxiosParamCreator = function (configuration?: Configur
             // http basic authentication required
             setBasicAuthToObject(localVarRequestOptions, configuration)
 
-            if (dashboardID !== undefined) {
-                localVarQueryParameter['dashboardID'] = dashboardID;
+            if (dashboards !== undefined) {
+                localVarQueryParameter['dashboards'] = dashboards;
             }
 
             if (orientation !== undefined) {
@@ -27928,14 +29342,60 @@ export const EnterpriseApiAxiosParamCreator = function (configuration?: Configur
         /**
          * Available to org admins only and with a valid license.  You need to have a permission with action `reports:send`.
          * @summary Send test report via email.
-         * @param {CreateOrUpdateReportConfig} body 
+         * @param {CreateOrUpdateReport} body 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        sendTestEmail: async (body: CreateOrUpdateReportConfig, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        sendTestEmail: async (body: CreateOrUpdateReport, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'body' is not null or undefined
             assertParamExists('sendTestEmail', 'body', body)
             const localVarPath = `/reports/test-email`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication api_key required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+            // authentication basic required
+            // http basic authentication required
+            setBasicAuthToObject(localVarRequestOptions, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(body, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * set cache config for a single data source
+         * @param {string} dataSourceUID 
+         * @param {CacheConfigSetter} body 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        setDataSourceCacheConfig: async (dataSourceUID: string, body: CacheConfigSetter, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'dataSourceUID' is not null or undefined
+            assertParamExists('setDataSourceCacheConfig', 'dataSourceUID', dataSourceUID)
+            // verify required parameter 'body' is not null or undefined
+            assertParamExists('setDataSourceCacheConfig', 'body', body)
+            const localVarPath = `/datasources/{dataSourceUID}/cache`
+                .replace(`{${"dataSourceUID"}}`, encodeURIComponent(String(dataSourceUID)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -28193,11 +29653,11 @@ export const EnterpriseApiAxiosParamCreator = function (configuration?: Configur
          * Available to org admins only and with a valid or expired license.  You need to have a permission with action `reports.admin:write` with scope `reports:id:<report ID>`.
          * @summary Update a report.
          * @param {number} id 
-         * @param {CreateOrUpdateReportConfig} body 
+         * @param {CreateOrUpdateReport} body 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateReport: async (id: number, body: CreateOrUpdateReportConfig, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        updateReport: async (id: number, body: CreateOrUpdateReport, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('updateReport', 'id', id)
             // verify required parameter 'body' is not null or undefined
@@ -28283,6 +29743,47 @@ export const EnterpriseApiAxiosParamCreator = function (configuration?: Configur
                 options: localVarRequestOptions,
             };
         },
+        /**
+         * 
+         * @summary Updates LBAC rules for a team.
+         * @param {string} uid 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        updateTeamLBACRulesApi: async (uid: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'uid' is not null or undefined
+            assertParamExists('updateTeamLBACRulesApi', 'uid', uid)
+            const localVarPath = `/datasources/uid/{uid}/lbac/teams`
+                .replace(`{${"uid"}}`, encodeURIComponent(String(uid)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication api_key required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+            // authentication basic required
+            // http basic authentication required
+            setBasicAuthToObject(localVarRequestOptions, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
     }
 };
 
@@ -28348,6 +29849,18 @@ export const EnterpriseApiFp = function(configuration?: Configuration) {
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
+         * clean cache for a single data source
+         * @param {string} dataSourceUID 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async cleanDataSourceCache(dataSourceUID: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CacheConfigResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.cleanDataSourceCache(dataSourceUID, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['EnterpriseApi.cleanDataSourceCache']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
          * 
          * @summary Create a recording rule that is then registered and started.
          * @param {RecordingRuleJSON} body 
@@ -28376,11 +29889,11 @@ export const EnterpriseApiFp = function(configuration?: Configuration) {
         /**
          * Available to org admins only and with a valid license.  You need to have a permission with action `reports.admin:create`.
          * @summary Create a report.
-         * @param {CreateOrUpdateReportConfig} body 
+         * @param {CreateOrUpdateReport} body 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async createReport(body: CreateOrUpdateReportConfig, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CreateReport200Response>> {
+        async createReport(body: CreateOrUpdateReport, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CreateReport200Response>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.createReport(body, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['EnterpriseApi.createReport']?.[localVarOperationServerIndex]?.url;
@@ -28466,6 +29979,30 @@ export const EnterpriseApiFp = function(configuration?: Configuration) {
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
+         * disable cache for a single data source
+         * @param {string} dataSourceUID 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async disableDataSourceCache(dataSourceUID: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CacheConfigResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.disableDataSourceCache(dataSourceUID, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['EnterpriseApi.disableDataSourceCache']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * enable cache for a single data source
+         * @param {string} dataSourceUID 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async enableDataSourceCache(dataSourceUID: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CacheConfigResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.enableDataSourceCache(dataSourceUID, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['EnterpriseApi.enableDataSourceCache']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
          * Returns an indicator to check if fine-grained access control is enabled or not.  You need to have a permission with action `status:accesscontrol` and scope `services:accesscontrol`.
          * @summary Get status.
          * @param {*} [options] Override http request option.
@@ -28501,6 +30038,18 @@ export const EnterpriseApiFp = function(configuration?: Configuration) {
             const localVarAxiosArgs = await localVarAxiosParamCreator.getCustomPermissionsReport(options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['EnterpriseApi.getCustomPermissionsReport']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * get cache config for a single data source
+         * @param {string} dataSourceUID 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getDataSourceCacheConfig(dataSourceUID: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CacheConfigResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getDataSourceCacheConfig(dataSourceUID, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['EnterpriseApi.getDataSourceCacheConfig']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
@@ -28554,7 +30103,7 @@ export const EnterpriseApiFp = function(configuration?: Configuration) {
         },
         /**
          * Available to org admins only and with a valid or expired license.  You need to have a permission with action `reports.settings:read`x.
-         * @summary Get settings.
+         * @summary Get report settings.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -28627,6 +30176,18 @@ export const EnterpriseApiFp = function(configuration?: Configuration) {
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
+         * Available to org admins only and with a valid or expired license.  You need to have a permission with action `reports.settings:read`.
+         * @summary Get custom branding report image.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getSettingsImage(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<number>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getSettingsImage(options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['EnterpriseApi.getSettingsImage']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
          * 
          * @summary Check license availability.
          * @param {*} [options] Override http request option.
@@ -28665,6 +30226,19 @@ export const EnterpriseApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
+         * @summary Retrieves LBAC rules for a team.
+         * @param {string} uid 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getTeamLBACRulesApi(uid: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<SuccessResponseBody>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getTeamLBACRulesApi(uid, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['EnterpriseApi.getTeamLBACRulesApi']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
          * @summary Lists all rules in the database: active or deleted.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -28676,14 +30250,15 @@ export const EnterpriseApiFp = function(configuration?: Configuration) {
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
-         * Gets all existing roles. The response contains all global and organization local roles, for the organization which user is signed in.  You need to have a permission with action `roles:read` and scope `roles:*`.
+         * Gets all existing roles. The response contains all global and organization local roles, for the organization which user is signed in.  You need to have a permission with action `roles:read` and scope `roles:*`.  The `delegatable` flag reduces the set of roles to only those for which the signed-in user has permissions to assign.
          * @summary Get all roles.
          * @param {boolean} [delegatable] 
+         * @param {boolean} [includeHidden] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async listRoles(delegatable?: boolean, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<RoleDTO>>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.listRoles(delegatable, options);
+        async listRoles(delegatable?: boolean, includeHidden?: boolean, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<RoleDTO>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.listRoles(delegatable, includeHidden, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['EnterpriseApi.listRoles']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -28850,8 +30425,22 @@ export const EnterpriseApiFp = function(configuration?: Configuration) {
         },
         /**
          * Available to all users and with a valid license.
+         * @summary Download a CSV report.
+         * @param {string} [dashboards] 
+         * @param {string} [title] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async renderReportCSVs(dashboards?: string, title?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<number>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.renderReportCSVs(dashboards, title, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['EnterpriseApi.renderReportCSVs']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * Available to all users and with a valid license.
          * @summary Render report for multiple dashboards.
-         * @param {string} [dashboardID] 
+         * @param {string} [dashboards] 
          * @param {string} [orientation] 
          * @param {string} [layout] 
          * @param {string} [title] 
@@ -28860,8 +30449,8 @@ export const EnterpriseApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async renderReportPDFs(dashboardID?: string, orientation?: string, layout?: string, title?: string, scaleFactor?: string, includeTables?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<number>>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.renderReportPDFs(dashboardID, orientation, layout, title, scaleFactor, includeTables, options);
+        async renderReportPDFs(dashboards?: string, orientation?: string, layout?: string, title?: string, scaleFactor?: string, includeTables?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<number>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.renderReportPDFs(dashboards, orientation, layout, title, scaleFactor, includeTables, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['EnterpriseApi.renderReportPDFs']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -28907,14 +30496,27 @@ export const EnterpriseApiFp = function(configuration?: Configuration) {
         /**
          * Available to org admins only and with a valid license.  You need to have a permission with action `reports:send`.
          * @summary Send test report via email.
-         * @param {CreateOrUpdateReportConfig} body 
+         * @param {CreateOrUpdateReport} body 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sendTestEmail(body: CreateOrUpdateReportConfig, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<SuccessResponseBody>> {
+        async sendTestEmail(body: CreateOrUpdateReport, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<SuccessResponseBody>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.sendTestEmail(body, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['EnterpriseApi.sendTestEmail']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * set cache config for a single data source
+         * @param {string} dataSourceUID 
+         * @param {CacheConfigSetter} body 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async setDataSourceCacheConfig(dataSourceUID: string, body: CacheConfigSetter, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CacheConfigResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.setDataSourceCacheConfig(dataSourceUID, body, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['EnterpriseApi.setDataSourceCacheConfig']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
@@ -28988,11 +30590,11 @@ export const EnterpriseApiFp = function(configuration?: Configuration) {
          * Available to org admins only and with a valid or expired license.  You need to have a permission with action `reports.admin:write` with scope `reports:id:<report ID>`.
          * @summary Update a report.
          * @param {number} id 
-         * @param {CreateOrUpdateReportConfig} body 
+         * @param {CreateOrUpdateReport} body 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async updateReport(id: number, body: CreateOrUpdateReportConfig, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<SuccessResponseBody>> {
+        async updateReport(id: number, body: CreateOrUpdateReport, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<SuccessResponseBody>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.updateReport(id, body, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['EnterpriseApi.updateReport']?.[localVarOperationServerIndex]?.url;
@@ -29010,6 +30612,19 @@ export const EnterpriseApiFp = function(configuration?: Configuration) {
             const localVarAxiosArgs = await localVarAxiosParamCreator.updateRole(roleUID, body, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['EnterpriseApi.updateRole']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @summary Updates LBAC rules for a team.
+         * @param {string} uid 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async updateTeamLBACRulesApi(uid: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<SuccessResponseBody>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.updateTeamLBACRulesApi(uid, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['EnterpriseApi.updateTeamLBACRulesApi']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
     }
@@ -29060,6 +30675,15 @@ export const EnterpriseApiFactory = function (configuration?: Configuration, bas
          */
         adminProvisioningReloadAccessControl(options?: RawAxiosRequestConfig): AxiosPromise<ErrorResponseBody> {
             return localVarFp.adminProvisioningReloadAccessControl(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * clean cache for a single data source
+         * @param {EnterpriseApiCleanDataSourceCacheRequest} requestParameters Request parameters.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        cleanDataSourceCache(requestParameters: EnterpriseApiCleanDataSourceCacheRequest, options?: RawAxiosRequestConfig): AxiosPromise<CacheConfigResponse> {
+            return localVarFp.cleanDataSourceCache(requestParameters.dataSourceUID, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -29151,6 +30775,24 @@ export const EnterpriseApiFactory = function (configuration?: Configuration, bas
             return localVarFp.deleteRole(requestParameters.roleUID, requestParameters.force, requestParameters.global, options).then((request) => request(axios, basePath));
         },
         /**
+         * disable cache for a single data source
+         * @param {EnterpriseApiDisableDataSourceCacheRequest} requestParameters Request parameters.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        disableDataSourceCache(requestParameters: EnterpriseApiDisableDataSourceCacheRequest, options?: RawAxiosRequestConfig): AxiosPromise<CacheConfigResponse> {
+            return localVarFp.disableDataSourceCache(requestParameters.dataSourceUID, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * enable cache for a single data source
+         * @param {EnterpriseApiEnableDataSourceCacheRequest} requestParameters Request parameters.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        enableDataSourceCache(requestParameters: EnterpriseApiEnableDataSourceCacheRequest, options?: RawAxiosRequestConfig): AxiosPromise<CacheConfigResponse> {
+            return localVarFp.enableDataSourceCache(requestParameters.dataSourceUID, options).then((request) => request(axios, basePath));
+        },
+        /**
          * Returns an indicator to check if fine-grained access control is enabled or not.  You need to have a permission with action `status:accesscontrol` and scope `services:accesscontrol`.
          * @summary Get status.
          * @param {*} [options] Override http request option.
@@ -29178,6 +30820,15 @@ export const EnterpriseApiFactory = function (configuration?: Configuration, bas
          */
         getCustomPermissionsReport(options?: RawAxiosRequestConfig): AxiosPromise<void> {
             return localVarFp.getCustomPermissionsReport(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * get cache config for a single data source
+         * @param {EnterpriseApiGetDataSourceCacheConfigRequest} requestParameters Request parameters.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getDataSourceCacheConfig(requestParameters: EnterpriseApiGetDataSourceCacheConfigRequest, options?: RawAxiosRequestConfig): AxiosPromise<CacheConfigResponse> {
+            return localVarFp.getDataSourceCacheConfig(requestParameters.dataSourceUID, options).then((request) => request(axios, basePath));
         },
         /**
          * You need to have a permission with action `licensing:read`.
@@ -29218,7 +30869,7 @@ export const EnterpriseApiFactory = function (configuration?: Configuration, bas
         },
         /**
          * Available to org admins only and with a valid or expired license.  You need to have a permission with action `reports.settings:read`x.
-         * @summary Get settings.
+         * @summary Get report settings.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -29273,6 +30924,15 @@ export const EnterpriseApiFactory = function (configuration?: Configuration, bas
             return localVarFp.getSLO(options).then((request) => request(axios, basePath));
         },
         /**
+         * Available to org admins only and with a valid or expired license.  You need to have a permission with action `reports.settings:read`.
+         * @summary Get custom branding report image.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getSettingsImage(options?: RawAxiosRequestConfig): AxiosPromise<Array<number>> {
+            return localVarFp.getSettingsImage(options).then((request) => request(axios, basePath));
+        },
+        /**
          * 
          * @summary Check license availability.
          * @param {*} [options] Override http request option.
@@ -29302,6 +30962,16 @@ export const EnterpriseApiFactory = function (configuration?: Configuration, bas
         },
         /**
          * 
+         * @summary Retrieves LBAC rules for a team.
+         * @param {EnterpriseApiGetTeamLBACRulesApiRequest} requestParameters Request parameters.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getTeamLBACRulesApi(requestParameters: EnterpriseApiGetTeamLBACRulesApiRequest, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
+            return localVarFp.getTeamLBACRulesApi(requestParameters.uid, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
          * @summary Lists all rules in the database: active or deleted.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -29310,14 +30980,14 @@ export const EnterpriseApiFactory = function (configuration?: Configuration, bas
             return localVarFp.listRecordingRules(options).then((request) => request(axios, basePath));
         },
         /**
-         * Gets all existing roles. The response contains all global and organization local roles, for the organization which user is signed in.  You need to have a permission with action `roles:read` and scope `roles:*`.
+         * Gets all existing roles. The response contains all global and organization local roles, for the organization which user is signed in.  You need to have a permission with action `roles:read` and scope `roles:*`.  The `delegatable` flag reduces the set of roles to only those for which the signed-in user has permissions to assign.
          * @summary Get all roles.
          * @param {EnterpriseApiListRolesRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
         listRoles(requestParameters: EnterpriseApiListRolesRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<Array<RoleDTO>> {
-            return localVarFp.listRoles(requestParameters.delegatable, options).then((request) => request(axios, basePath));
+            return localVarFp.listRoles(requestParameters.delegatable, requestParameters.includeHidden, options).then((request) => request(axios, basePath));
         },
         /**
          * You need to have a permission with action `teams.roles:read` and scope `teams:id:<team ID>`.
@@ -29440,13 +31110,23 @@ export const EnterpriseApiFactory = function (configuration?: Configuration, bas
         },
         /**
          * Available to all users and with a valid license.
+         * @summary Download a CSV report.
+         * @param {EnterpriseApiRenderReportCSVsRequest} requestParameters Request parameters.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        renderReportCSVs(requestParameters: EnterpriseApiRenderReportCSVsRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<Array<number>> {
+            return localVarFp.renderReportCSVs(requestParameters.dashboards, requestParameters.title, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Available to all users and with a valid license.
          * @summary Render report for multiple dashboards.
          * @param {EnterpriseApiRenderReportPDFsRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
         renderReportPDFs(requestParameters: EnterpriseApiRenderReportPDFsRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<Array<number>> {
-            return localVarFp.renderReportPDFs(requestParameters.dashboardID, requestParameters.orientation, requestParameters.layout, requestParameters.title, requestParameters.scaleFactor, requestParameters.includeTables, options).then((request) => request(axios, basePath));
+            return localVarFp.renderReportPDFs(requestParameters.dashboards, requestParameters.orientation, requestParameters.layout, requestParameters.title, requestParameters.scaleFactor, requestParameters.includeTables, options).then((request) => request(axios, basePath));
         },
         /**
          * Available to org admins only and with a valid or expired license.  You need to have a permission with action `reports.settings:write`xx.
@@ -29486,6 +31166,15 @@ export const EnterpriseApiFactory = function (configuration?: Configuration, bas
          */
         sendTestEmail(requestParameters: EnterpriseApiSendTestEmailRequest, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
             return localVarFp.sendTestEmail(requestParameters.body, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * set cache config for a single data source
+         * @param {EnterpriseApiSetDataSourceCacheConfigRequest} requestParameters Request parameters.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        setDataSourceCacheConfig(requestParameters: EnterpriseApiSetDataSourceCacheConfigRequest, options?: RawAxiosRequestConfig): AxiosPromise<CacheConfigResponse> {
+            return localVarFp.setDataSourceCacheConfig(requestParameters.dataSourceUID, requestParameters.body, options).then((request) => request(axios, basePath));
         },
         /**
          * Set role assignments for the role with the given UID.  You need to have a permission with action `teams.roles:add` and `teams.roles:remove` and scope `permissions:type:delegate`, and `users.roles:add` and `users.roles:remove` and scope `permissions:type:delegate`.
@@ -29557,6 +31246,16 @@ export const EnterpriseApiFactory = function (configuration?: Configuration, bas
         updateRole(requestParameters: EnterpriseApiUpdateRoleRequest, options?: RawAxiosRequestConfig): AxiosPromise<RoleDTO> {
             return localVarFp.updateRole(requestParameters.roleUID, requestParameters.body, options).then((request) => request(axios, basePath));
         },
+        /**
+         * 
+         * @summary Updates LBAC rules for a team.
+         * @param {EnterpriseApiUpdateTeamLBACRulesApiRequest} requestParameters Request parameters.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        updateTeamLBACRulesApi(requestParameters: EnterpriseApiUpdateTeamLBACRulesApiRequest, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
+            return localVarFp.updateTeamLBACRulesApi(requestParameters.uid, options).then((request) => request(axios, basePath));
+        },
     };
 };
 
@@ -29624,6 +31323,20 @@ export interface EnterpriseApiAddUserRoleRequest {
 }
 
 /**
+ * Request parameters for cleanDataSourceCache operation in EnterpriseApi.
+ * @export
+ * @interface EnterpriseApiCleanDataSourceCacheRequest
+ */
+export interface EnterpriseApiCleanDataSourceCacheRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof EnterpriseApiCleanDataSourceCache
+     */
+    readonly dataSourceUID: string
+}
+
+/**
  * Request parameters for createRecordingRule operation in EnterpriseApi.
  * @export
  * @interface EnterpriseApiCreateRecordingRuleRequest
@@ -29659,10 +31372,10 @@ export interface EnterpriseApiCreateRecordingRuleWriteTargetRequest {
 export interface EnterpriseApiCreateReportRequest {
     /**
      * 
-     * @type {CreateOrUpdateReportConfig}
+     * @type {CreateOrUpdateReport}
      * @memberof EnterpriseApiCreateReport
      */
-    readonly body: CreateOrUpdateReportConfig
+    readonly body: CreateOrUpdateReport
 }
 
 /**
@@ -29750,6 +31463,48 @@ export interface EnterpriseApiDeleteRoleRequest {
 }
 
 /**
+ * Request parameters for disableDataSourceCache operation in EnterpriseApi.
+ * @export
+ * @interface EnterpriseApiDisableDataSourceCacheRequest
+ */
+export interface EnterpriseApiDisableDataSourceCacheRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof EnterpriseApiDisableDataSourceCache
+     */
+    readonly dataSourceUID: string
+}
+
+/**
+ * Request parameters for enableDataSourceCache operation in EnterpriseApi.
+ * @export
+ * @interface EnterpriseApiEnableDataSourceCacheRequest
+ */
+export interface EnterpriseApiEnableDataSourceCacheRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof EnterpriseApiEnableDataSourceCache
+     */
+    readonly dataSourceUID: string
+}
+
+/**
+ * Request parameters for getDataSourceCacheConfig operation in EnterpriseApi.
+ * @export
+ * @interface EnterpriseApiGetDataSourceCacheConfigRequest
+ */
+export interface EnterpriseApiGetDataSourceCacheConfigRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof EnterpriseApiGetDataSourceCacheConfig
+     */
+    readonly dataSourceUID: string
+}
+
+/**
  * Request parameters for getReport operation in EnterpriseApi.
  * @export
  * @interface EnterpriseApiGetReportRequest
@@ -29806,6 +31561,20 @@ export interface EnterpriseApiGetTeamGroupsApiRequest {
 }
 
 /**
+ * Request parameters for getTeamLBACRulesApi operation in EnterpriseApi.
+ * @export
+ * @interface EnterpriseApiGetTeamLBACRulesApiRequest
+ */
+export interface EnterpriseApiGetTeamLBACRulesApiRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof EnterpriseApiGetTeamLBACRulesApi
+     */
+    readonly uid: string
+}
+
+/**
  * Request parameters for listRoles operation in EnterpriseApi.
  * @export
  * @interface EnterpriseApiListRolesRequest
@@ -29817,6 +31586,13 @@ export interface EnterpriseApiListRolesRequest {
      * @memberof EnterpriseApiListRoles
      */
     readonly delegatable?: boolean
+
+    /**
+     * 
+     * @type {boolean}
+     * @memberof EnterpriseApiListRoles
+     */
+    readonly includeHidden?: boolean
 }
 
 /**
@@ -30009,6 +31785,27 @@ export interface EnterpriseApiRemoveUserRoleRequest {
 }
 
 /**
+ * Request parameters for renderReportCSVs operation in EnterpriseApi.
+ * @export
+ * @interface EnterpriseApiRenderReportCSVsRequest
+ */
+export interface EnterpriseApiRenderReportCSVsRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof EnterpriseApiRenderReportCSVs
+     */
+    readonly dashboards?: string
+
+    /**
+     * 
+     * @type {string}
+     * @memberof EnterpriseApiRenderReportCSVs
+     */
+    readonly title?: string
+}
+
+/**
  * Request parameters for renderReportPDFs operation in EnterpriseApi.
  * @export
  * @interface EnterpriseApiRenderReportPDFsRequest
@@ -30019,7 +31816,7 @@ export interface EnterpriseApiRenderReportPDFsRequest {
      * @type {string}
      * @memberof EnterpriseApiRenderReportPDFs
      */
-    readonly dashboardID?: string
+    readonly dashboards?: string
 
     /**
      * 
@@ -30093,10 +31890,31 @@ export interface EnterpriseApiSendReportRequest {
 export interface EnterpriseApiSendTestEmailRequest {
     /**
      * 
-     * @type {CreateOrUpdateReportConfig}
+     * @type {CreateOrUpdateReport}
      * @memberof EnterpriseApiSendTestEmail
      */
-    readonly body: CreateOrUpdateReportConfig
+    readonly body: CreateOrUpdateReport
+}
+
+/**
+ * Request parameters for setDataSourceCacheConfig operation in EnterpriseApi.
+ * @export
+ * @interface EnterpriseApiSetDataSourceCacheConfigRequest
+ */
+export interface EnterpriseApiSetDataSourceCacheConfigRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof EnterpriseApiSetDataSourceCacheConfig
+     */
+    readonly dataSourceUID: string
+
+    /**
+     * 
+     * @type {CacheConfigSetter}
+     * @memberof EnterpriseApiSetDataSourceCacheConfig
+     */
+    readonly body: CacheConfigSetter
 }
 
 /**
@@ -30198,10 +32016,10 @@ export interface EnterpriseApiUpdateReportRequest {
 
     /**
      * 
-     * @type {CreateOrUpdateReportConfig}
+     * @type {CreateOrUpdateReport}
      * @memberof EnterpriseApiUpdateReport
      */
-    readonly body: CreateOrUpdateReportConfig
+    readonly body: CreateOrUpdateReport
 }
 
 /**
@@ -30223,6 +32041,20 @@ export interface EnterpriseApiUpdateRoleRequest {
      * @memberof EnterpriseApiUpdateRole
      */
     readonly body: UpdateRoleCommand
+}
+
+/**
+ * Request parameters for updateTeamLBACRulesApi operation in EnterpriseApi.
+ * @export
+ * @interface EnterpriseApiUpdateTeamLBACRulesApiRequest
+ */
+export interface EnterpriseApiUpdateTeamLBACRulesApiRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof EnterpriseApiUpdateTeamLBACRulesApi
+     */
+    readonly uid: string
 }
 
 /**
@@ -30277,6 +32109,17 @@ export class EnterpriseApi extends BaseAPI {
      */
     public adminProvisioningReloadAccessControl(options?: RawAxiosRequestConfig) {
         return EnterpriseApiFp(this.configuration).adminProvisioningReloadAccessControl(options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * clean cache for a single data source
+     * @param {EnterpriseApiCleanDataSourceCacheRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof EnterpriseApi
+     */
+    public cleanDataSourceCache(requestParameters: EnterpriseApiCleanDataSourceCacheRequest, options?: RawAxiosRequestConfig) {
+        return EnterpriseApiFp(this.configuration).cleanDataSourceCache(requestParameters.dataSourceUID, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -30387,6 +32230,28 @@ export class EnterpriseApi extends BaseAPI {
     }
 
     /**
+     * disable cache for a single data source
+     * @param {EnterpriseApiDisableDataSourceCacheRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof EnterpriseApi
+     */
+    public disableDataSourceCache(requestParameters: EnterpriseApiDisableDataSourceCacheRequest, options?: RawAxiosRequestConfig) {
+        return EnterpriseApiFp(this.configuration).disableDataSourceCache(requestParameters.dataSourceUID, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * enable cache for a single data source
+     * @param {EnterpriseApiEnableDataSourceCacheRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof EnterpriseApi
+     */
+    public enableDataSourceCache(requestParameters: EnterpriseApiEnableDataSourceCacheRequest, options?: RawAxiosRequestConfig) {
+        return EnterpriseApiFp(this.configuration).enableDataSourceCache(requestParameters.dataSourceUID, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
      * Returns an indicator to check if fine-grained access control is enabled or not.  You need to have a permission with action `status:accesscontrol` and scope `services:accesscontrol`.
      * @summary Get status.
      * @param {*} [options] Override http request option.
@@ -30419,6 +32284,17 @@ export class EnterpriseApi extends BaseAPI {
      */
     public getCustomPermissionsReport(options?: RawAxiosRequestConfig) {
         return EnterpriseApiFp(this.configuration).getCustomPermissionsReport(options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * get cache config for a single data source
+     * @param {EnterpriseApiGetDataSourceCacheConfigRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof EnterpriseApi
+     */
+    public getDataSourceCacheConfig(requestParameters: EnterpriseApiGetDataSourceCacheConfigRequest, options?: RawAxiosRequestConfig) {
+        return EnterpriseApiFp(this.configuration).getDataSourceCacheConfig(requestParameters.dataSourceUID, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -30468,7 +32344,7 @@ export class EnterpriseApi extends BaseAPI {
 
     /**
      * Available to org admins only and with a valid or expired license.  You need to have a permission with action `reports.settings:read`x.
-     * @summary Get settings.
+     * @summary Get report settings.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof EnterpriseApi
@@ -30535,6 +32411,17 @@ export class EnterpriseApi extends BaseAPI {
     }
 
     /**
+     * Available to org admins only and with a valid or expired license.  You need to have a permission with action `reports.settings:read`.
+     * @summary Get custom branding report image.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof EnterpriseApi
+     */
+    public getSettingsImage(options?: RawAxiosRequestConfig) {
+        return EnterpriseApiFp(this.configuration).getSettingsImage(options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
      * 
      * @summary Check license availability.
      * @param {*} [options] Override http request option.
@@ -30570,6 +32457,18 @@ export class EnterpriseApi extends BaseAPI {
 
     /**
      * 
+     * @summary Retrieves LBAC rules for a team.
+     * @param {EnterpriseApiGetTeamLBACRulesApiRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof EnterpriseApi
+     */
+    public getTeamLBACRulesApi(requestParameters: EnterpriseApiGetTeamLBACRulesApiRequest, options?: RawAxiosRequestConfig) {
+        return EnterpriseApiFp(this.configuration).getTeamLBACRulesApi(requestParameters.uid, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
      * @summary Lists all rules in the database: active or deleted.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -30580,7 +32479,7 @@ export class EnterpriseApi extends BaseAPI {
     }
 
     /**
-     * Gets all existing roles. The response contains all global and organization local roles, for the organization which user is signed in.  You need to have a permission with action `roles:read` and scope `roles:*`.
+     * Gets all existing roles. The response contains all global and organization local roles, for the organization which user is signed in.  You need to have a permission with action `roles:read` and scope `roles:*`.  The `delegatable` flag reduces the set of roles to only those for which the signed-in user has permissions to assign.
      * @summary Get all roles.
      * @param {EnterpriseApiListRolesRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
@@ -30588,7 +32487,7 @@ export class EnterpriseApi extends BaseAPI {
      * @memberof EnterpriseApi
      */
     public listRoles(requestParameters: EnterpriseApiListRolesRequest = {}, options?: RawAxiosRequestConfig) {
-        return EnterpriseApiFp(this.configuration).listRoles(requestParameters.delegatable, options).then((request) => request(this.axios, this.basePath));
+        return EnterpriseApiFp(this.configuration).listRoles(requestParameters.delegatable, requestParameters.includeHidden, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -30736,6 +32635,18 @@ export class EnterpriseApi extends BaseAPI {
 
     /**
      * Available to all users and with a valid license.
+     * @summary Download a CSV report.
+     * @param {EnterpriseApiRenderReportCSVsRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof EnterpriseApi
+     */
+    public renderReportCSVs(requestParameters: EnterpriseApiRenderReportCSVsRequest = {}, options?: RawAxiosRequestConfig) {
+        return EnterpriseApiFp(this.configuration).renderReportCSVs(requestParameters.dashboards, requestParameters.title, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Available to all users and with a valid license.
      * @summary Render report for multiple dashboards.
      * @param {EnterpriseApiRenderReportPDFsRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
@@ -30743,7 +32654,7 @@ export class EnterpriseApi extends BaseAPI {
      * @memberof EnterpriseApi
      */
     public renderReportPDFs(requestParameters: EnterpriseApiRenderReportPDFsRequest = {}, options?: RawAxiosRequestConfig) {
-        return EnterpriseApiFp(this.configuration).renderReportPDFs(requestParameters.dashboardID, requestParameters.orientation, requestParameters.layout, requestParameters.title, requestParameters.scaleFactor, requestParameters.includeTables, options).then((request) => request(this.axios, this.basePath));
+        return EnterpriseApiFp(this.configuration).renderReportPDFs(requestParameters.dashboards, requestParameters.orientation, requestParameters.layout, requestParameters.title, requestParameters.scaleFactor, requestParameters.includeTables, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -30791,6 +32702,17 @@ export class EnterpriseApi extends BaseAPI {
      */
     public sendTestEmail(requestParameters: EnterpriseApiSendTestEmailRequest, options?: RawAxiosRequestConfig) {
         return EnterpriseApiFp(this.configuration).sendTestEmail(requestParameters.body, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * set cache config for a single data source
+     * @param {EnterpriseApiSetDataSourceCacheConfigRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof EnterpriseApi
+     */
+    public setDataSourceCacheConfig(requestParameters: EnterpriseApiSetDataSourceCacheConfigRequest, options?: RawAxiosRequestConfig) {
+        return EnterpriseApiFp(this.configuration).setDataSourceCacheConfig(requestParameters.dataSourceUID, requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -30875,6 +32797,18 @@ export class EnterpriseApi extends BaseAPI {
      */
     public updateRole(requestParameters: EnterpriseApiUpdateRoleRequest, options?: RawAxiosRequestConfig) {
         return EnterpriseApiFp(this.configuration).updateRole(requestParameters.roleUID, requestParameters.body, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Updates LBAC rules for a team.
+     * @param {EnterpriseApiUpdateTeamLBACRulesApiRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof EnterpriseApi
+     */
+    public updateTeamLBACRulesApi(requestParameters: EnterpriseApiUpdateTeamLBACRulesApiRequest, options?: RawAxiosRequestConfig) {
+        return EnterpriseApiFp(this.configuration).updateTeamLBACRulesApi(requestParameters.uid, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -32070,6 +34004,110 @@ export class GetCurrentOrgApi extends BaseAPI {
      */
     public getCurrentOrgQuota(options?: RawAxiosRequestConfig) {
         return GetCurrentOrgApiFp(this.configuration).getCurrentOrgQuota(options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+
+/**
+ * HealthApi - axios parameter creator
+ * @export
+ */
+export const HealthApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * apiHealthHandler will return ok if Grafana\'s web server is running and it can access the database. If the database cannot be accessed it will return http status code 503.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getHealth: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/health`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication api_key required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+            // authentication basic required
+            // http basic authentication required
+            setBasicAuthToObject(localVarRequestOptions, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * HealthApi - functional programming interface
+ * @export
+ */
+export const HealthApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = HealthApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * apiHealthHandler will return ok if Grafana\'s web server is running and it can access the database. If the database cannot be accessed it will return http status code 503.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getHealth(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<HealthResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getHealth(options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['HealthApi.getHealth']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+    }
+};
+
+/**
+ * HealthApi - factory interface
+ * @export
+ */
+export const HealthApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = HealthApiFp(configuration)
+    return {
+        /**
+         * apiHealthHandler will return ok if Grafana\'s web server is running and it can access the database. If the database cannot be accessed it will return http status code 503.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getHealth(options?: RawAxiosRequestConfig): AxiosPromise<HealthResponse> {
+            return localVarFp.getHealth(options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * HealthApi - object-oriented interface
+ * @export
+ * @class HealthApi
+ * @extends {BaseAPI}
+ */
+export class HealthApi extends BaseAPI {
+    /**
+     * apiHealthHandler will return ok if Grafana\'s web server is running and it can access the database. If the database cannot be accessed it will return http status code 503.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof HealthApi
+     */
+    public getHealth(options?: RawAxiosRequestConfig) {
+        return HealthApiFp(this.configuration).getHealth(options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -33639,6 +35677,1422 @@ export class LicensingApi extends BaseAPI {
      */
     public refreshLicenseStats(options?: RawAxiosRequestConfig) {
         return LicensingApiFp(this.configuration).refreshLicenseStats(options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+
+/**
+ * MigrationsApi - axios parameter creator
+ * @export
+ */
+export const MigrationsApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * TODO: Implement
+         * @summary Cancel a snapshot, wherever it is in its processing chain.
+         * @param {string} uid Session UID of a session
+         * @param {string} snapshotUid UID of a snapshot
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        cancelSnapshot: async (uid: string, snapshotUid: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'uid' is not null or undefined
+            assertParamExists('cancelSnapshot', 'uid', uid)
+            // verify required parameter 'snapshotUid' is not null or undefined
+            assertParamExists('cancelSnapshot', 'snapshotUid', snapshotUid)
+            const localVarPath = `/cloudmigration/migration/{uid}/snapshot/{snapshotUid}/cancel`
+                .replace(`{${"uid"}}`, encodeURIComponent(String(uid)))
+                .replace(`{${"snapshotUid"}}`, encodeURIComponent(String(snapshotUid)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication api_key required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+            // authentication basic required
+            // http basic authentication required
+            setBasicAuthToObject(localVarRequestOptions, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Create gcom access token.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createCloudMigrationToken: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/cloudmigration/token`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication api_key required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+            // authentication basic required
+            // http basic authentication required
+            setBasicAuthToObject(localVarRequestOptions, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Create a migration session.
+         * @param {CloudMigrationSessionRequestDTO} body 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createSession: async (body: CloudMigrationSessionRequestDTO, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'body' is not null or undefined
+            assertParamExists('createSession', 'body', body)
+            const localVarPath = `/cloudmigration/migration`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication api_key required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+            // authentication basic required
+            // http basic authentication required
+            setBasicAuthToObject(localVarRequestOptions, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(body, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * If the snapshot initialization is successful, the snapshot uid is returned.
+         * @summary Trigger the creation of an instance snapshot associated with the provided session.
+         * @param {string} uid UID of a session
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createSnapshot: async (uid: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'uid' is not null or undefined
+            assertParamExists('createSnapshot', 'uid', uid)
+            const localVarPath = `/cloudmigration/migration/{uid}/snapshot`
+                .replace(`{${"uid"}}`, encodeURIComponent(String(uid)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication api_key required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+            // authentication basic required
+            // http basic authentication required
+            setBasicAuthToObject(localVarRequestOptions, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Deletes a cloud migration token.
+         * @param {string} uid UID of a cloud migration token
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deleteCloudMigrationToken: async (uid: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'uid' is not null or undefined
+            assertParamExists('deleteCloudMigrationToken', 'uid', uid)
+            const localVarPath = `/cloudmigration/token/{uid}`
+                .replace(`{${"uid"}}`, encodeURIComponent(String(uid)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication api_key required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+            // authentication basic required
+            // http basic authentication required
+            setBasicAuthToObject(localVarRequestOptions, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Delete a migration session by its uid.
+         * @param {string} uid UID of a migration session
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deleteSession: async (uid: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'uid' is not null or undefined
+            assertParamExists('deleteSession', 'uid', uid)
+            const localVarPath = `/cloudmigration/migration/{uid}`
+                .replace(`{${"uid"}}`, encodeURIComponent(String(uid)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication api_key required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+            // authentication basic required
+            // http basic authentication required
+            setBasicAuthToObject(localVarRequestOptions, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Get the result of a single migration run.
+         * @param {string} runUID RunUID of a migration run
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getCloudMigrationRun: async (runUID: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'runUID' is not null or undefined
+            assertParamExists('getCloudMigrationRun', 'runUID', runUID)
+            const localVarPath = `/cloudmigration/migration/run/{runUID}`
+                .replace(`{${"runUID"}}`, encodeURIComponent(String(runUID)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication api_key required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+            // authentication basic required
+            // http basic authentication required
+            setBasicAuthToObject(localVarRequestOptions, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Get a list of migration runs for a migration.
+         * @param {string} uid UID of a migration
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getCloudMigrationRunList: async (uid: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'uid' is not null or undefined
+            assertParamExists('getCloudMigrationRunList', 'uid', uid)
+            const localVarPath = `/cloudmigration/migration/{uid}/run`
+                .replace(`{${"uid"}}`, encodeURIComponent(String(uid)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication api_key required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+            // authentication basic required
+            // http basic authentication required
+            setBasicAuthToObject(localVarRequestOptions, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Fetch the cloud migration token if it exists.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getCloudMigrationToken: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/cloudmigration/token`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication api_key required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+            // authentication basic required
+            // http basic authentication required
+            setBasicAuthToObject(localVarRequestOptions, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Get a cloud migration session by its uid.
+         * @param {string} uid UID of a migration session
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getSession: async (uid: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'uid' is not null or undefined
+            assertParamExists('getSession', 'uid', uid)
+            const localVarPath = `/cloudmigration/migration/{uid}`
+                .replace(`{${"uid"}}`, encodeURIComponent(String(uid)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication api_key required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+            // authentication basic required
+            // http basic authentication required
+            setBasicAuthToObject(localVarRequestOptions, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Get a list of all cloud migration sessions that have been created.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getSessionList: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/cloudmigration/migration`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication api_key required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+            // authentication basic required
+            // http basic authentication required
+            setBasicAuthToObject(localVarRequestOptions, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Get a list of snapshots for a session.
+         * @param {string} uid Session UID of a session
+         * @param {number} [page] Page is used for pagination with limit
+         * @param {number} [limit] Max limit for results returned.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getShapshotList: async (uid: string, page?: number, limit?: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'uid' is not null or undefined
+            assertParamExists('getShapshotList', 'uid', uid)
+            const localVarPath = `/cloudmigration/migration/{uid}/snapshots`
+                .replace(`{${"uid"}}`, encodeURIComponent(String(uid)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication api_key required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+            // authentication basic required
+            // http basic authentication required
+            setBasicAuthToObject(localVarRequestOptions, configuration)
+
+            if (page !== undefined) {
+                localVarQueryParameter['page'] = page;
+            }
+
+            if (limit !== undefined) {
+                localVarQueryParameter['limit'] = limit;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Get metadata about a snapshot, including where it is in its processing and final results.
+         * @param {string} uid Session UID of a session
+         * @param {string} snapshotUid UID of a snapshot
+         * @param {number} [resultPage] ResultPage is used for pagination with ResultLimit
+         * @param {number} [resultLimit] Max limit for snapshot results returned.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getSnapshot: async (uid: string, snapshotUid: string, resultPage?: number, resultLimit?: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'uid' is not null or undefined
+            assertParamExists('getSnapshot', 'uid', uid)
+            // verify required parameter 'snapshotUid' is not null or undefined
+            assertParamExists('getSnapshot', 'snapshotUid', snapshotUid)
+            const localVarPath = `/cloudmigration/migration/{uid}/snapshot/{snapshotUid}`
+                .replace(`{${"uid"}}`, encodeURIComponent(String(uid)))
+                .replace(`{${"snapshotUid"}}`, encodeURIComponent(String(snapshotUid)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication api_key required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+            // authentication basic required
+            // http basic authentication required
+            setBasicAuthToObject(localVarRequestOptions, configuration)
+
+            if (resultPage !== undefined) {
+                localVarQueryParameter['resultPage'] = resultPage;
+            }
+
+            if (resultLimit !== undefined) {
+                localVarQueryParameter['resultLimit'] = resultLimit;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * It returns migrations that has been created.
+         * @summary Trigger the run of a migration to the Grafana Cloud.
+         * @param {string} uid UID of a migration
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        runCloudMigration: async (uid: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'uid' is not null or undefined
+            assertParamExists('runCloudMigration', 'uid', uid)
+            const localVarPath = `/cloudmigration/migration/{uid}/run`
+                .replace(`{${"uid"}}`, encodeURIComponent(String(uid)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication api_key required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+            // authentication basic required
+            // http basic authentication required
+            setBasicAuthToObject(localVarRequestOptions, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Upload a snapshot to the Grafana Migration Service for processing.
+         * @param {string} uid Session UID of a session
+         * @param {string} snapshotUid UID of a snapshot
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        uploadSnapshot: async (uid: string, snapshotUid: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'uid' is not null or undefined
+            assertParamExists('uploadSnapshot', 'uid', uid)
+            // verify required parameter 'snapshotUid' is not null or undefined
+            assertParamExists('uploadSnapshot', 'snapshotUid', snapshotUid)
+            const localVarPath = `/cloudmigration/migration/{uid}/snapshot/{snapshotUid}/upload`
+                .replace(`{${"uid"}}`, encodeURIComponent(String(uid)))
+                .replace(`{${"snapshotUid"}}`, encodeURIComponent(String(snapshotUid)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication api_key required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+            // authentication basic required
+            // http basic authentication required
+            setBasicAuthToObject(localVarRequestOptions, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * MigrationsApi - functional programming interface
+ * @export
+ */
+export const MigrationsApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = MigrationsApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * TODO: Implement
+         * @summary Cancel a snapshot, wherever it is in its processing chain.
+         * @param {string} uid Session UID of a session
+         * @param {string} snapshotUid UID of a snapshot
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async cancelSnapshot(uid: string, snapshotUid: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.cancelSnapshot(uid, snapshotUid, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['MigrationsApi.cancelSnapshot']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @summary Create gcom access token.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async createCloudMigrationToken(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CreateAccessTokenResponseDTO>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.createCloudMigrationToken(options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['MigrationsApi.createCloudMigrationToken']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @summary Create a migration session.
+         * @param {CloudMigrationSessionRequestDTO} body 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async createSession(body: CloudMigrationSessionRequestDTO, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CloudMigrationSessionResponseDTO>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.createSession(body, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['MigrationsApi.createSession']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * If the snapshot initialization is successful, the snapshot uid is returned.
+         * @summary Trigger the creation of an instance snapshot associated with the provided session.
+         * @param {string} uid UID of a session
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async createSnapshot(uid: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CreateSnapshotResponseDTO>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.createSnapshot(uid, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['MigrationsApi.createSnapshot']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @summary Deletes a cloud migration token.
+         * @param {string} uid UID of a cloud migration token
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async deleteCloudMigrationToken(uid: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.deleteCloudMigrationToken(uid, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['MigrationsApi.deleteCloudMigrationToken']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @summary Delete a migration session by its uid.
+         * @param {string} uid UID of a migration session
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async deleteSession(uid: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.deleteSession(uid, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['MigrationsApi.deleteSession']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @summary Get the result of a single migration run.
+         * @param {string} runUID RunUID of a migration run
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getCloudMigrationRun(runUID: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<MigrateDataResponseDTO>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getCloudMigrationRun(runUID, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['MigrationsApi.getCloudMigrationRun']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @summary Get a list of migration runs for a migration.
+         * @param {string} uid UID of a migration
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getCloudMigrationRunList(uid: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CloudMigrationRunListDTO>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getCloudMigrationRunList(uid, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['MigrationsApi.getCloudMigrationRunList']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @summary Fetch the cloud migration token if it exists.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getCloudMigrationToken(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetAccessTokenResponseDTO>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getCloudMigrationToken(options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['MigrationsApi.getCloudMigrationToken']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @summary Get a cloud migration session by its uid.
+         * @param {string} uid UID of a migration session
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getSession(uid: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CloudMigrationSessionResponseDTO>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getSession(uid, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['MigrationsApi.getSession']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @summary Get a list of all cloud migration sessions that have been created.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getSessionList(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CloudMigrationSessionListResponseDTO>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getSessionList(options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['MigrationsApi.getSessionList']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @summary Get a list of snapshots for a session.
+         * @param {string} uid Session UID of a session
+         * @param {number} [page] Page is used for pagination with limit
+         * @param {number} [limit] Max limit for results returned.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getShapshotList(uid: string, page?: number, limit?: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<SnapshotListResponseDTO>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getShapshotList(uid, page, limit, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['MigrationsApi.getShapshotList']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @summary Get metadata about a snapshot, including where it is in its processing and final results.
+         * @param {string} uid Session UID of a session
+         * @param {string} snapshotUid UID of a snapshot
+         * @param {number} [resultPage] ResultPage is used for pagination with ResultLimit
+         * @param {number} [resultLimit] Max limit for snapshot results returned.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getSnapshot(uid: string, snapshotUid: string, resultPage?: number, resultLimit?: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetSnapshotResponseDTO>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getSnapshot(uid, snapshotUid, resultPage, resultLimit, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['MigrationsApi.getSnapshot']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * It returns migrations that has been created.
+         * @summary Trigger the run of a migration to the Grafana Cloud.
+         * @param {string} uid UID of a migration
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async runCloudMigration(uid: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<MigrateDataResponseDTO>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.runCloudMigration(uid, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['MigrationsApi.runCloudMigration']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @summary Upload a snapshot to the Grafana Migration Service for processing.
+         * @param {string} uid Session UID of a session
+         * @param {string} snapshotUid UID of a snapshot
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async uploadSnapshot(uid: string, snapshotUid: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.uploadSnapshot(uid, snapshotUid, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['MigrationsApi.uploadSnapshot']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+    }
+};
+
+/**
+ * MigrationsApi - factory interface
+ * @export
+ */
+export const MigrationsApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = MigrationsApiFp(configuration)
+    return {
+        /**
+         * TODO: Implement
+         * @summary Cancel a snapshot, wherever it is in its processing chain.
+         * @param {MigrationsApiCancelSnapshotRequest} requestParameters Request parameters.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        cancelSnapshot(requestParameters: MigrationsApiCancelSnapshotRequest, options?: RawAxiosRequestConfig): AxiosPromise<void> {
+            return localVarFp.cancelSnapshot(requestParameters.uid, requestParameters.snapshotUid, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Create gcom access token.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createCloudMigrationToken(options?: RawAxiosRequestConfig): AxiosPromise<CreateAccessTokenResponseDTO> {
+            return localVarFp.createCloudMigrationToken(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Create a migration session.
+         * @param {MigrationsApiCreateSessionRequest} requestParameters Request parameters.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createSession(requestParameters: MigrationsApiCreateSessionRequest, options?: RawAxiosRequestConfig): AxiosPromise<CloudMigrationSessionResponseDTO> {
+            return localVarFp.createSession(requestParameters.body, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * If the snapshot initialization is successful, the snapshot uid is returned.
+         * @summary Trigger the creation of an instance snapshot associated with the provided session.
+         * @param {MigrationsApiCreateSnapshotRequest} requestParameters Request parameters.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createSnapshot(requestParameters: MigrationsApiCreateSnapshotRequest, options?: RawAxiosRequestConfig): AxiosPromise<CreateSnapshotResponseDTO> {
+            return localVarFp.createSnapshot(requestParameters.uid, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Deletes a cloud migration token.
+         * @param {MigrationsApiDeleteCloudMigrationTokenRequest} requestParameters Request parameters.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deleteCloudMigrationToken(requestParameters: MigrationsApiDeleteCloudMigrationTokenRequest, options?: RawAxiosRequestConfig): AxiosPromise<void> {
+            return localVarFp.deleteCloudMigrationToken(requestParameters.uid, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Delete a migration session by its uid.
+         * @param {MigrationsApiDeleteSessionRequest} requestParameters Request parameters.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deleteSession(requestParameters: MigrationsApiDeleteSessionRequest, options?: RawAxiosRequestConfig): AxiosPromise<void> {
+            return localVarFp.deleteSession(requestParameters.uid, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Get the result of a single migration run.
+         * @param {MigrationsApiGetCloudMigrationRunRequest} requestParameters Request parameters.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getCloudMigrationRun(requestParameters: MigrationsApiGetCloudMigrationRunRequest, options?: RawAxiosRequestConfig): AxiosPromise<MigrateDataResponseDTO> {
+            return localVarFp.getCloudMigrationRun(requestParameters.runUID, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Get a list of migration runs for a migration.
+         * @param {MigrationsApiGetCloudMigrationRunListRequest} requestParameters Request parameters.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getCloudMigrationRunList(requestParameters: MigrationsApiGetCloudMigrationRunListRequest, options?: RawAxiosRequestConfig): AxiosPromise<CloudMigrationRunListDTO> {
+            return localVarFp.getCloudMigrationRunList(requestParameters.uid, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Fetch the cloud migration token if it exists.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getCloudMigrationToken(options?: RawAxiosRequestConfig): AxiosPromise<GetAccessTokenResponseDTO> {
+            return localVarFp.getCloudMigrationToken(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Get a cloud migration session by its uid.
+         * @param {MigrationsApiGetSessionRequest} requestParameters Request parameters.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getSession(requestParameters: MigrationsApiGetSessionRequest, options?: RawAxiosRequestConfig): AxiosPromise<CloudMigrationSessionResponseDTO> {
+            return localVarFp.getSession(requestParameters.uid, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Get a list of all cloud migration sessions that have been created.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getSessionList(options?: RawAxiosRequestConfig): AxiosPromise<CloudMigrationSessionListResponseDTO> {
+            return localVarFp.getSessionList(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Get a list of snapshots for a session.
+         * @param {MigrationsApiGetShapshotListRequest} requestParameters Request parameters.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getShapshotList(requestParameters: MigrationsApiGetShapshotListRequest, options?: RawAxiosRequestConfig): AxiosPromise<SnapshotListResponseDTO> {
+            return localVarFp.getShapshotList(requestParameters.uid, requestParameters.page, requestParameters.limit, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Get metadata about a snapshot, including where it is in its processing and final results.
+         * @param {MigrationsApiGetSnapshotRequest} requestParameters Request parameters.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getSnapshot(requestParameters: MigrationsApiGetSnapshotRequest, options?: RawAxiosRequestConfig): AxiosPromise<GetSnapshotResponseDTO> {
+            return localVarFp.getSnapshot(requestParameters.uid, requestParameters.snapshotUid, requestParameters.resultPage, requestParameters.resultLimit, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * It returns migrations that has been created.
+         * @summary Trigger the run of a migration to the Grafana Cloud.
+         * @param {MigrationsApiRunCloudMigrationRequest} requestParameters Request parameters.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        runCloudMigration(requestParameters: MigrationsApiRunCloudMigrationRequest, options?: RawAxiosRequestConfig): AxiosPromise<MigrateDataResponseDTO> {
+            return localVarFp.runCloudMigration(requestParameters.uid, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Upload a snapshot to the Grafana Migration Service for processing.
+         * @param {MigrationsApiUploadSnapshotRequest} requestParameters Request parameters.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        uploadSnapshot(requestParameters: MigrationsApiUploadSnapshotRequest, options?: RawAxiosRequestConfig): AxiosPromise<void> {
+            return localVarFp.uploadSnapshot(requestParameters.uid, requestParameters.snapshotUid, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * Request parameters for cancelSnapshot operation in MigrationsApi.
+ * @export
+ * @interface MigrationsApiCancelSnapshotRequest
+ */
+export interface MigrationsApiCancelSnapshotRequest {
+    /**
+     * Session UID of a session
+     * @type {string}
+     * @memberof MigrationsApiCancelSnapshot
+     */
+    readonly uid: string
+
+    /**
+     * UID of a snapshot
+     * @type {string}
+     * @memberof MigrationsApiCancelSnapshot
+     */
+    readonly snapshotUid: string
+}
+
+/**
+ * Request parameters for createSession operation in MigrationsApi.
+ * @export
+ * @interface MigrationsApiCreateSessionRequest
+ */
+export interface MigrationsApiCreateSessionRequest {
+    /**
+     * 
+     * @type {CloudMigrationSessionRequestDTO}
+     * @memberof MigrationsApiCreateSession
+     */
+    readonly body: CloudMigrationSessionRequestDTO
+}
+
+/**
+ * Request parameters for createSnapshot operation in MigrationsApi.
+ * @export
+ * @interface MigrationsApiCreateSnapshotRequest
+ */
+export interface MigrationsApiCreateSnapshotRequest {
+    /**
+     * UID of a session
+     * @type {string}
+     * @memberof MigrationsApiCreateSnapshot
+     */
+    readonly uid: string
+}
+
+/**
+ * Request parameters for deleteCloudMigrationToken operation in MigrationsApi.
+ * @export
+ * @interface MigrationsApiDeleteCloudMigrationTokenRequest
+ */
+export interface MigrationsApiDeleteCloudMigrationTokenRequest {
+    /**
+     * UID of a cloud migration token
+     * @type {string}
+     * @memberof MigrationsApiDeleteCloudMigrationToken
+     */
+    readonly uid: string
+}
+
+/**
+ * Request parameters for deleteSession operation in MigrationsApi.
+ * @export
+ * @interface MigrationsApiDeleteSessionRequest
+ */
+export interface MigrationsApiDeleteSessionRequest {
+    /**
+     * UID of a migration session
+     * @type {string}
+     * @memberof MigrationsApiDeleteSession
+     */
+    readonly uid: string
+}
+
+/**
+ * Request parameters for getCloudMigrationRun operation in MigrationsApi.
+ * @export
+ * @interface MigrationsApiGetCloudMigrationRunRequest
+ */
+export interface MigrationsApiGetCloudMigrationRunRequest {
+    /**
+     * RunUID of a migration run
+     * @type {string}
+     * @memberof MigrationsApiGetCloudMigrationRun
+     */
+    readonly runUID: string
+}
+
+/**
+ * Request parameters for getCloudMigrationRunList operation in MigrationsApi.
+ * @export
+ * @interface MigrationsApiGetCloudMigrationRunListRequest
+ */
+export interface MigrationsApiGetCloudMigrationRunListRequest {
+    /**
+     * UID of a migration
+     * @type {string}
+     * @memberof MigrationsApiGetCloudMigrationRunList
+     */
+    readonly uid: string
+}
+
+/**
+ * Request parameters for getSession operation in MigrationsApi.
+ * @export
+ * @interface MigrationsApiGetSessionRequest
+ */
+export interface MigrationsApiGetSessionRequest {
+    /**
+     * UID of a migration session
+     * @type {string}
+     * @memberof MigrationsApiGetSession
+     */
+    readonly uid: string
+}
+
+/**
+ * Request parameters for getShapshotList operation in MigrationsApi.
+ * @export
+ * @interface MigrationsApiGetShapshotListRequest
+ */
+export interface MigrationsApiGetShapshotListRequest {
+    /**
+     * Session UID of a session
+     * @type {string}
+     * @memberof MigrationsApiGetShapshotList
+     */
+    readonly uid: string
+
+    /**
+     * Page is used for pagination with limit
+     * @type {number}
+     * @memberof MigrationsApiGetShapshotList
+     */
+    readonly page?: number
+
+    /**
+     * Max limit for results returned.
+     * @type {number}
+     * @memberof MigrationsApiGetShapshotList
+     */
+    readonly limit?: number
+}
+
+/**
+ * Request parameters for getSnapshot operation in MigrationsApi.
+ * @export
+ * @interface MigrationsApiGetSnapshotRequest
+ */
+export interface MigrationsApiGetSnapshotRequest {
+    /**
+     * Session UID of a session
+     * @type {string}
+     * @memberof MigrationsApiGetSnapshot
+     */
+    readonly uid: string
+
+    /**
+     * UID of a snapshot
+     * @type {string}
+     * @memberof MigrationsApiGetSnapshot
+     */
+    readonly snapshotUid: string
+
+    /**
+     * ResultPage is used for pagination with ResultLimit
+     * @type {number}
+     * @memberof MigrationsApiGetSnapshot
+     */
+    readonly resultPage?: number
+
+    /**
+     * Max limit for snapshot results returned.
+     * @type {number}
+     * @memberof MigrationsApiGetSnapshot
+     */
+    readonly resultLimit?: number
+}
+
+/**
+ * Request parameters for runCloudMigration operation in MigrationsApi.
+ * @export
+ * @interface MigrationsApiRunCloudMigrationRequest
+ */
+export interface MigrationsApiRunCloudMigrationRequest {
+    /**
+     * UID of a migration
+     * @type {string}
+     * @memberof MigrationsApiRunCloudMigration
+     */
+    readonly uid: string
+}
+
+/**
+ * Request parameters for uploadSnapshot operation in MigrationsApi.
+ * @export
+ * @interface MigrationsApiUploadSnapshotRequest
+ */
+export interface MigrationsApiUploadSnapshotRequest {
+    /**
+     * Session UID of a session
+     * @type {string}
+     * @memberof MigrationsApiUploadSnapshot
+     */
+    readonly uid: string
+
+    /**
+     * UID of a snapshot
+     * @type {string}
+     * @memberof MigrationsApiUploadSnapshot
+     */
+    readonly snapshotUid: string
+}
+
+/**
+ * MigrationsApi - object-oriented interface
+ * @export
+ * @class MigrationsApi
+ * @extends {BaseAPI}
+ */
+export class MigrationsApi extends BaseAPI {
+    /**
+     * TODO: Implement
+     * @summary Cancel a snapshot, wherever it is in its processing chain.
+     * @param {MigrationsApiCancelSnapshotRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof MigrationsApi
+     */
+    public cancelSnapshot(requestParameters: MigrationsApiCancelSnapshotRequest, options?: RawAxiosRequestConfig) {
+        return MigrationsApiFp(this.configuration).cancelSnapshot(requestParameters.uid, requestParameters.snapshotUid, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Create gcom access token.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof MigrationsApi
+     */
+    public createCloudMigrationToken(options?: RawAxiosRequestConfig) {
+        return MigrationsApiFp(this.configuration).createCloudMigrationToken(options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Create a migration session.
+     * @param {MigrationsApiCreateSessionRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof MigrationsApi
+     */
+    public createSession(requestParameters: MigrationsApiCreateSessionRequest, options?: RawAxiosRequestConfig) {
+        return MigrationsApiFp(this.configuration).createSession(requestParameters.body, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * If the snapshot initialization is successful, the snapshot uid is returned.
+     * @summary Trigger the creation of an instance snapshot associated with the provided session.
+     * @param {MigrationsApiCreateSnapshotRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof MigrationsApi
+     */
+    public createSnapshot(requestParameters: MigrationsApiCreateSnapshotRequest, options?: RawAxiosRequestConfig) {
+        return MigrationsApiFp(this.configuration).createSnapshot(requestParameters.uid, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Deletes a cloud migration token.
+     * @param {MigrationsApiDeleteCloudMigrationTokenRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof MigrationsApi
+     */
+    public deleteCloudMigrationToken(requestParameters: MigrationsApiDeleteCloudMigrationTokenRequest, options?: RawAxiosRequestConfig) {
+        return MigrationsApiFp(this.configuration).deleteCloudMigrationToken(requestParameters.uid, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Delete a migration session by its uid.
+     * @param {MigrationsApiDeleteSessionRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof MigrationsApi
+     */
+    public deleteSession(requestParameters: MigrationsApiDeleteSessionRequest, options?: RawAxiosRequestConfig) {
+        return MigrationsApiFp(this.configuration).deleteSession(requestParameters.uid, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Get the result of a single migration run.
+     * @param {MigrationsApiGetCloudMigrationRunRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof MigrationsApi
+     */
+    public getCloudMigrationRun(requestParameters: MigrationsApiGetCloudMigrationRunRequest, options?: RawAxiosRequestConfig) {
+        return MigrationsApiFp(this.configuration).getCloudMigrationRun(requestParameters.runUID, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Get a list of migration runs for a migration.
+     * @param {MigrationsApiGetCloudMigrationRunListRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof MigrationsApi
+     */
+    public getCloudMigrationRunList(requestParameters: MigrationsApiGetCloudMigrationRunListRequest, options?: RawAxiosRequestConfig) {
+        return MigrationsApiFp(this.configuration).getCloudMigrationRunList(requestParameters.uid, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Fetch the cloud migration token if it exists.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof MigrationsApi
+     */
+    public getCloudMigrationToken(options?: RawAxiosRequestConfig) {
+        return MigrationsApiFp(this.configuration).getCloudMigrationToken(options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Get a cloud migration session by its uid.
+     * @param {MigrationsApiGetSessionRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof MigrationsApi
+     */
+    public getSession(requestParameters: MigrationsApiGetSessionRequest, options?: RawAxiosRequestConfig) {
+        return MigrationsApiFp(this.configuration).getSession(requestParameters.uid, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Get a list of all cloud migration sessions that have been created.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof MigrationsApi
+     */
+    public getSessionList(options?: RawAxiosRequestConfig) {
+        return MigrationsApiFp(this.configuration).getSessionList(options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Get a list of snapshots for a session.
+     * @param {MigrationsApiGetShapshotListRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof MigrationsApi
+     */
+    public getShapshotList(requestParameters: MigrationsApiGetShapshotListRequest, options?: RawAxiosRequestConfig) {
+        return MigrationsApiFp(this.configuration).getShapshotList(requestParameters.uid, requestParameters.page, requestParameters.limit, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Get metadata about a snapshot, including where it is in its processing and final results.
+     * @param {MigrationsApiGetSnapshotRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof MigrationsApi
+     */
+    public getSnapshot(requestParameters: MigrationsApiGetSnapshotRequest, options?: RawAxiosRequestConfig) {
+        return MigrationsApiFp(this.configuration).getSnapshot(requestParameters.uid, requestParameters.snapshotUid, requestParameters.resultPage, requestParameters.resultLimit, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * It returns migrations that has been created.
+     * @summary Trigger the run of a migration to the Grafana Cloud.
+     * @param {MigrationsApiRunCloudMigrationRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof MigrationsApi
+     */
+    public runCloudMigration(requestParameters: MigrationsApiRunCloudMigrationRequest, options?: RawAxiosRequestConfig) {
+        return MigrationsApiFp(this.configuration).runCloudMigration(requestParameters.uid, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Upload a snapshot to the Grafana Migration Service for processing.
+     * @param {MigrationsApiUploadSnapshotRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof MigrationsApi
+     */
+    public uploadSnapshot(requestParameters: MigrationsApiUploadSnapshotRequest, options?: RawAxiosRequestConfig) {
+        return MigrationsApiFp(this.configuration).uploadSnapshot(requestParameters.uid, requestParameters.snapshotUid, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -37149,10 +40603,12 @@ export const ProvisioningApiAxiosParamCreator = function (configuration?: Config
          * 
          * @summary Delete a mute timing.
          * @param {string} name Mute timing name
+         * @param {string} [version] Version of mute timing to use for optimistic concurrency. Leave empty to disable validation
+         * @param {string} [xDisableProvenance] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        routeDeleteMuteTiming: async (name: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        routeDeleteMuteTiming: async (name: string, version?: string, xDisableProvenance?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'name' is not null or undefined
             assertParamExists('routeDeleteMuteTiming', 'name', name)
             const localVarPath = `/v1/provisioning/mute-timings/{name}`
@@ -37175,8 +40631,15 @@ export const ProvisioningApiAxiosParamCreator = function (configuration?: Config
             // http basic authentication required
             setBasicAuthToObject(localVarRequestOptions, configuration)
 
+            if (version !== undefined) {
+                localVarQueryParameter['version'] = version;
+            }
+
 
     
+            if (xDisableProvenance != null) {
+                localVarHeaderParameter['X-Disable-Provenance'] = String(xDisableProvenance);
+            }
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
@@ -37189,11 +40652,12 @@ export const ProvisioningApiAxiosParamCreator = function (configuration?: Config
         /**
          * 
          * @summary Delete a template.
-         * @param {string} name Template Name
+         * @param {string} name Template name
+         * @param {string} [version] Version of template to use for optimistic concurrency. Leave empty to disable validation
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        routeDeleteTemplate: async (name: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        routeDeleteTemplate: async (name: string, version?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'name' is not null or undefined
             assertParamExists('routeDeleteTemplate', 'name', name)
             const localVarPath = `/v1/provisioning/templates/{name}`
@@ -37215,6 +40679,10 @@ export const ProvisioningApiAxiosParamCreator = function (configuration?: Config
             // authentication basic required
             // http basic authentication required
             setBasicAuthToObject(localVarRequestOptions, configuration)
+
+            if (version !== undefined) {
+                localVarQueryParameter['version'] = version;
+            }
 
 
     
@@ -38465,11 +41933,13 @@ export const ProvisioningApiFp = function(configuration?: Configuration) {
          * 
          * @summary Delete a mute timing.
          * @param {string} name Mute timing name
+         * @param {string} [version] Version of mute timing to use for optimistic concurrency. Leave empty to disable validation
+         * @param {string} [xDisableProvenance] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async routeDeleteMuteTiming(name: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.routeDeleteMuteTiming(name, options);
+        async routeDeleteMuteTiming(name: string, version?: string, xDisableProvenance?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.routeDeleteMuteTiming(name, version, xDisableProvenance, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['ProvisioningApi.routeDeleteMuteTiming']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -38477,12 +41947,13 @@ export const ProvisioningApiFp = function(configuration?: Configuration) {
         /**
          * 
          * @summary Delete a template.
-         * @param {string} name Template Name
+         * @param {string} name Template name
+         * @param {string} [version] Version of template to use for optimistic concurrency. Leave empty to disable validation
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async routeDeleteTemplate(name: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.routeDeleteTemplate(name, options);
+        async routeDeleteTemplate(name: string, version?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.routeDeleteTemplate(name, version, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['ProvisioningApi.routeDeleteTemplate']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -38897,7 +42368,7 @@ export const ProvisioningApiFactory = function (configuration?: Configuration, b
          * @throws {RequiredError}
          */
         routeDeleteMuteTiming(requestParameters: ProvisioningApiRouteDeleteMuteTimingRequest, options?: RawAxiosRequestConfig): AxiosPromise<void> {
-            return localVarFp.routeDeleteMuteTiming(requestParameters.name, options).then((request) => request(axios, basePath));
+            return localVarFp.routeDeleteMuteTiming(requestParameters.name, requestParameters.version, requestParameters.xDisableProvenance, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -38907,7 +42378,7 @@ export const ProvisioningApiFactory = function (configuration?: Configuration, b
          * @throws {RequiredError}
          */
         routeDeleteTemplate(requestParameters: ProvisioningApiRouteDeleteTemplateRequest, options?: RawAxiosRequestConfig): AxiosPromise<void> {
-            return localVarFp.routeDeleteTemplate(requestParameters.name, options).then((request) => request(axios, basePath));
+            return localVarFp.routeDeleteTemplate(requestParameters.name, requestParameters.version, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -39234,6 +42705,20 @@ export interface ProvisioningApiRouteDeleteMuteTimingRequest {
      * @memberof ProvisioningApiRouteDeleteMuteTiming
      */
     readonly name: string
+
+    /**
+     * Version of mute timing to use for optimistic concurrency. Leave empty to disable validation
+     * @type {string}
+     * @memberof ProvisioningApiRouteDeleteMuteTiming
+     */
+    readonly version?: string
+
+    /**
+     * 
+     * @type {string}
+     * @memberof ProvisioningApiRouteDeleteMuteTiming
+     */
+    readonly xDisableProvenance?: string
 }
 
 /**
@@ -39243,11 +42728,18 @@ export interface ProvisioningApiRouteDeleteMuteTimingRequest {
  */
 export interface ProvisioningApiRouteDeleteTemplateRequest {
     /**
-     * Template Name
+     * Template name
      * @type {string}
      * @memberof ProvisioningApiRouteDeleteTemplate
      */
     readonly name: string
+
+    /**
+     * Version of template to use for optimistic concurrency. Leave empty to disable validation
+     * @type {string}
+     * @memberof ProvisioningApiRouteDeleteTemplate
+     */
+    readonly version?: string
 }
 
 /**
@@ -39798,7 +43290,7 @@ export class ProvisioningApi extends BaseAPI {
      * @memberof ProvisioningApi
      */
     public routeDeleteMuteTiming(requestParameters: ProvisioningApiRouteDeleteMuteTimingRequest, options?: RawAxiosRequestConfig) {
-        return ProvisioningApiFp(this.configuration).routeDeleteMuteTiming(requestParameters.name, options).then((request) => request(this.axios, this.basePath));
+        return ProvisioningApiFp(this.configuration).routeDeleteMuteTiming(requestParameters.name, requestParameters.version, requestParameters.xDisableProvenance, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -39810,7 +43302,7 @@ export class ProvisioningApi extends BaseAPI {
      * @memberof ProvisioningApi
      */
     public routeDeleteTemplate(requestParameters: ProvisioningApiRouteDeleteTemplateRequest, options?: RawAxiosRequestConfig) {
-        return ProvisioningApiFp(this.configuration).routeDeleteTemplate(requestParameters.name, options).then((request) => request(this.axios, this.basePath));
+        return ProvisioningApiFp(this.configuration).routeDeleteTemplate(requestParameters.name, requestParameters.version, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -41584,11 +45076,11 @@ export const ReportsApiAxiosParamCreator = function (configuration?: Configurati
         /**
          * Available to org admins only and with a valid license.  You need to have a permission with action `reports.admin:create`.
          * @summary Create a report.
-         * @param {CreateOrUpdateReportConfig} body 
+         * @param {CreateOrUpdateReport} body 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createReport: async (body: CreateOrUpdateReportConfig, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        createReport: async (body: CreateOrUpdateReport, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'body' is not null or undefined
             assertParamExists('createReport', 'body', body)
             const localVarPath = `/reports`;
@@ -41708,7 +45200,7 @@ export const ReportsApiAxiosParamCreator = function (configuration?: Configurati
         },
         /**
          * Available to org admins only and with a valid or expired license.  You need to have a permission with action `reports.settings:read`x.
-         * @summary Get settings.
+         * @summary Get report settings.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -41781,9 +45273,93 @@ export const ReportsApiAxiosParamCreator = function (configuration?: Configurati
             };
         },
         /**
+         * Available to org admins only and with a valid or expired license.  You need to have a permission with action `reports.settings:read`.
+         * @summary Get custom branding report image.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getSettingsImage: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/reports/images/:image`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication api_key required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+            // authentication basic required
+            // http basic authentication required
+            setBasicAuthToObject(localVarRequestOptions, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Available to all users and with a valid license.
+         * @summary Download a CSV report.
+         * @param {string} [dashboards] 
+         * @param {string} [title] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        renderReportCSVs: async (dashboards?: string, title?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/reports/render/csvs`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication api_key required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+            // authentication basic required
+            // http basic authentication required
+            setBasicAuthToObject(localVarRequestOptions, configuration)
+
+            if (dashboards !== undefined) {
+                localVarQueryParameter['dashboards'] = dashboards;
+            }
+
+            if (title !== undefined) {
+                localVarQueryParameter['title'] = title;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
          * Available to all users and with a valid license.
          * @summary Render report for multiple dashboards.
-         * @param {string} [dashboardID] 
+         * @param {string} [dashboards] 
          * @param {string} [orientation] 
          * @param {string} [layout] 
          * @param {string} [title] 
@@ -41792,7 +45368,7 @@ export const ReportsApiAxiosParamCreator = function (configuration?: Configurati
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        renderReportPDFs: async (dashboardID?: string, orientation?: string, layout?: string, title?: string, scaleFactor?: string, includeTables?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        renderReportPDFs: async (dashboards?: string, orientation?: string, layout?: string, title?: string, scaleFactor?: string, includeTables?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/reports/render/pdfs`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -41812,8 +45388,8 @@ export const ReportsApiAxiosParamCreator = function (configuration?: Configurati
             // http basic authentication required
             setBasicAuthToObject(localVarRequestOptions, configuration)
 
-            if (dashboardID !== undefined) {
-                localVarQueryParameter['dashboardID'] = dashboardID;
+            if (dashboards !== undefined) {
+                localVarQueryParameter['dashboards'] = dashboards;
             }
 
             if (orientation !== undefined) {
@@ -41936,11 +45512,11 @@ export const ReportsApiAxiosParamCreator = function (configuration?: Configurati
         /**
          * Available to org admins only and with a valid license.  You need to have a permission with action `reports:send`.
          * @summary Send test report via email.
-         * @param {CreateOrUpdateReportConfig} body 
+         * @param {CreateOrUpdateReport} body 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        sendTestEmail: async (body: CreateOrUpdateReportConfig, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        sendTestEmail: async (body: CreateOrUpdateReport, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'body' is not null or undefined
             assertParamExists('sendTestEmail', 'body', body)
             const localVarPath = `/reports/test-email`;
@@ -41980,11 +45556,11 @@ export const ReportsApiAxiosParamCreator = function (configuration?: Configurati
          * Available to org admins only and with a valid or expired license.  You need to have a permission with action `reports.admin:write` with scope `reports:id:<report ID>`.
          * @summary Update a report.
          * @param {number} id 
-         * @param {CreateOrUpdateReportConfig} body 
+         * @param {CreateOrUpdateReport} body 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateReport: async (id: number, body: CreateOrUpdateReportConfig, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        updateReport: async (id: number, body: CreateOrUpdateReport, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('updateReport', 'id', id)
             // verify required parameter 'body' is not null or undefined
@@ -42036,11 +45612,11 @@ export const ReportsApiFp = function(configuration?: Configuration) {
         /**
          * Available to org admins only and with a valid license.  You need to have a permission with action `reports.admin:create`.
          * @summary Create a report.
-         * @param {CreateOrUpdateReportConfig} body 
+         * @param {CreateOrUpdateReport} body 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async createReport(body: CreateOrUpdateReportConfig, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CreateReport200Response>> {
+        async createReport(body: CreateOrUpdateReport, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CreateReport200Response>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.createReport(body, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['ReportsApi.createReport']?.[localVarOperationServerIndex]?.url;
@@ -42074,7 +45650,7 @@ export const ReportsApiFp = function(configuration?: Configuration) {
         },
         /**
          * Available to org admins only and with a valid or expired license.  You need to have a permission with action `reports.settings:read`x.
-         * @summary Get settings.
+         * @summary Get report settings.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -42097,9 +45673,35 @@ export const ReportsApiFp = function(configuration?: Configuration) {
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
+         * Available to org admins only and with a valid or expired license.  You need to have a permission with action `reports.settings:read`.
+         * @summary Get custom branding report image.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getSettingsImage(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<number>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getSettingsImage(options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['ReportsApi.getSettingsImage']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * Available to all users and with a valid license.
+         * @summary Download a CSV report.
+         * @param {string} [dashboards] 
+         * @param {string} [title] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async renderReportCSVs(dashboards?: string, title?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<number>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.renderReportCSVs(dashboards, title, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['ReportsApi.renderReportCSVs']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
          * Available to all users and with a valid license.
          * @summary Render report for multiple dashboards.
-         * @param {string} [dashboardID] 
+         * @param {string} [dashboards] 
          * @param {string} [orientation] 
          * @param {string} [layout] 
          * @param {string} [title] 
@@ -42108,8 +45710,8 @@ export const ReportsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async renderReportPDFs(dashboardID?: string, orientation?: string, layout?: string, title?: string, scaleFactor?: string, includeTables?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<number>>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.renderReportPDFs(dashboardID, orientation, layout, title, scaleFactor, includeTables, options);
+        async renderReportPDFs(dashboards?: string, orientation?: string, layout?: string, title?: string, scaleFactor?: string, includeTables?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<number>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.renderReportPDFs(dashboards, orientation, layout, title, scaleFactor, includeTables, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['ReportsApi.renderReportPDFs']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -42143,11 +45745,11 @@ export const ReportsApiFp = function(configuration?: Configuration) {
         /**
          * Available to org admins only and with a valid license.  You need to have a permission with action `reports:send`.
          * @summary Send test report via email.
-         * @param {CreateOrUpdateReportConfig} body 
+         * @param {CreateOrUpdateReport} body 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sendTestEmail(body: CreateOrUpdateReportConfig, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<SuccessResponseBody>> {
+        async sendTestEmail(body: CreateOrUpdateReport, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<SuccessResponseBody>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.sendTestEmail(body, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['ReportsApi.sendTestEmail']?.[localVarOperationServerIndex]?.url;
@@ -42157,11 +45759,11 @@ export const ReportsApiFp = function(configuration?: Configuration) {
          * Available to org admins only and with a valid or expired license.  You need to have a permission with action `reports.admin:write` with scope `reports:id:<report ID>`.
          * @summary Update a report.
          * @param {number} id 
-         * @param {CreateOrUpdateReportConfig} body 
+         * @param {CreateOrUpdateReport} body 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async updateReport(id: number, body: CreateOrUpdateReportConfig, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<SuccessResponseBody>> {
+        async updateReport(id: number, body: CreateOrUpdateReport, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<SuccessResponseBody>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.updateReport(id, body, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['ReportsApi.updateReport']?.[localVarOperationServerIndex]?.url;
@@ -42209,7 +45811,7 @@ export const ReportsApiFactory = function (configuration?: Configuration, basePa
         },
         /**
          * Available to org admins only and with a valid or expired license.  You need to have a permission with action `reports.settings:read`x.
-         * @summary Get settings.
+         * @summary Get report settings.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -42226,6 +45828,25 @@ export const ReportsApiFactory = function (configuration?: Configuration, basePa
             return localVarFp.getReports(options).then((request) => request(axios, basePath));
         },
         /**
+         * Available to org admins only and with a valid or expired license.  You need to have a permission with action `reports.settings:read`.
+         * @summary Get custom branding report image.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getSettingsImage(options?: RawAxiosRequestConfig): AxiosPromise<Array<number>> {
+            return localVarFp.getSettingsImage(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Available to all users and with a valid license.
+         * @summary Download a CSV report.
+         * @param {ReportsApiRenderReportCSVsRequest} requestParameters Request parameters.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        renderReportCSVs(requestParameters: ReportsApiRenderReportCSVsRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<Array<number>> {
+            return localVarFp.renderReportCSVs(requestParameters.dashboards, requestParameters.title, options).then((request) => request(axios, basePath));
+        },
+        /**
          * Available to all users and with a valid license.
          * @summary Render report for multiple dashboards.
          * @param {ReportsApiRenderReportPDFsRequest} requestParameters Request parameters.
@@ -42233,7 +45854,7 @@ export const ReportsApiFactory = function (configuration?: Configuration, basePa
          * @throws {RequiredError}
          */
         renderReportPDFs(requestParameters: ReportsApiRenderReportPDFsRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<Array<number>> {
-            return localVarFp.renderReportPDFs(requestParameters.dashboardID, requestParameters.orientation, requestParameters.layout, requestParameters.title, requestParameters.scaleFactor, requestParameters.includeTables, options).then((request) => request(axios, basePath));
+            return localVarFp.renderReportPDFs(requestParameters.dashboards, requestParameters.orientation, requestParameters.layout, requestParameters.title, requestParameters.scaleFactor, requestParameters.includeTables, options).then((request) => request(axios, basePath));
         },
         /**
          * Available to org admins only and with a valid or expired license.  You need to have a permission with action `reports.settings:write`xx.
@@ -42286,10 +45907,10 @@ export const ReportsApiFactory = function (configuration?: Configuration, basePa
 export interface ReportsApiCreateReportRequest {
     /**
      * 
-     * @type {CreateOrUpdateReportConfig}
+     * @type {CreateOrUpdateReport}
      * @memberof ReportsApiCreateReport
      */
-    readonly body: CreateOrUpdateReportConfig
+    readonly body: CreateOrUpdateReport
 }
 
 /**
@@ -42321,6 +45942,27 @@ export interface ReportsApiGetReportRequest {
 }
 
 /**
+ * Request parameters for renderReportCSVs operation in ReportsApi.
+ * @export
+ * @interface ReportsApiRenderReportCSVsRequest
+ */
+export interface ReportsApiRenderReportCSVsRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof ReportsApiRenderReportCSVs
+     */
+    readonly dashboards?: string
+
+    /**
+     * 
+     * @type {string}
+     * @memberof ReportsApiRenderReportCSVs
+     */
+    readonly title?: string
+}
+
+/**
  * Request parameters for renderReportPDFs operation in ReportsApi.
  * @export
  * @interface ReportsApiRenderReportPDFsRequest
@@ -42331,7 +45973,7 @@ export interface ReportsApiRenderReportPDFsRequest {
      * @type {string}
      * @memberof ReportsApiRenderReportPDFs
      */
-    readonly dashboardID?: string
+    readonly dashboards?: string
 
     /**
      * 
@@ -42405,10 +46047,10 @@ export interface ReportsApiSendReportRequest {
 export interface ReportsApiSendTestEmailRequest {
     /**
      * 
-     * @type {CreateOrUpdateReportConfig}
+     * @type {CreateOrUpdateReport}
      * @memberof ReportsApiSendTestEmail
      */
-    readonly body: CreateOrUpdateReportConfig
+    readonly body: CreateOrUpdateReport
 }
 
 /**
@@ -42426,10 +46068,10 @@ export interface ReportsApiUpdateReportRequest {
 
     /**
      * 
-     * @type {CreateOrUpdateReportConfig}
+     * @type {CreateOrUpdateReport}
      * @memberof ReportsApiUpdateReport
      */
-    readonly body: CreateOrUpdateReportConfig
+    readonly body: CreateOrUpdateReport
 }
 
 /**
@@ -42477,7 +46119,7 @@ export class ReportsApi extends BaseAPI {
 
     /**
      * Available to org admins only and with a valid or expired license.  You need to have a permission with action `reports.settings:read`x.
-     * @summary Get settings.
+     * @summary Get report settings.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ReportsApi
@@ -42498,6 +46140,29 @@ export class ReportsApi extends BaseAPI {
     }
 
     /**
+     * Available to org admins only and with a valid or expired license.  You need to have a permission with action `reports.settings:read`.
+     * @summary Get custom branding report image.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ReportsApi
+     */
+    public getSettingsImage(options?: RawAxiosRequestConfig) {
+        return ReportsApiFp(this.configuration).getSettingsImage(options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Available to all users and with a valid license.
+     * @summary Download a CSV report.
+     * @param {ReportsApiRenderReportCSVsRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ReportsApi
+     */
+    public renderReportCSVs(requestParameters: ReportsApiRenderReportCSVsRequest = {}, options?: RawAxiosRequestConfig) {
+        return ReportsApiFp(this.configuration).renderReportCSVs(requestParameters.dashboards, requestParameters.title, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
      * Available to all users and with a valid license.
      * @summary Render report for multiple dashboards.
      * @param {ReportsApiRenderReportPDFsRequest} requestParameters Request parameters.
@@ -42506,7 +46171,7 @@ export class ReportsApi extends BaseAPI {
      * @memberof ReportsApi
      */
     public renderReportPDFs(requestParameters: ReportsApiRenderReportPDFsRequest = {}, options?: RawAxiosRequestConfig) {
-        return ReportsApiFp(this.configuration).renderReportPDFs(requestParameters.dashboardID, requestParameters.orientation, requestParameters.layout, requestParameters.title, requestParameters.scaleFactor, requestParameters.includeTables, options).then((request) => request(this.axios, this.basePath));
+        return ReportsApiFp(this.configuration).renderReportPDFs(requestParameters.dashboards, requestParameters.orientation, requestParameters.layout, requestParameters.title, requestParameters.scaleFactor, requestParameters.includeTables, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -43058,10 +46723,11 @@ export const SearchApiAxiosParamCreator = function (configuration?: Configuratio
          * @param {number} [page] Use this parameter to access hits beyond limit. Numbering starts at 1. limit param acts as page size. Only available in Grafana v6.2+.
          * @param {SearchPermissionEnum} [permission] Set to &#x60;Edit&#x60; to return dashboards/folders that the user can edit
          * @param {SearchSortEnum} [sort] Sort method; for listing all the possible sort methods use the search sorting endpoint.
+         * @param {boolean} [deleted] Flag indicating if only soft deleted Dashboards should be returned
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        search: async (query?: string, tag?: Array<string>, type?: SearchTypeEnum, dashboardIds?: Array<number>, dashboardUIDs?: Array<string>, folderIds?: Array<number>, folderUIDs?: Array<string>, starred?: boolean, limit?: number, page?: number, permission?: SearchPermissionEnum, sort?: SearchSortEnum, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        search: async (query?: string, tag?: Array<string>, type?: SearchTypeEnum, dashboardIds?: Array<number>, dashboardUIDs?: Array<string>, folderIds?: Array<number>, folderUIDs?: Array<string>, starred?: boolean, limit?: number, page?: number, permission?: SearchPermissionEnum, sort?: SearchSortEnum, deleted?: boolean, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/search`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -43129,6 +46795,10 @@ export const SearchApiAxiosParamCreator = function (configuration?: Configuratio
                 localVarQueryParameter['sort'] = sort;
             }
 
+            if (deleted !== undefined) {
+                localVarQueryParameter['deleted'] = deleted;
+            }
+
 
     
             setSearchParams(localVarUrlObj, localVarQueryParameter);
@@ -43176,11 +46846,12 @@ export const SearchApiFp = function(configuration?: Configuration) {
          * @param {number} [page] Use this parameter to access hits beyond limit. Numbering starts at 1. limit param acts as page size. Only available in Grafana v6.2+.
          * @param {SearchPermissionEnum} [permission] Set to &#x60;Edit&#x60; to return dashboards/folders that the user can edit
          * @param {SearchSortEnum} [sort] Sort method; for listing all the possible sort methods use the search sorting endpoint.
+         * @param {boolean} [deleted] Flag indicating if only soft deleted Dashboards should be returned
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async search(query?: string, tag?: Array<string>, type?: SearchTypeEnum, dashboardIds?: Array<number>, dashboardUIDs?: Array<string>, folderIds?: Array<number>, folderUIDs?: Array<string>, starred?: boolean, limit?: number, page?: number, permission?: SearchPermissionEnum, sort?: SearchSortEnum, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Hit>>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.search(query, tag, type, dashboardIds, dashboardUIDs, folderIds, folderUIDs, starred, limit, page, permission, sort, options);
+        async search(query?: string, tag?: Array<string>, type?: SearchTypeEnum, dashboardIds?: Array<number>, dashboardUIDs?: Array<string>, folderIds?: Array<number>, folderUIDs?: Array<string>, starred?: boolean, limit?: number, page?: number, permission?: SearchPermissionEnum, sort?: SearchSortEnum, deleted?: boolean, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Hit>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.search(query, tag, type, dashboardIds, dashboardUIDs, folderIds, folderUIDs, starred, limit, page, permission, sort, deleted, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['SearchApi.search']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -43211,7 +46882,7 @@ export const SearchApiFactory = function (configuration?: Configuration, basePat
          * @throws {RequiredError}
          */
         search(requestParameters: SearchApiSearchRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<Array<Hit>> {
-            return localVarFp.search(requestParameters.query, requestParameters.tag, requestParameters.type, requestParameters.dashboardIds, requestParameters.dashboardUIDs, requestParameters.folderIds, requestParameters.folderUIDs, requestParameters.starred, requestParameters.limit, requestParameters.page, requestParameters.permission, requestParameters.sort, options).then((request) => request(axios, basePath));
+            return localVarFp.search(requestParameters.query, requestParameters.tag, requestParameters.type, requestParameters.dashboardIds, requestParameters.dashboardUIDs, requestParameters.folderIds, requestParameters.folderUIDs, requestParameters.starred, requestParameters.limit, requestParameters.page, requestParameters.permission, requestParameters.sort, requestParameters.deleted, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -43305,6 +46976,13 @@ export interface SearchApiSearchRequest {
      * @memberof SearchApiSearch
      */
     readonly sort?: SearchSortEnum
+
+    /**
+     * Flag indicating if only soft deleted Dashboards should be returned
+     * @type {boolean}
+     * @memberof SearchApiSearch
+     */
+    readonly deleted?: boolean
 }
 
 /**
@@ -43333,7 +47011,7 @@ export class SearchApi extends BaseAPI {
      * @memberof SearchApi
      */
     public search(requestParameters: SearchApiSearchRequest = {}, options?: RawAxiosRequestConfig) {
-        return SearchApiFp(this.configuration).search(requestParameters.query, requestParameters.tag, requestParameters.type, requestParameters.dashboardIds, requestParameters.dashboardUIDs, requestParameters.folderIds, requestParameters.folderUIDs, requestParameters.starred, requestParameters.limit, requestParameters.page, requestParameters.permission, requestParameters.sort, options).then((request) => request(this.axios, this.basePath));
+        return SearchApiFp(this.configuration).search(requestParameters.query, requestParameters.tag, requestParameters.type, requestParameters.dashboardIds, requestParameters.dashboardUIDs, requestParameters.folderIds, requestParameters.folderUIDs, requestParameters.starred, requestParameters.limit, requestParameters.page, requestParameters.permission, requestParameters.sort, requestParameters.deleted, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -47251,6 +50929,53 @@ export const TeamsApiAxiosParamCreator = function (configuration?: Configuration
             };
         },
         /**
+         * Takes user emails, and updates team members and admins to the provided lists of users. Any current team members and admins not in the provided lists will be removed.
+         * @summary Set team memberships.
+         * @param {string} teamId 
+         * @param {SetTeamMembershipsCommand} body 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        setTeamMemberships: async (teamId: string, body: SetTeamMembershipsCommand, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'teamId' is not null or undefined
+            assertParamExists('setTeamMemberships', 'teamId', teamId)
+            // verify required parameter 'body' is not null or undefined
+            assertParamExists('setTeamMemberships', 'body', body)
+            const localVarPath = `/teams/{team_id}/members`
+                .replace(`{${"team_id"}}`, encodeURIComponent(String(teamId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication api_key required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+            // authentication basic required
+            // http basic authentication required
+            setBasicAuthToObject(localVarRequestOptions, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(body, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
          * 
          * @summary Update Team.
          * @param {string} teamId 
@@ -47515,6 +51240,20 @@ export const TeamsApiFp = function(configuration?: Configuration) {
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
+         * Takes user emails, and updates team members and admins to the provided lists of users. Any current team members and admins not in the provided lists will be removed.
+         * @summary Set team memberships.
+         * @param {string} teamId 
+         * @param {SetTeamMembershipsCommand} body 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async setTeamMemberships(teamId: string, body: SetTeamMembershipsCommand, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<SuccessResponseBody>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.setTeamMemberships(teamId, body, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['TeamsApi.setTeamMemberships']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
          * 
          * @summary Update Team.
          * @param {string} teamId 
@@ -47646,6 +51385,16 @@ export const TeamsApiFactory = function (configuration?: Configuration, basePath
          */
         searchTeams(requestParameters: TeamsApiSearchTeamsRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<SearchTeamQueryResult> {
             return localVarFp.searchTeams(requestParameters.page, requestParameters.perpage, requestParameters.name, requestParameters.query, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Takes user emails, and updates team members and admins to the provided lists of users. Any current team members and admins not in the provided lists will be removed.
+         * @summary Set team memberships.
+         * @param {TeamsApiSetTeamMembershipsRequest} requestParameters Request parameters.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        setTeamMemberships(requestParameters: TeamsApiSetTeamMembershipsRequest, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponseBody> {
+            return localVarFp.setTeamMemberships(requestParameters.teamId, requestParameters.body, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -47828,6 +51577,27 @@ export interface TeamsApiSearchTeamsRequest {
 }
 
 /**
+ * Request parameters for setTeamMemberships operation in TeamsApi.
+ * @export
+ * @interface TeamsApiSetTeamMembershipsRequest
+ */
+export interface TeamsApiSetTeamMembershipsRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof TeamsApiSetTeamMemberships
+     */
+    readonly teamId: string
+
+    /**
+     * 
+     * @type {SetTeamMembershipsCommand}
+     * @memberof TeamsApiSetTeamMemberships
+     */
+    readonly body: SetTeamMembershipsCommand
+}
+
+/**
  * Request parameters for updateTeam operation in TeamsApi.
  * @export
  * @interface TeamsApiUpdateTeamRequest
@@ -47998,6 +51768,18 @@ export class TeamsApi extends BaseAPI {
      */
     public searchTeams(requestParameters: TeamsApiSearchTeamsRequest = {}, options?: RawAxiosRequestConfig) {
         return TeamsApiFp(this.configuration).searchTeams(requestParameters.page, requestParameters.perpage, requestParameters.name, requestParameters.query, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Takes user emails, and updates team members and admins to the provided lists of users. Any current team members and admins not in the provided lists will be removed.
+     * @summary Set team memberships.
+     * @param {TeamsApiSetTeamMembershipsRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof TeamsApi
+     */
+    public setTeamMemberships(requestParameters: TeamsApiSetTeamMembershipsRequest, options?: RawAxiosRequestConfig) {
+        return TeamsApiFp(this.configuration).setTeamMemberships(requestParameters.teamId, requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**

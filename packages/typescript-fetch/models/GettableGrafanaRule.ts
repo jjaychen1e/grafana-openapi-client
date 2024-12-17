@@ -27,6 +27,13 @@ import {
     AlertRuleNotificationSettingsToJSON,
     AlertRuleNotificationSettingsToJSONTyped,
 } from './AlertRuleNotificationSettings';
+import type { Record } from './Record';
+import {
+    RecordFromJSON,
+    RecordFromJSONTyped,
+    RecordToJSON,
+    RecordToJSONTyped,
+} from './Record';
 
 /**
  * 
@@ -100,6 +107,12 @@ export interface GettableGrafanaRule {
      * @memberof GettableGrafanaRule
      */
     provenance?: string;
+    /**
+     * 
+     * @type {Record}
+     * @memberof GettableGrafanaRule
+     */
+    record?: Record;
     /**
      * 
      * @type {string}
@@ -182,6 +195,7 @@ export function GettableGrafanaRuleFromJSONTyped(json: any, ignoreDiscriminator:
         'notificationSettings': json['notification_settings'] == null ? undefined : AlertRuleNotificationSettingsFromJSON(json['notification_settings']),
         'orgId': json['orgId'] == null ? undefined : json['orgId'],
         'provenance': json['provenance'] == null ? undefined : json['provenance'],
+        'record': json['record'] == null ? undefined : RecordFromJSON(json['record']),
         'ruleGroup': json['rule_group'] == null ? undefined : json['rule_group'],
         'title': json['title'] == null ? undefined : json['title'],
         'uid': json['uid'] == null ? undefined : json['uid'],
@@ -212,6 +226,7 @@ export function GettableGrafanaRuleToJSONTyped(value?: GettableGrafanaRule | nul
         'notification_settings': AlertRuleNotificationSettingsToJSON(value['notificationSettings']),
         'orgId': value['orgId'],
         'provenance': value['provenance'],
+        'record': RecordToJSON(value['record']),
         'rule_group': value['ruleGroup'],
         'title': value['title'],
         'uid': value['uid'],

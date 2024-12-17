@@ -27,6 +27,13 @@ import {
     AlertRuleNotificationSettingsToJSON,
     AlertRuleNotificationSettingsToJSONTyped,
 } from './AlertRuleNotificationSettings';
+import type { Record } from './Record';
+import {
+    RecordFromJSON,
+    RecordFromJSONTyped,
+    RecordToJSON,
+    RecordToJSONTyped,
+} from './Record';
 
 /**
  * 
@@ -70,6 +77,12 @@ export interface PostableGrafanaRule {
      * @memberof PostableGrafanaRule
      */
     notificationSettings?: AlertRuleNotificationSettings;
+    /**
+     * 
+     * @type {Record}
+     * @memberof PostableGrafanaRule
+     */
+    record?: Record;
     /**
      * 
      * @type {string}
@@ -129,6 +142,7 @@ export function PostableGrafanaRuleFromJSONTyped(json: any, ignoreDiscriminator:
         'isPaused': json['is_paused'] == null ? undefined : json['is_paused'],
         'noDataState': json['no_data_state'] == null ? undefined : json['no_data_state'],
         'notificationSettings': json['notification_settings'] == null ? undefined : AlertRuleNotificationSettingsFromJSON(json['notification_settings']),
+        'record': json['record'] == null ? undefined : RecordFromJSON(json['record']),
         'title': json['title'] == null ? undefined : json['title'],
         'uid': json['uid'] == null ? undefined : json['uid'],
     };
@@ -151,6 +165,7 @@ export function PostableGrafanaRuleToJSONTyped(value?: PostableGrafanaRule | nul
         'is_paused': value['isPaused'],
         'no_data_state': value['noDataState'],
         'notification_settings': AlertRuleNotificationSettingsToJSON(value['notificationSettings']),
+        'record': RecordToJSON(value['record']),
         'title': value['title'],
         'uid': value['uid'],
     };

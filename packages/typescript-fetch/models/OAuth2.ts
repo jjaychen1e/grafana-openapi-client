@@ -59,6 +59,13 @@ export interface OAuth2 {
      */
     clientSecretFile?: string;
     /**
+     * ClientSecretRef is the name of the secret within the secret manager to use as the client
+     * secret.
+     * @type {string}
+     * @memberof OAuth2
+     */
+    clientSecretRef?: string;
+    /**
      * 
      * @type {{ [key: string]: string; }}
      * @memberof OAuth2
@@ -124,6 +131,7 @@ export function OAuth2FromJSONTyped(json: any, ignoreDiscriminator: boolean): OA
         'clientId': json['client_id'] == null ? undefined : json['client_id'],
         'clientSecret': json['client_secret'] == null ? undefined : json['client_secret'],
         'clientSecretFile': json['client_secret_file'] == null ? undefined : json['client_secret_file'],
+        'clientSecretRef': json['client_secret_ref'] == null ? undefined : json['client_secret_ref'],
         'endpointParams': json['endpoint_params'] == null ? undefined : json['endpoint_params'],
         'noProxy': json['no_proxy'] == null ? undefined : json['no_proxy'],
         'proxyConnectHeader': json['proxy_connect_header'] == null ? undefined : json['proxy_connect_header'],
@@ -149,6 +157,7 @@ export function OAuth2ToJSONTyped(value?: OAuth2 | null, ignoreDiscriminator: bo
         'client_id': value['clientId'],
         'client_secret': value['clientSecret'],
         'client_secret_file': value['clientSecretFile'],
+        'client_secret_ref': value['clientSecretRef'],
         'endpoint_params': value['endpointParams'],
         'no_proxy': value['noProxy'],
         'proxy_connect_header': value['proxyConnectHeader'],

@@ -27,6 +27,13 @@ import {
     AlertRuleNotificationSettingsToJSON,
     AlertRuleNotificationSettingsToJSONTyped,
 } from './AlertRuleNotificationSettings';
+import type { Record } from './Record';
+import {
+    RecordFromJSON,
+    RecordFromJSONTyped,
+    RecordToJSON,
+    RecordToJSONTyped,
+} from './Record';
 
 /**
  * 
@@ -116,6 +123,12 @@ export interface ProvisionedAlertRule {
     provenance?: string;
     /**
      * 
+     * @type {Record}
+     * @memberof ProvisionedAlertRule
+     */
+    record?: Record;
+    /**
+     * 
      * @type {string}
      * @memberof ProvisionedAlertRule
      */
@@ -201,6 +214,7 @@ export function ProvisionedAlertRuleFromJSONTyped(json: any, ignoreDiscriminator
         'notificationSettings': json['notification_settings'] == null ? undefined : AlertRuleNotificationSettingsFromJSON(json['notification_settings']),
         'orgID': json['orgID'],
         'provenance': json['provenance'] == null ? undefined : json['provenance'],
+        'record': json['record'] == null ? undefined : RecordFromJSON(json['record']),
         'ruleGroup': json['ruleGroup'],
         'title': json['title'],
         'uid': json['uid'] == null ? undefined : json['uid'],
@@ -232,6 +246,7 @@ export function ProvisionedAlertRuleToJSONTyped(value?: Omit<ProvisionedAlertRul
         'notification_settings': AlertRuleNotificationSettingsToJSON(value['notificationSettings']),
         'orgID': value['orgID'],
         'provenance': value['provenance'],
+        'record': RecordToJSON(value['record']),
         'ruleGroup': value['ruleGroup'],
         'title': value['title'],
         'uid': value['uid'],

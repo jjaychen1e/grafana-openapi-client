@@ -34,6 +34,13 @@ import {
     BasicAuthToJSON,
     BasicAuthToJSONTyped,
 } from './BasicAuth';
+import type { Headers } from './Headers';
+import {
+    HeadersFromJSON,
+    HeadersFromJSONTyped,
+    HeadersToJSON,
+    HeadersToJSONTyped,
+} from './Headers';
 import type { TLSConfig } from './TLSConfig';
 import {
     TLSConfigFromJSON,
@@ -97,6 +104,12 @@ export interface HTTPClientConfig {
      */
     followRedirects?: boolean;
     /**
+     * 
+     * @type {Headers}
+     * @memberof HTTPClientConfig
+     */
+    httpHeaders?: Headers;
+    /**
      * NoProxy contains addresses that should not use a proxy.
      * @type {string}
      * @memberof HTTPClientConfig
@@ -158,6 +171,7 @@ export function HTTPClientConfigFromJSONTyped(json: any, ignoreDiscriminator: bo
         'bearerTokenFile': json['bearer_token_file'] == null ? undefined : json['bearer_token_file'],
         'enableHttp2': json['enable_http2'] == null ? undefined : json['enable_http2'],
         'followRedirects': json['follow_redirects'] == null ? undefined : json['follow_redirects'],
+        'httpHeaders': json['http_headers'] == null ? undefined : HeadersFromJSON(json['http_headers']),
         'noProxy': json['no_proxy'] == null ? undefined : json['no_proxy'],
         'oauth2': json['oauth2'] == null ? undefined : OAuth2FromJSON(json['oauth2']),
         'proxyConnectHeader': json['proxy_connect_header'] == null ? undefined : json['proxy_connect_header'],
@@ -184,6 +198,7 @@ export function HTTPClientConfigToJSONTyped(value?: HTTPClientConfig | null, ign
         'bearer_token_file': value['bearerTokenFile'],
         'enable_http2': value['enableHttp2'],
         'follow_redirects': value['followRedirects'],
+        'http_headers': HeadersToJSON(value['httpHeaders']),
         'no_proxy': value['noProxy'],
         'oauth2': OAuth2ToJSON(value['oauth2']),
         'proxy_connect_header': value['proxyConnectHeader'],

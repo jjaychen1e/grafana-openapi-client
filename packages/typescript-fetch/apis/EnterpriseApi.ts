@@ -19,7 +19,9 @@ import type {
   ActiveUserStats,
   AddTeamRoleCommand,
   AddUserRoleCommand,
-  CreateOrUpdateReportConfig,
+  CacheConfigResponse,
+  CacheConfigSetter,
+  CreateOrUpdateReport,
   CreateReport200Response,
   CreateRoleForm,
   DeleteTokenCommand,
@@ -50,8 +52,12 @@ import {
     AddTeamRoleCommandToJSON,
     AddUserRoleCommandFromJSON,
     AddUserRoleCommandToJSON,
-    CreateOrUpdateReportConfigFromJSON,
-    CreateOrUpdateReportConfigToJSON,
+    CacheConfigResponseFromJSON,
+    CacheConfigResponseToJSON,
+    CacheConfigSetterFromJSON,
+    CacheConfigSetterToJSON,
+    CreateOrUpdateReportFromJSON,
+    CreateOrUpdateReportToJSON,
     CreateReport200ResponseFromJSON,
     CreateReport200ResponseToJSON,
     CreateRoleFormFromJSON,
@@ -109,6 +115,10 @@ export interface EnterpriseApiAddUserRoleRequest {
     body: AddUserRoleCommand;
 }
 
+export interface EnterpriseApiCleanDataSourceCacheRequest {
+    dataSourceUID: string;
+}
+
 export interface EnterpriseApiCreateRecordingRuleRequest {
     body: RecordingRuleJSON;
 }
@@ -118,7 +128,7 @@ export interface EnterpriseApiCreateRecordingRuleWriteTargetRequest {
 }
 
 export interface EnterpriseApiCreateReportRequest {
-    body: CreateOrUpdateReportConfig;
+    body: CreateOrUpdateReport;
 }
 
 export interface EnterpriseApiCreateRoleRequest {
@@ -143,6 +153,18 @@ export interface EnterpriseApiDeleteRoleRequest {
     global?: boolean;
 }
 
+export interface EnterpriseApiDisableDataSourceCacheRequest {
+    dataSourceUID: string;
+}
+
+export interface EnterpriseApiEnableDataSourceCacheRequest {
+    dataSourceUID: string;
+}
+
+export interface EnterpriseApiGetDataSourceCacheConfigRequest {
+    dataSourceUID: string;
+}
+
 export interface EnterpriseApiGetReportRequest {
     id: number;
 }
@@ -159,8 +181,13 @@ export interface EnterpriseApiGetTeamGroupsApiRequest {
     teamId: number;
 }
 
+export interface EnterpriseApiGetTeamLBACRulesApiRequest {
+    uid: string;
+}
+
 export interface EnterpriseApiListRolesRequest {
     delegatable?: boolean;
+    includeHidden?: boolean;
 }
 
 export interface EnterpriseApiListTeamRolesRequest {
@@ -212,8 +239,13 @@ export interface EnterpriseApiRemoveUserRoleRequest {
     global?: boolean;
 }
 
+export interface EnterpriseApiRenderReportCSVsRequest {
+    dashboards?: string;
+    title?: string;
+}
+
 export interface EnterpriseApiRenderReportPDFsRequest {
-    dashboardID?: string;
+    dashboards?: string;
     orientation?: string;
     layout?: string;
     title?: string;
@@ -230,7 +262,12 @@ export interface EnterpriseApiSendReportRequest {
 }
 
 export interface EnterpriseApiSendTestEmailRequest {
-    body: CreateOrUpdateReportConfig;
+    body: CreateOrUpdateReport;
+}
+
+export interface EnterpriseApiSetDataSourceCacheConfigRequest {
+    dataSourceUID: string;
+    body: CacheConfigSetter;
 }
 
 export interface EnterpriseApiSetRoleAssignmentsRequest {
@@ -257,12 +294,16 @@ export interface EnterpriseApiUpdateRecordingRuleRequest {
 
 export interface EnterpriseApiUpdateReportRequest {
     id: number;
-    body: CreateOrUpdateReportConfig;
+    body: CreateOrUpdateReport;
 }
 
 export interface EnterpriseApiUpdateRoleRequest {
     roleUID: string;
     body: UpdateRoleCommand;
+}
+
+export interface EnterpriseApiUpdateTeamLBACRulesApiRequest {
+    uid: string;
 }
 
 /**
@@ -458,6 +499,46 @@ export class EnterpriseApi extends runtime.BaseAPI {
     }
 
     /**
+     * clean cache for a single data source
+     */
+    async cleanDataSourceCacheRaw(requestParameters: EnterpriseApiCleanDataSourceCacheRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<CacheConfigResponse>> {
+        if (requestParameters['dataSourceUID'] == null) {
+            throw new runtime.RequiredError(
+                'dataSourceUID',
+                'Required parameter "dataSourceUID" was null or undefined when calling cleanDataSourceCache().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["Authorization"] = await this.configuration.apiKey("Authorization"); // api_key authentication
+        }
+
+        if (this.configuration && (this.configuration.username !== undefined || this.configuration.password !== undefined)) {
+            headerParameters["Authorization"] = "Basic " + btoa(this.configuration.username + ":" + this.configuration.password);
+        }
+        const response = await this.request({
+            path: `/datasources/{dataSourceUID}/cache/clean`.replace(`{${"dataSourceUID"}}`, encodeURIComponent(String(requestParameters['dataSourceUID']))),
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => CacheConfigResponseFromJSON(jsonValue));
+    }
+
+    /**
+     * clean cache for a single data source
+     */
+    async cleanDataSourceCache(requestParameters: EnterpriseApiCleanDataSourceCacheRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<CacheConfigResponse> {
+        const response = await this.cleanDataSourceCacheRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
      * Create a recording rule that is then registered and started.
      */
     async createRecordingRuleRaw(requestParameters: EnterpriseApiCreateRecordingRuleRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<RecordingRuleJSON>> {
@@ -575,7 +656,7 @@ export class EnterpriseApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: CreateOrUpdateReportConfigToJSON(requestParameters['body']),
+            body: CreateOrUpdateReportToJSON(requestParameters['body']),
         }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => CreateReport200ResponseFromJSON(jsonValue));
@@ -846,6 +927,86 @@ export class EnterpriseApi extends runtime.BaseAPI {
     }
 
     /**
+     * disable cache for a single data source
+     */
+    async disableDataSourceCacheRaw(requestParameters: EnterpriseApiDisableDataSourceCacheRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<CacheConfigResponse>> {
+        if (requestParameters['dataSourceUID'] == null) {
+            throw new runtime.RequiredError(
+                'dataSourceUID',
+                'Required parameter "dataSourceUID" was null or undefined when calling disableDataSourceCache().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["Authorization"] = await this.configuration.apiKey("Authorization"); // api_key authentication
+        }
+
+        if (this.configuration && (this.configuration.username !== undefined || this.configuration.password !== undefined)) {
+            headerParameters["Authorization"] = "Basic " + btoa(this.configuration.username + ":" + this.configuration.password);
+        }
+        const response = await this.request({
+            path: `/datasources/{dataSourceUID}/cache/disable`.replace(`{${"dataSourceUID"}}`, encodeURIComponent(String(requestParameters['dataSourceUID']))),
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => CacheConfigResponseFromJSON(jsonValue));
+    }
+
+    /**
+     * disable cache for a single data source
+     */
+    async disableDataSourceCache(requestParameters: EnterpriseApiDisableDataSourceCacheRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<CacheConfigResponse> {
+        const response = await this.disableDataSourceCacheRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * enable cache for a single data source
+     */
+    async enableDataSourceCacheRaw(requestParameters: EnterpriseApiEnableDataSourceCacheRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<CacheConfigResponse>> {
+        if (requestParameters['dataSourceUID'] == null) {
+            throw new runtime.RequiredError(
+                'dataSourceUID',
+                'Required parameter "dataSourceUID" was null or undefined when calling enableDataSourceCache().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["Authorization"] = await this.configuration.apiKey("Authorization"); // api_key authentication
+        }
+
+        if (this.configuration && (this.configuration.username !== undefined || this.configuration.password !== undefined)) {
+            headerParameters["Authorization"] = "Basic " + btoa(this.configuration.username + ":" + this.configuration.password);
+        }
+        const response = await this.request({
+            path: `/datasources/{dataSourceUID}/cache/enable`.replace(`{${"dataSourceUID"}}`, encodeURIComponent(String(requestParameters['dataSourceUID']))),
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => CacheConfigResponseFromJSON(jsonValue));
+    }
+
+    /**
+     * enable cache for a single data source
+     */
+    async enableDataSourceCache(requestParameters: EnterpriseApiEnableDataSourceCacheRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<CacheConfigResponse> {
+        const response = await this.enableDataSourceCacheRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
      * Returns an indicator to check if fine-grained access control is enabled or not.  You need to have a permission with action `status:accesscontrol` and scope `services:accesscontrol`.
      * Get status.
      */
@@ -954,6 +1115,46 @@ export class EnterpriseApi extends runtime.BaseAPI {
      */
     async getCustomPermissionsReport(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
         await this.getCustomPermissionsReportRaw(initOverrides);
+    }
+
+    /**
+     * get cache config for a single data source
+     */
+    async getDataSourceCacheConfigRaw(requestParameters: EnterpriseApiGetDataSourceCacheConfigRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<CacheConfigResponse>> {
+        if (requestParameters['dataSourceUID'] == null) {
+            throw new runtime.RequiredError(
+                'dataSourceUID',
+                'Required parameter "dataSourceUID" was null or undefined when calling getDataSourceCacheConfig().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["Authorization"] = await this.configuration.apiKey("Authorization"); // api_key authentication
+        }
+
+        if (this.configuration && (this.configuration.username !== undefined || this.configuration.password !== undefined)) {
+            headerParameters["Authorization"] = "Basic " + btoa(this.configuration.username + ":" + this.configuration.password);
+        }
+        const response = await this.request({
+            path: `/datasources/{dataSourceUID}/cache`.replace(`{${"dataSourceUID"}}`, encodeURIComponent(String(requestParameters['dataSourceUID']))),
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => CacheConfigResponseFromJSON(jsonValue));
+    }
+
+    /**
+     * get cache config for a single data source
+     */
+    async getDataSourceCacheConfig(requestParameters: EnterpriseApiGetDataSourceCacheConfigRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<CacheConfigResponse> {
+        const response = await this.getDataSourceCacheConfigRaw(requestParameters, initOverrides);
+        return await response.value();
     }
 
     /**
@@ -1101,7 +1302,7 @@ export class EnterpriseApi extends runtime.BaseAPI {
 
     /**
      * Available to org admins only and with a valid or expired license.  You need to have a permission with action `reports.settings:read`x.
-     * Get settings.
+     * Get report settings.
      */
     async getReportSettingsRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ReportSettings>> {
         const queryParameters: any = {};
@@ -1127,7 +1328,7 @@ export class EnterpriseApi extends runtime.BaseAPI {
 
     /**
      * Available to org admins only and with a valid or expired license.  You need to have a permission with action `reports.settings:read`x.
-     * Get settings.
+     * Get report settings.
      */
     async getReportSettings(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ReportSettings> {
         const response = await this.getReportSettingsRaw(initOverrides);
@@ -1320,6 +1521,41 @@ export class EnterpriseApi extends runtime.BaseAPI {
     }
 
     /**
+     * Available to org admins only and with a valid or expired license.  You need to have a permission with action `reports.settings:read`.
+     * Get custom branding report image.
+     */
+    async getSettingsImageRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<number>>> {
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["Authorization"] = await this.configuration.apiKey("Authorization"); // api_key authentication
+        }
+
+        if (this.configuration && (this.configuration.username !== undefined || this.configuration.password !== undefined)) {
+            headerParameters["Authorization"] = "Basic " + btoa(this.configuration.username + ":" + this.configuration.password);
+        }
+        const response = await this.request({
+            path: `/reports/images/:image`,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse<any>(response);
+    }
+
+    /**
+     * Available to org admins only and with a valid or expired license.  You need to have a permission with action `reports.settings:read`.
+     * Get custom branding report image.
+     */
+    async getSettingsImage(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<number>> {
+        const response = await this.getSettingsImageRaw(initOverrides);
+        return await response.value();
+    }
+
+    /**
      * Check license availability.
      */
     async getStatusRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
@@ -1427,6 +1663,46 @@ export class EnterpriseApi extends runtime.BaseAPI {
     }
 
     /**
+     * Retrieves LBAC rules for a team.
+     */
+    async getTeamLBACRulesApiRaw(requestParameters: EnterpriseApiGetTeamLBACRulesApiRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SuccessResponseBody>> {
+        if (requestParameters['uid'] == null) {
+            throw new runtime.RequiredError(
+                'uid',
+                'Required parameter "uid" was null or undefined when calling getTeamLBACRulesApi().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["Authorization"] = await this.configuration.apiKey("Authorization"); // api_key authentication
+        }
+
+        if (this.configuration && (this.configuration.username !== undefined || this.configuration.password !== undefined)) {
+            headerParameters["Authorization"] = "Basic " + btoa(this.configuration.username + ":" + this.configuration.password);
+        }
+        const response = await this.request({
+            path: `/datasources/uid/{uid}/lbac/teams`.replace(`{${"uid"}}`, encodeURIComponent(String(requestParameters['uid']))),
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => SuccessResponseBodyFromJSON(jsonValue));
+    }
+
+    /**
+     * Retrieves LBAC rules for a team.
+     */
+    async getTeamLBACRulesApi(requestParameters: EnterpriseApiGetTeamLBACRulesApiRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SuccessResponseBody> {
+        const response = await this.getTeamLBACRulesApiRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
      * Lists all rules in the database: active or deleted.
      */
     async listRecordingRulesRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<RecordingRuleJSON>>> {
@@ -1460,7 +1736,7 @@ export class EnterpriseApi extends runtime.BaseAPI {
     }
 
     /**
-     * Gets all existing roles. The response contains all global and organization local roles, for the organization which user is signed in.  You need to have a permission with action `roles:read` and scope `roles:*`.
+     * Gets all existing roles. The response contains all global and organization local roles, for the organization which user is signed in.  You need to have a permission with action `roles:read` and scope `roles:*`.  The `delegatable` flag reduces the set of roles to only those for which the signed-in user has permissions to assign.
      * Get all roles.
      */
     async listRolesRaw(requestParameters: EnterpriseApiListRolesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<RoleDTO>>> {
@@ -1468,6 +1744,10 @@ export class EnterpriseApi extends runtime.BaseAPI {
 
         if (requestParameters['delegatable'] != null) {
             queryParameters['delegatable'] = requestParameters['delegatable'];
+        }
+
+        if (requestParameters['includeHidden'] != null) {
+            queryParameters['includeHidden'] = requestParameters['includeHidden'];
         }
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -1490,7 +1770,7 @@ export class EnterpriseApi extends runtime.BaseAPI {
     }
 
     /**
-     * Gets all existing roles. The response contains all global and organization local roles, for the organization which user is signed in.  You need to have a permission with action `roles:read` and scope `roles:*`.
+     * Gets all existing roles. The response contains all global and organization local roles, for the organization which user is signed in.  You need to have a permission with action `roles:read` and scope `roles:*`.  The `delegatable` flag reduces the set of roles to only those for which the signed-in user has permissions to assign.
      * Get all roles.
      */
     async listRoles(requestParameters: EnterpriseApiListRolesRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<RoleDTO>> {
@@ -2022,13 +2302,56 @@ export class EnterpriseApi extends runtime.BaseAPI {
 
     /**
      * Available to all users and with a valid license.
+     * Download a CSV report.
+     */
+    async renderReportCSVsRaw(requestParameters: EnterpriseApiRenderReportCSVsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<number>>> {
+        const queryParameters: any = {};
+
+        if (requestParameters['dashboards'] != null) {
+            queryParameters['dashboards'] = requestParameters['dashboards'];
+        }
+
+        if (requestParameters['title'] != null) {
+            queryParameters['title'] = requestParameters['title'];
+        }
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["Authorization"] = await this.configuration.apiKey("Authorization"); // api_key authentication
+        }
+
+        if (this.configuration && (this.configuration.username !== undefined || this.configuration.password !== undefined)) {
+            headerParameters["Authorization"] = "Basic " + btoa(this.configuration.username + ":" + this.configuration.password);
+        }
+        const response = await this.request({
+            path: `/reports/render/csvs`,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse<any>(response);
+    }
+
+    /**
+     * Available to all users and with a valid license.
+     * Download a CSV report.
+     */
+    async renderReportCSVs(requestParameters: EnterpriseApiRenderReportCSVsRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<number>> {
+        const response = await this.renderReportCSVsRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Available to all users and with a valid license.
      * Render report for multiple dashboards.
      */
     async renderReportPDFsRaw(requestParameters: EnterpriseApiRenderReportPDFsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<number>>> {
         const queryParameters: any = {};
 
-        if (requestParameters['dashboardID'] != null) {
-            queryParameters['dashboardID'] = requestParameters['dashboardID'];
+        if (requestParameters['dashboards'] != null) {
+            queryParameters['dashboards'] = requestParameters['dashboards'];
         }
 
         if (requestParameters['orientation'] != null) {
@@ -2234,7 +2557,7 @@ export class EnterpriseApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: CreateOrUpdateReportConfigToJSON(requestParameters['body']),
+            body: CreateOrUpdateReportToJSON(requestParameters['body']),
         }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => SuccessResponseBodyFromJSON(jsonValue));
@@ -2246,6 +2569,56 @@ export class EnterpriseApi extends runtime.BaseAPI {
      */
     async sendTestEmail(requestParameters: EnterpriseApiSendTestEmailRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SuccessResponseBody> {
         const response = await this.sendTestEmailRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * set cache config for a single data source
+     */
+    async setDataSourceCacheConfigRaw(requestParameters: EnterpriseApiSetDataSourceCacheConfigRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<CacheConfigResponse>> {
+        if (requestParameters['dataSourceUID'] == null) {
+            throw new runtime.RequiredError(
+                'dataSourceUID',
+                'Required parameter "dataSourceUID" was null or undefined when calling setDataSourceCacheConfig().'
+            );
+        }
+
+        if (requestParameters['body'] == null) {
+            throw new runtime.RequiredError(
+                'body',
+                'Required parameter "body" was null or undefined when calling setDataSourceCacheConfig().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["Authorization"] = await this.configuration.apiKey("Authorization"); // api_key authentication
+        }
+
+        if (this.configuration && (this.configuration.username !== undefined || this.configuration.password !== undefined)) {
+            headerParameters["Authorization"] = "Basic " + btoa(this.configuration.username + ":" + this.configuration.password);
+        }
+        const response = await this.request({
+            path: `/datasources/{dataSourceUID}/cache`.replace(`{${"dataSourceUID"}}`, encodeURIComponent(String(requestParameters['dataSourceUID']))),
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: CacheConfigSetterToJSON(requestParameters['body']),
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => CacheConfigResponseFromJSON(jsonValue));
+    }
+
+    /**
+     * set cache config for a single data source
+     */
+    async setDataSourceCacheConfig(requestParameters: EnterpriseApiSetDataSourceCacheConfigRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<CacheConfigResponse> {
+        const response = await this.setDataSourceCacheConfigRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
@@ -2518,7 +2891,7 @@ export class EnterpriseApi extends runtime.BaseAPI {
             method: 'PUT',
             headers: headerParameters,
             query: queryParameters,
-            body: CreateOrUpdateReportConfigToJSON(requestParameters['body']),
+            body: CreateOrUpdateReportToJSON(requestParameters['body']),
         }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => SuccessResponseBodyFromJSON(jsonValue));
@@ -2582,6 +2955,46 @@ export class EnterpriseApi extends runtime.BaseAPI {
      */
     async updateRole(requestParameters: EnterpriseApiUpdateRoleRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<RoleDTO> {
         const response = await this.updateRoleRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Updates LBAC rules for a team.
+     */
+    async updateTeamLBACRulesApiRaw(requestParameters: EnterpriseApiUpdateTeamLBACRulesApiRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SuccessResponseBody>> {
+        if (requestParameters['uid'] == null) {
+            throw new runtime.RequiredError(
+                'uid',
+                'Required parameter "uid" was null or undefined when calling updateTeamLBACRulesApi().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["Authorization"] = await this.configuration.apiKey("Authorization"); // api_key authentication
+        }
+
+        if (this.configuration && (this.configuration.username !== undefined || this.configuration.password !== undefined)) {
+            headerParameters["Authorization"] = "Basic " + btoa(this.configuration.username + ":" + this.configuration.password);
+        }
+        const response = await this.request({
+            path: `/datasources/uid/{uid}/lbac/teams`.replace(`{${"uid"}}`, encodeURIComponent(String(requestParameters['uid']))),
+            method: 'PUT',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => SuccessResponseBodyFromJSON(jsonValue));
+    }
+
+    /**
+     * Updates LBAC rules for a team.
+     */
+    async updateTeamLBACRulesApi(requestParameters: EnterpriseApiUpdateTeamLBACRulesApiRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SuccessResponseBody> {
+        const response = await this.updateTeamLBACRulesApiRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

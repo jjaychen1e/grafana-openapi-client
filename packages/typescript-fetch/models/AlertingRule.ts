@@ -13,6 +13,13 @@
  */
 
 import { mapValues } from '../runtime';
+import type { Label } from './Label';
+import {
+    LabelFromJSON,
+    LabelFromJSONTyped,
+    LabelToJSON,
+    LabelToJSONTyped,
+} from './Label';
 import type { Alert } from './Alert';
 import {
     AlertFromJSON,
@@ -40,11 +47,12 @@ export interface AlertingRule {
      */
     alerts?: Array<Alert>;
     /**
-     * The custom marshaling for labels.Labels ends up doing this anyways.
-     * @type {{ [key: string]: string; }}
+     * Labels is a sorted set of labels. Order has to be guaranteed upon
+     * instantiation.
+     * @type {Array<Label>}
      * @memberof AlertingRule
      */
-    annotations: { [key: string]: string; };
+    annotations: Array<Label>;
     /**
      * 
      * @type {number}
@@ -64,11 +72,12 @@ export interface AlertingRule {
      */
     health: string;
     /**
-     * The custom marshaling for labels.Labels ends up doing this anyways.
-     * @type {{ [key: string]: string; }}
+     * Labels is a sorted set of labels. Order has to be guaranteed upon
+     * instantiation.
+     * @type {Array<Label>}
      * @memberof AlertingRule
      */
-    labels?: { [key: string]: string; };
+    labels?: Array<Label>;
     /**
      * 
      * @type {string}
@@ -145,11 +154,11 @@ export function AlertingRuleFromJSONTyped(json: any, ignoreDiscriminator: boolea
         
         'activeAt': (new Date(json['activeAt'])),
         'alerts': json['alerts'] == null ? undefined : ((json['alerts'] as Array<any>).map(AlertFromJSON)),
-        'annotations': json['annotations'],
+        'annotations': ((json['annotations'] as Array<any>).map(LabelFromJSON)),
         'duration': json['duration'] == null ? undefined : json['duration'],
         'evaluationTime': json['evaluationTime'] == null ? undefined : json['evaluationTime'],
         'health': json['health'],
-        'labels': json['labels'] == null ? undefined : json['labels'],
+        'labels': json['labels'] == null ? undefined : ((json['labels'] as Array<any>).map(LabelFromJSON)),
         'lastError': json['lastError'] == null ? undefined : json['lastError'],
         'lastEvaluation': json['lastEvaluation'] == null ? undefined : (new Date(json['lastEvaluation'])),
         'name': json['name'],
@@ -174,11 +183,11 @@ export function AlertingRuleToJSONTyped(value?: AlertingRule | null, ignoreDiscr
         
         'activeAt': ((value['activeAt']).toISOString()),
         'alerts': value['alerts'] == null ? undefined : ((value['alerts'] as Array<any>).map(AlertToJSON)),
-        'annotations': value['annotations'],
+        'annotations': ((value['annotations'] as Array<any>).map(LabelToJSON)),
         'duration': value['duration'],
         'evaluationTime': value['evaluationTime'],
         'health': value['health'],
-        'labels': value['labels'],
+        'labels': value['labels'] == null ? undefined : ((value['labels'] as Array<any>).map(LabelToJSON)),
         'lastError': value['lastError'],
         'lastEvaluation': value['lastEvaluation'] == null ? undefined : ((value['lastEvaluation']).toISOString()),
         'name': value['name'],

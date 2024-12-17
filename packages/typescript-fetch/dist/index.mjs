@@ -1115,47 +1115,8 @@ function AlertStatusToJSONTyped(value, ignoreDiscriminator = false) {
   };
 }
 
-// models/Integration.ts
-function instanceOfIntegration(value) {
-  if (!("name" in value) || value["name"] === void 0) return false;
-  if (!("sendResolved" in value) || value["sendResolved"] === void 0) return false;
-  return true;
-}
-function IntegrationFromJSON(json) {
-  return IntegrationFromJSONTyped(json);
-}
-function IntegrationFromJSONTyped(json, ignoreDiscriminator) {
-  if (json == null) {
-    return json;
-  }
-  return {
-    "lastNotifyAttempt": json["lastNotifyAttempt"] == null ? void 0 : new Date(json["lastNotifyAttempt"]),
-    "lastNotifyAttemptDuration": json["lastNotifyAttemptDuration"] == null ? void 0 : json["lastNotifyAttemptDuration"],
-    "lastNotifyAttemptError": json["lastNotifyAttemptError"] == null ? void 0 : json["lastNotifyAttemptError"],
-    "name": json["name"],
-    "sendResolved": json["sendResolved"]
-  };
-}
-function IntegrationToJSON(json) {
-  return IntegrationToJSONTyped(json, false);
-}
-function IntegrationToJSONTyped(value, ignoreDiscriminator = false) {
-  if (value == null) {
-    return value;
-  }
-  return {
-    "lastNotifyAttempt": value["lastNotifyAttempt"] == null ? void 0 : value["lastNotifyAttempt"].toISOString(),
-    "lastNotifyAttemptDuration": value["lastNotifyAttemptDuration"],
-    "lastNotifyAttemptError": value["lastNotifyAttemptError"],
-    "name": value["name"],
-    "sendResolved": value["sendResolved"]
-  };
-}
-
 // models/Receiver.ts
 function instanceOfReceiver(value) {
-  if (!("active" in value) || value["active"] === void 0) return false;
-  if (!("integrations" in value) || value["integrations"] === void 0) return false;
   if (!("name" in value) || value["name"] === void 0) return false;
   return true;
 }
@@ -1167,8 +1128,6 @@ function ReceiverFromJSONTyped(json, ignoreDiscriminator) {
     return json;
   }
   return {
-    "active": json["active"],
-    "integrations": json["integrations"].map(IntegrationFromJSON),
     "name": json["name"]
   };
 }
@@ -1180,8 +1139,6 @@ function ReceiverToJSONTyped(value, ignoreDiscriminator = false) {
     return value;
   }
   return {
-    "active": value["active"],
-    "integrations": value["integrations"].map(IntegrationToJSON),
     "name": value["name"]
   };
 }
@@ -1516,6 +1473,35 @@ function AlertResponseToJSONTyped(value, ignoreDiscriminator = false) {
   };
 }
 
+// models/AlertRuleRecordExport.ts
+function instanceOfAlertRuleRecordExport(value) {
+  return true;
+}
+function AlertRuleRecordExportFromJSON(json) {
+  return AlertRuleRecordExportFromJSONTyped(json);
+}
+function AlertRuleRecordExportFromJSONTyped(json, ignoreDiscriminator) {
+  if (json == null) {
+    return json;
+  }
+  return {
+    "from": json["from"] == null ? void 0 : json["from"],
+    "metric": json["metric"] == null ? void 0 : json["metric"]
+  };
+}
+function AlertRuleRecordExportToJSON(json) {
+  return AlertRuleRecordExportToJSONTyped(json, false);
+}
+function AlertRuleRecordExportToJSONTyped(value, ignoreDiscriminator = false) {
+  if (value == null) {
+    return value;
+  }
+  return {
+    "from": value["from"],
+    "metric": value["metric"]
+  };
+}
+
 // models/AlertRuleNotificationSettingsExport.ts
 function instanceOfAlertRuleNotificationSettingsExport(value) {
   return true;
@@ -1577,7 +1563,7 @@ function AlertRuleExportFromJSONTyped(json, ignoreDiscriminator) {
   return {
     "annotations": json["annotations"] == null ? void 0 : json["annotations"],
     "condition": json["condition"] == null ? void 0 : json["condition"],
-    "dasboardUid": json["dasboardUid"] == null ? void 0 : json["dasboardUid"],
+    "dashboardUid": json["dashboardUid"] == null ? void 0 : json["dashboardUid"],
     "data": json["data"] == null ? void 0 : json["data"].map(AlertQueryExportFromJSON),
     "execErrState": json["execErrState"] == null ? void 0 : json["execErrState"],
     "_for": json["for"] == null ? void 0 : json["for"],
@@ -1586,6 +1572,7 @@ function AlertRuleExportFromJSONTyped(json, ignoreDiscriminator) {
     "noDataState": json["noDataState"] == null ? void 0 : json["noDataState"],
     "notificationSettings": json["notification_settings"] == null ? void 0 : AlertRuleNotificationSettingsExportFromJSON(json["notification_settings"]),
     "panelId": json["panelId"] == null ? void 0 : json["panelId"],
+    "record": json["record"] == null ? void 0 : AlertRuleRecordExportFromJSON(json["record"]),
     "title": json["title"] == null ? void 0 : json["title"],
     "uid": json["uid"] == null ? void 0 : json["uid"]
   };
@@ -1600,7 +1587,7 @@ function AlertRuleExportToJSONTyped(value, ignoreDiscriminator = false) {
   return {
     "annotations": value["annotations"],
     "condition": value["condition"],
-    "dasboardUid": value["dasboardUid"],
+    "dashboardUid": value["dashboardUid"],
     "data": value["data"] == null ? void 0 : value["data"].map(AlertQueryExportToJSON),
     "execErrState": value["execErrState"],
     "for": value["_for"],
@@ -1609,6 +1596,7 @@ function AlertRuleExportToJSONTyped(value, ignoreDiscriminator = false) {
     "noDataState": value["noDataState"],
     "notification_settings": AlertRuleNotificationSettingsExportToJSON(value["notificationSettings"]),
     "panelId": value["panelId"],
+    "record": AlertRuleRecordExportToJSON(value["record"]),
     "title": value["title"],
     "uid": value["uid"]
   };
@@ -1649,6 +1637,37 @@ function AlertRuleNotificationSettingsToJSONTyped(value, ignoreDiscriminator = f
     "mute_time_intervals": value["muteTimeIntervals"],
     "receiver": value["receiver"],
     "repeat_interval": value["repeatInterval"]
+  };
+}
+
+// models/Record.ts
+function instanceOfRecord(value) {
+  if (!("from" in value) || value["from"] === void 0) return false;
+  if (!("metric" in value) || value["metric"] === void 0) return false;
+  return true;
+}
+function RecordFromJSON(json) {
+  return RecordFromJSONTyped(json);
+}
+function RecordFromJSONTyped(json, ignoreDiscriminator) {
+  if (json == null) {
+    return json;
+  }
+  return {
+    "from": json["from"],
+    "metric": json["metric"]
+  };
+}
+function RecordToJSON(json) {
+  return RecordToJSONTyped(json, false);
+}
+function RecordToJSONTyped(value, ignoreDiscriminator = false) {
+  if (value == null) {
+    return value;
+  }
+  return {
+    "from": value["from"],
+    "metric": value["metric"]
   };
 }
 
@@ -1696,6 +1715,7 @@ function ProvisionedAlertRuleFromJSONTyped(json, ignoreDiscriminator) {
     "notificationSettings": json["notification_settings"] == null ? void 0 : AlertRuleNotificationSettingsFromJSON(json["notification_settings"]),
     "orgID": json["orgID"],
     "provenance": json["provenance"] == null ? void 0 : json["provenance"],
+    "record": json["record"] == null ? void 0 : RecordFromJSON(json["record"]),
     "ruleGroup": json["ruleGroup"],
     "title": json["title"],
     "uid": json["uid"] == null ? void 0 : json["uid"],
@@ -1723,6 +1743,7 @@ function ProvisionedAlertRuleToJSONTyped(value, ignoreDiscriminator = false) {
     "notification_settings": AlertRuleNotificationSettingsToJSON(value["notificationSettings"]),
     "orgID": value["orgID"],
     "provenance": value["provenance"],
+    "record": RecordToJSON(value["record"]),
     "ruleGroup": value["ruleGroup"],
     "title": value["title"],
     "uid": value["uid"]
@@ -2119,6 +2140,33 @@ function AlertingFileExportToJSONTyped(value, ignoreDiscriminator = false) {
   };
 }
 
+// models/Label.ts
+function instanceOfLabel(value) {
+  return true;
+}
+function LabelFromJSON(json) {
+  return LabelFromJSONTyped(json);
+}
+function LabelFromJSONTyped(json, ignoreDiscriminator) {
+  if (json == null) {
+    return json;
+  }
+  return {
+    "name": json["Name"] == null ? void 0 : json["Name"]
+  };
+}
+function LabelToJSON(json) {
+  return LabelToJSONTyped(json, false);
+}
+function LabelToJSONTyped(value, ignoreDiscriminator = false) {
+  if (value == null) {
+    return value;
+  }
+  return {
+    "Name": value["name"]
+  };
+}
+
 // models/AlertingRule.ts
 function instanceOfAlertingRule(value) {
   if (!("activeAt" in value) || value["activeAt"] === void 0) return false;
@@ -2140,11 +2188,11 @@ function AlertingRuleFromJSONTyped(json, ignoreDiscriminator) {
   return {
     "activeAt": new Date(json["activeAt"]),
     "alerts": json["alerts"] == null ? void 0 : json["alerts"].map(AlertFromJSON),
-    "annotations": json["annotations"],
+    "annotations": json["annotations"].map(LabelFromJSON),
     "duration": json["duration"] == null ? void 0 : json["duration"],
     "evaluationTime": json["evaluationTime"] == null ? void 0 : json["evaluationTime"],
     "health": json["health"],
-    "labels": json["labels"] == null ? void 0 : json["labels"],
+    "labels": json["labels"] == null ? void 0 : json["labels"].map(LabelFromJSON),
     "lastError": json["lastError"] == null ? void 0 : json["lastError"],
     "lastEvaluation": json["lastEvaluation"] == null ? void 0 : new Date(json["lastEvaluation"]),
     "name": json["name"],
@@ -2165,11 +2213,11 @@ function AlertingRuleToJSONTyped(value, ignoreDiscriminator = false) {
   return {
     "activeAt": value["activeAt"].toISOString(),
     "alerts": value["alerts"] == null ? void 0 : value["alerts"].map(AlertToJSON),
-    "annotations": value["annotations"],
+    "annotations": value["annotations"].map(LabelToJSON),
     "duration": value["duration"],
     "evaluationTime": value["evaluationTime"],
     "health": value["health"],
-    "labels": value["labels"],
+    "labels": value["labels"] == null ? void 0 : value["labels"].map(LabelToJSON),
     "lastError": value["lastError"],
     "lastEvaluation": value["lastEvaluation"] == null ? void 0 : value["lastEvaluation"].toISOString(),
     "name": value["name"],
@@ -2849,6 +2897,7 @@ function AuthorizationFromJSONTyped(json, ignoreDiscriminator) {
   return {
     "credentials": json["credentials"] == null ? void 0 : json["credentials"],
     "credentialsFile": json["credentials_file"] == null ? void 0 : json["credentials_file"],
+    "credentialsRef": json["credentials_ref"] == null ? void 0 : json["credentials_ref"],
     "type": json["type"] == null ? void 0 : json["type"]
   };
 }
@@ -2862,6 +2911,7 @@ function AuthorizationToJSONTyped(value, ignoreDiscriminator = false) {
   return {
     "credentials": value["credentials"],
     "credentials_file": value["credentialsFile"],
+    "credentials_ref": value["credentialsRef"],
     "type": value["type"]
   };
 }
@@ -2930,8 +2980,10 @@ function BasicAuthFromJSONTyped(json, ignoreDiscriminator) {
   return {
     "password": json["password"] == null ? void 0 : json["password"],
     "passwordFile": json["password_file"] == null ? void 0 : json["password_file"],
+    "passwordRef": json["password_ref"] == null ? void 0 : json["password_ref"],
     "username": json["username"] == null ? void 0 : json["username"],
-    "usernameFile": json["username_file"] == null ? void 0 : json["username_file"]
+    "usernameFile": json["username_file"] == null ? void 0 : json["username_file"],
+    "usernameRef": json["username_ref"] == null ? void 0 : json["username_ref"]
   };
 }
 function BasicAuthToJSON(json) {
@@ -2944,8 +2996,135 @@ function BasicAuthToJSONTyped(value, ignoreDiscriminator = false) {
   return {
     "password": value["password"],
     "password_file": value["passwordFile"],
+    "password_ref": value["passwordRef"],
     "username": value["username"],
-    "username_file": value["usernameFile"]
+    "username_file": value["usernameFile"],
+    "username_ref": value["usernameRef"]
+  };
+}
+
+// models/CacheConfig.ts
+function instanceOfCacheConfig(value) {
+  return true;
+}
+function CacheConfigFromJSON(json) {
+  return CacheConfigFromJSONTyped(json);
+}
+function CacheConfigFromJSONTyped(json, ignoreDiscriminator) {
+  if (json == null) {
+    return json;
+  }
+  return {
+    "created": json["created"] == null ? void 0 : new Date(json["created"]),
+    "dataSourceID": json["dataSourceID"] == null ? void 0 : json["dataSourceID"],
+    "dataSourceUID": json["dataSourceUID"] == null ? void 0 : json["dataSourceUID"],
+    "defaultTTLMs": json["defaultTTLMs"] == null ? void 0 : json["defaultTTLMs"],
+    "enabled": json["enabled"] == null ? void 0 : json["enabled"],
+    "ttlQueriesMs": json["ttlQueriesMs"] == null ? void 0 : json["ttlQueriesMs"],
+    "ttlResourcesMs": json["ttlResourcesMs"] == null ? void 0 : json["ttlResourcesMs"],
+    "updated": json["updated"] == null ? void 0 : new Date(json["updated"]),
+    "useDefaultTTL": json["useDefaultTTL"] == null ? void 0 : json["useDefaultTTL"]
+  };
+}
+function CacheConfigToJSON(json) {
+  return CacheConfigToJSONTyped(json, false);
+}
+function CacheConfigToJSONTyped(value, ignoreDiscriminator = false) {
+  if (value == null) {
+    return value;
+  }
+  return {
+    "created": value["created"] == null ? void 0 : value["created"].toISOString(),
+    "dataSourceID": value["dataSourceID"],
+    "dataSourceUID": value["dataSourceUID"],
+    "defaultTTLMs": value["defaultTTLMs"],
+    "enabled": value["enabled"],
+    "ttlQueriesMs": value["ttlQueriesMs"],
+    "ttlResourcesMs": value["ttlResourcesMs"],
+    "updated": value["updated"] == null ? void 0 : value["updated"].toISOString(),
+    "useDefaultTTL": value["useDefaultTTL"]
+  };
+}
+
+// models/CacheConfigResponse.ts
+function instanceOfCacheConfigResponse(value) {
+  return true;
+}
+function CacheConfigResponseFromJSON(json) {
+  return CacheConfigResponseFromJSONTyped(json);
+}
+function CacheConfigResponseFromJSONTyped(json, ignoreDiscriminator) {
+  if (json == null) {
+    return json;
+  }
+  return {
+    "created": json["created"] == null ? void 0 : new Date(json["created"]),
+    "dataSourceID": json["dataSourceID"] == null ? void 0 : json["dataSourceID"],
+    "dataSourceUID": json["dataSourceUID"] == null ? void 0 : json["dataSourceUID"],
+    "defaultTTLMs": json["defaultTTLMs"] == null ? void 0 : json["defaultTTLMs"],
+    "enabled": json["enabled"] == null ? void 0 : json["enabled"],
+    "message": json["message"] == null ? void 0 : json["message"],
+    "ttlQueriesMs": json["ttlQueriesMs"] == null ? void 0 : json["ttlQueriesMs"],
+    "ttlResourcesMs": json["ttlResourcesMs"] == null ? void 0 : json["ttlResourcesMs"],
+    "updated": json["updated"] == null ? void 0 : new Date(json["updated"]),
+    "useDefaultTTL": json["useDefaultTTL"] == null ? void 0 : json["useDefaultTTL"]
+  };
+}
+function CacheConfigResponseToJSON(json) {
+  return CacheConfigResponseToJSONTyped(json, false);
+}
+function CacheConfigResponseToJSONTyped(value, ignoreDiscriminator = false) {
+  if (value == null) {
+    return value;
+  }
+  return {
+    "created": value["created"] == null ? void 0 : value["created"].toISOString(),
+    "dataSourceID": value["dataSourceID"],
+    "dataSourceUID": value["dataSourceUID"],
+    "defaultTTLMs": value["defaultTTLMs"],
+    "enabled": value["enabled"],
+    "message": value["message"],
+    "ttlQueriesMs": value["ttlQueriesMs"],
+    "ttlResourcesMs": value["ttlResourcesMs"],
+    "updated": value["updated"] == null ? void 0 : value["updated"].toISOString(),
+    "useDefaultTTL": value["useDefaultTTL"]
+  };
+}
+
+// models/CacheConfigSetter.ts
+function instanceOfCacheConfigSetter(value) {
+  return true;
+}
+function CacheConfigSetterFromJSON(json) {
+  return CacheConfigSetterFromJSONTyped(json);
+}
+function CacheConfigSetterFromJSONTyped(json, ignoreDiscriminator) {
+  if (json == null) {
+    return json;
+  }
+  return {
+    "dataSourceID": json["dataSourceID"] == null ? void 0 : json["dataSourceID"],
+    "dataSourceUID": json["dataSourceUID"] == null ? void 0 : json["dataSourceUID"],
+    "enabled": json["enabled"] == null ? void 0 : json["enabled"],
+    "ttlQueriesMs": json["ttlQueriesMs"] == null ? void 0 : json["ttlQueriesMs"],
+    "ttlResourcesMs": json["ttlResourcesMs"] == null ? void 0 : json["ttlResourcesMs"],
+    "useDefaultTTL": json["useDefaultTTL"] == null ? void 0 : json["useDefaultTTL"]
+  };
+}
+function CacheConfigSetterToJSON(json) {
+  return CacheConfigSetterToJSONTyped(json, false);
+}
+function CacheConfigSetterToJSONTyped(value, ignoreDiscriminator = false) {
+  if (value == null) {
+    return value;
+  }
+  return {
+    "dataSourceID": value["dataSourceID"],
+    "dataSourceUID": value["dataSourceUID"],
+    "enabled": value["enabled"],
+    "ttlQueriesMs": value["ttlQueriesMs"],
+    "ttlResourcesMs": value["ttlResourcesMs"],
+    "useDefaultTTL": value["useDefaultTTL"]
   };
 }
 
@@ -3197,6 +3376,7 @@ function CertificateFromJSONTyped(json, ignoreDiscriminator) {
     "permittedEmailAddresses": json["PermittedEmailAddresses"] == null ? void 0 : json["PermittedEmailAddresses"],
     "permittedIPRanges": json["PermittedIPRanges"] == null ? void 0 : json["PermittedIPRanges"].map(IPNetFromJSON),
     "permittedURIDomains": json["PermittedURIDomains"] == null ? void 0 : json["PermittedURIDomains"],
+    "policies": json["Policies"] == null ? void 0 : json["Policies"],
     "policyIdentifiers": json["PolicyIdentifiers"] == null ? void 0 : json["PolicyIdentifiers"],
     "publicKey": json["PublicKey"] == null ? void 0 : json["PublicKey"],
     "publicKeyAlgorithm": json["PublicKeyAlgorithm"] == null ? void 0 : json["PublicKeyAlgorithm"],
@@ -3250,6 +3430,7 @@ function CertificateToJSONTyped(value, ignoreDiscriminator = false) {
     "PermittedEmailAddresses": value["permittedEmailAddresses"],
     "PermittedIPRanges": value["permittedIPRanges"] == null ? void 0 : value["permittedIPRanges"].map(IPNetToJSON),
     "PermittedURIDomains": value["permittedURIDomains"],
+    "Policies": value["policies"],
     "PolicyIdentifiers": value["policyIdentifiers"],
     "PublicKey": value["publicKey"],
     "PublicKeyAlgorithm": value["publicKeyAlgorithm"],
@@ -3325,6 +3506,147 @@ function ClearHelpFlags200ResponseToJSONTyped(value, ignoreDiscriminator = false
   return {
     "helpFlags1": value["helpFlags1"],
     "message": value["message"]
+  };
+}
+
+// models/MigrateDataResponseListDTO.ts
+function instanceOfMigrateDataResponseListDTO(value) {
+  return true;
+}
+function MigrateDataResponseListDTOFromJSON(json) {
+  return MigrateDataResponseListDTOFromJSONTyped(json);
+}
+function MigrateDataResponseListDTOFromJSONTyped(json, ignoreDiscriminator) {
+  if (json == null) {
+    return json;
+  }
+  return {
+    "uid": json["uid"] == null ? void 0 : json["uid"]
+  };
+}
+function MigrateDataResponseListDTOToJSON(json) {
+  return MigrateDataResponseListDTOToJSONTyped(json, false);
+}
+function MigrateDataResponseListDTOToJSONTyped(value, ignoreDiscriminator = false) {
+  if (value == null) {
+    return value;
+  }
+  return {
+    "uid": value["uid"]
+  };
+}
+
+// models/CloudMigrationRunListDTO.ts
+function instanceOfCloudMigrationRunListDTO(value) {
+  return true;
+}
+function CloudMigrationRunListDTOFromJSON(json) {
+  return CloudMigrationRunListDTOFromJSONTyped(json);
+}
+function CloudMigrationRunListDTOFromJSONTyped(json, ignoreDiscriminator) {
+  if (json == null) {
+    return json;
+  }
+  return {
+    "runs": json["runs"] == null ? void 0 : json["runs"].map(MigrateDataResponseListDTOFromJSON)
+  };
+}
+function CloudMigrationRunListDTOToJSON(json) {
+  return CloudMigrationRunListDTOToJSONTyped(json, false);
+}
+function CloudMigrationRunListDTOToJSONTyped(value, ignoreDiscriminator = false) {
+  if (value == null) {
+    return value;
+  }
+  return {
+    "runs": value["runs"] == null ? void 0 : value["runs"].map(MigrateDataResponseListDTOToJSON)
+  };
+}
+
+// models/CloudMigrationSessionResponseDTO.ts
+function instanceOfCloudMigrationSessionResponseDTO(value) {
+  return true;
+}
+function CloudMigrationSessionResponseDTOFromJSON(json) {
+  return CloudMigrationSessionResponseDTOFromJSONTyped(json);
+}
+function CloudMigrationSessionResponseDTOFromJSONTyped(json, ignoreDiscriminator) {
+  if (json == null) {
+    return json;
+  }
+  return {
+    "created": json["created"] == null ? void 0 : new Date(json["created"]),
+    "slug": json["slug"] == null ? void 0 : json["slug"],
+    "uid": json["uid"] == null ? void 0 : json["uid"],
+    "updated": json["updated"] == null ? void 0 : new Date(json["updated"])
+  };
+}
+function CloudMigrationSessionResponseDTOToJSON(json) {
+  return CloudMigrationSessionResponseDTOToJSONTyped(json, false);
+}
+function CloudMigrationSessionResponseDTOToJSONTyped(value, ignoreDiscriminator = false) {
+  if (value == null) {
+    return value;
+  }
+  return {
+    "created": value["created"] == null ? void 0 : value["created"].toISOString(),
+    "slug": value["slug"],
+    "uid": value["uid"],
+    "updated": value["updated"] == null ? void 0 : value["updated"].toISOString()
+  };
+}
+
+// models/CloudMigrationSessionListResponseDTO.ts
+function instanceOfCloudMigrationSessionListResponseDTO(value) {
+  return true;
+}
+function CloudMigrationSessionListResponseDTOFromJSON(json) {
+  return CloudMigrationSessionListResponseDTOFromJSONTyped(json);
+}
+function CloudMigrationSessionListResponseDTOFromJSONTyped(json, ignoreDiscriminator) {
+  if (json == null) {
+    return json;
+  }
+  return {
+    "sessions": json["sessions"] == null ? void 0 : json["sessions"].map(CloudMigrationSessionResponseDTOFromJSON)
+  };
+}
+function CloudMigrationSessionListResponseDTOToJSON(json) {
+  return CloudMigrationSessionListResponseDTOToJSONTyped(json, false);
+}
+function CloudMigrationSessionListResponseDTOToJSONTyped(value, ignoreDiscriminator = false) {
+  if (value == null) {
+    return value;
+  }
+  return {
+    "sessions": value["sessions"] == null ? void 0 : value["sessions"].map(CloudMigrationSessionResponseDTOToJSON)
+  };
+}
+
+// models/CloudMigrationSessionRequestDTO.ts
+function instanceOfCloudMigrationSessionRequestDTO(value) {
+  return true;
+}
+function CloudMigrationSessionRequestDTOFromJSON(json) {
+  return CloudMigrationSessionRequestDTOFromJSONTyped(json);
+}
+function CloudMigrationSessionRequestDTOFromJSONTyped(json, ignoreDiscriminator) {
+  if (json == null) {
+    return json;
+  }
+  return {
+    "authToken": json["authToken"] == null ? void 0 : json["authToken"]
+  };
+}
+function CloudMigrationSessionRequestDTOToJSON(json) {
+  return CloudMigrationSessionRequestDTOToJSONTyped(json, false);
+}
+function CloudMigrationSessionRequestDTOToJSONTyped(value, ignoreDiscriminator = false) {
+  if (value == null) {
+    return value;
+  }
+  return {
+    "authToken": value["authToken"]
   };
 }
 
@@ -3439,11 +3761,14 @@ function TLSConfigFromJSONTyped(json, ignoreDiscriminator) {
   return {
     "ca": json["ca"] == null ? void 0 : json["ca"],
     "caFile": json["ca_file"] == null ? void 0 : json["ca_file"],
+    "caRef": json["ca_ref"] == null ? void 0 : json["ca_ref"],
     "cert": json["cert"] == null ? void 0 : json["cert"],
     "certFile": json["cert_file"] == null ? void 0 : json["cert_file"],
+    "certRef": json["cert_ref"] == null ? void 0 : json["cert_ref"],
     "insecureSkipVerify": json["insecure_skip_verify"] == null ? void 0 : json["insecure_skip_verify"],
     "key": json["key"] == null ? void 0 : json["key"],
     "keyFile": json["key_file"] == null ? void 0 : json["key_file"],
+    "keyRef": json["key_ref"] == null ? void 0 : json["key_ref"],
     "maxVersion": json["max_version"] == null ? void 0 : json["max_version"],
     "minVersion": json["min_version"] == null ? void 0 : json["min_version"],
     "serverName": json["server_name"] == null ? void 0 : json["server_name"]
@@ -3459,11 +3784,14 @@ function TLSConfigToJSONTyped(value, ignoreDiscriminator = false) {
   return {
     "ca": value["ca"],
     "ca_file": value["caFile"],
+    "ca_ref": value["caRef"],
     "cert": value["cert"],
     "cert_file": value["certFile"],
+    "cert_ref": value["certRef"],
     "insecure_skip_verify": value["insecureSkipVerify"],
     "key": value["key"],
     "key_file": value["keyFile"],
+    "key_ref": value["keyRef"],
     "max_version": value["maxVersion"],
     "min_version": value["minVersion"],
     "server_name": value["serverName"]
@@ -3486,6 +3814,7 @@ function OAuth2FromJSONTyped(json, ignoreDiscriminator) {
     "clientId": json["client_id"] == null ? void 0 : json["client_id"],
     "clientSecret": json["client_secret"] == null ? void 0 : json["client_secret"],
     "clientSecretFile": json["client_secret_file"] == null ? void 0 : json["client_secret_file"],
+    "clientSecretRef": json["client_secret_ref"] == null ? void 0 : json["client_secret_ref"],
     "endpointParams": json["endpoint_params"] == null ? void 0 : json["endpoint_params"],
     "noProxy": json["no_proxy"] == null ? void 0 : json["no_proxy"],
     "proxyConnectHeader": json["proxy_connect_header"] == null ? void 0 : json["proxy_connect_header"],
@@ -3507,6 +3836,7 @@ function OAuth2ToJSONTyped(value, ignoreDiscriminator = false) {
     "client_id": value["clientId"],
     "client_secret": value["clientSecret"],
     "client_secret_file": value["clientSecretFile"],
+    "client_secret_ref": value["clientSecretRef"],
     "endpoint_params": value["endpointParams"],
     "no_proxy": value["noProxy"],
     "proxy_connect_header": value["proxyConnectHeader"],
@@ -3514,6 +3844,64 @@ function OAuth2ToJSONTyped(value, ignoreDiscriminator = false) {
     "proxy_url": URLToJSON(value["proxyUrl"]),
     "scopes": value["scopes"],
     "token_url": value["tokenUrl"]
+  };
+}
+
+// models/Header.ts
+function instanceOfHeader(value) {
+  return true;
+}
+function HeaderFromJSON(json) {
+  return HeaderFromJSONTyped(json);
+}
+function HeaderFromJSONTyped(json, ignoreDiscriminator) {
+  if (json == null) {
+    return json;
+  }
+  return {
+    "files": json["files"] == null ? void 0 : json["files"],
+    "secrets": json["secrets"] == null ? void 0 : json["secrets"],
+    "values": json["values"] == null ? void 0 : json["values"]
+  };
+}
+function HeaderToJSON(json) {
+  return HeaderToJSONTyped(json, false);
+}
+function HeaderToJSONTyped(value, ignoreDiscriminator = false) {
+  if (value == null) {
+    return value;
+  }
+  return {
+    "files": value["files"],
+    "secrets": value["secrets"],
+    "values": value["values"]
+  };
+}
+
+// models/Headers.ts
+function instanceOfHeaders(value) {
+  return true;
+}
+function HeadersFromJSON(json) {
+  return HeadersFromJSONTyped(json);
+}
+function HeadersFromJSONTyped(json, ignoreDiscriminator) {
+  if (json == null) {
+    return json;
+  }
+  return {
+    "headers": json["Headers"] == null ? void 0 : mapValues(json["Headers"], HeaderFromJSON)
+  };
+}
+function HeadersToJSON(json) {
+  return HeadersToJSONTyped(json, false);
+}
+function HeadersToJSONTyped(value, ignoreDiscriminator = false) {
+  if (value == null) {
+    return value;
+  }
+  return {
+    "Headers": value["headers"] == null ? void 0 : mapValues(value["headers"], HeaderToJSON)
   };
 }
 
@@ -3535,6 +3923,7 @@ function HTTPClientConfigFromJSONTyped(json, ignoreDiscriminator) {
     "bearerTokenFile": json["bearer_token_file"] == null ? void 0 : json["bearer_token_file"],
     "enableHttp2": json["enable_http2"] == null ? void 0 : json["enable_http2"],
     "followRedirects": json["follow_redirects"] == null ? void 0 : json["follow_redirects"],
+    "httpHeaders": json["http_headers"] == null ? void 0 : HeadersFromJSON(json["http_headers"]),
     "noProxy": json["no_proxy"] == null ? void 0 : json["no_proxy"],
     "oauth2": json["oauth2"] == null ? void 0 : OAuth2FromJSON(json["oauth2"]),
     "proxyConnectHeader": json["proxy_connect_header"] == null ? void 0 : json["proxy_connect_header"],
@@ -3557,6 +3946,7 @@ function HTTPClientConfigToJSONTyped(value, ignoreDiscriminator = false) {
     "bearer_token_file": value["bearerTokenFile"],
     "enable_http2": value["enableHttp2"],
     "follow_redirects": value["followRedirects"],
+    "http_headers": HeadersToJSON(value["httpHeaders"]),
     "no_proxy": value["noProxy"],
     "oauth2": OAuth2ToJSON(value["oauth2"]),
     "proxy_connect_header": value["proxyConnectHeader"],
@@ -3904,6 +4294,33 @@ function CorrelationConfigUpdateDTOToJSONTyped(value, ignoreDiscriminator = fals
     "target": value["target"],
     "transformations": value["transformations"] == null ? void 0 : value["transformations"].map(TransformationToJSON),
     "type": value["type"]
+  };
+}
+
+// models/CreateAccessTokenResponseDTO.ts
+function instanceOfCreateAccessTokenResponseDTO(value) {
+  return true;
+}
+function CreateAccessTokenResponseDTOFromJSON(json) {
+  return CreateAccessTokenResponseDTOFromJSONTyped(json);
+}
+function CreateAccessTokenResponseDTOFromJSONTyped(json, ignoreDiscriminator) {
+  if (json == null) {
+    return json;
+  }
+  return {
+    "token": json["token"] == null ? void 0 : json["token"]
+  };
+}
+function CreateAccessTokenResponseDTOToJSON(json) {
+  return CreateAccessTokenResponseDTOToJSONTyped(json, false);
+}
+function CreateAccessTokenResponseDTOToJSONTyped(value, ignoreDiscriminator = false) {
+  if (value == null) {
+    return value;
+  }
+  return {
+    "token": value["token"]
   };
 }
 
@@ -4312,14 +4729,14 @@ function ReportOptionsToJSONTyped(value, ignoreDiscriminator = false) {
   };
 }
 
-// models/CreateOrUpdateReportConfig.ts
-function instanceOfCreateOrUpdateReportConfig(value) {
+// models/CreateOrUpdateReport.ts
+function instanceOfCreateOrUpdateReport(value) {
   return true;
 }
-function CreateOrUpdateReportConfigFromJSON(json) {
-  return CreateOrUpdateReportConfigFromJSONTyped(json);
+function CreateOrUpdateReportFromJSON(json) {
+  return CreateOrUpdateReportFromJSONTyped(json);
 }
-function CreateOrUpdateReportConfigFromJSONTyped(json, ignoreDiscriminator) {
+function CreateOrUpdateReportFromJSONTyped(json, ignoreDiscriminator) {
   if (json == null) {
     return json;
   }
@@ -4338,10 +4755,10 @@ function CreateOrUpdateReportConfigFromJSONTyped(json, ignoreDiscriminator) {
     "state": json["state"] == null ? void 0 : json["state"]
   };
 }
-function CreateOrUpdateReportConfigToJSON(json) {
-  return CreateOrUpdateReportConfigToJSONTyped(json, false);
+function CreateOrUpdateReportToJSON(json) {
+  return CreateOrUpdateReportToJSONTyped(json, false);
 }
-function CreateOrUpdateReportConfigToJSONTyped(value, ignoreDiscriminator = false) {
+function CreateOrUpdateReportToJSONTyped(value, ignoreDiscriminator = false) {
   if (value == null) {
     return value;
   }
@@ -4659,6 +5076,33 @@ function CreateServiceAccountFormToJSONTyped(value, ignoreDiscriminator = false)
   };
 }
 
+// models/CreateSnapshotResponseDTO.ts
+function instanceOfCreateSnapshotResponseDTO(value) {
+  return true;
+}
+function CreateSnapshotResponseDTOFromJSON(json) {
+  return CreateSnapshotResponseDTOFromJSONTyped(json);
+}
+function CreateSnapshotResponseDTOFromJSONTyped(json, ignoreDiscriminator) {
+  if (json == null) {
+    return json;
+  }
+  return {
+    "uid": json["uid"] == null ? void 0 : json["uid"]
+  };
+}
+function CreateSnapshotResponseDTOToJSON(json) {
+  return CreateSnapshotResponseDTOToJSONTyped(json, false);
+}
+function CreateSnapshotResponseDTOToJSONTyped(value, ignoreDiscriminator = false) {
+  if (value == null) {
+    return value;
+  }
+  return {
+    "uid": value["uid"]
+  };
+}
+
 // models/CreateTeam200Response.ts
 function instanceOfCreateTeam200Response(value) {
   return true;
@@ -4901,7 +5345,6 @@ function DashboardMetaFromJSONTyped(json, ignoreDiscriminator) {
     "provisioned": json["provisioned"] == null ? void 0 : json["provisioned"],
     "provisionedExternalId": json["provisionedExternalId"] == null ? void 0 : json["provisionedExternalId"],
     "publicDashboardEnabled": json["publicDashboardEnabled"] == null ? void 0 : json["publicDashboardEnabled"],
-    "publicDashboardUid": json["publicDashboardUid"] == null ? void 0 : json["publicDashboardUid"],
     "slug": json["slug"] == null ? void 0 : json["slug"],
     "type": json["type"] == null ? void 0 : json["type"],
     "updated": json["updated"] == null ? void 0 : new Date(json["updated"]),
@@ -4938,7 +5381,6 @@ function DashboardMetaToJSONTyped(value, ignoreDiscriminator = false) {
     "provisioned": value["provisioned"],
     "provisionedExternalId": value["provisionedExternalId"],
     "publicDashboardEnabled": value["publicDashboardEnabled"],
-    "publicDashboardUid": value["publicDashboardUid"],
     "slug": value["slug"],
     "type": value["type"],
     "updated": value["updated"] == null ? void 0 : value["updated"].toISOString(),
@@ -5758,9 +6200,9 @@ function DeleteCorrelationResponseBodyToJSONTyped(value, ignoreDiscriminator = f
 
 // models/DeleteDashboardByUID200Response.ts
 function instanceOfDeleteDashboardByUID200Response(value) {
-  if (!("id" in value) || value["id"] === void 0) return false;
   if (!("message" in value) || value["message"] === void 0) return false;
   if (!("title" in value) || value["title"] === void 0) return false;
+  if (!("uid" in value) || value["uid"] === void 0) return false;
   return true;
 }
 function DeleteDashboardByUID200ResponseFromJSON(json) {
@@ -5771,9 +6213,9 @@ function DeleteDashboardByUID200ResponseFromJSONTyped(json, ignoreDiscriminator)
     return json;
   }
   return {
-    "id": json["id"],
     "message": json["message"],
-    "title": json["title"]
+    "title": json["title"],
+    "uid": json["uid"]
   };
 }
 function DeleteDashboardByUID200ResponseToJSON(json) {
@@ -5784,9 +6226,9 @@ function DeleteDashboardByUID200ResponseToJSONTyped(value, ignoreDiscriminator =
     return value;
   }
   return {
-    "id": value["id"],
     "message": value["message"],
-    "title": value["title"]
+    "title": value["title"],
+    "uid": value["uid"]
   };
 }
 
@@ -7254,6 +7696,43 @@ function GenericPublicErrorToJSONTyped(value, ignoreDiscriminator = false) {
   };
 }
 
+// models/GetAccessTokenResponseDTO.ts
+function instanceOfGetAccessTokenResponseDTO(value) {
+  return true;
+}
+function GetAccessTokenResponseDTOFromJSON(json) {
+  return GetAccessTokenResponseDTOFromJSONTyped(json);
+}
+function GetAccessTokenResponseDTOFromJSONTyped(json, ignoreDiscriminator) {
+  if (json == null) {
+    return json;
+  }
+  return {
+    "createdAt": json["createdAt"] == null ? void 0 : json["createdAt"],
+    "displayName": json["displayName"] == null ? void 0 : json["displayName"],
+    "expiresAt": json["expiresAt"] == null ? void 0 : json["expiresAt"],
+    "firstUsedAt": json["firstUsedAt"] == null ? void 0 : json["firstUsedAt"],
+    "id": json["id"] == null ? void 0 : json["id"],
+    "lastUsedAt": json["lastUsedAt"] == null ? void 0 : json["lastUsedAt"]
+  };
+}
+function GetAccessTokenResponseDTOToJSON(json) {
+  return GetAccessTokenResponseDTOToJSONTyped(json, false);
+}
+function GetAccessTokenResponseDTOToJSONTyped(value, ignoreDiscriminator = false) {
+  if (value == null) {
+    return value;
+  }
+  return {
+    "createdAt": value["createdAt"],
+    "displayName": value["displayName"],
+    "expiresAt": value["expiresAt"],
+    "firstUsedAt": value["firstUsedAt"],
+    "id": value["id"],
+    "lastUsedAt": value["lastUsedAt"]
+  };
+}
+
 // models/GetAnnotationTagsResponse.ts
 function instanceOfGetAnnotationTagsResponse(value) {
   return true;
@@ -7368,6 +7847,136 @@ function GetSharingOptions200ResponseToJSONTyped(value, ignoreDiscriminator = fa
     "externalEnabled": value["externalEnabled"],
     "externalSnapshotName": value["externalSnapshotName"],
     "externalSnapshotURL": value["externalSnapshotURL"]
+  };
+}
+
+// models/MigrateDataResponseItemDTO.ts
+var MigrateDataResponseItemDTOStatusEnum = {
+  Ok: "OK",
+  Warning: "WARNING",
+  Error: "ERROR",
+  Pending: "PENDING",
+  Unknown: "UNKNOWN"
+};
+var MigrateDataResponseItemDTOTypeEnum = {
+  Dashboard: "DASHBOARD",
+  Datasource: "DATASOURCE",
+  Folder: "FOLDER"
+};
+function instanceOfMigrateDataResponseItemDTO(value) {
+  if (!("refId" in value) || value["refId"] === void 0) return false;
+  if (!("status" in value) || value["status"] === void 0) return false;
+  if (!("type" in value) || value["type"] === void 0) return false;
+  return true;
+}
+function MigrateDataResponseItemDTOFromJSON(json) {
+  return MigrateDataResponseItemDTOFromJSONTyped(json);
+}
+function MigrateDataResponseItemDTOFromJSONTyped(json, ignoreDiscriminator) {
+  if (json == null) {
+    return json;
+  }
+  return {
+    "message": json["message"] == null ? void 0 : json["message"],
+    "refId": json["refId"],
+    "status": json["status"],
+    "type": json["type"]
+  };
+}
+function MigrateDataResponseItemDTOToJSON(json) {
+  return MigrateDataResponseItemDTOToJSONTyped(json, false);
+}
+function MigrateDataResponseItemDTOToJSONTyped(value, ignoreDiscriminator = false) {
+  if (value == null) {
+    return value;
+  }
+  return {
+    "message": value["message"],
+    "refId": value["refId"],
+    "status": value["status"],
+    "type": value["type"]
+  };
+}
+
+// models/SnapshotResourceStats.ts
+function instanceOfSnapshotResourceStats(value) {
+  return true;
+}
+function SnapshotResourceStatsFromJSON(json) {
+  return SnapshotResourceStatsFromJSONTyped(json);
+}
+function SnapshotResourceStatsFromJSONTyped(json, ignoreDiscriminator) {
+  if (json == null) {
+    return json;
+  }
+  return {
+    "statuses": json["statuses"] == null ? void 0 : json["statuses"],
+    "total": json["total"] == null ? void 0 : json["total"],
+    "types": json["types"] == null ? void 0 : json["types"]
+  };
+}
+function SnapshotResourceStatsToJSON(json) {
+  return SnapshotResourceStatsToJSONTyped(json, false);
+}
+function SnapshotResourceStatsToJSONTyped(value, ignoreDiscriminator = false) {
+  if (value == null) {
+    return value;
+  }
+  return {
+    "statuses": value["statuses"],
+    "total": value["total"],
+    "types": value["types"]
+  };
+}
+
+// models/GetSnapshotResponseDTO.ts
+var GetSnapshotResponseDTOStatusEnum = {
+  Initializing: "INITIALIZING",
+  Creating: "CREATING",
+  PendingUpload: "PENDING_UPLOAD",
+  Uploading: "UPLOADING",
+  PendingProcessing: "PENDING_PROCESSING",
+  Processing: "PROCESSING",
+  Finished: "FINISHED",
+  Canceled: "CANCELED",
+  Error: "ERROR",
+  Unknown: "UNKNOWN"
+};
+function instanceOfGetSnapshotResponseDTO(value) {
+  return true;
+}
+function GetSnapshotResponseDTOFromJSON(json) {
+  return GetSnapshotResponseDTOFromJSONTyped(json);
+}
+function GetSnapshotResponseDTOFromJSONTyped(json, ignoreDiscriminator) {
+  if (json == null) {
+    return json;
+  }
+  return {
+    "created": json["created"] == null ? void 0 : new Date(json["created"]),
+    "finished": json["finished"] == null ? void 0 : new Date(json["finished"]),
+    "results": json["results"] == null ? void 0 : json["results"].map(MigrateDataResponseItemDTOFromJSON),
+    "sessionUid": json["sessionUid"] == null ? void 0 : json["sessionUid"],
+    "stats": json["stats"] == null ? void 0 : SnapshotResourceStatsFromJSON(json["stats"]),
+    "status": json["status"] == null ? void 0 : json["status"],
+    "uid": json["uid"] == null ? void 0 : json["uid"]
+  };
+}
+function GetSnapshotResponseDTOToJSON(json) {
+  return GetSnapshotResponseDTOToJSONTyped(json, false);
+}
+function GetSnapshotResponseDTOToJSONTyped(value, ignoreDiscriminator = false) {
+  if (value == null) {
+    return value;
+  }
+  return {
+    "created": value["created"] == null ? void 0 : value["created"].toISOString(),
+    "finished": value["finished"] == null ? void 0 : value["finished"].toISOString(),
+    "results": value["results"] == null ? void 0 : value["results"].map(MigrateDataResponseItemDTOToJSON),
+    "sessionUid": value["sessionUid"],
+    "stats": SnapshotResourceStatsToJSON(value["stats"]),
+    "status": value["status"],
+    "uid": value["uid"]
   };
 }
 
@@ -7765,6 +8374,7 @@ function GettableGrafanaRuleFromJSONTyped(json, ignoreDiscriminator) {
     "notificationSettings": json["notification_settings"] == null ? void 0 : AlertRuleNotificationSettingsFromJSON(json["notification_settings"]),
     "orgId": json["orgId"] == null ? void 0 : json["orgId"],
     "provenance": json["provenance"] == null ? void 0 : json["provenance"],
+    "record": json["record"] == null ? void 0 : RecordFromJSON(json["record"]),
     "ruleGroup": json["rule_group"] == null ? void 0 : json["rule_group"],
     "title": json["title"] == null ? void 0 : json["title"],
     "uid": json["uid"] == null ? void 0 : json["uid"],
@@ -7791,6 +8401,7 @@ function GettableGrafanaRuleToJSONTyped(value, ignoreDiscriminator = false) {
     "notification_settings": AlertRuleNotificationSettingsToJSON(value["notificationSettings"]),
     "orgId": value["orgId"],
     "provenance": value["provenance"],
+    "record": RecordToJSON(value["record"]),
     "rule_group": value["ruleGroup"],
     "title": value["title"],
     "uid": value["uid"],
@@ -7864,6 +8475,121 @@ function GettableGrafanaReceiversToJSONTyped(value, ignoreDiscriminator = false)
   }
   return {
     "grafana_managed_receiver_configs": value["grafanaManagedReceiverConfigs"] == null ? void 0 : value["grafanaManagedReceiverConfigs"].map(GettableGrafanaReceiverToJSON)
+  };
+}
+
+// models/SilenceStatus.ts
+var SilenceStatusStateEnum = {
+  ExpiredActivePending: "[expired active pending]"
+};
+function instanceOfSilenceStatus(value) {
+  if (!("state" in value) || value["state"] === void 0) return false;
+  return true;
+}
+function SilenceStatusFromJSON(json) {
+  return SilenceStatusFromJSONTyped(json);
+}
+function SilenceStatusFromJSONTyped(json, ignoreDiscriminator) {
+  if (json == null) {
+    return json;
+  }
+  return {
+    "state": json["state"]
+  };
+}
+function SilenceStatusToJSON(json) {
+  return SilenceStatusToJSONTyped(json, false);
+}
+function SilenceStatusToJSONTyped(value, ignoreDiscriminator = false) {
+  if (value == null) {
+    return value;
+  }
+  return {
+    "state": value["state"]
+  };
+}
+
+// models/SilenceMetadata.ts
+function instanceOfSilenceMetadata(value) {
+  return true;
+}
+function SilenceMetadataFromJSON(json) {
+  return SilenceMetadataFromJSONTyped(json);
+}
+function SilenceMetadataFromJSONTyped(json, ignoreDiscriminator) {
+  if (json == null) {
+    return json;
+  }
+  return {
+    "folderUid": json["folder_uid"] == null ? void 0 : json["folder_uid"],
+    "ruleTitle": json["rule_title"] == null ? void 0 : json["rule_title"],
+    "ruleUid": json["rule_uid"] == null ? void 0 : json["rule_uid"]
+  };
+}
+function SilenceMetadataToJSON(json) {
+  return SilenceMetadataToJSONTyped(json, false);
+}
+function SilenceMetadataToJSONTyped(value, ignoreDiscriminator = false) {
+  if (value == null) {
+    return value;
+  }
+  return {
+    "folder_uid": value["folderUid"],
+    "rule_title": value["ruleTitle"],
+    "rule_uid": value["ruleUid"]
+  };
+}
+
+// models/GettableGrafanaSilence.ts
+function instanceOfGettableGrafanaSilence(value) {
+  if (!("comment" in value) || value["comment"] === void 0) return false;
+  if (!("createdBy" in value) || value["createdBy"] === void 0) return false;
+  if (!("endsAt" in value) || value["endsAt"] === void 0) return false;
+  if (!("id" in value) || value["id"] === void 0) return false;
+  if (!("matchers" in value) || value["matchers"] === void 0) return false;
+  if (!("startsAt" in value) || value["startsAt"] === void 0) return false;
+  if (!("status" in value) || value["status"] === void 0) return false;
+  if (!("updatedAt" in value) || value["updatedAt"] === void 0) return false;
+  return true;
+}
+function GettableGrafanaSilenceFromJSON(json) {
+  return GettableGrafanaSilenceFromJSONTyped(json);
+}
+function GettableGrafanaSilenceFromJSONTyped(json, ignoreDiscriminator) {
+  if (json == null) {
+    return json;
+  }
+  return {
+    "accessControl": json["accessControl"] == null ? void 0 : json["accessControl"],
+    "comment": json["comment"],
+    "createdBy": json["createdBy"],
+    "endsAt": new Date(json["endsAt"]),
+    "id": json["id"],
+    "matchers": json["matchers"].map(MatcherFromJSON),
+    "metadata": json["metadata"] == null ? void 0 : SilenceMetadataFromJSON(json["metadata"]),
+    "startsAt": new Date(json["startsAt"]),
+    "status": SilenceStatusFromJSON(json["status"]),
+    "updatedAt": new Date(json["updatedAt"])
+  };
+}
+function GettableGrafanaSilenceToJSON(json) {
+  return GettableGrafanaSilenceToJSONTyped(json, false);
+}
+function GettableGrafanaSilenceToJSONTyped(value, ignoreDiscriminator = false) {
+  if (value == null) {
+    return value;
+  }
+  return {
+    "accessControl": value["accessControl"],
+    "comment": value["comment"],
+    "createdBy": value["createdBy"],
+    "endsAt": value["endsAt"].toISOString(),
+    "id": value["id"],
+    "matchers": value["matchers"].map(MatcherToJSON),
+    "metadata": SilenceMetadataToJSON(value["metadata"]),
+    "startsAt": value["startsAt"].toISOString(),
+    "status": SilenceStatusToJSON(value["status"]),
+    "updatedAt": value["updatedAt"].toISOString()
   };
 }
 
@@ -7964,37 +8690,6 @@ function GettableRuleGroupConfigToJSONTyped(value, ignoreDiscriminator = false) 
     "name": value["name"],
     "rules": value["rules"] == null ? void 0 : value["rules"].map(GettableExtendedRuleNodeToJSON),
     "source_tenants": value["sourceTenants"]
-  };
-}
-
-// models/SilenceStatus.ts
-var SilenceStatusStateEnum = {
-  ExpiredActivePending: "[expired active pending]"
-};
-function instanceOfSilenceStatus(value) {
-  if (!("state" in value) || value["state"] === void 0) return false;
-  return true;
-}
-function SilenceStatusFromJSON(json) {
-  return SilenceStatusFromJSONTyped(json);
-}
-function SilenceStatusFromJSONTyped(json, ignoreDiscriminator) {
-  if (json == null) {
-    return json;
-  }
-  return {
-    "state": json["state"]
-  };
-}
-function SilenceStatusToJSON(json) {
-  return SilenceStatusToJSONTyped(json, false);
-}
-function SilenceStatusToJSONTyped(value, ignoreDiscriminator = false) {
-  if (value == null) {
-    return value;
-  }
-  return {
-    "state": value["state"]
   };
 }
 
@@ -8258,7 +8953,8 @@ function GettableTimeIntervalsFromJSONTyped(json, ignoreDiscriminator) {
   return {
     "name": json["name"] == null ? void 0 : json["name"],
     "provenance": json["provenance"] == null ? void 0 : json["provenance"],
-    "timeIntervals": json["time_intervals"] == null ? void 0 : json["time_intervals"].map(TimeIntervalItemFromJSON)
+    "timeIntervals": json["time_intervals"] == null ? void 0 : json["time_intervals"].map(TimeIntervalItemFromJSON),
+    "version": json["version"] == null ? void 0 : json["version"]
   };
 }
 function GettableTimeIntervalsToJSON(json) {
@@ -8271,7 +8967,8 @@ function GettableTimeIntervalsToJSONTyped(value, ignoreDiscriminator = false) {
   return {
     "name": value["name"],
     "provenance": value["provenance"],
-    "time_intervals": value["timeIntervals"] == null ? void 0 : value["timeIntervals"].map(TimeIntervalItemToJSON)
+    "time_intervals": value["timeIntervals"] == null ? void 0 : value["timeIntervals"].map(TimeIntervalItemToJSON),
+    "version": value["version"]
   };
 }
 
@@ -8306,6 +9003,39 @@ function GettableUserConfigToJSONTyped(value, ignoreDiscriminator = false) {
   };
 }
 
+// models/HealthResponse.ts
+function instanceOfHealthResponse(value) {
+  return true;
+}
+function HealthResponseFromJSON(json) {
+  return HealthResponseFromJSONTyped(json);
+}
+function HealthResponseFromJSONTyped(json, ignoreDiscriminator) {
+  if (json == null) {
+    return json;
+  }
+  return {
+    "commit": json["commit"] == null ? void 0 : json["commit"],
+    "database": json["database"] == null ? void 0 : json["database"],
+    "enterpriseCommit": json["enterpriseCommit"] == null ? void 0 : json["enterpriseCommit"],
+    "version": json["version"] == null ? void 0 : json["version"]
+  };
+}
+function HealthResponseToJSON(json) {
+  return HealthResponseToJSONTyped(json, false);
+}
+function HealthResponseToJSONTyped(value, ignoreDiscriminator = false) {
+  if (value == null) {
+    return value;
+  }
+  return {
+    "commit": value["commit"],
+    "database": value["database"],
+    "enterpriseCommit": value["enterpriseCommit"],
+    "version": value["version"]
+  };
+}
+
 // models/Hit.ts
 function instanceOfHit(value) {
   return true;
@@ -8323,7 +9053,9 @@ function HitFromJSONTyped(json, ignoreDiscriminator) {
     "folderUid": json["folderUid"] == null ? void 0 : json["folderUid"],
     "folderUrl": json["folderUrl"] == null ? void 0 : json["folderUrl"],
     "id": json["id"] == null ? void 0 : json["id"],
+    "isDeleted": json["isDeleted"] == null ? void 0 : json["isDeleted"],
     "isStarred": json["isStarred"] == null ? void 0 : json["isStarred"],
+    "permanentlyDeleteDate": json["permanentlyDeleteDate"] == null ? void 0 : new Date(json["permanentlyDeleteDate"]),
     "slug": json["slug"] == null ? void 0 : json["slug"],
     "sortMeta": json["sortMeta"] == null ? void 0 : json["sortMeta"],
     "sortMetaName": json["sortMetaName"] == null ? void 0 : json["sortMetaName"],
@@ -8348,7 +9080,9 @@ function HitToJSONTyped(value, ignoreDiscriminator = false) {
     "folderUid": value["folderUid"],
     "folderUrl": value["folderUrl"],
     "id": value["id"],
+    "isDeleted": value["isDeleted"],
     "isStarred": value["isStarred"],
+    "permanentlyDeleteDate": value["permanentlyDeleteDate"] == null ? void 0 : value["permanentlyDeleteDate"].toISOString(),
     "slug": value["slug"],
     "sortMeta": value["sortMeta"],
     "sortMetaName": value["sortMetaName"],
@@ -8526,33 +9260,6 @@ function JSONWebKeyToJSONTyped(value, ignoreDiscriminator = false) {
     "Key": value["key"],
     "KeyID": value["keyID"],
     "Use": value["use"]
-  };
-}
-
-// models/Label.ts
-function instanceOfLabel(value) {
-  return true;
-}
-function LabelFromJSON(json) {
-  return LabelFromJSONTyped(json);
-}
-function LabelFromJSONTyped(json, ignoreDiscriminator) {
-  if (json == null) {
-    return json;
-  }
-  return {
-    "name": json["Name"] == null ? void 0 : json["Name"]
-  };
-}
-function LabelToJSON(json) {
-  return LabelToJSONTyped(json, false);
-}
-function LabelToJSONTyped(value, ignoreDiscriminator = false) {
-  if (value == null) {
-    return value;
-  }
-  return {
-    "Name": value["name"]
   };
 }
 
@@ -8992,6 +9699,35 @@ function MetricRequestToJSONTyped(value, ignoreDiscriminator = false) {
   };
 }
 
+// models/MigrateDataResponseDTO.ts
+function instanceOfMigrateDataResponseDTO(value) {
+  return true;
+}
+function MigrateDataResponseDTOFromJSON(json) {
+  return MigrateDataResponseDTOFromJSONTyped(json);
+}
+function MigrateDataResponseDTOFromJSONTyped(json, ignoreDiscriminator) {
+  if (json == null) {
+    return json;
+  }
+  return {
+    "items": json["items"] == null ? void 0 : json["items"].map(MigrateDataResponseItemDTOFromJSON),
+    "uid": json["uid"] == null ? void 0 : json["uid"]
+  };
+}
+function MigrateDataResponseDTOToJSON(json) {
+  return MigrateDataResponseDTOToJSONTyped(json, false);
+}
+function MigrateDataResponseDTOToJSONTyped(value, ignoreDiscriminator = false) {
+  if (value == null) {
+    return value;
+  }
+  return {
+    "items": value["items"] == null ? void 0 : value["items"].map(MigrateDataResponseItemDTOToJSON),
+    "uid": value["uid"]
+  };
+}
+
 // models/MoveFolderCommand.ts
 function instanceOfMoveFolderCommand(value) {
   return true;
@@ -9016,6 +9752,33 @@ function MoveFolderCommandToJSONTyped(value, ignoreDiscriminator = false) {
   }
   return {
     "parentUid": value["parentUid"]
+  };
+}
+
+// models/NavbarPreference.ts
+function instanceOfNavbarPreference(value) {
+  return true;
+}
+function NavbarPreferenceFromJSON(json) {
+  return NavbarPreferenceFromJSONTyped(json);
+}
+function NavbarPreferenceFromJSONTyped(json, ignoreDiscriminator) {
+  if (json == null) {
+    return json;
+  }
+  return {
+    "bookmarkUrls": json["bookmarkUrls"] == null ? void 0 : json["bookmarkUrls"]
+  };
+}
+function NavbarPreferenceToJSON(json) {
+  return NavbarPreferenceToJSONTyped(json, false);
+}
+function NavbarPreferenceToJSONTyped(value, ignoreDiscriminator = false) {
+  if (value == null) {
+    return value;
+  }
+  return {
+    "bookmarkUrls": value["bookmarkUrls"]
   };
 }
 
@@ -9064,7 +9827,8 @@ function NotificationTemplateFromJSONTyped(json, ignoreDiscriminator) {
   return {
     "name": json["name"] == null ? void 0 : json["name"],
     "provenance": json["provenance"] == null ? void 0 : json["provenance"],
-    "template": json["template"] == null ? void 0 : json["template"]
+    "template": json["template"] == null ? void 0 : json["template"],
+    "version": json["version"] == null ? void 0 : json["version"]
   };
 }
 function NotificationTemplateToJSON(json) {
@@ -9077,7 +9841,8 @@ function NotificationTemplateToJSONTyped(value, ignoreDiscriminator = false) {
   return {
     "name": value["name"],
     "provenance": value["provenance"],
-    "template": value["template"]
+    "template": value["template"],
+    "version": value["version"]
   };
 }
 
@@ -9093,7 +9858,8 @@ function NotificationTemplateContentFromJSONTyped(json, ignoreDiscriminator) {
     return json;
   }
   return {
-    "template": json["template"] == null ? void 0 : json["template"]
+    "template": json["template"] == null ? void 0 : json["template"],
+    "version": json["version"] == null ? void 0 : json["version"]
   };
 }
 function NotificationTemplateContentToJSON(json) {
@@ -9104,7 +9870,8 @@ function NotificationTemplateContentToJSONTyped(value, ignoreDiscriminator = fal
     return value;
   }
   return {
-    "template": value["template"]
+    "template": value["template"],
+    "version": value["version"]
   };
 }
 
@@ -9377,6 +10144,7 @@ function PatchPrefsCmdFromJSONTyped(json, ignoreDiscriminator) {
     "homeDashboardId": json["homeDashboardId"] == null ? void 0 : json["homeDashboardId"],
     "homeDashboardUID": json["homeDashboardUID"] == null ? void 0 : json["homeDashboardUID"],
     "language": json["language"] == null ? void 0 : json["language"],
+    "navbar": json["navbar"] == null ? void 0 : NavbarPreferenceFromJSON(json["navbar"]),
     "queryHistory": json["queryHistory"] == null ? void 0 : QueryHistoryPreferenceFromJSON(json["queryHistory"]),
     "theme": json["theme"] == null ? void 0 : json["theme"],
     "timezone": json["timezone"] == null ? void 0 : json["timezone"],
@@ -9395,6 +10163,7 @@ function PatchPrefsCmdToJSONTyped(value, ignoreDiscriminator = false) {
     "homeDashboardId": value["homeDashboardId"],
     "homeDashboardUID": value["homeDashboardUID"],
     "language": value["language"],
+    "navbar": NavbarPreferenceToJSON(value["navbar"]),
     "queryHistory": QueryHistoryPreferenceToJSON(value["queryHistory"]),
     "theme": value["theme"],
     "timezone": value["timezone"],
@@ -9805,6 +10574,7 @@ function PostableGrafanaRuleFromJSONTyped(json, ignoreDiscriminator) {
     "isPaused": json["is_paused"] == null ? void 0 : json["is_paused"],
     "noDataState": json["no_data_state"] == null ? void 0 : json["no_data_state"],
     "notificationSettings": json["notification_settings"] == null ? void 0 : AlertRuleNotificationSettingsFromJSON(json["notification_settings"]),
+    "record": json["record"] == null ? void 0 : RecordFromJSON(json["record"]),
     "title": json["title"] == null ? void 0 : json["title"],
     "uid": json["uid"] == null ? void 0 : json["uid"]
   };
@@ -9823,6 +10593,7 @@ function PostableGrafanaRuleToJSONTyped(value, ignoreDiscriminator = false) {
     "is_paused": value["isPaused"],
     "no_data_state": value["noDataState"],
     "notification_settings": AlertRuleNotificationSettingsToJSON(value["notificationSettings"]),
+    "record": RecordToJSON(value["record"]),
     "title": value["title"],
     "uid": value["uid"]
   };
@@ -10048,7 +10819,8 @@ function PostableTimeIntervalsFromJSONTyped(json, ignoreDiscriminator) {
   }
   return {
     "name": json["name"] == null ? void 0 : json["name"],
-    "timeIntervals": json["time_intervals"] == null ? void 0 : json["time_intervals"].map(TimeIntervalItemFromJSON)
+    "timeIntervals": json["time_intervals"] == null ? void 0 : json["time_intervals"].map(TimeIntervalItemFromJSON),
+    "version": json["version"] == null ? void 0 : json["version"]
   };
 }
 function PostableTimeIntervalsToJSON(json) {
@@ -10060,7 +10832,8 @@ function PostableTimeIntervalsToJSONTyped(value, ignoreDiscriminator = false) {
   }
   return {
     "name": value["name"],
-    "time_intervals": value["timeIntervals"] == null ? void 0 : value["timeIntervals"].map(TimeIntervalItemToJSON)
+    "time_intervals": value["timeIntervals"] == null ? void 0 : value["timeIntervals"].map(TimeIntervalItemToJSON),
+    "version": value["version"]
   };
 }
 
@@ -10108,6 +10881,7 @@ function PreferencesFromJSONTyped(json, ignoreDiscriminator) {
     "cookiePreferences": json["cookiePreferences"] == null ? void 0 : CookiePreferencesFromJSON(json["cookiePreferences"]),
     "homeDashboardUID": json["homeDashboardUID"] == null ? void 0 : json["homeDashboardUID"],
     "language": json["language"] == null ? void 0 : json["language"],
+    "navbar": json["navbar"] == null ? void 0 : NavbarPreferenceFromJSON(json["navbar"]),
     "queryHistory": json["queryHistory"] == null ? void 0 : QueryHistoryPreferenceFromJSON(json["queryHistory"]),
     "theme": json["theme"] == null ? void 0 : json["theme"],
     "timezone": json["timezone"] == null ? void 0 : json["timezone"],
@@ -10125,6 +10899,7 @@ function PreferencesToJSONTyped(value, ignoreDiscriminator = false) {
     "cookiePreferences": CookiePreferencesToJSON(value["cookiePreferences"]),
     "homeDashboardUID": value["homeDashboardUID"],
     "language": value["language"],
+    "navbar": NavbarPreferenceToJSON(value["navbar"]),
     "queryHistory": QueryHistoryPreferenceToJSON(value["queryHistory"]),
     "theme": value["theme"],
     "timezone": value["timezone"],
@@ -10883,6 +11658,33 @@ function RestoreDashboardVersionCommandToJSONTyped(value, ignoreDiscriminator = 
   };
 }
 
+// models/RestoreDeletedDashboardCommand.ts
+function instanceOfRestoreDeletedDashboardCommand(value) {
+  return true;
+}
+function RestoreDeletedDashboardCommandFromJSON(json) {
+  return RestoreDeletedDashboardCommandFromJSONTyped(json);
+}
+function RestoreDeletedDashboardCommandFromJSONTyped(json, ignoreDiscriminator) {
+  if (json == null) {
+    return json;
+  }
+  return {
+    "folderUid": json["folderUid"] == null ? void 0 : json["folderUid"]
+  };
+}
+function RestoreDeletedDashboardCommandToJSON(json) {
+  return RestoreDeletedDashboardCommandToJSONTyped(json, false);
+}
+function RestoreDeletedDashboardCommandToJSONTyped(value, ignoreDiscriminator = false) {
+  if (value == null) {
+    return value;
+  }
+  return {
+    "folderUid": value["folderUid"]
+  };
+}
+
 // models/RetrieveJWKS200Response.ts
 function instanceOfRetrieveJWKS200Response(value) {
   return true;
@@ -11070,7 +11872,7 @@ function RuleFromJSONTyped(json, ignoreDiscriminator) {
   return {
     "evaluationTime": json["evaluationTime"] == null ? void 0 : json["evaluationTime"],
     "health": json["health"],
-    "labels": json["labels"] == null ? void 0 : json["labels"],
+    "labels": json["labels"] == null ? void 0 : json["labels"].map(LabelFromJSON),
     "lastError": json["lastError"] == null ? void 0 : json["lastError"],
     "lastEvaluation": json["lastEvaluation"] == null ? void 0 : new Date(json["lastEvaluation"]),
     "name": json["name"],
@@ -11088,7 +11890,7 @@ function RuleToJSONTyped(value, ignoreDiscriminator = false) {
   return {
     "evaluationTime": value["evaluationTime"],
     "health": value["health"],
-    "labels": value["labels"],
+    "labels": value["labels"] == null ? void 0 : value["labels"].map(LabelToJSON),
     "lastError": value["lastError"],
     "lastEvaluation": value["lastEvaluation"] == null ? void 0 : value["lastEvaluation"].toISOString(),
     "name": value["name"],
@@ -11307,6 +12109,45 @@ function SaveDashboardCommandToJSONTyped(value, ignoreDiscriminator = false) {
     "isFolder": value["isFolder"],
     "message": value["message"],
     "overwrite": value["overwrite"],
+    "userId": value["userId"]
+  };
+}
+
+// models/SearchDTO.ts
+function instanceOfSearchDTO(value) {
+  return true;
+}
+function SearchDTOFromJSON(json) {
+  return SearchDTOFromJSONTyped(json);
+}
+function SearchDTOFromJSONTyped(json, ignoreDiscriminator) {
+  if (json == null) {
+    return json;
+  }
+  return {
+    "action": json["action"] == null ? void 0 : json["action"],
+    "basicRole": json["basicRole"] == null ? void 0 : json["basicRole"],
+    "onlyRoles": json["onlyRoles"] == null ? void 0 : json["onlyRoles"],
+    "roleName": json["roleName"] == null ? void 0 : json["roleName"],
+    "scope": json["scope"] == null ? void 0 : json["scope"],
+    "teamId": json["teamId"] == null ? void 0 : json["teamId"],
+    "userId": json["userId"] == null ? void 0 : json["userId"]
+  };
+}
+function SearchDTOToJSON(json) {
+  return SearchDTOToJSONTyped(json, false);
+}
+function SearchDTOToJSONTyped(value, ignoreDiscriminator = false) {
+  if (value == null) {
+    return value;
+  }
+  return {
+    "action": value["action"],
+    "basicRole": value["basicRole"],
+    "onlyRoles": value["onlyRoles"],
+    "roleName": value["roleName"],
+    "scope": value["scope"],
+    "teamId": value["teamId"],
     "userId": value["userId"]
   };
 }
@@ -11850,6 +12691,35 @@ function SetRoleAssignmentsCommandToJSONTyped(value, ignoreDiscriminator = false
   };
 }
 
+// models/SetTeamMembershipsCommand.ts
+function instanceOfSetTeamMembershipsCommand(value) {
+  return true;
+}
+function SetTeamMembershipsCommandFromJSON(json) {
+  return SetTeamMembershipsCommandFromJSONTyped(json);
+}
+function SetTeamMembershipsCommandFromJSONTyped(json, ignoreDiscriminator) {
+  if (json == null) {
+    return json;
+  }
+  return {
+    "admins": json["admins"] == null ? void 0 : json["admins"],
+    "members": json["members"] == null ? void 0 : json["members"]
+  };
+}
+function SetTeamMembershipsCommandToJSON(json) {
+  return SetTeamMembershipsCommandToJSONTyped(json, false);
+}
+function SetTeamMembershipsCommandToJSONTyped(value, ignoreDiscriminator = false) {
+  if (value == null) {
+    return value;
+  }
+  return {
+    "admins": value["admins"],
+    "members": value["members"]
+  };
+}
+
 // models/SetUserRolesCommand.ts
 function instanceOfSetUserRolesCommand(value) {
   return true;
@@ -11918,6 +12788,80 @@ function SilenceToJSONTyped(value, ignoreDiscriminator = false) {
     "endsAt": value["endsAt"].toISOString(),
     "matchers": value["matchers"].map(MatcherToJSON),
     "startsAt": value["startsAt"].toISOString()
+  };
+}
+
+// models/SnapshotDTO.ts
+var SnapshotDTOStatusEnum = {
+  Initializing: "INITIALIZING",
+  Creating: "CREATING",
+  PendingUpload: "PENDING_UPLOAD",
+  Uploading: "UPLOADING",
+  PendingProcessing: "PENDING_PROCESSING",
+  Processing: "PROCESSING",
+  Finished: "FINISHED",
+  Canceled: "CANCELED",
+  Error: "ERROR",
+  Unknown: "UNKNOWN"
+};
+function instanceOfSnapshotDTO(value) {
+  return true;
+}
+function SnapshotDTOFromJSON(json) {
+  return SnapshotDTOFromJSONTyped(json);
+}
+function SnapshotDTOFromJSONTyped(json, ignoreDiscriminator) {
+  if (json == null) {
+    return json;
+  }
+  return {
+    "created": json["created"] == null ? void 0 : new Date(json["created"]),
+    "finished": json["finished"] == null ? void 0 : new Date(json["finished"]),
+    "sessionUid": json["sessionUid"] == null ? void 0 : json["sessionUid"],
+    "status": json["status"] == null ? void 0 : json["status"],
+    "uid": json["uid"] == null ? void 0 : json["uid"]
+  };
+}
+function SnapshotDTOToJSON(json) {
+  return SnapshotDTOToJSONTyped(json, false);
+}
+function SnapshotDTOToJSONTyped(value, ignoreDiscriminator = false) {
+  if (value == null) {
+    return value;
+  }
+  return {
+    "created": value["created"] == null ? void 0 : value["created"].toISOString(),
+    "finished": value["finished"] == null ? void 0 : value["finished"].toISOString(),
+    "sessionUid": value["sessionUid"],
+    "status": value["status"],
+    "uid": value["uid"]
+  };
+}
+
+// models/SnapshotListResponseDTO.ts
+function instanceOfSnapshotListResponseDTO(value) {
+  return true;
+}
+function SnapshotListResponseDTOFromJSON(json) {
+  return SnapshotListResponseDTOFromJSONTyped(json);
+}
+function SnapshotListResponseDTOFromJSONTyped(json, ignoreDiscriminator) {
+  if (json == null) {
+    return json;
+  }
+  return {
+    "snapshots": json["snapshots"] == null ? void 0 : json["snapshots"].map(SnapshotDTOFromJSON)
+  };
+}
+function SnapshotListResponseDTOToJSON(json) {
+  return SnapshotListResponseDTOToJSONTyped(json, false);
+}
+function SnapshotListResponseDTOToJSONTyped(value, ignoreDiscriminator = false) {
+  if (value == null) {
+    return value;
+  }
+  return {
+    "snapshots": value["snapshots"] == null ? void 0 : value["snapshots"].map(SnapshotDTOToJSON)
   };
 }
 
@@ -12953,6 +13897,7 @@ function UpdatePrefsCmdFromJSONTyped(json, ignoreDiscriminator) {
     "homeDashboardId": json["homeDashboardId"] == null ? void 0 : json["homeDashboardId"],
     "homeDashboardUID": json["homeDashboardUID"] == null ? void 0 : json["homeDashboardUID"],
     "language": json["language"] == null ? void 0 : json["language"],
+    "navbar": json["navbar"] == null ? void 0 : NavbarPreferenceFromJSON(json["navbar"]),
     "queryHistory": json["queryHistory"] == null ? void 0 : QueryHistoryPreferenceFromJSON(json["queryHistory"]),
     "theme": json["theme"] == null ? void 0 : json["theme"],
     "timezone": json["timezone"] == null ? void 0 : json["timezone"],
@@ -12971,6 +13916,7 @@ function UpdatePrefsCmdToJSONTyped(value, ignoreDiscriminator = false) {
     "homeDashboardId": value["homeDashboardId"],
     "homeDashboardUID": value["homeDashboardUID"],
     "language": value["language"],
+    "navbar": NavbarPreferenceToJSON(value["navbar"]),
     "queryHistory": QueryHistoryPreferenceToJSON(value["queryHistory"]),
     "theme": value["theme"],
     "timezone": value["timezone"],
@@ -13822,13 +14768,16 @@ var AccessControlApi = class extends BaseAPI {
     return await response.value();
   }
   /**
-   * Gets all existing roles. The response contains all global and organization local roles, for the organization which user is signed in.  You need to have a permission with action `roles:read` and scope `roles:*`.
+   * Gets all existing roles. The response contains all global and organization local roles, for the organization which user is signed in.  You need to have a permission with action `roles:read` and scope `roles:*`.  The `delegatable` flag reduces the set of roles to only those for which the signed-in user has permissions to assign.
    * Get all roles.
    */
   async listRolesRaw(requestParameters, initOverrides) {
     const queryParameters = {};
     if (requestParameters["delegatable"] != null) {
       queryParameters["delegatable"] = requestParameters["delegatable"];
+    }
+    if (requestParameters["includeHidden"] != null) {
+      queryParameters["includeHidden"] = requestParameters["includeHidden"];
     }
     const headerParameters = {};
     if (this.configuration && this.configuration.apiKey) {
@@ -13846,7 +14795,7 @@ var AccessControlApi = class extends BaseAPI {
     return new JSONApiResponse(response, (jsonValue) => jsonValue.map(RoleDTOFromJSON));
   }
   /**
-   * Gets all existing roles. The response contains all global and organization local roles, for the organization which user is signed in.  You need to have a permission with action `roles:read` and scope `roles:*`.
+   * Gets all existing roles. The response contains all global and organization local roles, for the organization which user is signed in.  You need to have a permission with action `roles:read` and scope `roles:*`.  The `delegatable` flag reduces the set of roles to only those for which the signed-in user has permissions to assign.
    * Get all roles.
    */
   async listRoles(requestParameters = {}, initOverrides) {
@@ -16734,6 +17683,41 @@ var DashboardsApi = class extends BaseAPI {
     return await response.value();
   }
   /**
+   * Will delete the dashboard given the specified unique identifier (uid).
+   * Hard delete dashboard by uid.
+   */
+  async hardDeleteDashboardByUIDRaw(requestParameters, initOverrides) {
+    if (requestParameters["uid"] == null) {
+      throw new RequiredError(
+        "uid",
+        'Required parameter "uid" was null or undefined when calling hardDeleteDashboardByUID().'
+      );
+    }
+    const queryParameters = {};
+    const headerParameters = {};
+    if (this.configuration && this.configuration.apiKey) {
+      headerParameters["Authorization"] = await this.configuration.apiKey("Authorization");
+    }
+    if (this.configuration && (this.configuration.username !== void 0 || this.configuration.password !== void 0)) {
+      headerParameters["Authorization"] = "Basic " + btoa(this.configuration.username + ":" + this.configuration.password);
+    }
+    const response = await this.request({
+      path: `/dashboards/uid/{uid}/trash`.replace(`{${"uid"}}`, encodeURIComponent(String(requestParameters["uid"]))),
+      method: "DELETE",
+      headers: headerParameters,
+      query: queryParameters
+    }, initOverrides);
+    return new JSONApiResponse(response, (jsonValue) => DeleteDashboardByUID200ResponseFromJSON(jsonValue));
+  }
+  /**
+   * Will delete the dashboard given the specified unique identifier (uid).
+   * Hard delete dashboard by uid.
+   */
+  async hardDeleteDashboardByUID(requestParameters, initOverrides) {
+    const response = await this.hardDeleteDashboardByUIDRaw(requestParameters, initOverrides);
+    return await response.value();
+  }
+  /**
    * Import dashboard.
    */
   async importDashboardRaw(requestParameters, initOverrides) {
@@ -16803,6 +17787,47 @@ var DashboardsApi = class extends BaseAPI {
    */
   async postDashboard(requestParameters, initOverrides) {
     const response = await this.postDashboardRaw(requestParameters, initOverrides);
+    return await response.value();
+  }
+  /**
+   * Restore a dashboard to a given dashboard version using UID.
+   */
+  async restoreDeletedDashboardByUIDRaw(requestParameters, initOverrides) {
+    if (requestParameters["uid"] == null) {
+      throw new RequiredError(
+        "uid",
+        'Required parameter "uid" was null or undefined when calling restoreDeletedDashboardByUID().'
+      );
+    }
+    if (requestParameters["body"] == null) {
+      throw new RequiredError(
+        "body",
+        'Required parameter "body" was null or undefined when calling restoreDeletedDashboardByUID().'
+      );
+    }
+    const queryParameters = {};
+    const headerParameters = {};
+    headerParameters["Content-Type"] = "application/json";
+    if (this.configuration && this.configuration.apiKey) {
+      headerParameters["Authorization"] = await this.configuration.apiKey("Authorization");
+    }
+    if (this.configuration && (this.configuration.username !== void 0 || this.configuration.password !== void 0)) {
+      headerParameters["Authorization"] = "Basic " + btoa(this.configuration.username + ":" + this.configuration.password);
+    }
+    const response = await this.request({
+      path: `/dashboards/uid/{uid}/trash`.replace(`{${"uid"}}`, encodeURIComponent(String(requestParameters["uid"]))),
+      method: "PATCH",
+      headers: headerParameters,
+      query: queryParameters,
+      body: RestoreDeletedDashboardCommandToJSON(requestParameters["body"])
+    }, initOverrides);
+    return new JSONApiResponse(response, (jsonValue) => PostDashboard200ResponseFromJSON(jsonValue));
+  }
+  /**
+   * Restore a dashboard to a given dashboard version using UID.
+   */
+  async restoreDeletedDashboardByUID(requestParameters, initOverrides) {
+    const response = await this.restoreDeletedDashboardByUIDRaw(requestParameters, initOverrides);
     return await response.value();
   }
 };
@@ -17884,6 +18909,39 @@ var EnterpriseApi = class extends BaseAPI {
     return await response.value();
   }
   /**
+   * clean cache for a single data source
+   */
+  async cleanDataSourceCacheRaw(requestParameters, initOverrides) {
+    if (requestParameters["dataSourceUID"] == null) {
+      throw new RequiredError(
+        "dataSourceUID",
+        'Required parameter "dataSourceUID" was null or undefined when calling cleanDataSourceCache().'
+      );
+    }
+    const queryParameters = {};
+    const headerParameters = {};
+    if (this.configuration && this.configuration.apiKey) {
+      headerParameters["Authorization"] = await this.configuration.apiKey("Authorization");
+    }
+    if (this.configuration && (this.configuration.username !== void 0 || this.configuration.password !== void 0)) {
+      headerParameters["Authorization"] = "Basic " + btoa(this.configuration.username + ":" + this.configuration.password);
+    }
+    const response = await this.request({
+      path: `/datasources/{dataSourceUID}/cache/clean`.replace(`{${"dataSourceUID"}}`, encodeURIComponent(String(requestParameters["dataSourceUID"]))),
+      method: "POST",
+      headers: headerParameters,
+      query: queryParameters
+    }, initOverrides);
+    return new JSONApiResponse(response, (jsonValue) => CacheConfigResponseFromJSON(jsonValue));
+  }
+  /**
+   * clean cache for a single data source
+   */
+  async cleanDataSourceCache(requestParameters, initOverrides) {
+    const response = await this.cleanDataSourceCacheRaw(requestParameters, initOverrides);
+    return await response.value();
+  }
+  /**
    * Create a recording rule that is then registered and started.
    */
   async createRecordingRuleRaw(requestParameters, initOverrides) {
@@ -17980,7 +19038,7 @@ var EnterpriseApi = class extends BaseAPI {
       method: "POST",
       headers: headerParameters,
       query: queryParameters,
-      body: CreateOrUpdateReportConfigToJSON(requestParameters["body"])
+      body: CreateOrUpdateReportToJSON(requestParameters["body"])
     }, initOverrides);
     return new JSONApiResponse(response, (jsonValue) => CreateReport200ResponseFromJSON(jsonValue));
   }
@@ -18203,6 +19261,72 @@ var EnterpriseApi = class extends BaseAPI {
     return await response.value();
   }
   /**
+   * disable cache for a single data source
+   */
+  async disableDataSourceCacheRaw(requestParameters, initOverrides) {
+    if (requestParameters["dataSourceUID"] == null) {
+      throw new RequiredError(
+        "dataSourceUID",
+        'Required parameter "dataSourceUID" was null or undefined when calling disableDataSourceCache().'
+      );
+    }
+    const queryParameters = {};
+    const headerParameters = {};
+    if (this.configuration && this.configuration.apiKey) {
+      headerParameters["Authorization"] = await this.configuration.apiKey("Authorization");
+    }
+    if (this.configuration && (this.configuration.username !== void 0 || this.configuration.password !== void 0)) {
+      headerParameters["Authorization"] = "Basic " + btoa(this.configuration.username + ":" + this.configuration.password);
+    }
+    const response = await this.request({
+      path: `/datasources/{dataSourceUID}/cache/disable`.replace(`{${"dataSourceUID"}}`, encodeURIComponent(String(requestParameters["dataSourceUID"]))),
+      method: "POST",
+      headers: headerParameters,
+      query: queryParameters
+    }, initOverrides);
+    return new JSONApiResponse(response, (jsonValue) => CacheConfigResponseFromJSON(jsonValue));
+  }
+  /**
+   * disable cache for a single data source
+   */
+  async disableDataSourceCache(requestParameters, initOverrides) {
+    const response = await this.disableDataSourceCacheRaw(requestParameters, initOverrides);
+    return await response.value();
+  }
+  /**
+   * enable cache for a single data source
+   */
+  async enableDataSourceCacheRaw(requestParameters, initOverrides) {
+    if (requestParameters["dataSourceUID"] == null) {
+      throw new RequiredError(
+        "dataSourceUID",
+        'Required parameter "dataSourceUID" was null or undefined when calling enableDataSourceCache().'
+      );
+    }
+    const queryParameters = {};
+    const headerParameters = {};
+    if (this.configuration && this.configuration.apiKey) {
+      headerParameters["Authorization"] = await this.configuration.apiKey("Authorization");
+    }
+    if (this.configuration && (this.configuration.username !== void 0 || this.configuration.password !== void 0)) {
+      headerParameters["Authorization"] = "Basic " + btoa(this.configuration.username + ":" + this.configuration.password);
+    }
+    const response = await this.request({
+      path: `/datasources/{dataSourceUID}/cache/enable`.replace(`{${"dataSourceUID"}}`, encodeURIComponent(String(requestParameters["dataSourceUID"]))),
+      method: "POST",
+      headers: headerParameters,
+      query: queryParameters
+    }, initOverrides);
+    return new JSONApiResponse(response, (jsonValue) => CacheConfigResponseFromJSON(jsonValue));
+  }
+  /**
+   * enable cache for a single data source
+   */
+  async enableDataSourceCache(requestParameters, initOverrides) {
+    const response = await this.enableDataSourceCacheRaw(requestParameters, initOverrides);
+    return await response.value();
+  }
+  /**
    * Returns an indicator to check if fine-grained access control is enabled or not.  You need to have a permission with action `status:accesscontrol` and scope `services:accesscontrol`.
    * Get status.
    */
@@ -18294,6 +19418,39 @@ var EnterpriseApi = class extends BaseAPI {
    */
   async getCustomPermissionsReport(initOverrides) {
     await this.getCustomPermissionsReportRaw(initOverrides);
+  }
+  /**
+   * get cache config for a single data source
+   */
+  async getDataSourceCacheConfigRaw(requestParameters, initOverrides) {
+    if (requestParameters["dataSourceUID"] == null) {
+      throw new RequiredError(
+        "dataSourceUID",
+        'Required parameter "dataSourceUID" was null or undefined when calling getDataSourceCacheConfig().'
+      );
+    }
+    const queryParameters = {};
+    const headerParameters = {};
+    if (this.configuration && this.configuration.apiKey) {
+      headerParameters["Authorization"] = await this.configuration.apiKey("Authorization");
+    }
+    if (this.configuration && (this.configuration.username !== void 0 || this.configuration.password !== void 0)) {
+      headerParameters["Authorization"] = "Basic " + btoa(this.configuration.username + ":" + this.configuration.password);
+    }
+    const response = await this.request({
+      path: `/datasources/{dataSourceUID}/cache`.replace(`{${"dataSourceUID"}}`, encodeURIComponent(String(requestParameters["dataSourceUID"]))),
+      method: "GET",
+      headers: headerParameters,
+      query: queryParameters
+    }, initOverrides);
+    return new JSONApiResponse(response, (jsonValue) => CacheConfigResponseFromJSON(jsonValue));
+  }
+  /**
+   * get cache config for a single data source
+   */
+  async getDataSourceCacheConfig(requestParameters, initOverrides) {
+    const response = await this.getDataSourceCacheConfigRaw(requestParameters, initOverrides);
+    return await response.value();
   }
   /**
    * You need to have a permission with action `licensing:read`.
@@ -18415,7 +19572,7 @@ var EnterpriseApi = class extends BaseAPI {
   }
   /**
    * Available to org admins only and with a valid or expired license.  You need to have a permission with action `reports.settings:read`x.
-   * Get settings.
+   * Get report settings.
    */
   async getReportSettingsRaw(initOverrides) {
     const queryParameters = {};
@@ -18436,7 +19593,7 @@ var EnterpriseApi = class extends BaseAPI {
   }
   /**
    * Available to org admins only and with a valid or expired license.  You need to have a permission with action `reports.settings:read`x.
-   * Get settings.
+   * Get report settings.
    */
   async getReportSettings(initOverrides) {
     const response = await this.getReportSettingsRaw(initOverrides);
@@ -18596,6 +19753,35 @@ var EnterpriseApi = class extends BaseAPI {
     await this.getSLORaw(initOverrides);
   }
   /**
+   * Available to org admins only and with a valid or expired license.  You need to have a permission with action `reports.settings:read`.
+   * Get custom branding report image.
+   */
+  async getSettingsImageRaw(initOverrides) {
+    const queryParameters = {};
+    const headerParameters = {};
+    if (this.configuration && this.configuration.apiKey) {
+      headerParameters["Authorization"] = await this.configuration.apiKey("Authorization");
+    }
+    if (this.configuration && (this.configuration.username !== void 0 || this.configuration.password !== void 0)) {
+      headerParameters["Authorization"] = "Basic " + btoa(this.configuration.username + ":" + this.configuration.password);
+    }
+    const response = await this.request({
+      path: `/reports/images/:image`,
+      method: "GET",
+      headers: headerParameters,
+      query: queryParameters
+    }, initOverrides);
+    return new JSONApiResponse(response);
+  }
+  /**
+   * Available to org admins only and with a valid or expired license.  You need to have a permission with action `reports.settings:read`.
+   * Get custom branding report image.
+   */
+  async getSettingsImage(initOverrides) {
+    const response = await this.getSettingsImageRaw(initOverrides);
+    return await response.value();
+  }
+  /**
    * Check license availability.
    */
   async getStatusRaw(initOverrides) {
@@ -18684,6 +19870,39 @@ var EnterpriseApi = class extends BaseAPI {
     return await response.value();
   }
   /**
+   * Retrieves LBAC rules for a team.
+   */
+  async getTeamLBACRulesApiRaw(requestParameters, initOverrides) {
+    if (requestParameters["uid"] == null) {
+      throw new RequiredError(
+        "uid",
+        'Required parameter "uid" was null or undefined when calling getTeamLBACRulesApi().'
+      );
+    }
+    const queryParameters = {};
+    const headerParameters = {};
+    if (this.configuration && this.configuration.apiKey) {
+      headerParameters["Authorization"] = await this.configuration.apiKey("Authorization");
+    }
+    if (this.configuration && (this.configuration.username !== void 0 || this.configuration.password !== void 0)) {
+      headerParameters["Authorization"] = "Basic " + btoa(this.configuration.username + ":" + this.configuration.password);
+    }
+    const response = await this.request({
+      path: `/datasources/uid/{uid}/lbac/teams`.replace(`{${"uid"}}`, encodeURIComponent(String(requestParameters["uid"]))),
+      method: "GET",
+      headers: headerParameters,
+      query: queryParameters
+    }, initOverrides);
+    return new JSONApiResponse(response, (jsonValue) => SuccessResponseBodyFromJSON(jsonValue));
+  }
+  /**
+   * Retrieves LBAC rules for a team.
+   */
+  async getTeamLBACRulesApi(requestParameters, initOverrides) {
+    const response = await this.getTeamLBACRulesApiRaw(requestParameters, initOverrides);
+    return await response.value();
+  }
+  /**
    * Lists all rules in the database: active or deleted.
    */
   async listRecordingRulesRaw(initOverrides) {
@@ -18711,13 +19930,16 @@ var EnterpriseApi = class extends BaseAPI {
     return await response.value();
   }
   /**
-   * Gets all existing roles. The response contains all global and organization local roles, for the organization which user is signed in.  You need to have a permission with action `roles:read` and scope `roles:*`.
+   * Gets all existing roles. The response contains all global and organization local roles, for the organization which user is signed in.  You need to have a permission with action `roles:read` and scope `roles:*`.  The `delegatable` flag reduces the set of roles to only those for which the signed-in user has permissions to assign.
    * Get all roles.
    */
   async listRolesRaw(requestParameters, initOverrides) {
     const queryParameters = {};
     if (requestParameters["delegatable"] != null) {
       queryParameters["delegatable"] = requestParameters["delegatable"];
+    }
+    if (requestParameters["includeHidden"] != null) {
+      queryParameters["includeHidden"] = requestParameters["includeHidden"];
     }
     const headerParameters = {};
     if (this.configuration && this.configuration.apiKey) {
@@ -18735,7 +19957,7 @@ var EnterpriseApi = class extends BaseAPI {
     return new JSONApiResponse(response, (jsonValue) => jsonValue.map(RoleDTOFromJSON));
   }
   /**
-   * Gets all existing roles. The response contains all global and organization local roles, for the organization which user is signed in.  You need to have a permission with action `roles:read` and scope `roles:*`.
+   * Gets all existing roles. The response contains all global and organization local roles, for the organization which user is signed in.  You need to have a permission with action `roles:read` and scope `roles:*`.  The `delegatable` flag reduces the set of roles to only those for which the signed-in user has permissions to assign.
    * Get all roles.
    */
   async listRoles(requestParameters = {}, initOverrides) {
@@ -19174,12 +20396,47 @@ var EnterpriseApi = class extends BaseAPI {
   }
   /**
    * Available to all users and with a valid license.
+   * Download a CSV report.
+   */
+  async renderReportCSVsRaw(requestParameters, initOverrides) {
+    const queryParameters = {};
+    if (requestParameters["dashboards"] != null) {
+      queryParameters["dashboards"] = requestParameters["dashboards"];
+    }
+    if (requestParameters["title"] != null) {
+      queryParameters["title"] = requestParameters["title"];
+    }
+    const headerParameters = {};
+    if (this.configuration && this.configuration.apiKey) {
+      headerParameters["Authorization"] = await this.configuration.apiKey("Authorization");
+    }
+    if (this.configuration && (this.configuration.username !== void 0 || this.configuration.password !== void 0)) {
+      headerParameters["Authorization"] = "Basic " + btoa(this.configuration.username + ":" + this.configuration.password);
+    }
+    const response = await this.request({
+      path: `/reports/render/csvs`,
+      method: "GET",
+      headers: headerParameters,
+      query: queryParameters
+    }, initOverrides);
+    return new JSONApiResponse(response);
+  }
+  /**
+   * Available to all users and with a valid license.
+   * Download a CSV report.
+   */
+  async renderReportCSVs(requestParameters = {}, initOverrides) {
+    const response = await this.renderReportCSVsRaw(requestParameters, initOverrides);
+    return await response.value();
+  }
+  /**
+   * Available to all users and with a valid license.
    * Render report for multiple dashboards.
    */
   async renderReportPDFsRaw(requestParameters, initOverrides) {
     const queryParameters = {};
-    if (requestParameters["dashboardID"] != null) {
-      queryParameters["dashboardID"] = requestParameters["dashboardID"];
+    if (requestParameters["dashboards"] != null) {
+      queryParameters["dashboards"] = requestParameters["dashboards"];
     }
     if (requestParameters["orientation"] != null) {
       queryParameters["orientation"] = requestParameters["orientation"];
@@ -19347,7 +20604,7 @@ var EnterpriseApi = class extends BaseAPI {
       method: "POST",
       headers: headerParameters,
       query: queryParameters,
-      body: CreateOrUpdateReportConfigToJSON(requestParameters["body"])
+      body: CreateOrUpdateReportToJSON(requestParameters["body"])
     }, initOverrides);
     return new JSONApiResponse(response, (jsonValue) => SuccessResponseBodyFromJSON(jsonValue));
   }
@@ -19357,6 +20614,47 @@ var EnterpriseApi = class extends BaseAPI {
    */
   async sendTestEmail(requestParameters, initOverrides) {
     const response = await this.sendTestEmailRaw(requestParameters, initOverrides);
+    return await response.value();
+  }
+  /**
+   * set cache config for a single data source
+   */
+  async setDataSourceCacheConfigRaw(requestParameters, initOverrides) {
+    if (requestParameters["dataSourceUID"] == null) {
+      throw new RequiredError(
+        "dataSourceUID",
+        'Required parameter "dataSourceUID" was null or undefined when calling setDataSourceCacheConfig().'
+      );
+    }
+    if (requestParameters["body"] == null) {
+      throw new RequiredError(
+        "body",
+        'Required parameter "body" was null or undefined when calling setDataSourceCacheConfig().'
+      );
+    }
+    const queryParameters = {};
+    const headerParameters = {};
+    headerParameters["Content-Type"] = "application/json";
+    if (this.configuration && this.configuration.apiKey) {
+      headerParameters["Authorization"] = await this.configuration.apiKey("Authorization");
+    }
+    if (this.configuration && (this.configuration.username !== void 0 || this.configuration.password !== void 0)) {
+      headerParameters["Authorization"] = "Basic " + btoa(this.configuration.username + ":" + this.configuration.password);
+    }
+    const response = await this.request({
+      path: `/datasources/{dataSourceUID}/cache`.replace(`{${"dataSourceUID"}}`, encodeURIComponent(String(requestParameters["dataSourceUID"]))),
+      method: "POST",
+      headers: headerParameters,
+      query: queryParameters,
+      body: CacheConfigSetterToJSON(requestParameters["body"])
+    }, initOverrides);
+    return new JSONApiResponse(response, (jsonValue) => CacheConfigResponseFromJSON(jsonValue));
+  }
+  /**
+   * set cache config for a single data source
+   */
+  async setDataSourceCacheConfig(requestParameters, initOverrides) {
+    const response = await this.setDataSourceCacheConfigRaw(requestParameters, initOverrides);
     return await response.value();
   }
   /**
@@ -19581,7 +20879,7 @@ var EnterpriseApi = class extends BaseAPI {
       method: "PUT",
       headers: headerParameters,
       query: queryParameters,
-      body: CreateOrUpdateReportConfigToJSON(requestParameters["body"])
+      body: CreateOrUpdateReportToJSON(requestParameters["body"])
     }, initOverrides);
     return new JSONApiResponse(response, (jsonValue) => SuccessResponseBodyFromJSON(jsonValue));
   }
@@ -19634,6 +20932,39 @@ var EnterpriseApi = class extends BaseAPI {
    */
   async updateRole(requestParameters, initOverrides) {
     const response = await this.updateRoleRaw(requestParameters, initOverrides);
+    return await response.value();
+  }
+  /**
+   * Updates LBAC rules for a team.
+   */
+  async updateTeamLBACRulesApiRaw(requestParameters, initOverrides) {
+    if (requestParameters["uid"] == null) {
+      throw new RequiredError(
+        "uid",
+        'Required parameter "uid" was null or undefined when calling updateTeamLBACRulesApi().'
+      );
+    }
+    const queryParameters = {};
+    const headerParameters = {};
+    if (this.configuration && this.configuration.apiKey) {
+      headerParameters["Authorization"] = await this.configuration.apiKey("Authorization");
+    }
+    if (this.configuration && (this.configuration.username !== void 0 || this.configuration.password !== void 0)) {
+      headerParameters["Authorization"] = "Basic " + btoa(this.configuration.username + ":" + this.configuration.password);
+    }
+    const response = await this.request({
+      path: `/datasources/uid/{uid}/lbac/teams`.replace(`{${"uid"}}`, encodeURIComponent(String(requestParameters["uid"]))),
+      method: "PUT",
+      headers: headerParameters,
+      query: queryParameters
+    }, initOverrides);
+    return new JSONApiResponse(response, (jsonValue) => SuccessResponseBodyFromJSON(jsonValue));
+  }
+  /**
+   * Updates LBAC rules for a team.
+   */
+  async updateTeamLBACRulesApi(requestParameters, initOverrides) {
+    const response = await this.updateTeamLBACRulesApiRaw(requestParameters, initOverrides);
     return await response.value();
   }
 };
@@ -20054,6 +21385,37 @@ var GetCurrentOrgApi = class extends BaseAPI {
    */
   async getCurrentOrgQuota(initOverrides) {
     const response = await this.getCurrentOrgQuotaRaw(initOverrides);
+    return await response.value();
+  }
+};
+
+// apis/HealthApi.ts
+var HealthApi = class extends BaseAPI {
+  /**
+   * apiHealthHandler will return ok if Grafana\'s web server is running and it can access the database. If the database cannot be accessed it will return http status code 503.
+   */
+  async getHealthRaw(initOverrides) {
+    const queryParameters = {};
+    const headerParameters = {};
+    if (this.configuration && this.configuration.apiKey) {
+      headerParameters["Authorization"] = await this.configuration.apiKey("Authorization");
+    }
+    if (this.configuration && (this.configuration.username !== void 0 || this.configuration.password !== void 0)) {
+      headerParameters["Authorization"] = "Basic " + btoa(this.configuration.username + ":" + this.configuration.password);
+    }
+    const response = await this.request({
+      path: `/health`,
+      method: "GET",
+      headers: headerParameters,
+      query: queryParameters
+    }, initOverrides);
+    return new JSONApiResponse(response, (jsonValue) => HealthResponseFromJSON(jsonValue));
+  }
+  /**
+   * apiHealthHandler will return ok if Grafana\'s web server is running and it can access the database. If the database cannot be accessed it will return http status code 503.
+   */
+  async getHealth(initOverrides) {
+    const response = await this.getHealthRaw(initOverrides);
     return await response.value();
   }
 };
@@ -20631,6 +21993,521 @@ var LicensingApi = class extends BaseAPI {
   async refreshLicenseStats(initOverrides) {
     const response = await this.refreshLicenseStatsRaw(initOverrides);
     return await response.value();
+  }
+};
+
+// apis/MigrationsApi.ts
+var MigrationsApi = class extends BaseAPI {
+  /**
+   * TODO: Implement
+   * Cancel a snapshot, wherever it is in its processing chain.
+   */
+  async cancelSnapshotRaw(requestParameters, initOverrides) {
+    if (requestParameters["uid"] == null) {
+      throw new RequiredError(
+        "uid",
+        'Required parameter "uid" was null or undefined when calling cancelSnapshot().'
+      );
+    }
+    if (requestParameters["snapshotUid"] == null) {
+      throw new RequiredError(
+        "snapshotUid",
+        'Required parameter "snapshotUid" was null or undefined when calling cancelSnapshot().'
+      );
+    }
+    const queryParameters = {};
+    const headerParameters = {};
+    if (this.configuration && this.configuration.apiKey) {
+      headerParameters["Authorization"] = await this.configuration.apiKey("Authorization");
+    }
+    if (this.configuration && (this.configuration.username !== void 0 || this.configuration.password !== void 0)) {
+      headerParameters["Authorization"] = "Basic " + btoa(this.configuration.username + ":" + this.configuration.password);
+    }
+    const response = await this.request({
+      path: `/cloudmigration/migration/{uid}/snapshot/{snapshotUid}/cancel`.replace(`{${"uid"}}`, encodeURIComponent(String(requestParameters["uid"]))).replace(`{${"snapshotUid"}}`, encodeURIComponent(String(requestParameters["snapshotUid"]))),
+      method: "POST",
+      headers: headerParameters,
+      query: queryParameters
+    }, initOverrides);
+    return new VoidApiResponse(response);
+  }
+  /**
+   * TODO: Implement
+   * Cancel a snapshot, wherever it is in its processing chain.
+   */
+  async cancelSnapshot(requestParameters, initOverrides) {
+    await this.cancelSnapshotRaw(requestParameters, initOverrides);
+  }
+  /**
+   * Create gcom access token.
+   */
+  async createCloudMigrationTokenRaw(initOverrides) {
+    const queryParameters = {};
+    const headerParameters = {};
+    if (this.configuration && this.configuration.apiKey) {
+      headerParameters["Authorization"] = await this.configuration.apiKey("Authorization");
+    }
+    if (this.configuration && (this.configuration.username !== void 0 || this.configuration.password !== void 0)) {
+      headerParameters["Authorization"] = "Basic " + btoa(this.configuration.username + ":" + this.configuration.password);
+    }
+    const response = await this.request({
+      path: `/cloudmigration/token`,
+      method: "POST",
+      headers: headerParameters,
+      query: queryParameters
+    }, initOverrides);
+    return new JSONApiResponse(response, (jsonValue) => CreateAccessTokenResponseDTOFromJSON(jsonValue));
+  }
+  /**
+   * Create gcom access token.
+   */
+  async createCloudMigrationToken(initOverrides) {
+    const response = await this.createCloudMigrationTokenRaw(initOverrides);
+    return await response.value();
+  }
+  /**
+   * Create a migration session.
+   */
+  async createSessionRaw(requestParameters, initOverrides) {
+    if (requestParameters["body"] == null) {
+      throw new RequiredError(
+        "body",
+        'Required parameter "body" was null or undefined when calling createSession().'
+      );
+    }
+    const queryParameters = {};
+    const headerParameters = {};
+    headerParameters["Content-Type"] = "application/json";
+    if (this.configuration && this.configuration.apiKey) {
+      headerParameters["Authorization"] = await this.configuration.apiKey("Authorization");
+    }
+    if (this.configuration && (this.configuration.username !== void 0 || this.configuration.password !== void 0)) {
+      headerParameters["Authorization"] = "Basic " + btoa(this.configuration.username + ":" + this.configuration.password);
+    }
+    const response = await this.request({
+      path: `/cloudmigration/migration`,
+      method: "POST",
+      headers: headerParameters,
+      query: queryParameters,
+      body: CloudMigrationSessionRequestDTOToJSON(requestParameters["body"])
+    }, initOverrides);
+    return new JSONApiResponse(response, (jsonValue) => CloudMigrationSessionResponseDTOFromJSON(jsonValue));
+  }
+  /**
+   * Create a migration session.
+   */
+  async createSession(requestParameters, initOverrides) {
+    const response = await this.createSessionRaw(requestParameters, initOverrides);
+    return await response.value();
+  }
+  /**
+   * If the snapshot initialization is successful, the snapshot uid is returned.
+   * Trigger the creation of an instance snapshot associated with the provided session.
+   */
+  async createSnapshotRaw(requestParameters, initOverrides) {
+    if (requestParameters["uid"] == null) {
+      throw new RequiredError(
+        "uid",
+        'Required parameter "uid" was null or undefined when calling createSnapshot().'
+      );
+    }
+    const queryParameters = {};
+    const headerParameters = {};
+    if (this.configuration && this.configuration.apiKey) {
+      headerParameters["Authorization"] = await this.configuration.apiKey("Authorization");
+    }
+    if (this.configuration && (this.configuration.username !== void 0 || this.configuration.password !== void 0)) {
+      headerParameters["Authorization"] = "Basic " + btoa(this.configuration.username + ":" + this.configuration.password);
+    }
+    const response = await this.request({
+      path: `/cloudmigration/migration/{uid}/snapshot`.replace(`{${"uid"}}`, encodeURIComponent(String(requestParameters["uid"]))),
+      method: "POST",
+      headers: headerParameters,
+      query: queryParameters
+    }, initOverrides);
+    return new JSONApiResponse(response, (jsonValue) => CreateSnapshotResponseDTOFromJSON(jsonValue));
+  }
+  /**
+   * If the snapshot initialization is successful, the snapshot uid is returned.
+   * Trigger the creation of an instance snapshot associated with the provided session.
+   */
+  async createSnapshot(requestParameters, initOverrides) {
+    const response = await this.createSnapshotRaw(requestParameters, initOverrides);
+    return await response.value();
+  }
+  /**
+   * Deletes a cloud migration token.
+   */
+  async deleteCloudMigrationTokenRaw(requestParameters, initOverrides) {
+    if (requestParameters["uid"] == null) {
+      throw new RequiredError(
+        "uid",
+        'Required parameter "uid" was null or undefined when calling deleteCloudMigrationToken().'
+      );
+    }
+    const queryParameters = {};
+    const headerParameters = {};
+    if (this.configuration && this.configuration.apiKey) {
+      headerParameters["Authorization"] = await this.configuration.apiKey("Authorization");
+    }
+    if (this.configuration && (this.configuration.username !== void 0 || this.configuration.password !== void 0)) {
+      headerParameters["Authorization"] = "Basic " + btoa(this.configuration.username + ":" + this.configuration.password);
+    }
+    const response = await this.request({
+      path: `/cloudmigration/token/{uid}`.replace(`{${"uid"}}`, encodeURIComponent(String(requestParameters["uid"]))),
+      method: "DELETE",
+      headers: headerParameters,
+      query: queryParameters
+    }, initOverrides);
+    return new VoidApiResponse(response);
+  }
+  /**
+   * Deletes a cloud migration token.
+   */
+  async deleteCloudMigrationToken(requestParameters, initOverrides) {
+    await this.deleteCloudMigrationTokenRaw(requestParameters, initOverrides);
+  }
+  /**
+   * Delete a migration session by its uid.
+   */
+  async deleteSessionRaw(requestParameters, initOverrides) {
+    if (requestParameters["uid"] == null) {
+      throw new RequiredError(
+        "uid",
+        'Required parameter "uid" was null or undefined when calling deleteSession().'
+      );
+    }
+    const queryParameters = {};
+    const headerParameters = {};
+    if (this.configuration && this.configuration.apiKey) {
+      headerParameters["Authorization"] = await this.configuration.apiKey("Authorization");
+    }
+    if (this.configuration && (this.configuration.username !== void 0 || this.configuration.password !== void 0)) {
+      headerParameters["Authorization"] = "Basic " + btoa(this.configuration.username + ":" + this.configuration.password);
+    }
+    const response = await this.request({
+      path: `/cloudmigration/migration/{uid}`.replace(`{${"uid"}}`, encodeURIComponent(String(requestParameters["uid"]))),
+      method: "DELETE",
+      headers: headerParameters,
+      query: queryParameters
+    }, initOverrides);
+    return new VoidApiResponse(response);
+  }
+  /**
+   * Delete a migration session by its uid.
+   */
+  async deleteSession(requestParameters, initOverrides) {
+    await this.deleteSessionRaw(requestParameters, initOverrides);
+  }
+  /**
+   * Get the result of a single migration run.
+   */
+  async getCloudMigrationRunRaw(requestParameters, initOverrides) {
+    if (requestParameters["runUID"] == null) {
+      throw new RequiredError(
+        "runUID",
+        'Required parameter "runUID" was null or undefined when calling getCloudMigrationRun().'
+      );
+    }
+    const queryParameters = {};
+    const headerParameters = {};
+    if (this.configuration && this.configuration.apiKey) {
+      headerParameters["Authorization"] = await this.configuration.apiKey("Authorization");
+    }
+    if (this.configuration && (this.configuration.username !== void 0 || this.configuration.password !== void 0)) {
+      headerParameters["Authorization"] = "Basic " + btoa(this.configuration.username + ":" + this.configuration.password);
+    }
+    const response = await this.request({
+      path: `/cloudmigration/migration/run/{runUID}`.replace(`{${"runUID"}}`, encodeURIComponent(String(requestParameters["runUID"]))),
+      method: "GET",
+      headers: headerParameters,
+      query: queryParameters
+    }, initOverrides);
+    return new JSONApiResponse(response, (jsonValue) => MigrateDataResponseDTOFromJSON(jsonValue));
+  }
+  /**
+   * Get the result of a single migration run.
+   */
+  async getCloudMigrationRun(requestParameters, initOverrides) {
+    const response = await this.getCloudMigrationRunRaw(requestParameters, initOverrides);
+    return await response.value();
+  }
+  /**
+   * Get a list of migration runs for a migration.
+   */
+  async getCloudMigrationRunListRaw(requestParameters, initOverrides) {
+    if (requestParameters["uid"] == null) {
+      throw new RequiredError(
+        "uid",
+        'Required parameter "uid" was null or undefined when calling getCloudMigrationRunList().'
+      );
+    }
+    const queryParameters = {};
+    const headerParameters = {};
+    if (this.configuration && this.configuration.apiKey) {
+      headerParameters["Authorization"] = await this.configuration.apiKey("Authorization");
+    }
+    if (this.configuration && (this.configuration.username !== void 0 || this.configuration.password !== void 0)) {
+      headerParameters["Authorization"] = "Basic " + btoa(this.configuration.username + ":" + this.configuration.password);
+    }
+    const response = await this.request({
+      path: `/cloudmigration/migration/{uid}/run`.replace(`{${"uid"}}`, encodeURIComponent(String(requestParameters["uid"]))),
+      method: "GET",
+      headers: headerParameters,
+      query: queryParameters
+    }, initOverrides);
+    return new JSONApiResponse(response, (jsonValue) => CloudMigrationRunListDTOFromJSON(jsonValue));
+  }
+  /**
+   * Get a list of migration runs for a migration.
+   */
+  async getCloudMigrationRunList(requestParameters, initOverrides) {
+    const response = await this.getCloudMigrationRunListRaw(requestParameters, initOverrides);
+    return await response.value();
+  }
+  /**
+   * Fetch the cloud migration token if it exists.
+   */
+  async getCloudMigrationTokenRaw(initOverrides) {
+    const queryParameters = {};
+    const headerParameters = {};
+    if (this.configuration && this.configuration.apiKey) {
+      headerParameters["Authorization"] = await this.configuration.apiKey("Authorization");
+    }
+    if (this.configuration && (this.configuration.username !== void 0 || this.configuration.password !== void 0)) {
+      headerParameters["Authorization"] = "Basic " + btoa(this.configuration.username + ":" + this.configuration.password);
+    }
+    const response = await this.request({
+      path: `/cloudmigration/token`,
+      method: "GET",
+      headers: headerParameters,
+      query: queryParameters
+    }, initOverrides);
+    return new JSONApiResponse(response, (jsonValue) => GetAccessTokenResponseDTOFromJSON(jsonValue));
+  }
+  /**
+   * Fetch the cloud migration token if it exists.
+   */
+  async getCloudMigrationToken(initOverrides) {
+    const response = await this.getCloudMigrationTokenRaw(initOverrides);
+    return await response.value();
+  }
+  /**
+   * Get a cloud migration session by its uid.
+   */
+  async getSessionRaw(requestParameters, initOverrides) {
+    if (requestParameters["uid"] == null) {
+      throw new RequiredError(
+        "uid",
+        'Required parameter "uid" was null or undefined when calling getSession().'
+      );
+    }
+    const queryParameters = {};
+    const headerParameters = {};
+    if (this.configuration && this.configuration.apiKey) {
+      headerParameters["Authorization"] = await this.configuration.apiKey("Authorization");
+    }
+    if (this.configuration && (this.configuration.username !== void 0 || this.configuration.password !== void 0)) {
+      headerParameters["Authorization"] = "Basic " + btoa(this.configuration.username + ":" + this.configuration.password);
+    }
+    const response = await this.request({
+      path: `/cloudmigration/migration/{uid}`.replace(`{${"uid"}}`, encodeURIComponent(String(requestParameters["uid"]))),
+      method: "GET",
+      headers: headerParameters,
+      query: queryParameters
+    }, initOverrides);
+    return new JSONApiResponse(response, (jsonValue) => CloudMigrationSessionResponseDTOFromJSON(jsonValue));
+  }
+  /**
+   * Get a cloud migration session by its uid.
+   */
+  async getSession(requestParameters, initOverrides) {
+    const response = await this.getSessionRaw(requestParameters, initOverrides);
+    return await response.value();
+  }
+  /**
+   * Get a list of all cloud migration sessions that have been created.
+   */
+  async getSessionListRaw(initOverrides) {
+    const queryParameters = {};
+    const headerParameters = {};
+    if (this.configuration && this.configuration.apiKey) {
+      headerParameters["Authorization"] = await this.configuration.apiKey("Authorization");
+    }
+    if (this.configuration && (this.configuration.username !== void 0 || this.configuration.password !== void 0)) {
+      headerParameters["Authorization"] = "Basic " + btoa(this.configuration.username + ":" + this.configuration.password);
+    }
+    const response = await this.request({
+      path: `/cloudmigration/migration`,
+      method: "GET",
+      headers: headerParameters,
+      query: queryParameters
+    }, initOverrides);
+    return new JSONApiResponse(response, (jsonValue) => CloudMigrationSessionListResponseDTOFromJSON(jsonValue));
+  }
+  /**
+   * Get a list of all cloud migration sessions that have been created.
+   */
+  async getSessionList(initOverrides) {
+    const response = await this.getSessionListRaw(initOverrides);
+    return await response.value();
+  }
+  /**
+   * Get a list of snapshots for a session.
+   */
+  async getShapshotListRaw(requestParameters, initOverrides) {
+    if (requestParameters["uid"] == null) {
+      throw new RequiredError(
+        "uid",
+        'Required parameter "uid" was null or undefined when calling getShapshotList().'
+      );
+    }
+    const queryParameters = {};
+    if (requestParameters["page"] != null) {
+      queryParameters["page"] = requestParameters["page"];
+    }
+    if (requestParameters["limit"] != null) {
+      queryParameters["limit"] = requestParameters["limit"];
+    }
+    const headerParameters = {};
+    if (this.configuration && this.configuration.apiKey) {
+      headerParameters["Authorization"] = await this.configuration.apiKey("Authorization");
+    }
+    if (this.configuration && (this.configuration.username !== void 0 || this.configuration.password !== void 0)) {
+      headerParameters["Authorization"] = "Basic " + btoa(this.configuration.username + ":" + this.configuration.password);
+    }
+    const response = await this.request({
+      path: `/cloudmigration/migration/{uid}/snapshots`.replace(`{${"uid"}}`, encodeURIComponent(String(requestParameters["uid"]))),
+      method: "GET",
+      headers: headerParameters,
+      query: queryParameters
+    }, initOverrides);
+    return new JSONApiResponse(response, (jsonValue) => SnapshotListResponseDTOFromJSON(jsonValue));
+  }
+  /**
+   * Get a list of snapshots for a session.
+   */
+  async getShapshotList(requestParameters, initOverrides) {
+    const response = await this.getShapshotListRaw(requestParameters, initOverrides);
+    return await response.value();
+  }
+  /**
+   * Get metadata about a snapshot, including where it is in its processing and final results.
+   */
+  async getSnapshotRaw(requestParameters, initOverrides) {
+    if (requestParameters["uid"] == null) {
+      throw new RequiredError(
+        "uid",
+        'Required parameter "uid" was null or undefined when calling getSnapshot().'
+      );
+    }
+    if (requestParameters["snapshotUid"] == null) {
+      throw new RequiredError(
+        "snapshotUid",
+        'Required parameter "snapshotUid" was null or undefined when calling getSnapshot().'
+      );
+    }
+    const queryParameters = {};
+    if (requestParameters["resultPage"] != null) {
+      queryParameters["resultPage"] = requestParameters["resultPage"];
+    }
+    if (requestParameters["resultLimit"] != null) {
+      queryParameters["resultLimit"] = requestParameters["resultLimit"];
+    }
+    const headerParameters = {};
+    if (this.configuration && this.configuration.apiKey) {
+      headerParameters["Authorization"] = await this.configuration.apiKey("Authorization");
+    }
+    if (this.configuration && (this.configuration.username !== void 0 || this.configuration.password !== void 0)) {
+      headerParameters["Authorization"] = "Basic " + btoa(this.configuration.username + ":" + this.configuration.password);
+    }
+    const response = await this.request({
+      path: `/cloudmigration/migration/{uid}/snapshot/{snapshotUid}`.replace(`{${"uid"}}`, encodeURIComponent(String(requestParameters["uid"]))).replace(`{${"snapshotUid"}}`, encodeURIComponent(String(requestParameters["snapshotUid"]))),
+      method: "GET",
+      headers: headerParameters,
+      query: queryParameters
+    }, initOverrides);
+    return new JSONApiResponse(response, (jsonValue) => GetSnapshotResponseDTOFromJSON(jsonValue));
+  }
+  /**
+   * Get metadata about a snapshot, including where it is in its processing and final results.
+   */
+  async getSnapshot(requestParameters, initOverrides) {
+    const response = await this.getSnapshotRaw(requestParameters, initOverrides);
+    return await response.value();
+  }
+  /**
+   * It returns migrations that has been created.
+   * Trigger the run of a migration to the Grafana Cloud.
+   */
+  async runCloudMigrationRaw(requestParameters, initOverrides) {
+    if (requestParameters["uid"] == null) {
+      throw new RequiredError(
+        "uid",
+        'Required parameter "uid" was null or undefined when calling runCloudMigration().'
+      );
+    }
+    const queryParameters = {};
+    const headerParameters = {};
+    if (this.configuration && this.configuration.apiKey) {
+      headerParameters["Authorization"] = await this.configuration.apiKey("Authorization");
+    }
+    if (this.configuration && (this.configuration.username !== void 0 || this.configuration.password !== void 0)) {
+      headerParameters["Authorization"] = "Basic " + btoa(this.configuration.username + ":" + this.configuration.password);
+    }
+    const response = await this.request({
+      path: `/cloudmigration/migration/{uid}/run`.replace(`{${"uid"}}`, encodeURIComponent(String(requestParameters["uid"]))),
+      method: "POST",
+      headers: headerParameters,
+      query: queryParameters
+    }, initOverrides);
+    return new JSONApiResponse(response, (jsonValue) => MigrateDataResponseDTOFromJSON(jsonValue));
+  }
+  /**
+   * It returns migrations that has been created.
+   * Trigger the run of a migration to the Grafana Cloud.
+   */
+  async runCloudMigration(requestParameters, initOverrides) {
+    const response = await this.runCloudMigrationRaw(requestParameters, initOverrides);
+    return await response.value();
+  }
+  /**
+   * Upload a snapshot to the Grafana Migration Service for processing.
+   */
+  async uploadSnapshotRaw(requestParameters, initOverrides) {
+    if (requestParameters["uid"] == null) {
+      throw new RequiredError(
+        "uid",
+        'Required parameter "uid" was null or undefined when calling uploadSnapshot().'
+      );
+    }
+    if (requestParameters["snapshotUid"] == null) {
+      throw new RequiredError(
+        "snapshotUid",
+        'Required parameter "snapshotUid" was null or undefined when calling uploadSnapshot().'
+      );
+    }
+    const queryParameters = {};
+    const headerParameters = {};
+    if (this.configuration && this.configuration.apiKey) {
+      headerParameters["Authorization"] = await this.configuration.apiKey("Authorization");
+    }
+    if (this.configuration && (this.configuration.username !== void 0 || this.configuration.password !== void 0)) {
+      headerParameters["Authorization"] = "Basic " + btoa(this.configuration.username + ":" + this.configuration.password);
+    }
+    const response = await this.request({
+      path: `/cloudmigration/migration/{uid}/snapshot/{snapshotUid}/upload`.replace(`{${"uid"}}`, encodeURIComponent(String(requestParameters["uid"]))).replace(`{${"snapshotUid"}}`, encodeURIComponent(String(requestParameters["snapshotUid"]))),
+      method: "POST",
+      headers: headerParameters,
+      query: queryParameters
+    }, initOverrides);
+    return new VoidApiResponse(response);
+  }
+  /**
+   * Upload a snapshot to the Grafana Migration Service for processing.
+   */
+  async uploadSnapshot(requestParameters, initOverrides) {
+    await this.uploadSnapshotRaw(requestParameters, initOverrides);
   }
 };
 
@@ -21968,7 +23845,13 @@ var ProvisioningApi = class extends BaseAPI {
       );
     }
     const queryParameters = {};
+    if (requestParameters["version"] != null) {
+      queryParameters["version"] = requestParameters["version"];
+    }
     const headerParameters = {};
+    if (requestParameters["xDisableProvenance"] != null) {
+      headerParameters["X-Disable-Provenance"] = String(requestParameters["xDisableProvenance"]);
+    }
     if (this.configuration && this.configuration.apiKey) {
       headerParameters["Authorization"] = await this.configuration.apiKey("Authorization");
     }
@@ -22000,6 +23883,9 @@ var ProvisioningApi = class extends BaseAPI {
       );
     }
     const queryParameters = {};
+    if (requestParameters["version"] != null) {
+      queryParameters["version"] = requestParameters["version"];
+    }
     const headerParameters = {};
     if (this.configuration && this.configuration.apiKey) {
       headerParameters["Authorization"] = await this.configuration.apiKey("Authorization");
@@ -23477,7 +25363,7 @@ var ReportsApi = class extends BaseAPI {
       method: "POST",
       headers: headerParameters,
       query: queryParameters,
-      body: CreateOrUpdateReportConfigToJSON(requestParameters["body"])
+      body: CreateOrUpdateReportToJSON(requestParameters["body"])
     }, initOverrides);
     return new JSONApiResponse(response, (jsonValue) => CreateReport200ResponseFromJSON(jsonValue));
   }
@@ -23561,7 +25447,7 @@ var ReportsApi = class extends BaseAPI {
   }
   /**
    * Available to org admins only and with a valid or expired license.  You need to have a permission with action `reports.settings:read`x.
-   * Get settings.
+   * Get report settings.
    */
   async getReportSettingsRaw(initOverrides) {
     const queryParameters = {};
@@ -23582,7 +25468,7 @@ var ReportsApi = class extends BaseAPI {
   }
   /**
    * Available to org admins only and with a valid or expired license.  You need to have a permission with action `reports.settings:read`x.
-   * Get settings.
+   * Get report settings.
    */
   async getReportSettings(initOverrides) {
     const response = await this.getReportSettingsRaw(initOverrides);
@@ -23618,13 +25504,77 @@ var ReportsApi = class extends BaseAPI {
     return await response.value();
   }
   /**
+   * Available to org admins only and with a valid or expired license.  You need to have a permission with action `reports.settings:read`.
+   * Get custom branding report image.
+   */
+  async getSettingsImageRaw(initOverrides) {
+    const queryParameters = {};
+    const headerParameters = {};
+    if (this.configuration && this.configuration.apiKey) {
+      headerParameters["Authorization"] = await this.configuration.apiKey("Authorization");
+    }
+    if (this.configuration && (this.configuration.username !== void 0 || this.configuration.password !== void 0)) {
+      headerParameters["Authorization"] = "Basic " + btoa(this.configuration.username + ":" + this.configuration.password);
+    }
+    const response = await this.request({
+      path: `/reports/images/:image`,
+      method: "GET",
+      headers: headerParameters,
+      query: queryParameters
+    }, initOverrides);
+    return new JSONApiResponse(response);
+  }
+  /**
+   * Available to org admins only and with a valid or expired license.  You need to have a permission with action `reports.settings:read`.
+   * Get custom branding report image.
+   */
+  async getSettingsImage(initOverrides) {
+    const response = await this.getSettingsImageRaw(initOverrides);
+    return await response.value();
+  }
+  /**
+   * Available to all users and with a valid license.
+   * Download a CSV report.
+   */
+  async renderReportCSVsRaw(requestParameters, initOverrides) {
+    const queryParameters = {};
+    if (requestParameters["dashboards"] != null) {
+      queryParameters["dashboards"] = requestParameters["dashboards"];
+    }
+    if (requestParameters["title"] != null) {
+      queryParameters["title"] = requestParameters["title"];
+    }
+    const headerParameters = {};
+    if (this.configuration && this.configuration.apiKey) {
+      headerParameters["Authorization"] = await this.configuration.apiKey("Authorization");
+    }
+    if (this.configuration && (this.configuration.username !== void 0 || this.configuration.password !== void 0)) {
+      headerParameters["Authorization"] = "Basic " + btoa(this.configuration.username + ":" + this.configuration.password);
+    }
+    const response = await this.request({
+      path: `/reports/render/csvs`,
+      method: "GET",
+      headers: headerParameters,
+      query: queryParameters
+    }, initOverrides);
+    return new JSONApiResponse(response);
+  }
+  /**
+   * Available to all users and with a valid license.
+   * Download a CSV report.
+   */
+  async renderReportCSVs(requestParameters = {}, initOverrides) {
+    const response = await this.renderReportCSVsRaw(requestParameters, initOverrides);
+    return await response.value();
+  }
+  /**
    * Available to all users and with a valid license.
    * Render report for multiple dashboards.
    */
   async renderReportPDFsRaw(requestParameters, initOverrides) {
     const queryParameters = {};
-    if (requestParameters["dashboardID"] != null) {
-      queryParameters["dashboardID"] = requestParameters["dashboardID"];
+    if (requestParameters["dashboards"] != null) {
+      queryParameters["dashboards"] = requestParameters["dashboards"];
     }
     if (requestParameters["orientation"] != null) {
       queryParameters["orientation"] = requestParameters["orientation"];
@@ -23763,7 +25713,7 @@ var ReportsApi = class extends BaseAPI {
       method: "POST",
       headers: headerParameters,
       query: queryParameters,
-      body: CreateOrUpdateReportConfigToJSON(requestParameters["body"])
+      body: CreateOrUpdateReportToJSON(requestParameters["body"])
     }, initOverrides);
     return new JSONApiResponse(response, (jsonValue) => SuccessResponseBodyFromJSON(jsonValue));
   }
@@ -23806,7 +25756,7 @@ var ReportsApi = class extends BaseAPI {
       method: "PUT",
       headers: headerParameters,
       query: queryParameters,
-      body: CreateOrUpdateReportConfigToJSON(requestParameters["body"])
+      body: CreateOrUpdateReportToJSON(requestParameters["body"])
     }, initOverrides);
     return new JSONApiResponse(response, (jsonValue) => SuccessResponseBodyFromJSON(jsonValue));
   }
@@ -24036,6 +25986,9 @@ var SearchApi = class extends BaseAPI {
     }
     if (requestParameters["sort"] != null) {
       queryParameters["sort"] = requestParameters["sort"];
+    }
+    if (requestParameters["deleted"] != null) {
+      queryParameters["deleted"] = requestParameters["deleted"];
     }
     const headerParameters = {};
     if (this.configuration && this.configuration.apiKey) {
@@ -25641,6 +27594,49 @@ var TeamsApi = class extends BaseAPI {
     return await response.value();
   }
   /**
+   * Takes user emails, and updates team members and admins to the provided lists of users. Any current team members and admins not in the provided lists will be removed.
+   * Set team memberships.
+   */
+  async setTeamMembershipsRaw(requestParameters, initOverrides) {
+    if (requestParameters["teamId"] == null) {
+      throw new RequiredError(
+        "teamId",
+        'Required parameter "teamId" was null or undefined when calling setTeamMemberships().'
+      );
+    }
+    if (requestParameters["body"] == null) {
+      throw new RequiredError(
+        "body",
+        'Required parameter "body" was null or undefined when calling setTeamMemberships().'
+      );
+    }
+    const queryParameters = {};
+    const headerParameters = {};
+    headerParameters["Content-Type"] = "application/json";
+    if (this.configuration && this.configuration.apiKey) {
+      headerParameters["Authorization"] = await this.configuration.apiKey("Authorization");
+    }
+    if (this.configuration && (this.configuration.username !== void 0 || this.configuration.password !== void 0)) {
+      headerParameters["Authorization"] = "Basic " + btoa(this.configuration.username + ":" + this.configuration.password);
+    }
+    const response = await this.request({
+      path: `/teams/{team_id}/members`.replace(`{${"team_id"}}`, encodeURIComponent(String(requestParameters["teamId"]))),
+      method: "PUT",
+      headers: headerParameters,
+      query: queryParameters,
+      body: SetTeamMembershipsCommandToJSON(requestParameters["body"])
+    }, initOverrides);
+    return new JSONApiResponse(response, (jsonValue) => SuccessResponseBodyFromJSON(jsonValue));
+  }
+  /**
+   * Takes user emails, and updates team members and admins to the provided lists of users. Any current team members and admins not in the provided lists will be removed.
+   * Set team memberships.
+   */
+  async setTeamMemberships(requestParameters, initOverrides) {
+    const response = await this.setTeamMembershipsRaw(requestParameters, initOverrides);
+    return await response.value();
+  }
+  /**
    * Update Team.
    */
   async updateTeamRaw(requestParameters, initOverrides) {
@@ -26154,6 +28150,6 @@ var UsersApi = class extends BaseAPI {
   }
 };
 
-export { AccessControlApi, AccessControlProvisioningApi, ActiveSyncStatusDTOFromJSON, ActiveSyncStatusDTOFromJSONTyped, ActiveSyncStatusDTOToJSON, ActiveSyncStatusDTOToJSONTyped, ActiveUserStatsFromJSON, ActiveUserStatsFromJSONTyped, ActiveUserStatsToJSON, ActiveUserStatsToJSONTyped, AddAPIKeyCommandFromJSON, AddAPIKeyCommandFromJSONTyped, AddAPIKeyCommandRoleEnum, AddAPIKeyCommandToJSON, AddAPIKeyCommandToJSONTyped, AddDataSource200ResponseFromJSON, AddDataSource200ResponseFromJSONTyped, AddDataSource200ResponseToJSON, AddDataSource200ResponseToJSONTyped, AddDataSourceCommandFromJSON, AddDataSourceCommandFromJSONTyped, AddDataSourceCommandToJSON, AddDataSourceCommandToJSONTyped, AddInviteFormFromJSON, AddInviteFormFromJSONTyped, AddInviteFormRoleEnum, AddInviteFormToJSON, AddInviteFormToJSONTyped, AddOrgUserCommandFromJSON, AddOrgUserCommandFromJSONTyped, AddOrgUserCommandRoleEnum, AddOrgUserCommandToJSON, AddOrgUserCommandToJSONTyped, AddServiceAccountTokenCommandFromJSON, AddServiceAccountTokenCommandFromJSONTyped, AddServiceAccountTokenCommandToJSON, AddServiceAccountTokenCommandToJSONTyped, AddTeamMemberCommandFromJSON, AddTeamMemberCommandFromJSONTyped, AddTeamMemberCommandToJSON, AddTeamMemberCommandToJSONTyped, AddTeamRoleCommandFromJSON, AddTeamRoleCommandFromJSONTyped, AddTeamRoleCommandToJSON, AddTeamRoleCommandToJSONTyped, AddUserRoleCommandFromJSON, AddUserRoleCommandFromJSONTyped, AddUserRoleCommandToJSON, AddUserRoleCommandToJSONTyped, AddressFromJSON, AddressFromJSONTyped, AddressToJSON, AddressToJSONTyped, AdminApi, AdminCreateUserFormFromJSON, AdminCreateUserFormFromJSONTyped, AdminCreateUserFormToJSON, AdminCreateUserFormToJSONTyped, AdminCreateUserResponseFromJSON, AdminCreateUserResponseFromJSONTyped, AdminCreateUserResponseToJSON, AdminCreateUserResponseToJSONTyped, AdminLdapApi, AdminProvisioningApi, AdminStatsFromJSON, AdminStatsFromJSONTyped, AdminStatsToJSON, AdminStatsToJSONTyped, AdminUpdateUserPasswordFormFromJSON, AdminUpdateUserPasswordFormFromJSONTyped, AdminUpdateUserPasswordFormToJSON, AdminUpdateUserPasswordFormToJSONTyped, AdminUpdateUserPermissionsFormFromJSON, AdminUpdateUserPermissionsFormFromJSONTyped, AdminUpdateUserPermissionsFormToJSON, AdminUpdateUserPermissionsFormToJSONTyped, AdminUsersApi, AlertDiscoveryFromJSON, AlertDiscoveryFromJSONTyped, AlertDiscoveryToJSON, AlertDiscoveryToJSONTyped, AlertFromJSON, AlertFromJSONTyped, AlertGroupFromJSON, AlertGroupFromJSONTyped, AlertGroupToJSON, AlertGroupToJSONTyped, AlertInstancesResponseFromJSON, AlertInstancesResponseFromJSONTyped, AlertInstancesResponseToJSON, AlertInstancesResponseToJSONTyped, AlertManagerFromJSON, AlertManagerFromJSONTyped, AlertManagerToJSON, AlertManagerToJSONTyped, AlertManagersResultFromJSON, AlertManagersResultFromJSONTyped, AlertManagersResultToJSON, AlertManagersResultToJSONTyped, AlertQueryExportFromJSON, AlertQueryExportFromJSONTyped, AlertQueryExportToJSON, AlertQueryExportToJSONTyped, AlertQueryFromJSON, AlertQueryFromJSONTyped, AlertQueryToJSON, AlertQueryToJSONTyped, AlertResponseFromJSON, AlertResponseFromJSONTyped, AlertResponseToJSON, AlertResponseToJSONTyped, AlertRuleExportExecErrStateEnum, AlertRuleExportFromJSON, AlertRuleExportFromJSONTyped, AlertRuleExportNoDataStateEnum, AlertRuleExportToJSON, AlertRuleExportToJSONTyped, AlertRuleGroupExportFromJSON, AlertRuleGroupExportFromJSONTyped, AlertRuleGroupExportToJSON, AlertRuleGroupExportToJSONTyped, AlertRuleGroupFromJSON, AlertRuleGroupFromJSONTyped, AlertRuleGroupMetadataFromJSON, AlertRuleGroupMetadataFromJSONTyped, AlertRuleGroupMetadataToJSON, AlertRuleGroupMetadataToJSONTyped, AlertRuleGroupToJSON, AlertRuleGroupToJSONTyped, AlertRuleNotificationSettingsExportFromJSON, AlertRuleNotificationSettingsExportFromJSONTyped, AlertRuleNotificationSettingsExportToJSON, AlertRuleNotificationSettingsExportToJSONTyped, AlertRuleNotificationSettingsFromJSON, AlertRuleNotificationSettingsFromJSONTyped, AlertRuleNotificationSettingsToJSON, AlertRuleNotificationSettingsToJSONTyped, AlertStatusFromJSON, AlertStatusFromJSONTyped, AlertStatusStateEnum, AlertStatusToJSON, AlertStatusToJSONTyped, AlertToJSON, AlertToJSONTyped, AlertingFileExportFromJSON, AlertingFileExportFromJSONTyped, AlertingFileExportToJSON, AlertingFileExportToJSONTyped, AlertingRuleFromJSON, AlertingRuleFromJSONTyped, AlertingRuleToJSON, AlertingRuleToJSONTyped, AlertingStatusAlertmanagersChoiceEnum, AlertingStatusFromJSON, AlertingStatusFromJSONTyped, AlertingStatusToJSON, AlertingStatusToJSONTyped, AlertmanagerConfigFromJSON, AlertmanagerConfigFromJSONTyped, AlertmanagerConfigToJSON, AlertmanagerConfigToJSONTyped, AlertmanagerStatusFromJSON, AlertmanagerStatusFromJSONTyped, AlertmanagerStatusToJSON, AlertmanagerStatusToJSONTyped, AnnotationActionsFromJSON, AnnotationActionsFromJSONTyped, AnnotationActionsToJSON, AnnotationActionsToJSONTyped, AnnotationEventFromJSON, AnnotationEventFromJSONTyped, AnnotationEventToJSON, AnnotationEventToJSONTyped, AnnotationFromJSON, AnnotationFromJSONTyped, AnnotationPanelFilterFromJSON, AnnotationPanelFilterFromJSONTyped, AnnotationPanelFilterToJSON, AnnotationPanelFilterToJSONTyped, AnnotationPermissionFromJSON, AnnotationPermissionFromJSONTyped, AnnotationPermissionToJSON, AnnotationPermissionToJSONTyped, AnnotationQueryFromJSON, AnnotationQueryFromJSONTyped, AnnotationQueryToJSON, AnnotationQueryToJSONTyped, AnnotationTargetFromJSON, AnnotationTargetFromJSONTyped, AnnotationTargetToJSON, AnnotationTargetToJSONTyped, AnnotationToJSON, AnnotationToJSONTyped, AnnotationsApi, ApiKeyDTOFromJSON, ApiKeyDTOFromJSONTyped, ApiKeyDTORoleEnum, ApiKeyDTOToJSON, ApiKeyDTOToJSONTyped, ApiKeysApi, ApiRuleNodeFromJSON, ApiRuleNodeFromJSONTyped, ApiRuleNodeToJSON, ApiRuleNodeToJSONTyped, AssignmentsFromJSON, AssignmentsFromJSONTyped, AssignmentsToJSON, AssignmentsToJSONTyped, AttributeTypeAndValueFromJSON, AttributeTypeAndValueFromJSONTyped, AttributeTypeAndValueToJSON, AttributeTypeAndValueToJSONTyped, AuthorizationFromJSON, AuthorizationFromJSONTyped, AuthorizationToJSON, AuthorizationToJSONTyped, BASE_PATH, BacktestConfigFromJSON, BacktestConfigFromJSONTyped, BacktestConfigNoDataStateEnum, BacktestConfigToJSON, BacktestConfigToJSONTyped, BaseAPI, BasicAuthFromJSON, BasicAuthFromJSONTyped, BasicAuthToJSON, BasicAuthToJSONTyped, BlobApiResponse, COLLECTION_FORMATS, CalculateDashboardDiffRequestDiffTypeEnum, CalculateDashboardDiffRequestFromJSON, CalculateDashboardDiffRequestFromJSONTyped, CalculateDashboardDiffRequestToJSON, CalculateDashboardDiffRequestToJSONTyped, CalculateDiffTargetFromJSON, CalculateDiffTargetFromJSONTyped, CalculateDiffTargetToJSON, CalculateDiffTargetToJSONTyped, CertificateFromJSON, CertificateFromJSONTyped, CertificateToJSON, CertificateToJSONTyped, ChangeUserPasswordCommandFromJSON, ChangeUserPasswordCommandFromJSONTyped, ChangeUserPasswordCommandToJSON, ChangeUserPasswordCommandToJSONTyped, ClearHelpFlags200ResponseFromJSON, ClearHelpFlags200ResponseFromJSONTyped, ClearHelpFlags200ResponseToJSON, ClearHelpFlags200ResponseToJSONTyped, ClusterStatusFromJSON, ClusterStatusFromJSONTyped, ClusterStatusStatusEnum, ClusterStatusToJSON, ClusterStatusToJSONTyped, ConfigFromJSON, ConfigFromJSONTyped, ConfigToJSON, ConfigToJSONTyped, Configuration, ContactPointExportFromJSON, ContactPointExportFromJSONTyped, ContactPointExportToJSON, ContactPointExportToJSONTyped, CookiePreferencesFromJSON, CookiePreferencesFromJSONTyped, CookiePreferencesToJSON, CookiePreferencesToJSONTyped, CorrelationConfigFromJSON, CorrelationConfigFromJSONTyped, CorrelationConfigToJSON, CorrelationConfigToJSONTyped, CorrelationConfigUpdateDTOFromJSON, CorrelationConfigUpdateDTOFromJSONTyped, CorrelationConfigUpdateDTOToJSON, CorrelationConfigUpdateDTOToJSONTyped, CorrelationFromJSON, CorrelationFromJSONTyped, CorrelationToJSON, CorrelationToJSONTyped, CorrelationsApi, CreateCorrelationCommandFromJSON, CreateCorrelationCommandFromJSONTyped, CreateCorrelationCommandToJSON, CreateCorrelationCommandToJSONTyped, CreateCorrelationResponseBodyFromJSON, CreateCorrelationResponseBodyFromJSONTyped, CreateCorrelationResponseBodyToJSON, CreateCorrelationResponseBodyToJSONTyped, CreateDashboardSnapshot200ResponseFromJSON, CreateDashboardSnapshot200ResponseFromJSONTyped, CreateDashboardSnapshot200ResponseToJSON, CreateDashboardSnapshot200ResponseToJSONTyped, CreateDashboardSnapshotCommandFromJSON, CreateDashboardSnapshotCommandFromJSONTyped, CreateDashboardSnapshotCommandToJSON, CreateDashboardSnapshotCommandToJSONTyped, CreateFolderCommandFromJSON, CreateFolderCommandFromJSONTyped, CreateFolderCommandToJSON, CreateFolderCommandToJSONTyped, CreateLibraryElementCommandFromJSON, CreateLibraryElementCommandFromJSONTyped, CreateLibraryElementCommandKindEnum, CreateLibraryElementCommandToJSON, CreateLibraryElementCommandToJSONTyped, CreateOrUpdateReportConfigFromJSON, CreateOrUpdateReportConfigFromJSONTyped, CreateOrUpdateReportConfigToJSON, CreateOrUpdateReportConfigToJSONTyped, CreateOrg200ResponseFromJSON, CreateOrg200ResponseFromJSONTyped, CreateOrg200ResponseToJSON, CreateOrg200ResponseToJSONTyped, CreateOrgCommandFromJSON, CreateOrgCommandFromJSONTyped, CreateOrgCommandToJSON, CreateOrgCommandToJSONTyped, CreatePlaylistCommandFromJSON, CreatePlaylistCommandFromJSONTyped, CreatePlaylistCommandToJSON, CreatePlaylistCommandToJSONTyped, CreateQueryInQueryHistoryCommandFromJSON, CreateQueryInQueryHistoryCommandFromJSONTyped, CreateQueryInQueryHistoryCommandToJSON, CreateQueryInQueryHistoryCommandToJSONTyped, CreateReport200ResponseFromJSON, CreateReport200ResponseFromJSONTyped, CreateReport200ResponseToJSON, CreateReport200ResponseToJSONTyped, CreateRoleFormFromJSON, CreateRoleFormFromJSONTyped, CreateRoleFormToJSON, CreateRoleFormToJSONTyped, CreateServiceAccountFormFromJSON, CreateServiceAccountFormFromJSONTyped, CreateServiceAccountFormRoleEnum, CreateServiceAccountFormToJSON, CreateServiceAccountFormToJSONTyped, CreateTeam200ResponseFromJSON, CreateTeam200ResponseFromJSONTyped, CreateTeam200ResponseToJSON, CreateTeam200ResponseToJSONTyped, CreateTeamCommandFromJSON, CreateTeamCommandFromJSONTyped, CreateTeamCommandToJSON, CreateTeamCommandToJSONTyped, DashboardACLInfoDTOFromJSON, DashboardACLInfoDTOFromJSONTyped, DashboardACLInfoDTORoleEnum, DashboardACLInfoDTOToJSON, DashboardACLInfoDTOToJSONTyped, DashboardACLUpdateItemFromJSON, DashboardACLUpdateItemFromJSONTyped, DashboardACLUpdateItemRoleEnum, DashboardACLUpdateItemToJSON, DashboardACLUpdateItemToJSONTyped, DashboardCreateCommandFromJSON, DashboardCreateCommandFromJSONTyped, DashboardCreateCommandToJSON, DashboardCreateCommandToJSONTyped, DashboardFullWithMetaFromJSON, DashboardFullWithMetaFromJSONTyped, DashboardFullWithMetaToJSON, DashboardFullWithMetaToJSONTyped, DashboardMetaFromJSON, DashboardMetaFromJSONTyped, DashboardMetaToJSON, DashboardMetaToJSONTyped, DashboardPermissionsApi, DashboardPublicApi, DashboardRedirectFromJSON, DashboardRedirectFromJSONTyped, DashboardRedirectToJSON, DashboardRedirectToJSONTyped, DashboardSnapshotDTOFromJSON, DashboardSnapshotDTOFromJSONTyped, DashboardSnapshotDTOToJSON, DashboardSnapshotDTOToJSONTyped, DashboardTagCloudItemFromJSON, DashboardTagCloudItemFromJSONTyped, DashboardTagCloudItemToJSON, DashboardTagCloudItemToJSONTyped, DashboardVersionMetaFromJSON, DashboardVersionMetaFromJSONTyped, DashboardVersionMetaToJSON, DashboardVersionMetaToJSONTyped, DashboardVersionsApi, DashboardsApi, DataLinkFromJSON, DataLinkFromJSONTyped, DataLinkToJSON, DataLinkToJSONTyped, DataResponseFromJSON, DataResponseFromJSONTyped, DataResponseToJSON, DataResponseToJSONTyped, DataSourceFromJSON, DataSourceFromJSONTyped, DataSourceListItemDTOFromJSON, DataSourceListItemDTOFromJSONTyped, DataSourceListItemDTOToJSON, DataSourceListItemDTOToJSONTyped, DataSourceRefFromJSON, DataSourceRefFromJSONTyped, DataSourceRefToJSON, DataSourceRefToJSONTyped, DataSourceToJSON, DataSourceToJSONTyped, DatasourcesApi, DefaultConfig, DeleteCorrelationResponseBodyFromJSON, DeleteCorrelationResponseBodyFromJSONTyped, DeleteCorrelationResponseBodyToJSON, DeleteCorrelationResponseBodyToJSONTyped, DeleteDashboardByUID200ResponseFromJSON, DeleteDashboardByUID200ResponseFromJSONTyped, DeleteDashboardByUID200ResponseToJSON, DeleteDashboardByUID200ResponseToJSONTyped, DeleteDataSourceByName200ResponseFromJSON, DeleteDataSourceByName200ResponseFromJSONTyped, DeleteDataSourceByName200ResponseToJSON, DeleteDataSourceByName200ResponseToJSONTyped, DeleteFolder200ResponseFromJSON, DeleteFolder200ResponseFromJSONTyped, DeleteFolder200ResponseToJSON, DeleteFolder200ResponseToJSONTyped, DeleteTokenCommandFromJSON, DeleteTokenCommandFromJSONTyped, DeleteTokenCommandToJSON, DeleteTokenCommandToJSONTyped, DescriptionFromJSON, DescriptionFromJSONTyped, DescriptionToJSON, DescriptionToJSONTyped, DeviceDTOFromJSON, DeviceDTOFromJSONTyped, DeviceDTOToJSON, DeviceDTOToJSONTyped, DeviceSearchHitDTOFromJSON, DeviceSearchHitDTOFromJSONTyped, DeviceSearchHitDTOToJSON, DeviceSearchHitDTOToJSONTyped, DevicesApi, DiscordConfigFromJSON, DiscordConfigFromJSONTyped, DiscordConfigToJSON, DiscordConfigToJSONTyped, DiscoveryBaseFromJSON, DiscoveryBaseFromJSONTyped, DiscoveryBaseToJSON, DiscoveryBaseToJSONTyped, DsApi, EmailConfigFromJSON, EmailConfigFromJSONTyped, EmailConfigToJSON, EmailConfigToJSONTyped, EmailDTOFromJSON, EmailDTOFromJSONTyped, EmailDTOToJSON, EmailDTOToJSONTyped, EmbeddedContactPointFromJSON, EmbeddedContactPointFromJSONTyped, EmbeddedContactPointToJSON, EmbeddedContactPointToJSONTyped, EmbeddedContactPointTypeEnum, EnterpriseApi, EnumFieldConfigFromJSON, EnumFieldConfigFromJSONTyped, EnumFieldConfigToJSON, EnumFieldConfigToJSONTyped, ErrorResponseBodyFromJSON, ErrorResponseBodyFromJSONTyped, ErrorResponseBodyToJSON, ErrorResponseBodyToJSONTyped, EvalAlertConditionCommandFromJSON, EvalAlertConditionCommandFromJSONTyped, EvalAlertConditionCommandToJSON, EvalAlertConditionCommandToJSONTyped, EvalQueriesPayloadFromJSON, EvalQueriesPayloadFromJSONTyped, EvalQueriesPayloadToJSON, EvalQueriesPayloadToJSONTyped, ExtendedReceiverFromJSON, ExtendedReceiverFromJSONTyped, ExtendedReceiverToJSON, ExtendedReceiverToJSONTyped, ExtensionFromJSON, ExtensionFromJSONTyped, ExtensionToJSON, ExtensionToJSONTyped, FailedUserFromJSON, FailedUserFromJSONTyped, FailedUserToJSON, FailedUserToJSONTyped, FetchError, FieldConfigFromJSON, FieldConfigFromJSONTyped, FieldConfigToJSON, FieldConfigToJSONTyped, FieldFromJSON, FieldFromJSONTyped, FieldToJSON, FieldToJSONTyped, FieldTypeConfigFromJSON, FieldTypeConfigFromJSONTyped, FieldTypeConfigToJSON, FieldTypeConfigToJSONTyped, FindTagsResultFromJSON, FindTagsResultFromJSONTyped, FindTagsResultToJSON, FindTagsResultToJSONTyped, FloatHistogramFromJSON, FloatHistogramFromJSONTyped, FloatHistogramToJSON, FloatHistogramToJSONTyped, FolderFromJSON, FolderFromJSONTyped, FolderPermissionsApi, FolderSearchHitFromJSON, FolderSearchHitFromJSONTyped, FolderSearchHitToJSON, FolderSearchHitToJSONTyped, FolderToJSON, FolderToJSONTyped, FoldersApi, ForbiddenErrorFromJSON, ForbiddenErrorFromJSONTyped, ForbiddenErrorToJSON, ForbiddenErrorToJSONTyped, FrameFromJSON, FrameFromJSONTyped, FrameMetaFromJSON, FrameMetaFromJSONTyped, FrameMetaToJSON, FrameMetaToJSONTyped, FrameToJSON, FrameToJSONTyped, GenericPublicErrorFromJSON, GenericPublicErrorFromJSONTyped, GenericPublicErrorToJSON, GenericPublicErrorToJSONTyped, GetAnnotationTagsResponseFromJSON, GetAnnotationTagsResponseFromJSONTyped, GetAnnotationTagsResponseToJSON, GetAnnotationTagsResponseToJSONTyped, GetAnnotationsTypeEnum, GetCurrentOrgApi, GetDataSourceIdByName200ResponseFromJSON, GetDataSourceIdByName200ResponseFromJSONTyped, GetDataSourceIdByName200ResponseToJSON, GetDataSourceIdByName200ResponseToJSONTyped, GetFoldersPermissionEnum, GetHomeDashboardResponseFromJSON, GetHomeDashboardResponseFromJSONTyped, GetHomeDashboardResponseToJSON, GetHomeDashboardResponseToJSONTyped, GetLibraryElementsKindEnum, GetLibraryElementsSortDirectionEnum, GetSharingOptions200ResponseFromJSON, GetSharingOptions200ResponseFromJSONTyped, GetSharingOptions200ResponseToJSON, GetSharingOptions200ResponseToJSONTyped, GettableAlertFromJSON, GettableAlertFromJSONTyped, GettableAlertToJSON, GettableAlertToJSONTyped, GettableAlertmanagersFromJSON, GettableAlertmanagersFromJSONTyped, GettableAlertmanagersToJSON, GettableAlertmanagersToJSONTyped, GettableApiAlertingConfigFromJSON, GettableApiAlertingConfigFromJSONTyped, GettableApiAlertingConfigToJSON, GettableApiAlertingConfigToJSONTyped, GettableApiReceiverFromJSON, GettableApiReceiverFromJSONTyped, GettableApiReceiverToJSON, GettableApiReceiverToJSONTyped, GettableExtendedRuleNodeFromJSON, GettableExtendedRuleNodeFromJSONTyped, GettableExtendedRuleNodeToJSON, GettableExtendedRuleNodeToJSONTyped, GettableGrafanaReceiverFromJSON, GettableGrafanaReceiverFromJSONTyped, GettableGrafanaReceiverToJSON, GettableGrafanaReceiverToJSONTyped, GettableGrafanaReceiversFromJSON, GettableGrafanaReceiversFromJSONTyped, GettableGrafanaReceiversToJSON, GettableGrafanaReceiversToJSONTyped, GettableGrafanaRuleExecErrStateEnum, GettableGrafanaRuleFromJSON, GettableGrafanaRuleFromJSONTyped, GettableGrafanaRuleNoDataStateEnum, GettableGrafanaRuleToJSON, GettableGrafanaRuleToJSONTyped, GettableHistoricUserConfigFromJSON, GettableHistoricUserConfigFromJSONTyped, GettableHistoricUserConfigToJSON, GettableHistoricUserConfigToJSONTyped, GettableNGalertConfigAlertmanagersChoiceEnum, GettableNGalertConfigFromJSON, GettableNGalertConfigFromJSONTyped, GettableNGalertConfigToJSON, GettableNGalertConfigToJSONTyped, GettableRuleGroupConfigFromJSON, GettableRuleGroupConfigFromJSONTyped, GettableRuleGroupConfigToJSON, GettableRuleGroupConfigToJSONTyped, GettableSilenceFromJSON, GettableSilenceFromJSONTyped, GettableSilenceToJSON, GettableSilenceToJSONTyped, GettableStatusFromJSON, GettableStatusFromJSONTyped, GettableStatusToJSON, GettableStatusToJSONTyped, GettableTimeIntervalsFromJSON, GettableTimeIntervalsFromJSONTyped, GettableTimeIntervalsToJSON, GettableTimeIntervalsToJSONTyped, GettableUserConfigFromJSON, GettableUserConfigFromJSONTyped, GettableUserConfigToJSON, GettableUserConfigToJSONTyped, GlobalConfigFromJSON, GlobalConfigFromJSONTyped, GlobalConfigToJSON, GlobalConfigToJSONTyped, HTTPClientConfigFromJSON, HTTPClientConfigFromJSONTyped, HTTPClientConfigToJSON, HTTPClientConfigToJSONTyped, HitFromJSON, HitFromJSONTyped, HitToJSON, HitToJSONTyped, HostPortFromJSON, HostPortFromJSONTyped, HostPortToJSON, HostPortToJSONTyped, IPNetFromJSON, IPNetFromJSONTyped, IPNetToJSON, IPNetToJSONTyped, ImportDashboardInputFromJSON, ImportDashboardInputFromJSONTyped, ImportDashboardInputToJSON, ImportDashboardInputToJSONTyped, ImportDashboardRequestFromJSON, ImportDashboardRequestFromJSONTyped, ImportDashboardRequestToJSON, ImportDashboardRequestToJSONTyped, ImportDashboardResponseFromJSON, ImportDashboardResponseFromJSONTyped, ImportDashboardResponseToJSON, ImportDashboardResponseToJSONTyped, InhibitRuleFromJSON, InhibitRuleFromJSONTyped, InhibitRuleToJSON, InhibitRuleToJSONTyped, IntegrationFromJSON, IntegrationFromJSONTyped, IntegrationToJSON, IntegrationToJSONTyped, InternalDataLinkFromJSON, InternalDataLinkFromJSONTyped, InternalDataLinkToJSON, InternalDataLinkToJSONTyped, JSONApiResponse, JSONWebKeyFromJSON, JSONWebKeyFromJSONTyped, JSONWebKeyToJSON, JSONWebKeyToJSONTyped, LabelFromJSON, LabelFromJSONTyped, LabelToJSON, LabelToJSONTyped, LdapDebugApi, LibraryElementArrayResponseFromJSON, LibraryElementArrayResponseFromJSONTyped, LibraryElementArrayResponseToJSON, LibraryElementArrayResponseToJSONTyped, LibraryElementConnectionDTOFromJSON, LibraryElementConnectionDTOFromJSONTyped, LibraryElementConnectionDTOToJSON, LibraryElementConnectionDTOToJSONTyped, LibraryElementConnectionsResponseFromJSON, LibraryElementConnectionsResponseFromJSONTyped, LibraryElementConnectionsResponseToJSON, LibraryElementConnectionsResponseToJSONTyped, LibraryElementDTOFromJSON, LibraryElementDTOFromJSONTyped, LibraryElementDTOMetaFromJSON, LibraryElementDTOMetaFromJSONTyped, LibraryElementDTOMetaToJSON, LibraryElementDTOMetaToJSONTyped, LibraryElementDTOMetaUserFromJSON, LibraryElementDTOMetaUserFromJSONTyped, LibraryElementDTOMetaUserToJSON, LibraryElementDTOMetaUserToJSONTyped, LibraryElementDTOToJSON, LibraryElementDTOToJSONTyped, LibraryElementResponseFromJSON, LibraryElementResponseFromJSONTyped, LibraryElementResponseToJSON, LibraryElementResponseToJSONTyped, LibraryElementSearchResponseFromJSON, LibraryElementSearchResponseFromJSONTyped, LibraryElementSearchResponseToJSON, LibraryElementSearchResponseToJSONTyped, LibraryElementSearchResultFromJSON, LibraryElementSearchResultFromJSONTyped, LibraryElementSearchResultToJSON, LibraryElementSearchResultToJSONTyped, LibraryElementsApi, LicensingApi, LinkTransformationConfigFromJSON, LinkTransformationConfigFromJSONTyped, LinkTransformationConfigToJSON, LinkTransformationConfigToJSONTyped, ListAllProvidersSettings200ResponseInnerFromJSON, ListAllProvidersSettings200ResponseInnerFromJSONTyped, ListAllProvidersSettings200ResponseInnerToJSON, ListAllProvidersSettings200ResponseInnerToJSONTyped, ListSortOptions200ResponseFromJSON, ListSortOptions200ResponseFromJSONTyped, ListSortOptions200ResponseToJSON, ListSortOptions200ResponseToJSONTyped, MSTeamsConfigFromJSON, MSTeamsConfigFromJSONTyped, MSTeamsConfigToJSON, MSTeamsConfigToJSONTyped, MassDeleteAnnotationsCmdFromJSON, MassDeleteAnnotationsCmdFromJSONTyped, MassDeleteAnnotationsCmdToJSON, MassDeleteAnnotationsCmdToJSONTyped, MatcherFromJSON, MatcherFromJSONTyped, MatcherToJSON, MatcherToJSONTyped, MetricRequestFromJSON, MetricRequestFromJSONTyped, MetricRequestToJSON, MetricRequestToJSONTyped, MoveFolderCommandFromJSON, MoveFolderCommandFromJSONTyped, MoveFolderCommandToJSON, MoveFolderCommandToJSONTyped, MuteTimeIntervalExportFromJSON, MuteTimeIntervalExportFromJSONTyped, MuteTimeIntervalExportToJSON, MuteTimeIntervalExportToJSONTyped, MuteTimeIntervalFromJSON, MuteTimeIntervalFromJSONTyped, MuteTimeIntervalToJSON, MuteTimeIntervalToJSONTyped, NameFromJSON, NameFromJSONTyped, NameToJSON, NameToJSONTyped, NewApiKeyResultFromJSON, NewApiKeyResultFromJSONTyped, NewApiKeyResultToJSON, NewApiKeyResultToJSONTyped, NoticeFromJSON, NoticeFromJSONTyped, NoticeToJSON, NoticeToJSONTyped, NotificationPolicyExportFromJSON, NotificationPolicyExportFromJSONTyped, NotificationPolicyExportToJSON, NotificationPolicyExportToJSONTyped, NotificationTemplateContentFromJSON, NotificationTemplateContentFromJSONTyped, NotificationTemplateContentToJSON, NotificationTemplateContentToJSONTyped, NotificationTemplateFromJSON, NotificationTemplateFromJSONTyped, NotificationTemplateToJSON, NotificationTemplateToJSONTyped, NotifierConfigFromJSON, NotifierConfigFromJSONTyped, NotifierConfigToJSON, NotifierConfigToJSONTyped, OAuth2FromJSON, OAuth2FromJSONTyped, OAuth2ToJSON, OAuth2ToJSONTyped, OpsGenieConfigFromJSON, OpsGenieConfigFromJSONTyped, OpsGenieConfigResponderFromJSON, OpsGenieConfigResponderFromJSONTyped, OpsGenieConfigResponderToJSON, OpsGenieConfigResponderToJSONTyped, OpsGenieConfigToJSON, OpsGenieConfigToJSONTyped, OrgApi, OrgDTOFromJSON, OrgDTOFromJSONTyped, OrgDTOToJSON, OrgDTOToJSONTyped, OrgDetailsDTOFromJSON, OrgDetailsDTOFromJSONTyped, OrgDetailsDTOToJSON, OrgDetailsDTOToJSONTyped, OrgInvitesApi, OrgPreferencesApi, OrgUserDTOFromJSON, OrgUserDTOFromJSONTyped, OrgUserDTOToJSON, OrgUserDTOToJSONTyped, OrgsApi, PagerdutyConfigFromJSON, PagerdutyConfigFromJSONTyped, PagerdutyConfigToJSON, PagerdutyConfigToJSONTyped, PagerdutyImageFromJSON, PagerdutyImageFromJSONTyped, PagerdutyImageToJSON, PagerdutyImageToJSONTyped, PagerdutyLinkFromJSON, PagerdutyLinkFromJSONTyped, PagerdutyLinkToJSON, PagerdutyLinkToJSONTyped, PatchAnnotationsCmdFromJSON, PatchAnnotationsCmdFromJSONTyped, PatchAnnotationsCmdToJSON, PatchAnnotationsCmdToJSONTyped, PatchLibraryElementCommandFromJSON, PatchLibraryElementCommandFromJSONTyped, PatchLibraryElementCommandKindEnum, PatchLibraryElementCommandToJSON, PatchLibraryElementCommandToJSONTyped, PatchPrefsCmdFromJSON, PatchPrefsCmdFromJSONTyped, PatchPrefsCmdThemeEnum, PatchPrefsCmdTimezoneEnum, PatchPrefsCmdToJSON, PatchPrefsCmdToJSONTyped, PatchQueryCommentInQueryHistoryCommandFromJSON, PatchQueryCommentInQueryHistoryCommandFromJSONTyped, PatchQueryCommentInQueryHistoryCommandToJSON, PatchQueryCommentInQueryHistoryCommandToJSONTyped, PeerStatusFromJSON, PeerStatusFromJSONTyped, PeerStatusToJSON, PeerStatusToJSONTyped, PermissionFromJSON, PermissionFromJSONTyped, PermissionToJSON, PermissionToJSONTyped, PlaylistDTOFromJSON, PlaylistDTOFromJSONTyped, PlaylistDTOToJSON, PlaylistDTOToJSONTyped, PlaylistDashboardFromJSON, PlaylistDashboardFromJSONTyped, PlaylistDashboardToJSON, PlaylistDashboardToJSONTyped, PlaylistFromJSON, PlaylistFromJSONTyped, PlaylistItemDTOFromJSON, PlaylistItemDTOFromJSONTyped, PlaylistItemDTOToJSON, PlaylistItemDTOToJSONTyped, PlaylistItemFromJSON, PlaylistItemFromJSONTyped, PlaylistItemToJSON, PlaylistItemToJSONTyped, PlaylistToJSON, PlaylistToJSONTyped, PlaylistsApi, PostAnnotation200ResponseFromJSON, PostAnnotation200ResponseFromJSONTyped, PostAnnotation200ResponseToJSON, PostAnnotation200ResponseToJSONTyped, PostAnnotationsCmdFromJSON, PostAnnotationsCmdFromJSONTyped, PostAnnotationsCmdToJSON, PostAnnotationsCmdToJSONTyped, PostDashboard200ResponseFromJSON, PostDashboard200ResponseFromJSONTyped, PostDashboard200ResponseToJSON, PostDashboard200ResponseToJSONTyped, PostGraphiteAnnotationsCmdFromJSON, PostGraphiteAnnotationsCmdFromJSONTyped, PostGraphiteAnnotationsCmdToJSON, PostGraphiteAnnotationsCmdToJSONTyped, PostSilencesOKBodyFromJSON, PostSilencesOKBodyFromJSONTyped, PostSilencesOKBodyToJSON, PostSilencesOKBodyToJSONTyped, PostableAlertFromJSON, PostableAlertFromJSONTyped, PostableAlertToJSON, PostableAlertToJSONTyped, PostableApiAlertingConfigFromJSON, PostableApiAlertingConfigFromJSONTyped, PostableApiAlertingConfigToJSON, PostableApiAlertingConfigToJSONTyped, PostableApiReceiverFromJSON, PostableApiReceiverFromJSONTyped, PostableApiReceiverToJSON, PostableApiReceiverToJSONTyped, PostableExtendedRuleNodeExtendedFromJSON, PostableExtendedRuleNodeExtendedFromJSONTyped, PostableExtendedRuleNodeExtendedToJSON, PostableExtendedRuleNodeExtendedToJSONTyped, PostableExtendedRuleNodeFromJSON, PostableExtendedRuleNodeFromJSONTyped, PostableExtendedRuleNodeToJSON, PostableExtendedRuleNodeToJSONTyped, PostableGrafanaReceiverFromJSON, PostableGrafanaReceiverFromJSONTyped, PostableGrafanaReceiverToJSON, PostableGrafanaReceiverToJSONTyped, PostableGrafanaReceiversFromJSON, PostableGrafanaReceiversFromJSONTyped, PostableGrafanaReceiversToJSON, PostableGrafanaReceiversToJSONTyped, PostableGrafanaRuleExecErrStateEnum, PostableGrafanaRuleFromJSON, PostableGrafanaRuleFromJSONTyped, PostableGrafanaRuleNoDataStateEnum, PostableGrafanaRuleToJSON, PostableGrafanaRuleToJSONTyped, PostableNGalertConfigAlertmanagersChoiceEnum, PostableNGalertConfigFromJSON, PostableNGalertConfigFromJSONTyped, PostableNGalertConfigToJSON, PostableNGalertConfigToJSONTyped, PostableRuleGroupConfigFromJSON, PostableRuleGroupConfigFromJSONTyped, PostableRuleGroupConfigToJSON, PostableRuleGroupConfigToJSONTyped, PostableSilenceFromJSON, PostableSilenceFromJSONTyped, PostableSilenceToJSON, PostableSilenceToJSONTyped, PostableTimeIntervalsFromJSON, PostableTimeIntervalsFromJSONTyped, PostableTimeIntervalsToJSON, PostableTimeIntervalsToJSONTyped, PostableUserConfigFromJSON, PostableUserConfigFromJSONTyped, PostableUserConfigToJSON, PostableUserConfigToJSONTyped, PreferencesFromJSON, PreferencesFromJSONTyped, PreferencesToJSON, PreferencesToJSONTyped, PrometheusRemoteWriteTargetJSONFromJSON, PrometheusRemoteWriteTargetJSONFromJSONTyped, PrometheusRemoteWriteTargetJSONToJSON, PrometheusRemoteWriteTargetJSONToJSONTyped, ProvisionedAlertRuleExecErrStateEnum, ProvisionedAlertRuleFromJSON, ProvisionedAlertRuleFromJSONTyped, ProvisionedAlertRuleNoDataStateEnum, ProvisionedAlertRuleToJSON, ProvisionedAlertRuleToJSONTyped, ProvisioningApi, ProxyConfigFromJSON, ProxyConfigFromJSONTyped, ProxyConfigToJSON, ProxyConfigToJSONTyped, PublicDashboardDTOFromJSON, PublicDashboardDTOFromJSONTyped, PublicDashboardDTOToJSON, PublicDashboardDTOToJSONTyped, PublicDashboardFromJSON, PublicDashboardFromJSONTyped, PublicDashboardListResponseFromJSON, PublicDashboardListResponseFromJSONTyped, PublicDashboardListResponseToJSON, PublicDashboardListResponseToJSONTyped, PublicDashboardListResponseWithPaginationFromJSON, PublicDashboardListResponseWithPaginationFromJSONTyped, PublicDashboardListResponseWithPaginationToJSON, PublicDashboardListResponseWithPaginationToJSONTyped, PublicDashboardToJSON, PublicDashboardToJSONTyped, PublicErrorFromJSON, PublicErrorFromJSONTyped, PublicErrorToJSON, PublicErrorToJSONTyped, PushoverConfigFromJSON, PushoverConfigFromJSONTyped, PushoverConfigToJSON, PushoverConfigToJSONTyped, QueryDataResponseFromJSON, QueryDataResponseFromJSONTyped, QueryDataResponseToJSON, QueryDataResponseToJSONTyped, QueryHistoryApi, QueryHistoryDTOFromJSON, QueryHistoryDTOFromJSONTyped, QueryHistoryDTOToJSON, QueryHistoryDTOToJSONTyped, QueryHistoryDeleteQueryResponseFromJSON, QueryHistoryDeleteQueryResponseFromJSONTyped, QueryHistoryDeleteQueryResponseToJSON, QueryHistoryDeleteQueryResponseToJSONTyped, QueryHistoryPreferenceFromJSON, QueryHistoryPreferenceFromJSONTyped, QueryHistoryPreferenceToJSON, QueryHistoryPreferenceToJSONTyped, QueryHistoryResponseFromJSON, QueryHistoryResponseFromJSONTyped, QueryHistoryResponseToJSON, QueryHistoryResponseToJSONTyped, QueryHistorySearchResponseFromJSON, QueryHistorySearchResponseFromJSONTyped, QueryHistorySearchResponseToJSON, QueryHistorySearchResponseToJSONTyped, QueryHistorySearchResultFromJSON, QueryHistorySearchResultFromJSONTyped, QueryHistorySearchResultToJSON, QueryHistorySearchResultToJSONTyped, QueryStatFromJSON, QueryStatFromJSONTyped, QueryStatToJSON, QueryStatToJSONTyped, QuotaDTOFromJSON, QuotaDTOFromJSONTyped, QuotaDTOToJSON, QuotaDTOToJSONTyped, ReceiverExportFromJSON, ReceiverExportFromJSONTyped, ReceiverExportToJSON, ReceiverExportToJSONTyped, ReceiverFromJSON, ReceiverFromJSONTyped, ReceiverToJSON, ReceiverToJSONTyped, RecordingRuleJSONFromJSON, RecordingRuleJSONFromJSONTyped, RecordingRuleJSONToJSON, RecordingRuleJSONToJSONTyped, RecordingRulesApi, RelativeTimeRangeExportFromJSON, RelativeTimeRangeExportFromJSONTyped, RelativeTimeRangeExportToJSON, RelativeTimeRangeExportToJSONTyped, RelativeTimeRangeFromJSON, RelativeTimeRangeFromJSONTyped, RelativeTimeRangeToJSON, RelativeTimeRangeToJSONTyped, ReportBrandingOptionsFromJSON, ReportBrandingOptionsFromJSONTyped, ReportBrandingOptionsToJSON, ReportBrandingOptionsToJSONTyped, ReportDashboardFromJSON, ReportDashboardFromJSONTyped, ReportDashboardIDFromJSON, ReportDashboardIDFromJSONTyped, ReportDashboardIDToJSON, ReportDashboardIDToJSONTyped, ReportDashboardToJSON, ReportDashboardToJSONTyped, ReportEmailFromJSON, ReportEmailFromJSONTyped, ReportEmailToJSON, ReportEmailToJSONTyped, ReportFromJSON, ReportFromJSONTyped, ReportOptionsFromJSON, ReportOptionsFromJSONTyped, ReportOptionsToJSON, ReportOptionsToJSONTyped, ReportScheduleFromJSON, ReportScheduleFromJSONTyped, ReportScheduleToJSON, ReportScheduleToJSONTyped, ReportSettingsFromJSON, ReportSettingsFromJSONTyped, ReportSettingsToJSON, ReportSettingsToJSONTyped, ReportTimeRangeFromJSON, ReportTimeRangeFromJSONTyped, ReportTimeRangeToJSON, ReportTimeRangeToJSONTyped, ReportToJSON, ReportToJSONTyped, ReportsApi, RequiredError, ResourcePermissionDTOFromJSON, ResourcePermissionDTOFromJSONTyped, ResourcePermissionDTOToJSON, ResourcePermissionDTOToJSONTyped, ResponseDetailsFromJSON, ResponseDetailsFromJSONTyped, ResponseDetailsToJSON, ResponseDetailsToJSONTyped, ResponseError, RestoreDashboardVersionCommandFromJSON, RestoreDashboardVersionCommandFromJSONTyped, RestoreDashboardVersionCommandToJSON, RestoreDashboardVersionCommandToJSONTyped, RetrieveJWKS200ResponseFromJSON, RetrieveJWKS200ResponseFromJSONTyped, RetrieveJWKS200ResponseToJSON, RetrieveJWKS200ResponseToJSONTyped, RevokeAuthTokenCmdFromJSON, RevokeAuthTokenCmdFromJSONTyped, RevokeAuthTokenCmdToJSON, RevokeAuthTokenCmdToJSONTyped, RoleAssignmentsDTOFromJSON, RoleAssignmentsDTOFromJSONTyped, RoleAssignmentsDTOToJSON, RoleAssignmentsDTOToJSONTyped, RoleDTOFromJSON, RoleDTOFromJSONTyped, RoleDTOToJSON, RoleDTOToJSONTyped, RolesSearchQueryFromJSON, RolesSearchQueryFromJSONTyped, RolesSearchQueryToJSON, RolesSearchQueryToJSONTyped, RouteExportFromJSON, RouteExportFromJSONTyped, RouteExportMuteTimingFormatEnum, RouteExportMuteTimingsFormatEnum, RouteExportToJSON, RouteExportToJSONTyped, RouteFromJSON, RouteFromJSONTyped, RouteGetAlertRuleExportFormatEnum, RouteGetAlertRuleGroupExportFormatEnum, RouteGetAlertRulesExportFormatEnum, RouteGetContactpointsExportFormatEnum, RouteToJSON, RouteToJSONTyped, RuleDiscoveryFromJSON, RuleDiscoveryFromJSONTyped, RuleDiscoveryToJSON, RuleDiscoveryToJSONTyped, RuleFromJSON, RuleFromJSONTyped, RuleGroupConfigResponseFromJSON, RuleGroupConfigResponseFromJSONTyped, RuleGroupConfigResponseToJSON, RuleGroupConfigResponseToJSONTyped, RuleGroupFromJSON, RuleGroupFromJSONTyped, RuleGroupToJSON, RuleGroupToJSONTyped, RuleResponseFromJSON, RuleResponseFromJSONTyped, RuleResponseToJSON, RuleResponseToJSONTyped, RuleToJSON, RuleToJSONTyped, SNSConfigFromJSON, SNSConfigFromJSONTyped, SNSConfigToJSON, SNSConfigToJSONTyped, SamlApi, SampleFromJSON, SampleFromJSONTyped, SampleToJSON, SampleToJSONTyped, SaveDashboardCommandFromJSON, SaveDashboardCommandFromJSONTyped, SaveDashboardCommandToJSON, SaveDashboardCommandToJSONTyped, SearchApi, SearchDeviceQueryResultFromJSON, SearchDeviceQueryResultFromJSONTyped, SearchDeviceQueryResultToJSON, SearchDeviceQueryResultToJSONTyped, SearchOrgServiceAccountsResultFromJSON, SearchOrgServiceAccountsResultFromJSONTyped, SearchOrgServiceAccountsResultToJSON, SearchOrgServiceAccountsResultToJSONTyped, SearchOrgUsersQueryResultFromJSON, SearchOrgUsersQueryResultFromJSONTyped, SearchOrgUsersQueryResultToJSON, SearchOrgUsersQueryResultToJSONTyped, SearchPermissionEnum, SearchQueriesSortEnum, SearchResultFromJSON, SearchResultFromJSONTyped, SearchResultItemFromJSON, SearchResultItemFromJSONTyped, SearchResultItemToJSON, SearchResultItemToJSONTyped, SearchResultToJSON, SearchResultToJSONTyped, SearchSortEnum, SearchTeamQueryResultFromJSON, SearchTeamQueryResultFromJSONTyped, SearchTeamQueryResultToJSON, SearchTeamQueryResultToJSONTyped, SearchTypeEnum, SearchUserQueryResultFromJSON, SearchUserQueryResultFromJSONTyped, SearchUserQueryResultToJSON, SearchUserQueryResultToJSONTyped, ServiceAccountDTOFromJSON, ServiceAccountDTOFromJSONTyped, ServiceAccountDTOToJSON, ServiceAccountDTOToJSONTyped, ServiceAccountProfileDTOFromJSON, ServiceAccountProfileDTOFromJSONTyped, ServiceAccountProfileDTOToJSON, ServiceAccountProfileDTOToJSONTyped, ServiceAccountsApi, SetPermissionCommandFromJSON, SetPermissionCommandFromJSONTyped, SetPermissionCommandToJSON, SetPermissionCommandToJSONTyped, SetPermissionsCommandFromJSON, SetPermissionsCommandFromJSONTyped, SetPermissionsCommandToJSON, SetPermissionsCommandToJSONTyped, SetResourcePermissionCommandFromJSON, SetResourcePermissionCommandFromJSONTyped, SetResourcePermissionCommandToJSON, SetResourcePermissionCommandToJSONTyped, SetRoleAssignmentsCommandFromJSON, SetRoleAssignmentsCommandFromJSONTyped, SetRoleAssignmentsCommandToJSON, SetRoleAssignmentsCommandToJSONTyped, SetUserRolesCommandFromJSON, SetUserRolesCommandFromJSONTyped, SetUserRolesCommandToJSON, SetUserRolesCommandToJSONTyped, SigV4ConfigFromJSON, SigV4ConfigFromJSONTyped, SigV4ConfigToJSON, SigV4ConfigToJSONTyped, SignedInUserApi, SigningKeysApi, SilenceFromJSON, SilenceFromJSONTyped, SilenceStatusFromJSON, SilenceStatusFromJSONTyped, SilenceStatusStateEnum, SilenceStatusToJSON, SilenceStatusToJSONTyped, SilenceToJSON, SilenceToJSONTyped, SlackActionFromJSON, SlackActionFromJSONTyped, SlackActionToJSON, SlackActionToJSONTyped, SlackConfigFromJSON, SlackConfigFromJSONTyped, SlackConfigToJSON, SlackConfigToJSONTyped, SlackConfirmationFieldFromJSON, SlackConfirmationFieldFromJSONTyped, SlackConfirmationFieldToJSON, SlackConfirmationFieldToJSONTyped, SlackFieldFromJSON, SlackFieldFromJSONTyped, SlackFieldToJSON, SlackFieldToJSONTyped, SnapshotsApi, SpanFromJSON, SpanFromJSONTyped, SpanToJSON, SpanToJSONTyped, SsoSettingsApi, SuccessResponseBodyFromJSON, SuccessResponseBodyFromJSONTyped, SuccessResponseBodyToJSON, SuccessResponseBodyToJSONTyped, SyncResultFromJSON, SyncResultFromJSONTyped, SyncResultToJSON, SyncResultToJSONTyped, SyncTeamGroupsApi, TLSConfigFromJSON, TLSConfigFromJSONTyped, TLSConfigToJSON, TLSConfigToJSONTyped, TagsDTOFromJSON, TagsDTOFromJSONTyped, TagsDTOToJSON, TagsDTOToJSONTyped, TeamDTOFromJSON, TeamDTOFromJSONTyped, TeamDTOToJSON, TeamDTOToJSONTyped, TeamGroupDTOFromJSON, TeamGroupDTOFromJSONTyped, TeamGroupDTOToJSON, TeamGroupDTOToJSONTyped, TeamGroupMappingFromJSON, TeamGroupMappingFromJSONTyped, TeamGroupMappingToJSON, TeamGroupMappingToJSONTyped, TeamMemberDTOFromJSON, TeamMemberDTOFromJSONTyped, TeamMemberDTOToJSON, TeamMemberDTOToJSONTyped, TeamsApi, TelegramConfigFromJSON, TelegramConfigFromJSONTyped, TelegramConfigToJSON, TelegramConfigToJSONTyped, TempUserDTOFromJSON, TempUserDTOFromJSONTyped, TempUserDTORoleEnum, TempUserDTOToJSON, TempUserDTOToJSONTyped, TestReceiverConfigResultFromJSON, TestReceiverConfigResultFromJSONTyped, TestReceiverConfigResultToJSON, TestReceiverConfigResultToJSONTyped, TestReceiverResultFromJSON, TestReceiverResultFromJSONTyped, TestReceiverResultToJSON, TestReceiverResultToJSONTyped, TestReceiversConfigAlertParamsFromJSON, TestReceiversConfigAlertParamsFromJSONTyped, TestReceiversConfigAlertParamsToJSON, TestReceiversConfigAlertParamsToJSONTyped, TestReceiversConfigBodyParamsFromJSON, TestReceiversConfigBodyParamsFromJSONTyped, TestReceiversConfigBodyParamsToJSON, TestReceiversConfigBodyParamsToJSONTyped, TestReceiversResultFromJSON, TestReceiversResultFromJSONTyped, TestReceiversResultToJSON, TestReceiversResultToJSONTyped, TestRulePayloadFromJSON, TestRulePayloadFromJSONTyped, TestRulePayloadToJSON, TestRulePayloadToJSONTyped, TestRuleResponseFromJSON, TestRuleResponseFromJSONTyped, TestRuleResponseToJSON, TestRuleResponseToJSONTyped, TestTemplatesConfigBodyParamsFromJSON, TestTemplatesConfigBodyParamsFromJSONTyped, TestTemplatesConfigBodyParamsToJSON, TestTemplatesConfigBodyParamsToJSONTyped, TestTemplatesErrorResultFromJSON, TestTemplatesErrorResultFromJSONTyped, TestTemplatesErrorResultKindEnum, TestTemplatesErrorResultToJSON, TestTemplatesErrorResultToJSONTyped, TestTemplatesResultFromJSON, TestTemplatesResultFromJSONTyped, TestTemplatesResultToJSON, TestTemplatesResultToJSONTyped, TestTemplatesResultsFromJSON, TestTemplatesResultsFromJSONTyped, TestTemplatesResultsToJSON, TestTemplatesResultsToJSONTyped, TextApiResponse, ThresholdFromJSON, ThresholdFromJSONTyped, ThresholdToJSON, ThresholdToJSONTyped, ThresholdsConfigFromJSON, ThresholdsConfigFromJSONTyped, ThresholdsConfigToJSON, ThresholdsConfigToJSONTyped, TimeIntervalFromJSON, TimeIntervalFromJSONTyped, TimeIntervalItemFromJSON, TimeIntervalItemFromJSONTyped, TimeIntervalItemToJSON, TimeIntervalItemToJSONTyped, TimeIntervalTimeRangeFromJSON, TimeIntervalTimeRangeFromJSONTyped, TimeIntervalTimeRangeToJSON, TimeIntervalTimeRangeToJSONTyped, TimeIntervalToJSON, TimeIntervalToJSONTyped, TimeRangeFromJSON, TimeRangeFromJSONTyped, TimeRangeToJSON, TimeRangeToJSONTyped, TokenDTOFromJSON, TokenDTOFromJSONTyped, TokenDTOToJSON, TokenDTOToJSONTyped, TokenFromJSON, TokenFromJSONTyped, TokenToJSON, TokenToJSONTyped, TransformationFromJSON, TransformationFromJSONTyped, TransformationToJSON, TransformationToJSONTyped, TransformationTypeEnum, TypeMetaFromJSON, TypeMetaFromJSONTyped, TypeMetaToJSON, TypeMetaToJSONTyped, URLFromJSON, URLFromJSONTyped, URLToJSON, URLToJSONTyped, UnstructuredFromJSON, UnstructuredFromJSONTyped, UnstructuredToJSON, UnstructuredToJSONTyped, UpdateAnnotationsCmdFromJSON, UpdateAnnotationsCmdFromJSONTyped, UpdateAnnotationsCmdToJSON, UpdateAnnotationsCmdToJSONTyped, UpdateCorrelationCommandFromJSON, UpdateCorrelationCommandFromJSONTyped, UpdateCorrelationCommandToJSON, UpdateCorrelationCommandToJSONTyped, UpdateCorrelationResponseBodyFromJSON, UpdateCorrelationResponseBodyFromJSONTyped, UpdateCorrelationResponseBodyToJSON, UpdateCorrelationResponseBodyToJSONTyped, UpdateDashboardACLCommandFromJSON, UpdateDashboardACLCommandFromJSONTyped, UpdateDashboardACLCommandToJSON, UpdateDashboardACLCommandToJSONTyped, UpdateDataSourceCommandFromJSON, UpdateDataSourceCommandFromJSONTyped, UpdateDataSourceCommandToJSON, UpdateDataSourceCommandToJSONTyped, UpdateFolderCommandFromJSON, UpdateFolderCommandFromJSONTyped, UpdateFolderCommandToJSON, UpdateFolderCommandToJSONTyped, UpdateOrgAddressFormFromJSON, UpdateOrgAddressFormFromJSONTyped, UpdateOrgAddressFormToJSON, UpdateOrgAddressFormToJSONTyped, UpdateOrgFormFromJSON, UpdateOrgFormFromJSONTyped, UpdateOrgFormToJSON, UpdateOrgFormToJSONTyped, UpdateOrgUserCommandFromJSON, UpdateOrgUserCommandFromJSONTyped, UpdateOrgUserCommandRoleEnum, UpdateOrgUserCommandToJSON, UpdateOrgUserCommandToJSONTyped, UpdatePlaylistCommandFromJSON, UpdatePlaylistCommandFromJSONTyped, UpdatePlaylistCommandToJSON, UpdatePlaylistCommandToJSONTyped, UpdatePrefsCmdFromJSON, UpdatePrefsCmdFromJSONTyped, UpdatePrefsCmdThemeEnum, UpdatePrefsCmdTimezoneEnum, UpdatePrefsCmdToJSON, UpdatePrefsCmdToJSONTyped, UpdateProviderSettingsRequestFromJSON, UpdateProviderSettingsRequestFromJSONTyped, UpdateProviderSettingsRequestToJSON, UpdateProviderSettingsRequestToJSONTyped, UpdateQuotaCmdFromJSON, UpdateQuotaCmdFromJSONTyped, UpdateQuotaCmdToJSON, UpdateQuotaCmdToJSONTyped, UpdateRoleCommandFromJSON, UpdateRoleCommandFromJSONTyped, UpdateRoleCommandToJSON, UpdateRoleCommandToJSONTyped, UpdateRuleGroupResponseFromJSON, UpdateRuleGroupResponseFromJSONTyped, UpdateRuleGroupResponseToJSON, UpdateRuleGroupResponseToJSONTyped, UpdateServiceAccount200ResponseFromJSON, UpdateServiceAccount200ResponseFromJSONTyped, UpdateServiceAccount200ResponseToJSON, UpdateServiceAccount200ResponseToJSONTyped, UpdateServiceAccountFormFromJSON, UpdateServiceAccountFormFromJSONTyped, UpdateServiceAccountFormRoleEnum, UpdateServiceAccountFormToJSON, UpdateServiceAccountFormToJSONTyped, UpdateTeamCommandFromJSON, UpdateTeamCommandFromJSONTyped, UpdateTeamCommandToJSON, UpdateTeamCommandToJSONTyped, UpdateTeamMemberCommandFromJSON, UpdateTeamMemberCommandFromJSONTyped, UpdateTeamMemberCommandToJSON, UpdateTeamMemberCommandToJSONTyped, UpdateUserCommandFromJSON, UpdateUserCommandFromJSONTyped, UpdateUserCommandToJSON, UpdateUserCommandToJSONTyped, UserApi, UserLookupDTOFromJSON, UserLookupDTOFromJSONTyped, UserLookupDTOToJSON, UserLookupDTOToJSONTyped, UserOrgDTOFromJSON, UserOrgDTOFromJSONTyped, UserOrgDTORoleEnum, UserOrgDTOToJSON, UserOrgDTOToJSONTyped, UserPreferencesApi, UserProfileDTOFromJSON, UserProfileDTOFromJSONTyped, UserProfileDTOToJSON, UserProfileDTOToJSONTyped, UserSearchHitDTOFromJSON, UserSearchHitDTOFromJSONTyped, UserSearchHitDTOToJSON, UserSearchHitDTOToJSONTyped, UserTokenFromJSON, UserTokenFromJSONTyped, UserTokenToJSON, UserTokenToJSONTyped, UsersApi, ValidationErrorFromJSON, ValidationErrorFromJSONTyped, ValidationErrorToJSON, ValidationErrorToJSONTyped, VersionInfoFromJSON, VersionInfoFromJSONTyped, VersionInfoToJSON, VersionInfoToJSONTyped, VictorOpsConfigFromJSON, VictorOpsConfigFromJSONTyped, VictorOpsConfigToJSON, VictorOpsConfigToJSONTyped, VoidApiResponse, WebexConfigFromJSON, WebexConfigFromJSONTyped, WebexConfigToJSON, WebexConfigToJSONTyped, WebhookConfigFromJSON, WebhookConfigFromJSONTyped, WebhookConfigToJSON, WebhookConfigToJSONTyped, WechatConfigFromJSON, WechatConfigFromJSONTyped, WechatConfigToJSON, WechatConfigToJSONTyped, canConsumeForm, exists, instanceOfActiveSyncStatusDTO, instanceOfActiveUserStats, instanceOfAddAPIKeyCommand, instanceOfAddDataSource200Response, instanceOfAddDataSourceCommand, instanceOfAddInviteForm, instanceOfAddOrgUserCommand, instanceOfAddServiceAccountTokenCommand, instanceOfAddTeamMemberCommand, instanceOfAddTeamRoleCommand, instanceOfAddUserRoleCommand, instanceOfAddress, instanceOfAdminCreateUserForm, instanceOfAdminCreateUserResponse, instanceOfAdminStats, instanceOfAdminUpdateUserPasswordForm, instanceOfAdminUpdateUserPermissionsForm, instanceOfAlert, instanceOfAlertDiscovery, instanceOfAlertGroup, instanceOfAlertInstancesResponse, instanceOfAlertManager, instanceOfAlertManagersResult, instanceOfAlertQuery, instanceOfAlertQueryExport, instanceOfAlertResponse, instanceOfAlertRuleExport, instanceOfAlertRuleGroup, instanceOfAlertRuleGroupExport, instanceOfAlertRuleGroupMetadata, instanceOfAlertRuleNotificationSettings, instanceOfAlertRuleNotificationSettingsExport, instanceOfAlertStatus, instanceOfAlertingFileExport, instanceOfAlertingRule, instanceOfAlertingStatus, instanceOfAlertmanagerConfig, instanceOfAlertmanagerStatus, instanceOfAnnotation, instanceOfAnnotationActions, instanceOfAnnotationEvent, instanceOfAnnotationPanelFilter, instanceOfAnnotationPermission, instanceOfAnnotationQuery, instanceOfAnnotationTarget, instanceOfApiKeyDTO, instanceOfApiRuleNode, instanceOfAssignments, instanceOfAttributeTypeAndValue, instanceOfAuthorization, instanceOfBacktestConfig, instanceOfBasicAuth, instanceOfCalculateDashboardDiffRequest, instanceOfCalculateDiffTarget, instanceOfCertificate, instanceOfChangeUserPasswordCommand, instanceOfClearHelpFlags200Response, instanceOfClusterStatus, instanceOfConfig, instanceOfContactPointExport, instanceOfCookiePreferences, instanceOfCorrelation, instanceOfCorrelationConfig, instanceOfCorrelationConfigUpdateDTO, instanceOfCreateCorrelationCommand, instanceOfCreateCorrelationResponseBody, instanceOfCreateDashboardSnapshot200Response, instanceOfCreateDashboardSnapshotCommand, instanceOfCreateFolderCommand, instanceOfCreateLibraryElementCommand, instanceOfCreateOrUpdateReportConfig, instanceOfCreateOrg200Response, instanceOfCreateOrgCommand, instanceOfCreatePlaylistCommand, instanceOfCreateQueryInQueryHistoryCommand, instanceOfCreateReport200Response, instanceOfCreateRoleForm, instanceOfCreateServiceAccountForm, instanceOfCreateTeam200Response, instanceOfCreateTeamCommand, instanceOfDashboardACLInfoDTO, instanceOfDashboardACLUpdateItem, instanceOfDashboardCreateCommand, instanceOfDashboardFullWithMeta, instanceOfDashboardMeta, instanceOfDashboardRedirect, instanceOfDashboardSnapshotDTO, instanceOfDashboardTagCloudItem, instanceOfDashboardVersionMeta, instanceOfDataLink, instanceOfDataResponse, instanceOfDataSource, instanceOfDataSourceListItemDTO, instanceOfDataSourceRef, instanceOfDeleteCorrelationResponseBody, instanceOfDeleteDashboardByUID200Response, instanceOfDeleteDataSourceByName200Response, instanceOfDeleteFolder200Response, instanceOfDeleteTokenCommand, instanceOfDescription, instanceOfDeviceDTO, instanceOfDeviceSearchHitDTO, instanceOfDiscordConfig, instanceOfDiscoveryBase, instanceOfEmailConfig, instanceOfEmailDTO, instanceOfEmbeddedContactPoint, instanceOfEnumFieldConfig, instanceOfErrorResponseBody, instanceOfEvalAlertConditionCommand, instanceOfEvalQueriesPayload, instanceOfExtendedReceiver, instanceOfExtension, instanceOfFailedUser, instanceOfField, instanceOfFieldConfig, instanceOfFieldTypeConfig, instanceOfFindTagsResult, instanceOfFloatHistogram, instanceOfFolder, instanceOfFolderSearchHit, instanceOfForbiddenError, instanceOfFrame, instanceOfFrameMeta, instanceOfGenericPublicError, instanceOfGetAnnotationTagsResponse, instanceOfGetDataSourceIdByName200Response, instanceOfGetHomeDashboardResponse, instanceOfGetSharingOptions200Response, instanceOfGettableAlert, instanceOfGettableAlertmanagers, instanceOfGettableApiAlertingConfig, instanceOfGettableApiReceiver, instanceOfGettableExtendedRuleNode, instanceOfGettableGrafanaReceiver, instanceOfGettableGrafanaReceivers, instanceOfGettableGrafanaRule, instanceOfGettableHistoricUserConfig, instanceOfGettableNGalertConfig, instanceOfGettableRuleGroupConfig, instanceOfGettableSilence, instanceOfGettableStatus, instanceOfGettableTimeIntervals, instanceOfGettableUserConfig, instanceOfGlobalConfig, instanceOfHTTPClientConfig, instanceOfHit, instanceOfHostPort, instanceOfIPNet, instanceOfImportDashboardInput, instanceOfImportDashboardRequest, instanceOfImportDashboardResponse, instanceOfInhibitRule, instanceOfIntegration, instanceOfInternalDataLink, instanceOfJSONWebKey, instanceOfLabel, instanceOfLibraryElementArrayResponse, instanceOfLibraryElementConnectionDTO, instanceOfLibraryElementConnectionsResponse, instanceOfLibraryElementDTO, instanceOfLibraryElementDTOMeta, instanceOfLibraryElementDTOMetaUser, instanceOfLibraryElementResponse, instanceOfLibraryElementSearchResponse, instanceOfLibraryElementSearchResult, instanceOfLinkTransformationConfig, instanceOfListAllProvidersSettings200ResponseInner, instanceOfListSortOptions200Response, instanceOfMSTeamsConfig, instanceOfMassDeleteAnnotationsCmd, instanceOfMatcher, instanceOfMetricRequest, instanceOfMoveFolderCommand, instanceOfMuteTimeInterval, instanceOfMuteTimeIntervalExport, instanceOfName, instanceOfNewApiKeyResult, instanceOfNotice, instanceOfNotificationPolicyExport, instanceOfNotificationTemplate, instanceOfNotificationTemplateContent, instanceOfNotifierConfig, instanceOfOAuth2, instanceOfOpsGenieConfig, instanceOfOpsGenieConfigResponder, instanceOfOrgDTO, instanceOfOrgDetailsDTO, instanceOfOrgUserDTO, instanceOfPagerdutyConfig, instanceOfPagerdutyImage, instanceOfPagerdutyLink, instanceOfPatchAnnotationsCmd, instanceOfPatchLibraryElementCommand, instanceOfPatchPrefsCmd, instanceOfPatchQueryCommentInQueryHistoryCommand, instanceOfPeerStatus, instanceOfPermission, instanceOfPlaylist, instanceOfPlaylistDTO, instanceOfPlaylistDashboard, instanceOfPlaylistItem, instanceOfPlaylistItemDTO, instanceOfPostAnnotation200Response, instanceOfPostAnnotationsCmd, instanceOfPostDashboard200Response, instanceOfPostGraphiteAnnotationsCmd, instanceOfPostSilencesOKBody, instanceOfPostableAlert, instanceOfPostableApiAlertingConfig, instanceOfPostableApiReceiver, instanceOfPostableExtendedRuleNode, instanceOfPostableExtendedRuleNodeExtended, instanceOfPostableGrafanaReceiver, instanceOfPostableGrafanaReceivers, instanceOfPostableGrafanaRule, instanceOfPostableNGalertConfig, instanceOfPostableRuleGroupConfig, instanceOfPostableSilence, instanceOfPostableTimeIntervals, instanceOfPostableUserConfig, instanceOfPreferences, instanceOfPrometheusRemoteWriteTargetJSON, instanceOfProvisionedAlertRule, instanceOfProxyConfig, instanceOfPublicDashboard, instanceOfPublicDashboardDTO, instanceOfPublicDashboardListResponse, instanceOfPublicDashboardListResponseWithPagination, instanceOfPublicError, instanceOfPushoverConfig, instanceOfQueryDataResponse, instanceOfQueryHistoryDTO, instanceOfQueryHistoryDeleteQueryResponse, instanceOfQueryHistoryPreference, instanceOfQueryHistoryResponse, instanceOfQueryHistorySearchResponse, instanceOfQueryHistorySearchResult, instanceOfQueryStat, instanceOfQuotaDTO, instanceOfReceiver, instanceOfReceiverExport, instanceOfRecordingRuleJSON, instanceOfRelativeTimeRange, instanceOfRelativeTimeRangeExport, instanceOfReport, instanceOfReportBrandingOptions, instanceOfReportDashboard, instanceOfReportDashboardID, instanceOfReportEmail, instanceOfReportOptions, instanceOfReportSchedule, instanceOfReportSettings, instanceOfReportTimeRange, instanceOfResourcePermissionDTO, instanceOfResponseDetails, instanceOfRestoreDashboardVersionCommand, instanceOfRetrieveJWKS200Response, instanceOfRevokeAuthTokenCmd, instanceOfRoleAssignmentsDTO, instanceOfRoleDTO, instanceOfRolesSearchQuery, instanceOfRoute, instanceOfRouteExport, instanceOfRule, instanceOfRuleDiscovery, instanceOfRuleGroup, instanceOfRuleGroupConfigResponse, instanceOfRuleResponse, instanceOfSNSConfig, instanceOfSample, instanceOfSaveDashboardCommand, instanceOfSearchDeviceQueryResult, instanceOfSearchOrgServiceAccountsResult, instanceOfSearchOrgUsersQueryResult, instanceOfSearchResult, instanceOfSearchResultItem, instanceOfSearchTeamQueryResult, instanceOfSearchUserQueryResult, instanceOfServiceAccountDTO, instanceOfServiceAccountProfileDTO, instanceOfSetPermissionCommand, instanceOfSetPermissionsCommand, instanceOfSetResourcePermissionCommand, instanceOfSetRoleAssignmentsCommand, instanceOfSetUserRolesCommand, instanceOfSigV4Config, instanceOfSilence, instanceOfSilenceStatus, instanceOfSlackAction, instanceOfSlackConfig, instanceOfSlackConfirmationField, instanceOfSlackField, instanceOfSpan, instanceOfSuccessResponseBody, instanceOfSyncResult, instanceOfTLSConfig, instanceOfTagsDTO, instanceOfTeamDTO, instanceOfTeamGroupDTO, instanceOfTeamGroupMapping, instanceOfTeamMemberDTO, instanceOfTelegramConfig, instanceOfTempUserDTO, instanceOfTestReceiverConfigResult, instanceOfTestReceiverResult, instanceOfTestReceiversConfigAlertParams, instanceOfTestReceiversConfigBodyParams, instanceOfTestReceiversResult, instanceOfTestRulePayload, instanceOfTestRuleResponse, instanceOfTestTemplatesConfigBodyParams, instanceOfTestTemplatesErrorResult, instanceOfTestTemplatesResult, instanceOfTestTemplatesResults, instanceOfThreshold, instanceOfThresholdsConfig, instanceOfTimeInterval, instanceOfTimeIntervalItem, instanceOfTimeIntervalTimeRange, instanceOfTimeRange, instanceOfToken, instanceOfTokenDTO, instanceOfTransformation, instanceOfTypeMeta, instanceOfURL, instanceOfUnstructured, instanceOfUpdateAnnotationsCmd, instanceOfUpdateCorrelationCommand, instanceOfUpdateCorrelationResponseBody, instanceOfUpdateDashboardACLCommand, instanceOfUpdateDataSourceCommand, instanceOfUpdateFolderCommand, instanceOfUpdateOrgAddressForm, instanceOfUpdateOrgForm, instanceOfUpdateOrgUserCommand, instanceOfUpdatePlaylistCommand, instanceOfUpdatePrefsCmd, instanceOfUpdateProviderSettingsRequest, instanceOfUpdateQuotaCmd, instanceOfUpdateRoleCommand, instanceOfUpdateRuleGroupResponse, instanceOfUpdateServiceAccount200Response, instanceOfUpdateServiceAccountForm, instanceOfUpdateTeamCommand, instanceOfUpdateTeamMemberCommand, instanceOfUpdateUserCommand, instanceOfUserLookupDTO, instanceOfUserOrgDTO, instanceOfUserProfileDTO, instanceOfUserSearchHitDTO, instanceOfUserToken, instanceOfValidationError, instanceOfVersionInfo, instanceOfVictorOpsConfig, instanceOfWebexConfig, instanceOfWebhookConfig, instanceOfWechatConfig, mapValues, querystring };
+export { AccessControlApi, AccessControlProvisioningApi, ActiveSyncStatusDTOFromJSON, ActiveSyncStatusDTOFromJSONTyped, ActiveSyncStatusDTOToJSON, ActiveSyncStatusDTOToJSONTyped, ActiveUserStatsFromJSON, ActiveUserStatsFromJSONTyped, ActiveUserStatsToJSON, ActiveUserStatsToJSONTyped, AddAPIKeyCommandFromJSON, AddAPIKeyCommandFromJSONTyped, AddAPIKeyCommandRoleEnum, AddAPIKeyCommandToJSON, AddAPIKeyCommandToJSONTyped, AddDataSource200ResponseFromJSON, AddDataSource200ResponseFromJSONTyped, AddDataSource200ResponseToJSON, AddDataSource200ResponseToJSONTyped, AddDataSourceCommandFromJSON, AddDataSourceCommandFromJSONTyped, AddDataSourceCommandToJSON, AddDataSourceCommandToJSONTyped, AddInviteFormFromJSON, AddInviteFormFromJSONTyped, AddInviteFormRoleEnum, AddInviteFormToJSON, AddInviteFormToJSONTyped, AddOrgUserCommandFromJSON, AddOrgUserCommandFromJSONTyped, AddOrgUserCommandRoleEnum, AddOrgUserCommandToJSON, AddOrgUserCommandToJSONTyped, AddServiceAccountTokenCommandFromJSON, AddServiceAccountTokenCommandFromJSONTyped, AddServiceAccountTokenCommandToJSON, AddServiceAccountTokenCommandToJSONTyped, AddTeamMemberCommandFromJSON, AddTeamMemberCommandFromJSONTyped, AddTeamMemberCommandToJSON, AddTeamMemberCommandToJSONTyped, AddTeamRoleCommandFromJSON, AddTeamRoleCommandFromJSONTyped, AddTeamRoleCommandToJSON, AddTeamRoleCommandToJSONTyped, AddUserRoleCommandFromJSON, AddUserRoleCommandFromJSONTyped, AddUserRoleCommandToJSON, AddUserRoleCommandToJSONTyped, AddressFromJSON, AddressFromJSONTyped, AddressToJSON, AddressToJSONTyped, AdminApi, AdminCreateUserFormFromJSON, AdminCreateUserFormFromJSONTyped, AdminCreateUserFormToJSON, AdminCreateUserFormToJSONTyped, AdminCreateUserResponseFromJSON, AdminCreateUserResponseFromJSONTyped, AdminCreateUserResponseToJSON, AdminCreateUserResponseToJSONTyped, AdminLdapApi, AdminProvisioningApi, AdminStatsFromJSON, AdminStatsFromJSONTyped, AdminStatsToJSON, AdminStatsToJSONTyped, AdminUpdateUserPasswordFormFromJSON, AdminUpdateUserPasswordFormFromJSONTyped, AdminUpdateUserPasswordFormToJSON, AdminUpdateUserPasswordFormToJSONTyped, AdminUpdateUserPermissionsFormFromJSON, AdminUpdateUserPermissionsFormFromJSONTyped, AdminUpdateUserPermissionsFormToJSON, AdminUpdateUserPermissionsFormToJSONTyped, AdminUsersApi, AlertDiscoveryFromJSON, AlertDiscoveryFromJSONTyped, AlertDiscoveryToJSON, AlertDiscoveryToJSONTyped, AlertFromJSON, AlertFromJSONTyped, AlertGroupFromJSON, AlertGroupFromJSONTyped, AlertGroupToJSON, AlertGroupToJSONTyped, AlertInstancesResponseFromJSON, AlertInstancesResponseFromJSONTyped, AlertInstancesResponseToJSON, AlertInstancesResponseToJSONTyped, AlertManagerFromJSON, AlertManagerFromJSONTyped, AlertManagerToJSON, AlertManagerToJSONTyped, AlertManagersResultFromJSON, AlertManagersResultFromJSONTyped, AlertManagersResultToJSON, AlertManagersResultToJSONTyped, AlertQueryExportFromJSON, AlertQueryExportFromJSONTyped, AlertQueryExportToJSON, AlertQueryExportToJSONTyped, AlertQueryFromJSON, AlertQueryFromJSONTyped, AlertQueryToJSON, AlertQueryToJSONTyped, AlertResponseFromJSON, AlertResponseFromJSONTyped, AlertResponseToJSON, AlertResponseToJSONTyped, AlertRuleExportExecErrStateEnum, AlertRuleExportFromJSON, AlertRuleExportFromJSONTyped, AlertRuleExportNoDataStateEnum, AlertRuleExportToJSON, AlertRuleExportToJSONTyped, AlertRuleGroupExportFromJSON, AlertRuleGroupExportFromJSONTyped, AlertRuleGroupExportToJSON, AlertRuleGroupExportToJSONTyped, AlertRuleGroupFromJSON, AlertRuleGroupFromJSONTyped, AlertRuleGroupMetadataFromJSON, AlertRuleGroupMetadataFromJSONTyped, AlertRuleGroupMetadataToJSON, AlertRuleGroupMetadataToJSONTyped, AlertRuleGroupToJSON, AlertRuleGroupToJSONTyped, AlertRuleNotificationSettingsExportFromJSON, AlertRuleNotificationSettingsExportFromJSONTyped, AlertRuleNotificationSettingsExportToJSON, AlertRuleNotificationSettingsExportToJSONTyped, AlertRuleNotificationSettingsFromJSON, AlertRuleNotificationSettingsFromJSONTyped, AlertRuleNotificationSettingsToJSON, AlertRuleNotificationSettingsToJSONTyped, AlertRuleRecordExportFromJSON, AlertRuleRecordExportFromJSONTyped, AlertRuleRecordExportToJSON, AlertRuleRecordExportToJSONTyped, AlertStatusFromJSON, AlertStatusFromJSONTyped, AlertStatusStateEnum, AlertStatusToJSON, AlertStatusToJSONTyped, AlertToJSON, AlertToJSONTyped, AlertingFileExportFromJSON, AlertingFileExportFromJSONTyped, AlertingFileExportToJSON, AlertingFileExportToJSONTyped, AlertingRuleFromJSON, AlertingRuleFromJSONTyped, AlertingRuleToJSON, AlertingRuleToJSONTyped, AlertingStatusAlertmanagersChoiceEnum, AlertingStatusFromJSON, AlertingStatusFromJSONTyped, AlertingStatusToJSON, AlertingStatusToJSONTyped, AlertmanagerConfigFromJSON, AlertmanagerConfigFromJSONTyped, AlertmanagerConfigToJSON, AlertmanagerConfigToJSONTyped, AlertmanagerStatusFromJSON, AlertmanagerStatusFromJSONTyped, AlertmanagerStatusToJSON, AlertmanagerStatusToJSONTyped, AnnotationActionsFromJSON, AnnotationActionsFromJSONTyped, AnnotationActionsToJSON, AnnotationActionsToJSONTyped, AnnotationEventFromJSON, AnnotationEventFromJSONTyped, AnnotationEventToJSON, AnnotationEventToJSONTyped, AnnotationFromJSON, AnnotationFromJSONTyped, AnnotationPanelFilterFromJSON, AnnotationPanelFilterFromJSONTyped, AnnotationPanelFilterToJSON, AnnotationPanelFilterToJSONTyped, AnnotationPermissionFromJSON, AnnotationPermissionFromJSONTyped, AnnotationPermissionToJSON, AnnotationPermissionToJSONTyped, AnnotationQueryFromJSON, AnnotationQueryFromJSONTyped, AnnotationQueryToJSON, AnnotationQueryToJSONTyped, AnnotationTargetFromJSON, AnnotationTargetFromJSONTyped, AnnotationTargetToJSON, AnnotationTargetToJSONTyped, AnnotationToJSON, AnnotationToJSONTyped, AnnotationsApi, ApiKeyDTOFromJSON, ApiKeyDTOFromJSONTyped, ApiKeyDTORoleEnum, ApiKeyDTOToJSON, ApiKeyDTOToJSONTyped, ApiKeysApi, ApiRuleNodeFromJSON, ApiRuleNodeFromJSONTyped, ApiRuleNodeToJSON, ApiRuleNodeToJSONTyped, AssignmentsFromJSON, AssignmentsFromJSONTyped, AssignmentsToJSON, AssignmentsToJSONTyped, AttributeTypeAndValueFromJSON, AttributeTypeAndValueFromJSONTyped, AttributeTypeAndValueToJSON, AttributeTypeAndValueToJSONTyped, AuthorizationFromJSON, AuthorizationFromJSONTyped, AuthorizationToJSON, AuthorizationToJSONTyped, BASE_PATH, BacktestConfigFromJSON, BacktestConfigFromJSONTyped, BacktestConfigNoDataStateEnum, BacktestConfigToJSON, BacktestConfigToJSONTyped, BaseAPI, BasicAuthFromJSON, BasicAuthFromJSONTyped, BasicAuthToJSON, BasicAuthToJSONTyped, BlobApiResponse, COLLECTION_FORMATS, CacheConfigFromJSON, CacheConfigFromJSONTyped, CacheConfigResponseFromJSON, CacheConfigResponseFromJSONTyped, CacheConfigResponseToJSON, CacheConfigResponseToJSONTyped, CacheConfigSetterFromJSON, CacheConfigSetterFromJSONTyped, CacheConfigSetterToJSON, CacheConfigSetterToJSONTyped, CacheConfigToJSON, CacheConfigToJSONTyped, CalculateDashboardDiffRequestDiffTypeEnum, CalculateDashboardDiffRequestFromJSON, CalculateDashboardDiffRequestFromJSONTyped, CalculateDashboardDiffRequestToJSON, CalculateDashboardDiffRequestToJSONTyped, CalculateDiffTargetFromJSON, CalculateDiffTargetFromJSONTyped, CalculateDiffTargetToJSON, CalculateDiffTargetToJSONTyped, CertificateFromJSON, CertificateFromJSONTyped, CertificateToJSON, CertificateToJSONTyped, ChangeUserPasswordCommandFromJSON, ChangeUserPasswordCommandFromJSONTyped, ChangeUserPasswordCommandToJSON, ChangeUserPasswordCommandToJSONTyped, ClearHelpFlags200ResponseFromJSON, ClearHelpFlags200ResponseFromJSONTyped, ClearHelpFlags200ResponseToJSON, ClearHelpFlags200ResponseToJSONTyped, CloudMigrationRunListDTOFromJSON, CloudMigrationRunListDTOFromJSONTyped, CloudMigrationRunListDTOToJSON, CloudMigrationRunListDTOToJSONTyped, CloudMigrationSessionListResponseDTOFromJSON, CloudMigrationSessionListResponseDTOFromJSONTyped, CloudMigrationSessionListResponseDTOToJSON, CloudMigrationSessionListResponseDTOToJSONTyped, CloudMigrationSessionRequestDTOFromJSON, CloudMigrationSessionRequestDTOFromJSONTyped, CloudMigrationSessionRequestDTOToJSON, CloudMigrationSessionRequestDTOToJSONTyped, CloudMigrationSessionResponseDTOFromJSON, CloudMigrationSessionResponseDTOFromJSONTyped, CloudMigrationSessionResponseDTOToJSON, CloudMigrationSessionResponseDTOToJSONTyped, ClusterStatusFromJSON, ClusterStatusFromJSONTyped, ClusterStatusStatusEnum, ClusterStatusToJSON, ClusterStatusToJSONTyped, ConfigFromJSON, ConfigFromJSONTyped, ConfigToJSON, ConfigToJSONTyped, Configuration, ContactPointExportFromJSON, ContactPointExportFromJSONTyped, ContactPointExportToJSON, ContactPointExportToJSONTyped, CookiePreferencesFromJSON, CookiePreferencesFromJSONTyped, CookiePreferencesToJSON, CookiePreferencesToJSONTyped, CorrelationConfigFromJSON, CorrelationConfigFromJSONTyped, CorrelationConfigToJSON, CorrelationConfigToJSONTyped, CorrelationConfigUpdateDTOFromJSON, CorrelationConfigUpdateDTOFromJSONTyped, CorrelationConfigUpdateDTOToJSON, CorrelationConfigUpdateDTOToJSONTyped, CorrelationFromJSON, CorrelationFromJSONTyped, CorrelationToJSON, CorrelationToJSONTyped, CorrelationsApi, CreateAccessTokenResponseDTOFromJSON, CreateAccessTokenResponseDTOFromJSONTyped, CreateAccessTokenResponseDTOToJSON, CreateAccessTokenResponseDTOToJSONTyped, CreateCorrelationCommandFromJSON, CreateCorrelationCommandFromJSONTyped, CreateCorrelationCommandToJSON, CreateCorrelationCommandToJSONTyped, CreateCorrelationResponseBodyFromJSON, CreateCorrelationResponseBodyFromJSONTyped, CreateCorrelationResponseBodyToJSON, CreateCorrelationResponseBodyToJSONTyped, CreateDashboardSnapshot200ResponseFromJSON, CreateDashboardSnapshot200ResponseFromJSONTyped, CreateDashboardSnapshot200ResponseToJSON, CreateDashboardSnapshot200ResponseToJSONTyped, CreateDashboardSnapshotCommandFromJSON, CreateDashboardSnapshotCommandFromJSONTyped, CreateDashboardSnapshotCommandToJSON, CreateDashboardSnapshotCommandToJSONTyped, CreateFolderCommandFromJSON, CreateFolderCommandFromJSONTyped, CreateFolderCommandToJSON, CreateFolderCommandToJSONTyped, CreateLibraryElementCommandFromJSON, CreateLibraryElementCommandFromJSONTyped, CreateLibraryElementCommandKindEnum, CreateLibraryElementCommandToJSON, CreateLibraryElementCommandToJSONTyped, CreateOrUpdateReportFromJSON, CreateOrUpdateReportFromJSONTyped, CreateOrUpdateReportToJSON, CreateOrUpdateReportToJSONTyped, CreateOrg200ResponseFromJSON, CreateOrg200ResponseFromJSONTyped, CreateOrg200ResponseToJSON, CreateOrg200ResponseToJSONTyped, CreateOrgCommandFromJSON, CreateOrgCommandFromJSONTyped, CreateOrgCommandToJSON, CreateOrgCommandToJSONTyped, CreatePlaylistCommandFromJSON, CreatePlaylistCommandFromJSONTyped, CreatePlaylistCommandToJSON, CreatePlaylistCommandToJSONTyped, CreateQueryInQueryHistoryCommandFromJSON, CreateQueryInQueryHistoryCommandFromJSONTyped, CreateQueryInQueryHistoryCommandToJSON, CreateQueryInQueryHistoryCommandToJSONTyped, CreateReport200ResponseFromJSON, CreateReport200ResponseFromJSONTyped, CreateReport200ResponseToJSON, CreateReport200ResponseToJSONTyped, CreateRoleFormFromJSON, CreateRoleFormFromJSONTyped, CreateRoleFormToJSON, CreateRoleFormToJSONTyped, CreateServiceAccountFormFromJSON, CreateServiceAccountFormFromJSONTyped, CreateServiceAccountFormRoleEnum, CreateServiceAccountFormToJSON, CreateServiceAccountFormToJSONTyped, CreateSnapshotResponseDTOFromJSON, CreateSnapshotResponseDTOFromJSONTyped, CreateSnapshotResponseDTOToJSON, CreateSnapshotResponseDTOToJSONTyped, CreateTeam200ResponseFromJSON, CreateTeam200ResponseFromJSONTyped, CreateTeam200ResponseToJSON, CreateTeam200ResponseToJSONTyped, CreateTeamCommandFromJSON, CreateTeamCommandFromJSONTyped, CreateTeamCommandToJSON, CreateTeamCommandToJSONTyped, DashboardACLInfoDTOFromJSON, DashboardACLInfoDTOFromJSONTyped, DashboardACLInfoDTORoleEnum, DashboardACLInfoDTOToJSON, DashboardACLInfoDTOToJSONTyped, DashboardACLUpdateItemFromJSON, DashboardACLUpdateItemFromJSONTyped, DashboardACLUpdateItemRoleEnum, DashboardACLUpdateItemToJSON, DashboardACLUpdateItemToJSONTyped, DashboardCreateCommandFromJSON, DashboardCreateCommandFromJSONTyped, DashboardCreateCommandToJSON, DashboardCreateCommandToJSONTyped, DashboardFullWithMetaFromJSON, DashboardFullWithMetaFromJSONTyped, DashboardFullWithMetaToJSON, DashboardFullWithMetaToJSONTyped, DashboardMetaFromJSON, DashboardMetaFromJSONTyped, DashboardMetaToJSON, DashboardMetaToJSONTyped, DashboardPermissionsApi, DashboardPublicApi, DashboardRedirectFromJSON, DashboardRedirectFromJSONTyped, DashboardRedirectToJSON, DashboardRedirectToJSONTyped, DashboardSnapshotDTOFromJSON, DashboardSnapshotDTOFromJSONTyped, DashboardSnapshotDTOToJSON, DashboardSnapshotDTOToJSONTyped, DashboardTagCloudItemFromJSON, DashboardTagCloudItemFromJSONTyped, DashboardTagCloudItemToJSON, DashboardTagCloudItemToJSONTyped, DashboardVersionMetaFromJSON, DashboardVersionMetaFromJSONTyped, DashboardVersionMetaToJSON, DashboardVersionMetaToJSONTyped, DashboardVersionsApi, DashboardsApi, DataLinkFromJSON, DataLinkFromJSONTyped, DataLinkToJSON, DataLinkToJSONTyped, DataResponseFromJSON, DataResponseFromJSONTyped, DataResponseToJSON, DataResponseToJSONTyped, DataSourceFromJSON, DataSourceFromJSONTyped, DataSourceListItemDTOFromJSON, DataSourceListItemDTOFromJSONTyped, DataSourceListItemDTOToJSON, DataSourceListItemDTOToJSONTyped, DataSourceRefFromJSON, DataSourceRefFromJSONTyped, DataSourceRefToJSON, DataSourceRefToJSONTyped, DataSourceToJSON, DataSourceToJSONTyped, DatasourcesApi, DefaultConfig, DeleteCorrelationResponseBodyFromJSON, DeleteCorrelationResponseBodyFromJSONTyped, DeleteCorrelationResponseBodyToJSON, DeleteCorrelationResponseBodyToJSONTyped, DeleteDashboardByUID200ResponseFromJSON, DeleteDashboardByUID200ResponseFromJSONTyped, DeleteDashboardByUID200ResponseToJSON, DeleteDashboardByUID200ResponseToJSONTyped, DeleteDataSourceByName200ResponseFromJSON, DeleteDataSourceByName200ResponseFromJSONTyped, DeleteDataSourceByName200ResponseToJSON, DeleteDataSourceByName200ResponseToJSONTyped, DeleteFolder200ResponseFromJSON, DeleteFolder200ResponseFromJSONTyped, DeleteFolder200ResponseToJSON, DeleteFolder200ResponseToJSONTyped, DeleteTokenCommandFromJSON, DeleteTokenCommandFromJSONTyped, DeleteTokenCommandToJSON, DeleteTokenCommandToJSONTyped, DescriptionFromJSON, DescriptionFromJSONTyped, DescriptionToJSON, DescriptionToJSONTyped, DeviceDTOFromJSON, DeviceDTOFromJSONTyped, DeviceDTOToJSON, DeviceDTOToJSONTyped, DeviceSearchHitDTOFromJSON, DeviceSearchHitDTOFromJSONTyped, DeviceSearchHitDTOToJSON, DeviceSearchHitDTOToJSONTyped, DevicesApi, DiscordConfigFromJSON, DiscordConfigFromJSONTyped, DiscordConfigToJSON, DiscordConfigToJSONTyped, DiscoveryBaseFromJSON, DiscoveryBaseFromJSONTyped, DiscoveryBaseToJSON, DiscoveryBaseToJSONTyped, DsApi, EmailConfigFromJSON, EmailConfigFromJSONTyped, EmailConfigToJSON, EmailConfigToJSONTyped, EmailDTOFromJSON, EmailDTOFromJSONTyped, EmailDTOToJSON, EmailDTOToJSONTyped, EmbeddedContactPointFromJSON, EmbeddedContactPointFromJSONTyped, EmbeddedContactPointToJSON, EmbeddedContactPointToJSONTyped, EmbeddedContactPointTypeEnum, EnterpriseApi, EnumFieldConfigFromJSON, EnumFieldConfigFromJSONTyped, EnumFieldConfigToJSON, EnumFieldConfigToJSONTyped, ErrorResponseBodyFromJSON, ErrorResponseBodyFromJSONTyped, ErrorResponseBodyToJSON, ErrorResponseBodyToJSONTyped, EvalAlertConditionCommandFromJSON, EvalAlertConditionCommandFromJSONTyped, EvalAlertConditionCommandToJSON, EvalAlertConditionCommandToJSONTyped, EvalQueriesPayloadFromJSON, EvalQueriesPayloadFromJSONTyped, EvalQueriesPayloadToJSON, EvalQueriesPayloadToJSONTyped, ExtendedReceiverFromJSON, ExtendedReceiverFromJSONTyped, ExtendedReceiverToJSON, ExtendedReceiverToJSONTyped, ExtensionFromJSON, ExtensionFromJSONTyped, ExtensionToJSON, ExtensionToJSONTyped, FailedUserFromJSON, FailedUserFromJSONTyped, FailedUserToJSON, FailedUserToJSONTyped, FetchError, FieldConfigFromJSON, FieldConfigFromJSONTyped, FieldConfigToJSON, FieldConfigToJSONTyped, FieldFromJSON, FieldFromJSONTyped, FieldToJSON, FieldToJSONTyped, FieldTypeConfigFromJSON, FieldTypeConfigFromJSONTyped, FieldTypeConfigToJSON, FieldTypeConfigToJSONTyped, FindTagsResultFromJSON, FindTagsResultFromJSONTyped, FindTagsResultToJSON, FindTagsResultToJSONTyped, FloatHistogramFromJSON, FloatHistogramFromJSONTyped, FloatHistogramToJSON, FloatHistogramToJSONTyped, FolderFromJSON, FolderFromJSONTyped, FolderPermissionsApi, FolderSearchHitFromJSON, FolderSearchHitFromJSONTyped, FolderSearchHitToJSON, FolderSearchHitToJSONTyped, FolderToJSON, FolderToJSONTyped, FoldersApi, ForbiddenErrorFromJSON, ForbiddenErrorFromJSONTyped, ForbiddenErrorToJSON, ForbiddenErrorToJSONTyped, FrameFromJSON, FrameFromJSONTyped, FrameMetaFromJSON, FrameMetaFromJSONTyped, FrameMetaToJSON, FrameMetaToJSONTyped, FrameToJSON, FrameToJSONTyped, GenericPublicErrorFromJSON, GenericPublicErrorFromJSONTyped, GenericPublicErrorToJSON, GenericPublicErrorToJSONTyped, GetAccessTokenResponseDTOFromJSON, GetAccessTokenResponseDTOFromJSONTyped, GetAccessTokenResponseDTOToJSON, GetAccessTokenResponseDTOToJSONTyped, GetAnnotationTagsResponseFromJSON, GetAnnotationTagsResponseFromJSONTyped, GetAnnotationTagsResponseToJSON, GetAnnotationTagsResponseToJSONTyped, GetAnnotationsTypeEnum, GetCurrentOrgApi, GetDataSourceIdByName200ResponseFromJSON, GetDataSourceIdByName200ResponseFromJSONTyped, GetDataSourceIdByName200ResponseToJSON, GetDataSourceIdByName200ResponseToJSONTyped, GetFoldersPermissionEnum, GetHomeDashboardResponseFromJSON, GetHomeDashboardResponseFromJSONTyped, GetHomeDashboardResponseToJSON, GetHomeDashboardResponseToJSONTyped, GetLibraryElementsKindEnum, GetLibraryElementsSortDirectionEnum, GetSharingOptions200ResponseFromJSON, GetSharingOptions200ResponseFromJSONTyped, GetSharingOptions200ResponseToJSON, GetSharingOptions200ResponseToJSONTyped, GetSnapshotResponseDTOFromJSON, GetSnapshotResponseDTOFromJSONTyped, GetSnapshotResponseDTOStatusEnum, GetSnapshotResponseDTOToJSON, GetSnapshotResponseDTOToJSONTyped, GettableAlertFromJSON, GettableAlertFromJSONTyped, GettableAlertToJSON, GettableAlertToJSONTyped, GettableAlertmanagersFromJSON, GettableAlertmanagersFromJSONTyped, GettableAlertmanagersToJSON, GettableAlertmanagersToJSONTyped, GettableApiAlertingConfigFromJSON, GettableApiAlertingConfigFromJSONTyped, GettableApiAlertingConfigToJSON, GettableApiAlertingConfigToJSONTyped, GettableApiReceiverFromJSON, GettableApiReceiverFromJSONTyped, GettableApiReceiverToJSON, GettableApiReceiverToJSONTyped, GettableExtendedRuleNodeFromJSON, GettableExtendedRuleNodeFromJSONTyped, GettableExtendedRuleNodeToJSON, GettableExtendedRuleNodeToJSONTyped, GettableGrafanaReceiverFromJSON, GettableGrafanaReceiverFromJSONTyped, GettableGrafanaReceiverToJSON, GettableGrafanaReceiverToJSONTyped, GettableGrafanaReceiversFromJSON, GettableGrafanaReceiversFromJSONTyped, GettableGrafanaReceiversToJSON, GettableGrafanaReceiversToJSONTyped, GettableGrafanaRuleExecErrStateEnum, GettableGrafanaRuleFromJSON, GettableGrafanaRuleFromJSONTyped, GettableGrafanaRuleNoDataStateEnum, GettableGrafanaRuleToJSON, GettableGrafanaRuleToJSONTyped, GettableGrafanaSilenceFromJSON, GettableGrafanaSilenceFromJSONTyped, GettableGrafanaSilenceToJSON, GettableGrafanaSilenceToJSONTyped, GettableHistoricUserConfigFromJSON, GettableHistoricUserConfigFromJSONTyped, GettableHistoricUserConfigToJSON, GettableHistoricUserConfigToJSONTyped, GettableNGalertConfigAlertmanagersChoiceEnum, GettableNGalertConfigFromJSON, GettableNGalertConfigFromJSONTyped, GettableNGalertConfigToJSON, GettableNGalertConfigToJSONTyped, GettableRuleGroupConfigFromJSON, GettableRuleGroupConfigFromJSONTyped, GettableRuleGroupConfigToJSON, GettableRuleGroupConfigToJSONTyped, GettableSilenceFromJSON, GettableSilenceFromJSONTyped, GettableSilenceToJSON, GettableSilenceToJSONTyped, GettableStatusFromJSON, GettableStatusFromJSONTyped, GettableStatusToJSON, GettableStatusToJSONTyped, GettableTimeIntervalsFromJSON, GettableTimeIntervalsFromJSONTyped, GettableTimeIntervalsToJSON, GettableTimeIntervalsToJSONTyped, GettableUserConfigFromJSON, GettableUserConfigFromJSONTyped, GettableUserConfigToJSON, GettableUserConfigToJSONTyped, GlobalConfigFromJSON, GlobalConfigFromJSONTyped, GlobalConfigToJSON, GlobalConfigToJSONTyped, HTTPClientConfigFromJSON, HTTPClientConfigFromJSONTyped, HTTPClientConfigToJSON, HTTPClientConfigToJSONTyped, HeaderFromJSON, HeaderFromJSONTyped, HeaderToJSON, HeaderToJSONTyped, HeadersFromJSON, HeadersFromJSONTyped, HeadersToJSON, HeadersToJSONTyped, HealthApi, HealthResponseFromJSON, HealthResponseFromJSONTyped, HealthResponseToJSON, HealthResponseToJSONTyped, HitFromJSON, HitFromJSONTyped, HitToJSON, HitToJSONTyped, HostPortFromJSON, HostPortFromJSONTyped, HostPortToJSON, HostPortToJSONTyped, IPNetFromJSON, IPNetFromJSONTyped, IPNetToJSON, IPNetToJSONTyped, ImportDashboardInputFromJSON, ImportDashboardInputFromJSONTyped, ImportDashboardInputToJSON, ImportDashboardInputToJSONTyped, ImportDashboardRequestFromJSON, ImportDashboardRequestFromJSONTyped, ImportDashboardRequestToJSON, ImportDashboardRequestToJSONTyped, ImportDashboardResponseFromJSON, ImportDashboardResponseFromJSONTyped, ImportDashboardResponseToJSON, ImportDashboardResponseToJSONTyped, InhibitRuleFromJSON, InhibitRuleFromJSONTyped, InhibitRuleToJSON, InhibitRuleToJSONTyped, InternalDataLinkFromJSON, InternalDataLinkFromJSONTyped, InternalDataLinkToJSON, InternalDataLinkToJSONTyped, JSONApiResponse, JSONWebKeyFromJSON, JSONWebKeyFromJSONTyped, JSONWebKeyToJSON, JSONWebKeyToJSONTyped, LabelFromJSON, LabelFromJSONTyped, LabelToJSON, LabelToJSONTyped, LdapDebugApi, LibraryElementArrayResponseFromJSON, LibraryElementArrayResponseFromJSONTyped, LibraryElementArrayResponseToJSON, LibraryElementArrayResponseToJSONTyped, LibraryElementConnectionDTOFromJSON, LibraryElementConnectionDTOFromJSONTyped, LibraryElementConnectionDTOToJSON, LibraryElementConnectionDTOToJSONTyped, LibraryElementConnectionsResponseFromJSON, LibraryElementConnectionsResponseFromJSONTyped, LibraryElementConnectionsResponseToJSON, LibraryElementConnectionsResponseToJSONTyped, LibraryElementDTOFromJSON, LibraryElementDTOFromJSONTyped, LibraryElementDTOMetaFromJSON, LibraryElementDTOMetaFromJSONTyped, LibraryElementDTOMetaToJSON, LibraryElementDTOMetaToJSONTyped, LibraryElementDTOMetaUserFromJSON, LibraryElementDTOMetaUserFromJSONTyped, LibraryElementDTOMetaUserToJSON, LibraryElementDTOMetaUserToJSONTyped, LibraryElementDTOToJSON, LibraryElementDTOToJSONTyped, LibraryElementResponseFromJSON, LibraryElementResponseFromJSONTyped, LibraryElementResponseToJSON, LibraryElementResponseToJSONTyped, LibraryElementSearchResponseFromJSON, LibraryElementSearchResponseFromJSONTyped, LibraryElementSearchResponseToJSON, LibraryElementSearchResponseToJSONTyped, LibraryElementSearchResultFromJSON, LibraryElementSearchResultFromJSONTyped, LibraryElementSearchResultToJSON, LibraryElementSearchResultToJSONTyped, LibraryElementsApi, LicensingApi, LinkTransformationConfigFromJSON, LinkTransformationConfigFromJSONTyped, LinkTransformationConfigToJSON, LinkTransformationConfigToJSONTyped, ListAllProvidersSettings200ResponseInnerFromJSON, ListAllProvidersSettings200ResponseInnerFromJSONTyped, ListAllProvidersSettings200ResponseInnerToJSON, ListAllProvidersSettings200ResponseInnerToJSONTyped, ListSortOptions200ResponseFromJSON, ListSortOptions200ResponseFromJSONTyped, ListSortOptions200ResponseToJSON, ListSortOptions200ResponseToJSONTyped, MSTeamsConfigFromJSON, MSTeamsConfigFromJSONTyped, MSTeamsConfigToJSON, MSTeamsConfigToJSONTyped, MassDeleteAnnotationsCmdFromJSON, MassDeleteAnnotationsCmdFromJSONTyped, MassDeleteAnnotationsCmdToJSON, MassDeleteAnnotationsCmdToJSONTyped, MatcherFromJSON, MatcherFromJSONTyped, MatcherToJSON, MatcherToJSONTyped, MetricRequestFromJSON, MetricRequestFromJSONTyped, MetricRequestToJSON, MetricRequestToJSONTyped, MigrateDataResponseDTOFromJSON, MigrateDataResponseDTOFromJSONTyped, MigrateDataResponseDTOToJSON, MigrateDataResponseDTOToJSONTyped, MigrateDataResponseItemDTOFromJSON, MigrateDataResponseItemDTOFromJSONTyped, MigrateDataResponseItemDTOStatusEnum, MigrateDataResponseItemDTOToJSON, MigrateDataResponseItemDTOToJSONTyped, MigrateDataResponseItemDTOTypeEnum, MigrateDataResponseListDTOFromJSON, MigrateDataResponseListDTOFromJSONTyped, MigrateDataResponseListDTOToJSON, MigrateDataResponseListDTOToJSONTyped, MigrationsApi, MoveFolderCommandFromJSON, MoveFolderCommandFromJSONTyped, MoveFolderCommandToJSON, MoveFolderCommandToJSONTyped, MuteTimeIntervalExportFromJSON, MuteTimeIntervalExportFromJSONTyped, MuteTimeIntervalExportToJSON, MuteTimeIntervalExportToJSONTyped, MuteTimeIntervalFromJSON, MuteTimeIntervalFromJSONTyped, MuteTimeIntervalToJSON, MuteTimeIntervalToJSONTyped, NameFromJSON, NameFromJSONTyped, NameToJSON, NameToJSONTyped, NavbarPreferenceFromJSON, NavbarPreferenceFromJSONTyped, NavbarPreferenceToJSON, NavbarPreferenceToJSONTyped, NewApiKeyResultFromJSON, NewApiKeyResultFromJSONTyped, NewApiKeyResultToJSON, NewApiKeyResultToJSONTyped, NoticeFromJSON, NoticeFromJSONTyped, NoticeToJSON, NoticeToJSONTyped, NotificationPolicyExportFromJSON, NotificationPolicyExportFromJSONTyped, NotificationPolicyExportToJSON, NotificationPolicyExportToJSONTyped, NotificationTemplateContentFromJSON, NotificationTemplateContentFromJSONTyped, NotificationTemplateContentToJSON, NotificationTemplateContentToJSONTyped, NotificationTemplateFromJSON, NotificationTemplateFromJSONTyped, NotificationTemplateToJSON, NotificationTemplateToJSONTyped, NotifierConfigFromJSON, NotifierConfigFromJSONTyped, NotifierConfigToJSON, NotifierConfigToJSONTyped, OAuth2FromJSON, OAuth2FromJSONTyped, OAuth2ToJSON, OAuth2ToJSONTyped, OpsGenieConfigFromJSON, OpsGenieConfigFromJSONTyped, OpsGenieConfigResponderFromJSON, OpsGenieConfigResponderFromJSONTyped, OpsGenieConfigResponderToJSON, OpsGenieConfigResponderToJSONTyped, OpsGenieConfigToJSON, OpsGenieConfigToJSONTyped, OrgApi, OrgDTOFromJSON, OrgDTOFromJSONTyped, OrgDTOToJSON, OrgDTOToJSONTyped, OrgDetailsDTOFromJSON, OrgDetailsDTOFromJSONTyped, OrgDetailsDTOToJSON, OrgDetailsDTOToJSONTyped, OrgInvitesApi, OrgPreferencesApi, OrgUserDTOFromJSON, OrgUserDTOFromJSONTyped, OrgUserDTOToJSON, OrgUserDTOToJSONTyped, OrgsApi, PagerdutyConfigFromJSON, PagerdutyConfigFromJSONTyped, PagerdutyConfigToJSON, PagerdutyConfigToJSONTyped, PagerdutyImageFromJSON, PagerdutyImageFromJSONTyped, PagerdutyImageToJSON, PagerdutyImageToJSONTyped, PagerdutyLinkFromJSON, PagerdutyLinkFromJSONTyped, PagerdutyLinkToJSON, PagerdutyLinkToJSONTyped, PatchAnnotationsCmdFromJSON, PatchAnnotationsCmdFromJSONTyped, PatchAnnotationsCmdToJSON, PatchAnnotationsCmdToJSONTyped, PatchLibraryElementCommandFromJSON, PatchLibraryElementCommandFromJSONTyped, PatchLibraryElementCommandKindEnum, PatchLibraryElementCommandToJSON, PatchLibraryElementCommandToJSONTyped, PatchPrefsCmdFromJSON, PatchPrefsCmdFromJSONTyped, PatchPrefsCmdThemeEnum, PatchPrefsCmdTimezoneEnum, PatchPrefsCmdToJSON, PatchPrefsCmdToJSONTyped, PatchQueryCommentInQueryHistoryCommandFromJSON, PatchQueryCommentInQueryHistoryCommandFromJSONTyped, PatchQueryCommentInQueryHistoryCommandToJSON, PatchQueryCommentInQueryHistoryCommandToJSONTyped, PeerStatusFromJSON, PeerStatusFromJSONTyped, PeerStatusToJSON, PeerStatusToJSONTyped, PermissionFromJSON, PermissionFromJSONTyped, PermissionToJSON, PermissionToJSONTyped, PlaylistDTOFromJSON, PlaylistDTOFromJSONTyped, PlaylistDTOToJSON, PlaylistDTOToJSONTyped, PlaylistDashboardFromJSON, PlaylistDashboardFromJSONTyped, PlaylistDashboardToJSON, PlaylistDashboardToJSONTyped, PlaylistFromJSON, PlaylistFromJSONTyped, PlaylistItemDTOFromJSON, PlaylistItemDTOFromJSONTyped, PlaylistItemDTOToJSON, PlaylistItemDTOToJSONTyped, PlaylistItemFromJSON, PlaylistItemFromJSONTyped, PlaylistItemToJSON, PlaylistItemToJSONTyped, PlaylistToJSON, PlaylistToJSONTyped, PlaylistsApi, PostAnnotation200ResponseFromJSON, PostAnnotation200ResponseFromJSONTyped, PostAnnotation200ResponseToJSON, PostAnnotation200ResponseToJSONTyped, PostAnnotationsCmdFromJSON, PostAnnotationsCmdFromJSONTyped, PostAnnotationsCmdToJSON, PostAnnotationsCmdToJSONTyped, PostDashboard200ResponseFromJSON, PostDashboard200ResponseFromJSONTyped, PostDashboard200ResponseToJSON, PostDashboard200ResponseToJSONTyped, PostGraphiteAnnotationsCmdFromJSON, PostGraphiteAnnotationsCmdFromJSONTyped, PostGraphiteAnnotationsCmdToJSON, PostGraphiteAnnotationsCmdToJSONTyped, PostSilencesOKBodyFromJSON, PostSilencesOKBodyFromJSONTyped, PostSilencesOKBodyToJSON, PostSilencesOKBodyToJSONTyped, PostableAlertFromJSON, PostableAlertFromJSONTyped, PostableAlertToJSON, PostableAlertToJSONTyped, PostableApiAlertingConfigFromJSON, PostableApiAlertingConfigFromJSONTyped, PostableApiAlertingConfigToJSON, PostableApiAlertingConfigToJSONTyped, PostableApiReceiverFromJSON, PostableApiReceiverFromJSONTyped, PostableApiReceiverToJSON, PostableApiReceiverToJSONTyped, PostableExtendedRuleNodeExtendedFromJSON, PostableExtendedRuleNodeExtendedFromJSONTyped, PostableExtendedRuleNodeExtendedToJSON, PostableExtendedRuleNodeExtendedToJSONTyped, PostableExtendedRuleNodeFromJSON, PostableExtendedRuleNodeFromJSONTyped, PostableExtendedRuleNodeToJSON, PostableExtendedRuleNodeToJSONTyped, PostableGrafanaReceiverFromJSON, PostableGrafanaReceiverFromJSONTyped, PostableGrafanaReceiverToJSON, PostableGrafanaReceiverToJSONTyped, PostableGrafanaReceiversFromJSON, PostableGrafanaReceiversFromJSONTyped, PostableGrafanaReceiversToJSON, PostableGrafanaReceiversToJSONTyped, PostableGrafanaRuleExecErrStateEnum, PostableGrafanaRuleFromJSON, PostableGrafanaRuleFromJSONTyped, PostableGrafanaRuleNoDataStateEnum, PostableGrafanaRuleToJSON, PostableGrafanaRuleToJSONTyped, PostableNGalertConfigAlertmanagersChoiceEnum, PostableNGalertConfigFromJSON, PostableNGalertConfigFromJSONTyped, PostableNGalertConfigToJSON, PostableNGalertConfigToJSONTyped, PostableRuleGroupConfigFromJSON, PostableRuleGroupConfigFromJSONTyped, PostableRuleGroupConfigToJSON, PostableRuleGroupConfigToJSONTyped, PostableSilenceFromJSON, PostableSilenceFromJSONTyped, PostableSilenceToJSON, PostableSilenceToJSONTyped, PostableTimeIntervalsFromJSON, PostableTimeIntervalsFromJSONTyped, PostableTimeIntervalsToJSON, PostableTimeIntervalsToJSONTyped, PostableUserConfigFromJSON, PostableUserConfigFromJSONTyped, PostableUserConfigToJSON, PostableUserConfigToJSONTyped, PreferencesFromJSON, PreferencesFromJSONTyped, PreferencesToJSON, PreferencesToJSONTyped, PrometheusRemoteWriteTargetJSONFromJSON, PrometheusRemoteWriteTargetJSONFromJSONTyped, PrometheusRemoteWriteTargetJSONToJSON, PrometheusRemoteWriteTargetJSONToJSONTyped, ProvisionedAlertRuleExecErrStateEnum, ProvisionedAlertRuleFromJSON, ProvisionedAlertRuleFromJSONTyped, ProvisionedAlertRuleNoDataStateEnum, ProvisionedAlertRuleToJSON, ProvisionedAlertRuleToJSONTyped, ProvisioningApi, ProxyConfigFromJSON, ProxyConfigFromJSONTyped, ProxyConfigToJSON, ProxyConfigToJSONTyped, PublicDashboardDTOFromJSON, PublicDashboardDTOFromJSONTyped, PublicDashboardDTOToJSON, PublicDashboardDTOToJSONTyped, PublicDashboardFromJSON, PublicDashboardFromJSONTyped, PublicDashboardListResponseFromJSON, PublicDashboardListResponseFromJSONTyped, PublicDashboardListResponseToJSON, PublicDashboardListResponseToJSONTyped, PublicDashboardListResponseWithPaginationFromJSON, PublicDashboardListResponseWithPaginationFromJSONTyped, PublicDashboardListResponseWithPaginationToJSON, PublicDashboardListResponseWithPaginationToJSONTyped, PublicDashboardToJSON, PublicDashboardToJSONTyped, PublicErrorFromJSON, PublicErrorFromJSONTyped, PublicErrorToJSON, PublicErrorToJSONTyped, PushoverConfigFromJSON, PushoverConfigFromJSONTyped, PushoverConfigToJSON, PushoverConfigToJSONTyped, QueryDataResponseFromJSON, QueryDataResponseFromJSONTyped, QueryDataResponseToJSON, QueryDataResponseToJSONTyped, QueryHistoryApi, QueryHistoryDTOFromJSON, QueryHistoryDTOFromJSONTyped, QueryHistoryDTOToJSON, QueryHistoryDTOToJSONTyped, QueryHistoryDeleteQueryResponseFromJSON, QueryHistoryDeleteQueryResponseFromJSONTyped, QueryHistoryDeleteQueryResponseToJSON, QueryHistoryDeleteQueryResponseToJSONTyped, QueryHistoryPreferenceFromJSON, QueryHistoryPreferenceFromJSONTyped, QueryHistoryPreferenceToJSON, QueryHistoryPreferenceToJSONTyped, QueryHistoryResponseFromJSON, QueryHistoryResponseFromJSONTyped, QueryHistoryResponseToJSON, QueryHistoryResponseToJSONTyped, QueryHistorySearchResponseFromJSON, QueryHistorySearchResponseFromJSONTyped, QueryHistorySearchResponseToJSON, QueryHistorySearchResponseToJSONTyped, QueryHistorySearchResultFromJSON, QueryHistorySearchResultFromJSONTyped, QueryHistorySearchResultToJSON, QueryHistorySearchResultToJSONTyped, QueryStatFromJSON, QueryStatFromJSONTyped, QueryStatToJSON, QueryStatToJSONTyped, QuotaDTOFromJSON, QuotaDTOFromJSONTyped, QuotaDTOToJSON, QuotaDTOToJSONTyped, ReceiverExportFromJSON, ReceiverExportFromJSONTyped, ReceiverExportToJSON, ReceiverExportToJSONTyped, ReceiverFromJSON, ReceiverFromJSONTyped, ReceiverToJSON, ReceiverToJSONTyped, RecordFromJSON, RecordFromJSONTyped, RecordToJSON, RecordToJSONTyped, RecordingRuleJSONFromJSON, RecordingRuleJSONFromJSONTyped, RecordingRuleJSONToJSON, RecordingRuleJSONToJSONTyped, RecordingRulesApi, RelativeTimeRangeExportFromJSON, RelativeTimeRangeExportFromJSONTyped, RelativeTimeRangeExportToJSON, RelativeTimeRangeExportToJSONTyped, RelativeTimeRangeFromJSON, RelativeTimeRangeFromJSONTyped, RelativeTimeRangeToJSON, RelativeTimeRangeToJSONTyped, ReportBrandingOptionsFromJSON, ReportBrandingOptionsFromJSONTyped, ReportBrandingOptionsToJSON, ReportBrandingOptionsToJSONTyped, ReportDashboardFromJSON, ReportDashboardFromJSONTyped, ReportDashboardIDFromJSON, ReportDashboardIDFromJSONTyped, ReportDashboardIDToJSON, ReportDashboardIDToJSONTyped, ReportDashboardToJSON, ReportDashboardToJSONTyped, ReportEmailFromJSON, ReportEmailFromJSONTyped, ReportEmailToJSON, ReportEmailToJSONTyped, ReportFromJSON, ReportFromJSONTyped, ReportOptionsFromJSON, ReportOptionsFromJSONTyped, ReportOptionsToJSON, ReportOptionsToJSONTyped, ReportScheduleFromJSON, ReportScheduleFromJSONTyped, ReportScheduleToJSON, ReportScheduleToJSONTyped, ReportSettingsFromJSON, ReportSettingsFromJSONTyped, ReportSettingsToJSON, ReportSettingsToJSONTyped, ReportTimeRangeFromJSON, ReportTimeRangeFromJSONTyped, ReportTimeRangeToJSON, ReportTimeRangeToJSONTyped, ReportToJSON, ReportToJSONTyped, ReportsApi, RequiredError, ResourcePermissionDTOFromJSON, ResourcePermissionDTOFromJSONTyped, ResourcePermissionDTOToJSON, ResourcePermissionDTOToJSONTyped, ResponseDetailsFromJSON, ResponseDetailsFromJSONTyped, ResponseDetailsToJSON, ResponseDetailsToJSONTyped, ResponseError, RestoreDashboardVersionCommandFromJSON, RestoreDashboardVersionCommandFromJSONTyped, RestoreDashboardVersionCommandToJSON, RestoreDashboardVersionCommandToJSONTyped, RestoreDeletedDashboardCommandFromJSON, RestoreDeletedDashboardCommandFromJSONTyped, RestoreDeletedDashboardCommandToJSON, RestoreDeletedDashboardCommandToJSONTyped, RetrieveJWKS200ResponseFromJSON, RetrieveJWKS200ResponseFromJSONTyped, RetrieveJWKS200ResponseToJSON, RetrieveJWKS200ResponseToJSONTyped, RevokeAuthTokenCmdFromJSON, RevokeAuthTokenCmdFromJSONTyped, RevokeAuthTokenCmdToJSON, RevokeAuthTokenCmdToJSONTyped, RoleAssignmentsDTOFromJSON, RoleAssignmentsDTOFromJSONTyped, RoleAssignmentsDTOToJSON, RoleAssignmentsDTOToJSONTyped, RoleDTOFromJSON, RoleDTOFromJSONTyped, RoleDTOToJSON, RoleDTOToJSONTyped, RolesSearchQueryFromJSON, RolesSearchQueryFromJSONTyped, RolesSearchQueryToJSON, RolesSearchQueryToJSONTyped, RouteExportFromJSON, RouteExportFromJSONTyped, RouteExportMuteTimingFormatEnum, RouteExportMuteTimingsFormatEnum, RouteExportToJSON, RouteExportToJSONTyped, RouteFromJSON, RouteFromJSONTyped, RouteGetAlertRuleExportFormatEnum, RouteGetAlertRuleGroupExportFormatEnum, RouteGetAlertRulesExportFormatEnum, RouteGetContactpointsExportFormatEnum, RouteToJSON, RouteToJSONTyped, RuleDiscoveryFromJSON, RuleDiscoveryFromJSONTyped, RuleDiscoveryToJSON, RuleDiscoveryToJSONTyped, RuleFromJSON, RuleFromJSONTyped, RuleGroupConfigResponseFromJSON, RuleGroupConfigResponseFromJSONTyped, RuleGroupConfigResponseToJSON, RuleGroupConfigResponseToJSONTyped, RuleGroupFromJSON, RuleGroupFromJSONTyped, RuleGroupToJSON, RuleGroupToJSONTyped, RuleResponseFromJSON, RuleResponseFromJSONTyped, RuleResponseToJSON, RuleResponseToJSONTyped, RuleToJSON, RuleToJSONTyped, SNSConfigFromJSON, SNSConfigFromJSONTyped, SNSConfigToJSON, SNSConfigToJSONTyped, SamlApi, SampleFromJSON, SampleFromJSONTyped, SampleToJSON, SampleToJSONTyped, SaveDashboardCommandFromJSON, SaveDashboardCommandFromJSONTyped, SaveDashboardCommandToJSON, SaveDashboardCommandToJSONTyped, SearchApi, SearchDTOFromJSON, SearchDTOFromJSONTyped, SearchDTOToJSON, SearchDTOToJSONTyped, SearchDeviceQueryResultFromJSON, SearchDeviceQueryResultFromJSONTyped, SearchDeviceQueryResultToJSON, SearchDeviceQueryResultToJSONTyped, SearchOrgServiceAccountsResultFromJSON, SearchOrgServiceAccountsResultFromJSONTyped, SearchOrgServiceAccountsResultToJSON, SearchOrgServiceAccountsResultToJSONTyped, SearchOrgUsersQueryResultFromJSON, SearchOrgUsersQueryResultFromJSONTyped, SearchOrgUsersQueryResultToJSON, SearchOrgUsersQueryResultToJSONTyped, SearchPermissionEnum, SearchQueriesSortEnum, SearchResultFromJSON, SearchResultFromJSONTyped, SearchResultItemFromJSON, SearchResultItemFromJSONTyped, SearchResultItemToJSON, SearchResultItemToJSONTyped, SearchResultToJSON, SearchResultToJSONTyped, SearchSortEnum, SearchTeamQueryResultFromJSON, SearchTeamQueryResultFromJSONTyped, SearchTeamQueryResultToJSON, SearchTeamQueryResultToJSONTyped, SearchTypeEnum, SearchUserQueryResultFromJSON, SearchUserQueryResultFromJSONTyped, SearchUserQueryResultToJSON, SearchUserQueryResultToJSONTyped, ServiceAccountDTOFromJSON, ServiceAccountDTOFromJSONTyped, ServiceAccountDTOToJSON, ServiceAccountDTOToJSONTyped, ServiceAccountProfileDTOFromJSON, ServiceAccountProfileDTOFromJSONTyped, ServiceAccountProfileDTOToJSON, ServiceAccountProfileDTOToJSONTyped, ServiceAccountsApi, SetPermissionCommandFromJSON, SetPermissionCommandFromJSONTyped, SetPermissionCommandToJSON, SetPermissionCommandToJSONTyped, SetPermissionsCommandFromJSON, SetPermissionsCommandFromJSONTyped, SetPermissionsCommandToJSON, SetPermissionsCommandToJSONTyped, SetResourcePermissionCommandFromJSON, SetResourcePermissionCommandFromJSONTyped, SetResourcePermissionCommandToJSON, SetResourcePermissionCommandToJSONTyped, SetRoleAssignmentsCommandFromJSON, SetRoleAssignmentsCommandFromJSONTyped, SetRoleAssignmentsCommandToJSON, SetRoleAssignmentsCommandToJSONTyped, SetTeamMembershipsCommandFromJSON, SetTeamMembershipsCommandFromJSONTyped, SetTeamMembershipsCommandToJSON, SetTeamMembershipsCommandToJSONTyped, SetUserRolesCommandFromJSON, SetUserRolesCommandFromJSONTyped, SetUserRolesCommandToJSON, SetUserRolesCommandToJSONTyped, SigV4ConfigFromJSON, SigV4ConfigFromJSONTyped, SigV4ConfigToJSON, SigV4ConfigToJSONTyped, SignedInUserApi, SigningKeysApi, SilenceFromJSON, SilenceFromJSONTyped, SilenceMetadataFromJSON, SilenceMetadataFromJSONTyped, SilenceMetadataToJSON, SilenceMetadataToJSONTyped, SilenceStatusFromJSON, SilenceStatusFromJSONTyped, SilenceStatusStateEnum, SilenceStatusToJSON, SilenceStatusToJSONTyped, SilenceToJSON, SilenceToJSONTyped, SlackActionFromJSON, SlackActionFromJSONTyped, SlackActionToJSON, SlackActionToJSONTyped, SlackConfigFromJSON, SlackConfigFromJSONTyped, SlackConfigToJSON, SlackConfigToJSONTyped, SlackConfirmationFieldFromJSON, SlackConfirmationFieldFromJSONTyped, SlackConfirmationFieldToJSON, SlackConfirmationFieldToJSONTyped, SlackFieldFromJSON, SlackFieldFromJSONTyped, SlackFieldToJSON, SlackFieldToJSONTyped, SnapshotDTOFromJSON, SnapshotDTOFromJSONTyped, SnapshotDTOStatusEnum, SnapshotDTOToJSON, SnapshotDTOToJSONTyped, SnapshotListResponseDTOFromJSON, SnapshotListResponseDTOFromJSONTyped, SnapshotListResponseDTOToJSON, SnapshotListResponseDTOToJSONTyped, SnapshotResourceStatsFromJSON, SnapshotResourceStatsFromJSONTyped, SnapshotResourceStatsToJSON, SnapshotResourceStatsToJSONTyped, SnapshotsApi, SpanFromJSON, SpanFromJSONTyped, SpanToJSON, SpanToJSONTyped, SsoSettingsApi, SuccessResponseBodyFromJSON, SuccessResponseBodyFromJSONTyped, SuccessResponseBodyToJSON, SuccessResponseBodyToJSONTyped, SyncResultFromJSON, SyncResultFromJSONTyped, SyncResultToJSON, SyncResultToJSONTyped, SyncTeamGroupsApi, TLSConfigFromJSON, TLSConfigFromJSONTyped, TLSConfigToJSON, TLSConfigToJSONTyped, TagsDTOFromJSON, TagsDTOFromJSONTyped, TagsDTOToJSON, TagsDTOToJSONTyped, TeamDTOFromJSON, TeamDTOFromJSONTyped, TeamDTOToJSON, TeamDTOToJSONTyped, TeamGroupDTOFromJSON, TeamGroupDTOFromJSONTyped, TeamGroupDTOToJSON, TeamGroupDTOToJSONTyped, TeamGroupMappingFromJSON, TeamGroupMappingFromJSONTyped, TeamGroupMappingToJSON, TeamGroupMappingToJSONTyped, TeamMemberDTOFromJSON, TeamMemberDTOFromJSONTyped, TeamMemberDTOToJSON, TeamMemberDTOToJSONTyped, TeamsApi, TelegramConfigFromJSON, TelegramConfigFromJSONTyped, TelegramConfigToJSON, TelegramConfigToJSONTyped, TempUserDTOFromJSON, TempUserDTOFromJSONTyped, TempUserDTORoleEnum, TempUserDTOToJSON, TempUserDTOToJSONTyped, TestReceiverConfigResultFromJSON, TestReceiverConfigResultFromJSONTyped, TestReceiverConfigResultToJSON, TestReceiverConfigResultToJSONTyped, TestReceiverResultFromJSON, TestReceiverResultFromJSONTyped, TestReceiverResultToJSON, TestReceiverResultToJSONTyped, TestReceiversConfigAlertParamsFromJSON, TestReceiversConfigAlertParamsFromJSONTyped, TestReceiversConfigAlertParamsToJSON, TestReceiversConfigAlertParamsToJSONTyped, TestReceiversConfigBodyParamsFromJSON, TestReceiversConfigBodyParamsFromJSONTyped, TestReceiversConfigBodyParamsToJSON, TestReceiversConfigBodyParamsToJSONTyped, TestReceiversResultFromJSON, TestReceiversResultFromJSONTyped, TestReceiversResultToJSON, TestReceiversResultToJSONTyped, TestRulePayloadFromJSON, TestRulePayloadFromJSONTyped, TestRulePayloadToJSON, TestRulePayloadToJSONTyped, TestRuleResponseFromJSON, TestRuleResponseFromJSONTyped, TestRuleResponseToJSON, TestRuleResponseToJSONTyped, TestTemplatesConfigBodyParamsFromJSON, TestTemplatesConfigBodyParamsFromJSONTyped, TestTemplatesConfigBodyParamsToJSON, TestTemplatesConfigBodyParamsToJSONTyped, TestTemplatesErrorResultFromJSON, TestTemplatesErrorResultFromJSONTyped, TestTemplatesErrorResultKindEnum, TestTemplatesErrorResultToJSON, TestTemplatesErrorResultToJSONTyped, TestTemplatesResultFromJSON, TestTemplatesResultFromJSONTyped, TestTemplatesResultToJSON, TestTemplatesResultToJSONTyped, TestTemplatesResultsFromJSON, TestTemplatesResultsFromJSONTyped, TestTemplatesResultsToJSON, TestTemplatesResultsToJSONTyped, TextApiResponse, ThresholdFromJSON, ThresholdFromJSONTyped, ThresholdToJSON, ThresholdToJSONTyped, ThresholdsConfigFromJSON, ThresholdsConfigFromJSONTyped, ThresholdsConfigToJSON, ThresholdsConfigToJSONTyped, TimeIntervalFromJSON, TimeIntervalFromJSONTyped, TimeIntervalItemFromJSON, TimeIntervalItemFromJSONTyped, TimeIntervalItemToJSON, TimeIntervalItemToJSONTyped, TimeIntervalTimeRangeFromJSON, TimeIntervalTimeRangeFromJSONTyped, TimeIntervalTimeRangeToJSON, TimeIntervalTimeRangeToJSONTyped, TimeIntervalToJSON, TimeIntervalToJSONTyped, TimeRangeFromJSON, TimeRangeFromJSONTyped, TimeRangeToJSON, TimeRangeToJSONTyped, TokenDTOFromJSON, TokenDTOFromJSONTyped, TokenDTOToJSON, TokenDTOToJSONTyped, TokenFromJSON, TokenFromJSONTyped, TokenToJSON, TokenToJSONTyped, TransformationFromJSON, TransformationFromJSONTyped, TransformationToJSON, TransformationToJSONTyped, TransformationTypeEnum, TypeMetaFromJSON, TypeMetaFromJSONTyped, TypeMetaToJSON, TypeMetaToJSONTyped, URLFromJSON, URLFromJSONTyped, URLToJSON, URLToJSONTyped, UnstructuredFromJSON, UnstructuredFromJSONTyped, UnstructuredToJSON, UnstructuredToJSONTyped, UpdateAnnotationsCmdFromJSON, UpdateAnnotationsCmdFromJSONTyped, UpdateAnnotationsCmdToJSON, UpdateAnnotationsCmdToJSONTyped, UpdateCorrelationCommandFromJSON, UpdateCorrelationCommandFromJSONTyped, UpdateCorrelationCommandToJSON, UpdateCorrelationCommandToJSONTyped, UpdateCorrelationResponseBodyFromJSON, UpdateCorrelationResponseBodyFromJSONTyped, UpdateCorrelationResponseBodyToJSON, UpdateCorrelationResponseBodyToJSONTyped, UpdateDashboardACLCommandFromJSON, UpdateDashboardACLCommandFromJSONTyped, UpdateDashboardACLCommandToJSON, UpdateDashboardACLCommandToJSONTyped, UpdateDataSourceCommandFromJSON, UpdateDataSourceCommandFromJSONTyped, UpdateDataSourceCommandToJSON, UpdateDataSourceCommandToJSONTyped, UpdateFolderCommandFromJSON, UpdateFolderCommandFromJSONTyped, UpdateFolderCommandToJSON, UpdateFolderCommandToJSONTyped, UpdateOrgAddressFormFromJSON, UpdateOrgAddressFormFromJSONTyped, UpdateOrgAddressFormToJSON, UpdateOrgAddressFormToJSONTyped, UpdateOrgFormFromJSON, UpdateOrgFormFromJSONTyped, UpdateOrgFormToJSON, UpdateOrgFormToJSONTyped, UpdateOrgUserCommandFromJSON, UpdateOrgUserCommandFromJSONTyped, UpdateOrgUserCommandRoleEnum, UpdateOrgUserCommandToJSON, UpdateOrgUserCommandToJSONTyped, UpdatePlaylistCommandFromJSON, UpdatePlaylistCommandFromJSONTyped, UpdatePlaylistCommandToJSON, UpdatePlaylistCommandToJSONTyped, UpdatePrefsCmdFromJSON, UpdatePrefsCmdFromJSONTyped, UpdatePrefsCmdThemeEnum, UpdatePrefsCmdTimezoneEnum, UpdatePrefsCmdToJSON, UpdatePrefsCmdToJSONTyped, UpdateProviderSettingsRequestFromJSON, UpdateProviderSettingsRequestFromJSONTyped, UpdateProviderSettingsRequestToJSON, UpdateProviderSettingsRequestToJSONTyped, UpdateQuotaCmdFromJSON, UpdateQuotaCmdFromJSONTyped, UpdateQuotaCmdToJSON, UpdateQuotaCmdToJSONTyped, UpdateRoleCommandFromJSON, UpdateRoleCommandFromJSONTyped, UpdateRoleCommandToJSON, UpdateRoleCommandToJSONTyped, UpdateRuleGroupResponseFromJSON, UpdateRuleGroupResponseFromJSONTyped, UpdateRuleGroupResponseToJSON, UpdateRuleGroupResponseToJSONTyped, UpdateServiceAccount200ResponseFromJSON, UpdateServiceAccount200ResponseFromJSONTyped, UpdateServiceAccount200ResponseToJSON, UpdateServiceAccount200ResponseToJSONTyped, UpdateServiceAccountFormFromJSON, UpdateServiceAccountFormFromJSONTyped, UpdateServiceAccountFormRoleEnum, UpdateServiceAccountFormToJSON, UpdateServiceAccountFormToJSONTyped, UpdateTeamCommandFromJSON, UpdateTeamCommandFromJSONTyped, UpdateTeamCommandToJSON, UpdateTeamCommandToJSONTyped, UpdateTeamMemberCommandFromJSON, UpdateTeamMemberCommandFromJSONTyped, UpdateTeamMemberCommandToJSON, UpdateTeamMemberCommandToJSONTyped, UpdateUserCommandFromJSON, UpdateUserCommandFromJSONTyped, UpdateUserCommandToJSON, UpdateUserCommandToJSONTyped, UserApi, UserLookupDTOFromJSON, UserLookupDTOFromJSONTyped, UserLookupDTOToJSON, UserLookupDTOToJSONTyped, UserOrgDTOFromJSON, UserOrgDTOFromJSONTyped, UserOrgDTORoleEnum, UserOrgDTOToJSON, UserOrgDTOToJSONTyped, UserPreferencesApi, UserProfileDTOFromJSON, UserProfileDTOFromJSONTyped, UserProfileDTOToJSON, UserProfileDTOToJSONTyped, UserSearchHitDTOFromJSON, UserSearchHitDTOFromJSONTyped, UserSearchHitDTOToJSON, UserSearchHitDTOToJSONTyped, UserTokenFromJSON, UserTokenFromJSONTyped, UserTokenToJSON, UserTokenToJSONTyped, UsersApi, ValidationErrorFromJSON, ValidationErrorFromJSONTyped, ValidationErrorToJSON, ValidationErrorToJSONTyped, VersionInfoFromJSON, VersionInfoFromJSONTyped, VersionInfoToJSON, VersionInfoToJSONTyped, VictorOpsConfigFromJSON, VictorOpsConfigFromJSONTyped, VictorOpsConfigToJSON, VictorOpsConfigToJSONTyped, VoidApiResponse, WebexConfigFromJSON, WebexConfigFromJSONTyped, WebexConfigToJSON, WebexConfigToJSONTyped, WebhookConfigFromJSON, WebhookConfigFromJSONTyped, WebhookConfigToJSON, WebhookConfigToJSONTyped, WechatConfigFromJSON, WechatConfigFromJSONTyped, WechatConfigToJSON, WechatConfigToJSONTyped, canConsumeForm, exists, instanceOfActiveSyncStatusDTO, instanceOfActiveUserStats, instanceOfAddAPIKeyCommand, instanceOfAddDataSource200Response, instanceOfAddDataSourceCommand, instanceOfAddInviteForm, instanceOfAddOrgUserCommand, instanceOfAddServiceAccountTokenCommand, instanceOfAddTeamMemberCommand, instanceOfAddTeamRoleCommand, instanceOfAddUserRoleCommand, instanceOfAddress, instanceOfAdminCreateUserForm, instanceOfAdminCreateUserResponse, instanceOfAdminStats, instanceOfAdminUpdateUserPasswordForm, instanceOfAdminUpdateUserPermissionsForm, instanceOfAlert, instanceOfAlertDiscovery, instanceOfAlertGroup, instanceOfAlertInstancesResponse, instanceOfAlertManager, instanceOfAlertManagersResult, instanceOfAlertQuery, instanceOfAlertQueryExport, instanceOfAlertResponse, instanceOfAlertRuleExport, instanceOfAlertRuleGroup, instanceOfAlertRuleGroupExport, instanceOfAlertRuleGroupMetadata, instanceOfAlertRuleNotificationSettings, instanceOfAlertRuleNotificationSettingsExport, instanceOfAlertRuleRecordExport, instanceOfAlertStatus, instanceOfAlertingFileExport, instanceOfAlertingRule, instanceOfAlertingStatus, instanceOfAlertmanagerConfig, instanceOfAlertmanagerStatus, instanceOfAnnotation, instanceOfAnnotationActions, instanceOfAnnotationEvent, instanceOfAnnotationPanelFilter, instanceOfAnnotationPermission, instanceOfAnnotationQuery, instanceOfAnnotationTarget, instanceOfApiKeyDTO, instanceOfApiRuleNode, instanceOfAssignments, instanceOfAttributeTypeAndValue, instanceOfAuthorization, instanceOfBacktestConfig, instanceOfBasicAuth, instanceOfCacheConfig, instanceOfCacheConfigResponse, instanceOfCacheConfigSetter, instanceOfCalculateDashboardDiffRequest, instanceOfCalculateDiffTarget, instanceOfCertificate, instanceOfChangeUserPasswordCommand, instanceOfClearHelpFlags200Response, instanceOfCloudMigrationRunListDTO, instanceOfCloudMigrationSessionListResponseDTO, instanceOfCloudMigrationSessionRequestDTO, instanceOfCloudMigrationSessionResponseDTO, instanceOfClusterStatus, instanceOfConfig, instanceOfContactPointExport, instanceOfCookiePreferences, instanceOfCorrelation, instanceOfCorrelationConfig, instanceOfCorrelationConfigUpdateDTO, instanceOfCreateAccessTokenResponseDTO, instanceOfCreateCorrelationCommand, instanceOfCreateCorrelationResponseBody, instanceOfCreateDashboardSnapshot200Response, instanceOfCreateDashboardSnapshotCommand, instanceOfCreateFolderCommand, instanceOfCreateLibraryElementCommand, instanceOfCreateOrUpdateReport, instanceOfCreateOrg200Response, instanceOfCreateOrgCommand, instanceOfCreatePlaylistCommand, instanceOfCreateQueryInQueryHistoryCommand, instanceOfCreateReport200Response, instanceOfCreateRoleForm, instanceOfCreateServiceAccountForm, instanceOfCreateSnapshotResponseDTO, instanceOfCreateTeam200Response, instanceOfCreateTeamCommand, instanceOfDashboardACLInfoDTO, instanceOfDashboardACLUpdateItem, instanceOfDashboardCreateCommand, instanceOfDashboardFullWithMeta, instanceOfDashboardMeta, instanceOfDashboardRedirect, instanceOfDashboardSnapshotDTO, instanceOfDashboardTagCloudItem, instanceOfDashboardVersionMeta, instanceOfDataLink, instanceOfDataResponse, instanceOfDataSource, instanceOfDataSourceListItemDTO, instanceOfDataSourceRef, instanceOfDeleteCorrelationResponseBody, instanceOfDeleteDashboardByUID200Response, instanceOfDeleteDataSourceByName200Response, instanceOfDeleteFolder200Response, instanceOfDeleteTokenCommand, instanceOfDescription, instanceOfDeviceDTO, instanceOfDeviceSearchHitDTO, instanceOfDiscordConfig, instanceOfDiscoveryBase, instanceOfEmailConfig, instanceOfEmailDTO, instanceOfEmbeddedContactPoint, instanceOfEnumFieldConfig, instanceOfErrorResponseBody, instanceOfEvalAlertConditionCommand, instanceOfEvalQueriesPayload, instanceOfExtendedReceiver, instanceOfExtension, instanceOfFailedUser, instanceOfField, instanceOfFieldConfig, instanceOfFieldTypeConfig, instanceOfFindTagsResult, instanceOfFloatHistogram, instanceOfFolder, instanceOfFolderSearchHit, instanceOfForbiddenError, instanceOfFrame, instanceOfFrameMeta, instanceOfGenericPublicError, instanceOfGetAccessTokenResponseDTO, instanceOfGetAnnotationTagsResponse, instanceOfGetDataSourceIdByName200Response, instanceOfGetHomeDashboardResponse, instanceOfGetSharingOptions200Response, instanceOfGetSnapshotResponseDTO, instanceOfGettableAlert, instanceOfGettableAlertmanagers, instanceOfGettableApiAlertingConfig, instanceOfGettableApiReceiver, instanceOfGettableExtendedRuleNode, instanceOfGettableGrafanaReceiver, instanceOfGettableGrafanaReceivers, instanceOfGettableGrafanaRule, instanceOfGettableGrafanaSilence, instanceOfGettableHistoricUserConfig, instanceOfGettableNGalertConfig, instanceOfGettableRuleGroupConfig, instanceOfGettableSilence, instanceOfGettableStatus, instanceOfGettableTimeIntervals, instanceOfGettableUserConfig, instanceOfGlobalConfig, instanceOfHTTPClientConfig, instanceOfHeader, instanceOfHeaders, instanceOfHealthResponse, instanceOfHit, instanceOfHostPort, instanceOfIPNet, instanceOfImportDashboardInput, instanceOfImportDashboardRequest, instanceOfImportDashboardResponse, instanceOfInhibitRule, instanceOfInternalDataLink, instanceOfJSONWebKey, instanceOfLabel, instanceOfLibraryElementArrayResponse, instanceOfLibraryElementConnectionDTO, instanceOfLibraryElementConnectionsResponse, instanceOfLibraryElementDTO, instanceOfLibraryElementDTOMeta, instanceOfLibraryElementDTOMetaUser, instanceOfLibraryElementResponse, instanceOfLibraryElementSearchResponse, instanceOfLibraryElementSearchResult, instanceOfLinkTransformationConfig, instanceOfListAllProvidersSettings200ResponseInner, instanceOfListSortOptions200Response, instanceOfMSTeamsConfig, instanceOfMassDeleteAnnotationsCmd, instanceOfMatcher, instanceOfMetricRequest, instanceOfMigrateDataResponseDTO, instanceOfMigrateDataResponseItemDTO, instanceOfMigrateDataResponseListDTO, instanceOfMoveFolderCommand, instanceOfMuteTimeInterval, instanceOfMuteTimeIntervalExport, instanceOfName, instanceOfNavbarPreference, instanceOfNewApiKeyResult, instanceOfNotice, instanceOfNotificationPolicyExport, instanceOfNotificationTemplate, instanceOfNotificationTemplateContent, instanceOfNotifierConfig, instanceOfOAuth2, instanceOfOpsGenieConfig, instanceOfOpsGenieConfigResponder, instanceOfOrgDTO, instanceOfOrgDetailsDTO, instanceOfOrgUserDTO, instanceOfPagerdutyConfig, instanceOfPagerdutyImage, instanceOfPagerdutyLink, instanceOfPatchAnnotationsCmd, instanceOfPatchLibraryElementCommand, instanceOfPatchPrefsCmd, instanceOfPatchQueryCommentInQueryHistoryCommand, instanceOfPeerStatus, instanceOfPermission, instanceOfPlaylist, instanceOfPlaylistDTO, instanceOfPlaylistDashboard, instanceOfPlaylistItem, instanceOfPlaylistItemDTO, instanceOfPostAnnotation200Response, instanceOfPostAnnotationsCmd, instanceOfPostDashboard200Response, instanceOfPostGraphiteAnnotationsCmd, instanceOfPostSilencesOKBody, instanceOfPostableAlert, instanceOfPostableApiAlertingConfig, instanceOfPostableApiReceiver, instanceOfPostableExtendedRuleNode, instanceOfPostableExtendedRuleNodeExtended, instanceOfPostableGrafanaReceiver, instanceOfPostableGrafanaReceivers, instanceOfPostableGrafanaRule, instanceOfPostableNGalertConfig, instanceOfPostableRuleGroupConfig, instanceOfPostableSilence, instanceOfPostableTimeIntervals, instanceOfPostableUserConfig, instanceOfPreferences, instanceOfPrometheusRemoteWriteTargetJSON, instanceOfProvisionedAlertRule, instanceOfProxyConfig, instanceOfPublicDashboard, instanceOfPublicDashboardDTO, instanceOfPublicDashboardListResponse, instanceOfPublicDashboardListResponseWithPagination, instanceOfPublicError, instanceOfPushoverConfig, instanceOfQueryDataResponse, instanceOfQueryHistoryDTO, instanceOfQueryHistoryDeleteQueryResponse, instanceOfQueryHistoryPreference, instanceOfQueryHistoryResponse, instanceOfQueryHistorySearchResponse, instanceOfQueryHistorySearchResult, instanceOfQueryStat, instanceOfQuotaDTO, instanceOfReceiver, instanceOfReceiverExport, instanceOfRecord, instanceOfRecordingRuleJSON, instanceOfRelativeTimeRange, instanceOfRelativeTimeRangeExport, instanceOfReport, instanceOfReportBrandingOptions, instanceOfReportDashboard, instanceOfReportDashboardID, instanceOfReportEmail, instanceOfReportOptions, instanceOfReportSchedule, instanceOfReportSettings, instanceOfReportTimeRange, instanceOfResourcePermissionDTO, instanceOfResponseDetails, instanceOfRestoreDashboardVersionCommand, instanceOfRestoreDeletedDashboardCommand, instanceOfRetrieveJWKS200Response, instanceOfRevokeAuthTokenCmd, instanceOfRoleAssignmentsDTO, instanceOfRoleDTO, instanceOfRolesSearchQuery, instanceOfRoute, instanceOfRouteExport, instanceOfRule, instanceOfRuleDiscovery, instanceOfRuleGroup, instanceOfRuleGroupConfigResponse, instanceOfRuleResponse, instanceOfSNSConfig, instanceOfSample, instanceOfSaveDashboardCommand, instanceOfSearchDTO, instanceOfSearchDeviceQueryResult, instanceOfSearchOrgServiceAccountsResult, instanceOfSearchOrgUsersQueryResult, instanceOfSearchResult, instanceOfSearchResultItem, instanceOfSearchTeamQueryResult, instanceOfSearchUserQueryResult, instanceOfServiceAccountDTO, instanceOfServiceAccountProfileDTO, instanceOfSetPermissionCommand, instanceOfSetPermissionsCommand, instanceOfSetResourcePermissionCommand, instanceOfSetRoleAssignmentsCommand, instanceOfSetTeamMembershipsCommand, instanceOfSetUserRolesCommand, instanceOfSigV4Config, instanceOfSilence, instanceOfSilenceMetadata, instanceOfSilenceStatus, instanceOfSlackAction, instanceOfSlackConfig, instanceOfSlackConfirmationField, instanceOfSlackField, instanceOfSnapshotDTO, instanceOfSnapshotListResponseDTO, instanceOfSnapshotResourceStats, instanceOfSpan, instanceOfSuccessResponseBody, instanceOfSyncResult, instanceOfTLSConfig, instanceOfTagsDTO, instanceOfTeamDTO, instanceOfTeamGroupDTO, instanceOfTeamGroupMapping, instanceOfTeamMemberDTO, instanceOfTelegramConfig, instanceOfTempUserDTO, instanceOfTestReceiverConfigResult, instanceOfTestReceiverResult, instanceOfTestReceiversConfigAlertParams, instanceOfTestReceiversConfigBodyParams, instanceOfTestReceiversResult, instanceOfTestRulePayload, instanceOfTestRuleResponse, instanceOfTestTemplatesConfigBodyParams, instanceOfTestTemplatesErrorResult, instanceOfTestTemplatesResult, instanceOfTestTemplatesResults, instanceOfThreshold, instanceOfThresholdsConfig, instanceOfTimeInterval, instanceOfTimeIntervalItem, instanceOfTimeIntervalTimeRange, instanceOfTimeRange, instanceOfToken, instanceOfTokenDTO, instanceOfTransformation, instanceOfTypeMeta, instanceOfURL, instanceOfUnstructured, instanceOfUpdateAnnotationsCmd, instanceOfUpdateCorrelationCommand, instanceOfUpdateCorrelationResponseBody, instanceOfUpdateDashboardACLCommand, instanceOfUpdateDataSourceCommand, instanceOfUpdateFolderCommand, instanceOfUpdateOrgAddressForm, instanceOfUpdateOrgForm, instanceOfUpdateOrgUserCommand, instanceOfUpdatePlaylistCommand, instanceOfUpdatePrefsCmd, instanceOfUpdateProviderSettingsRequest, instanceOfUpdateQuotaCmd, instanceOfUpdateRoleCommand, instanceOfUpdateRuleGroupResponse, instanceOfUpdateServiceAccount200Response, instanceOfUpdateServiceAccountForm, instanceOfUpdateTeamCommand, instanceOfUpdateTeamMemberCommand, instanceOfUpdateUserCommand, instanceOfUserLookupDTO, instanceOfUserOrgDTO, instanceOfUserProfileDTO, instanceOfUserSearchHitDTO, instanceOfUserToken, instanceOfValidationError, instanceOfVersionInfo, instanceOfVictorOpsConfig, instanceOfWebexConfig, instanceOfWebhookConfig, instanceOfWechatConfig, mapValues, querystring };
 //# sourceMappingURL=index.mjs.map
 //# sourceMappingURL=index.mjs.map

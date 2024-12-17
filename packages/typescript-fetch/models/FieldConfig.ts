@@ -44,16 +44,16 @@ export interface FieldConfig {
     /**
      * Map values to a display color
      * NOTE: this interface is under development in the frontend... so simple map for now
-     * @type {object}
+     * @type {{ [key: string]: object; }}
      * @memberof FieldConfig
      */
-    color?: object;
+    color?: { [key: string]: object; };
     /**
      * Panel Specific Values
-     * @type {object}
+     * @type {{ [key: string]: object; }}
      * @memberof FieldConfig
      */
-    custom?: object;
+    custom?: { [key: string]: object; };
     /**
      * 
      * @type {number}

@@ -32,6 +32,13 @@ export interface TLSConfig {
      */
     caFile?: string;
     /**
+     * CARef is the name of the secret within the secret manager to use as the CA cert for the
+     * targets.
+     * @type {string}
+     * @memberof TLSConfig
+     */
+    caRef?: string;
+    /**
      * Text of the client cert file for the targets.
      * @type {string}
      * @memberof TLSConfig
@@ -43,6 +50,13 @@ export interface TLSConfig {
      * @memberof TLSConfig
      */
     certFile?: string;
+    /**
+     * CertRef is the name of the secret within the secret manager to use as the client cert for
+     * the targets.
+     * @type {string}
+     * @memberof TLSConfig
+     */
+    certRef?: string;
     /**
      * Disable target certificate validation.
      * @type {boolean}
@@ -61,6 +75,13 @@ export interface TLSConfig {
      * @memberof TLSConfig
      */
     keyFile?: string;
+    /**
+     * KeyRef is the name of the secret within the secret manager to use as the client key for
+     * the targets.
+     * @type {string}
+     * @memberof TLSConfig
+     */
+    keyRef?: string;
     /**
      * 
      * @type {number}
@@ -100,11 +121,14 @@ export function TLSConfigFromJSONTyped(json: any, ignoreDiscriminator: boolean):
         
         'ca': json['ca'] == null ? undefined : json['ca'],
         'caFile': json['ca_file'] == null ? undefined : json['ca_file'],
+        'caRef': json['ca_ref'] == null ? undefined : json['ca_ref'],
         'cert': json['cert'] == null ? undefined : json['cert'],
         'certFile': json['cert_file'] == null ? undefined : json['cert_file'],
+        'certRef': json['cert_ref'] == null ? undefined : json['cert_ref'],
         'insecureSkipVerify': json['insecure_skip_verify'] == null ? undefined : json['insecure_skip_verify'],
         'key': json['key'] == null ? undefined : json['key'],
         'keyFile': json['key_file'] == null ? undefined : json['key_file'],
+        'keyRef': json['key_ref'] == null ? undefined : json['key_ref'],
         'maxVersion': json['max_version'] == null ? undefined : json['max_version'],
         'minVersion': json['min_version'] == null ? undefined : json['min_version'],
         'serverName': json['server_name'] == null ? undefined : json['server_name'],
@@ -124,11 +148,14 @@ export function TLSConfigToJSONTyped(value?: TLSConfig | null, ignoreDiscriminat
         
         'ca': value['ca'],
         'ca_file': value['caFile'],
+        'ca_ref': value['caRef'],
         'cert': value['cert'],
         'cert_file': value['certFile'],
+        'cert_ref': value['certRef'],
         'insecure_skip_verify': value['insecureSkipVerify'],
         'key': value['key'],
         'key_file': value['keyFile'],
+        'key_ref': value['keyRef'],
         'max_version': value['maxVersion'],
         'min_version': value['minVersion'],
         'server_name': value['serverName'],

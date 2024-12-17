@@ -68,10 +68,13 @@ export interface ProvisioningApiRouteDeleteContactpointsRequest {
 
 export interface ProvisioningApiRouteDeleteMuteTimingRequest {
     name: string;
+    version?: string;
+    xDisableProvenance?: string;
 }
 
 export interface ProvisioningApiRouteDeleteTemplateRequest {
     name: string;
+    version?: string;
 }
 
 export interface ProvisioningApiRouteExportMuteTimingRequest {
@@ -331,7 +334,15 @@ export class ProvisioningApi extends runtime.BaseAPI {
 
         const queryParameters: any = {};
 
+        if (requestParameters['version'] != null) {
+            queryParameters['version'] = requestParameters['version'];
+        }
+
         const headerParameters: runtime.HTTPHeaders = {};
+
+        if (requestParameters['xDisableProvenance'] != null) {
+            headerParameters['X-Disable-Provenance'] = String(requestParameters['xDisableProvenance']);
+        }
 
         if (this.configuration && this.configuration.apiKey) {
             headerParameters["Authorization"] = await this.configuration.apiKey("Authorization"); // api_key authentication
@@ -369,6 +380,10 @@ export class ProvisioningApi extends runtime.BaseAPI {
         }
 
         const queryParameters: any = {};
+
+        if (requestParameters['version'] != null) {
+            queryParameters['version'] = requestParameters['version'];
+        }
 
         const headerParameters: runtime.HTTPHeaders = {};
 
