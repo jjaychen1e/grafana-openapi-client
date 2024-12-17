@@ -41,12 +41,8 @@ fi
 
 # Function to cleanup and exit
 SHOULD_CLEANUP_BRANCH=false
-cleanup() {
-  local error_message=$1
-  echo "Error: $error_message"
-  echo "Cleaning up..."
 
-  # Switch back to main and discard changes
+cleanupGit() {
   git reset --hard HEAD
   git clean -fd # Remove untracked files and directories
   git checkout main --force
@@ -57,6 +53,14 @@ cleanup() {
     git branch -D "release/${PACKAGE_VERSION}"
     git push origin --delete "release/${PACKAGE_VERSION}" || echo "Warning: Failed to delete remote branch"
   fi
+}
+
+cleanupOnError() {
+  local error_message=$1
+  echo "Error: $error_message"
+  echo "Cleaning up..."
+
+  cleanupGit
 
   exit 1
 }
@@ -73,37 +77,75 @@ echo "Starting release process for Grafana version ${GRAFANA_VERSION}"
 
 # Step 0: Create release branch
 echo "Creating release branch..."
-git checkout -b "release/${PACKAGE_VERSION}" || cleanup "Failed to create release branch"
+git checkout -b "release/${PACKAGE_VERSION}" || cleanupOnError "Failed to create release branch"
 SHOULD_CLEANUP_BRANCH=true
 
 # Push the release branch to remote
 echo "Pushing release branch to remote..."
-git push -u origin "release/${PACKAGE_VERSION}" || cleanup "Failed to push release branch to remote"
+git push -u origin "release/${PACKAGE_VERSION}" || cleanupOnError "Failed to push release branch to remote"
 
 # Step 1: Generate API clients
 echo "Generating API clients..."
-yarn generate ${GRAFANA_VERSION} || cleanup "Failed to generate API clients"
+yarn generate ${GRAFANA_VERSION} || cleanupOnError "Failed to generate API clients"
 
 # Step 2: Install dependencies
 echo "Installing dependencies..."
-yarn install || cleanup "Failed to install dependencies"
+yarn install || cleanupOnError "Failed to install dependencies"
 
 # Step 3: Build packages
 echo "Building packages..."
-yarn build || cleanup "Failed to build packages"
+yarn build || cleanupOnError "Failed to build packages"
 
 # Step 4: Git add and commit the changes
 echo "Committing changes..."
 git add .
-git commit -m "chore: generated clients for ${GRAFANA_VERSION}" || cleanup "Failed to commit changes"
+git commit -m "chore: generated clients for ${GRAFANA_VERSION}" || cleanupOnError "Failed to commit changes"
 
 # Step 5: Publish packages with explicit version
 echo "Publishing packages..."
 echo "Using version: ${PACKAGE_VERSION}"
-npx lerna publish ${PACKAGE_VERSION} || cleanup "Failed to publish packages"
 
-# Step 6: Switch back to main
-echo "Switching back to main branch..."
-git checkout main || cleanup "Failed to switch back to main branch"
+# First publish to npm
+npx lerna publish ${PACKAGE_VERSION} \
+  --message "chore(release): publish packages ${PACKAGE_VERSION} for grafana ${GRAFANA_VERSION}" || cleanupOnError "Failed to publish packages"
+
+# Create separate GitHub releases for each package
+echo "Creating GitHub releases..."
+for pkg in typescript-fetch typescript-axios; do
+  echo "Downloading @grafana-openapi-client/${pkg}@${PACKAGE_VERSION}..."
+
+  tarball_name="${pkg}-${PACKAGE_VERSION}.tgz"
+
+  # Retry logic for npm pack
+  max_attempts=5
+  attempt=1
+  sleep_time=5
+  sleep $sleep_time
+  while [ $attempt -le $max_attempts ]; do
+    if npm pack "@grafana-openapi-client/${pkg}@${PACKAGE_VERSION}" \
+      --pack-destination . \
+      --filename "${tarball_name}"; then
+      echo "Package downloaded successfully"
+      break
+    else
+      if [ $attempt -eq $max_attempts ]; then
+        cleanupOnError "Failed to download package after $max_attempts attempts"
+      fi
+      echo "Download ${attempt}/${max_attempts} failed. Waiting before retry..."
+      sleep $sleep_time
+      ((attempt++))
+    fi
+  done
+
+  gh release create "${pkg}-v${PACKAGE_VERSION}" \
+    --title "${pkg} v${PACKAGE_VERSION}" \
+    --notes "Generated from Grafana v${GRAFANA_VERSION}" \
+    "${tarball_name}" || cleanupOnError "Failed to create GitHub release for ${pkg}"
+
+  # Clean up the downloaded tarball
+  rm "${tarball_name}"
+done
+
+cleanupGit
 
 echo "Release process completed successfully!"

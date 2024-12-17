@@ -7,10 +7,9 @@
   "push": true,
   "command": {
     "publish": {
-      "conventionalCommits": true,
+      "conventionalCommits": false,
       "yes": true,
-      "createRelease": "github",
-      "message": "chore(release): publish %s"
+      "createRelease": false
     }
   }
 }
