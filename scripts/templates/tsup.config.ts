@@ -9,8 +9,6 @@ export default defineConfig({
   clean: true,
   minify: false, // Don't minify - let consumers handle this
   treeshake: true,
-  target: "es2020",
-  outDir: "dist",
   skipNodeModulesBundle: true,
   shims: true, // Add shims for better compatibility
 });

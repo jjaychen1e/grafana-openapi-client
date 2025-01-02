@@ -11,9 +11,19 @@ This repository contains multiple packages:
 - `@grafana-openapi-client/axios` - Axios-based HTTP client
 - `@grafana-openapi-client/fetch` - Fetch-based HTTP client
 
-The version number is the Grafana version that the client is generated from.
+## Version Compatibility
 
-You can check the source code and the README for each package from [Releases](https://github.com/jjaychen1e/grafana-openapi-client/releases), or just check the `packages` folder in the corresponding branch (e.g., [release/11.4.0](https://github.com/jjaychen1e/grafana-openapi-client/tree/release/11.4.0)).
+The package versions follow this pattern: `X.Y.Z`, where:
+
+- `X.Y` corresponds to the Grafana minor version (e.g., 11.0)
+- `Z` is the patch version of the package itself
+
+For example:
+
+- Package version `11.0.3` is compatible with Grafana 11.0.x
+- Package version `11.1.0` is compatible with Grafana 11.1.x
+
+You can check the source code and the README for each package from [Releases](https://github.com/jjaychen1e/grafana-openapi-client/releases), or just check the `packages` folder in the corresponding branch.
 
 ## Installation
 
@@ -22,25 +32,25 @@ Choose your preferred HTTP client implementation (`axios` or `fetch`):
 Using npm:
 
 ```bash
-npm install @grafana-openapi-client/axios@11.0.0
+npm install @grafana-openapi-client/axios@11.0
 # or
-npm install @grafana-openapi-client/fetch@11.0.0
+npm install @grafana-openapi-client/fetch@11.0
 ```
 
 Using yarn:
 
 ```bash
-yarn add @grafana-openapi-client/axios@11.0.0
+yarn add @grafana-openapi-client/axios@11.0
 # or
-yarn add @grafana-openapi-client/fetch@11.0.0
+yarn add @grafana-openapi-client/fetch@11.0
 ```
 
 Using pnpm:
 
 ```bash
-pnpm add @grafana-openapi-client/axios@11.0.0
+pnpm add @grafana-openapi-client/axios@11.0
 # or
-pnpm add @grafana-openapi-client/fetch@11.0.0
+pnpm add @grafana-openapi-client/fetch@11.0
 ```
 
 ## Development
