@@ -8,8 +8,8 @@ TypeScript clients for the Grafana HTTP API, automatically generated from Grafan
 
 This repository contains multiple packages:
 
-- `@grafana-openapi-client/axios` - Axios-based HTTP client
-- `@grafana-openapi-client/fetch` - Fetch-based HTTP client
+- `@grafana-openapi-client/axios-client` - Axios-based HTTP client
+- `@grafana-openapi-client/fetch-client` - Fetch-based HTTP client
 
 ## Version Compatibility
 
@@ -32,25 +32,25 @@ Choose your preferred HTTP client implementation (`axios` or `fetch`):
 Using npm:
 
 ```bash
-npm install @grafana-openapi-client/axios@11.0
+npm install @grafana-openapi-client/axios-client@11.0
 # or
-npm install @grafana-openapi-client/fetch@11.0
+npm install @grafana-openapi-client/fetch-client@11.0
 ```
 
 Using yarn:
 
 ```bash
-yarn add @grafana-openapi-client/axios@11.0
+yarn add @grafana-openapi-client/axios-client@11.0
 # or
-yarn add @grafana-openapi-client/fetch@11.0
+yarn add @grafana-openapi-client/fetch-client@11.0
 ```
 
 Using pnpm:
 
 ```bash
-pnpm add @grafana-openapi-client/axios@11.0
+pnpm add @grafana-openapi-client/axios-client@11.0
 # or
-pnpm add @grafana-openapi-client/fetch@11.0
+pnpm add @grafana-openapi-client/fetch-client@11.0
 ```
 
 ## Development

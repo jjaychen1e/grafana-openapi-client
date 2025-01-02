@@ -1,4 +1,4 @@
-# @grafana-openapi-client/axios
+# @grafana-openapi-client/axios-client
 
 TypeScript OpenAPI client for Grafana HTTP API using axios.
 
@@ -7,19 +7,19 @@ TypeScript OpenAPI client for Grafana HTTP API using axios.
 Using npm:
 
 ```bash
-npm install @grafana-openapi-client/axios
+npm install @grafana-openapi-client/axios-client
 ```
 
 Using yarn:
 
 ```bash
-yarn add @grafana-openapi-client/axios
+yarn add @grafana-openapi-client/axios-client
 ```
 
 Using pnpm:
 
 ```bash
-pnpm add @grafana-openapi-client/axios
+pnpm add @grafana-openapi-client/axios-client
 ```
 
 ## Usage
@@ -81,7 +81,7 @@ import {
   DashboardsApi,
   SearchApi,
   SearchTypeEnum,
-} from "@grafana-openapi-client/axios";
+} from "@grafana-openapi-client/axios-client";
 
 const config = new Configuration({
   basePath: "http://localhost:3000/api", // Your Grafana server API URL

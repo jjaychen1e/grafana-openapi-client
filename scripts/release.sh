@@ -114,7 +114,7 @@ npx lerna publish ${PACKAGE_VERSION} \
 echo "Creating GitHub releases..."
 npm pack --ws || cleanupOnError "Failed to create tarballs"
 
-for pkg in fetch axios; do
+for pkg in fetch-client axios-client; do
   tarball_name="grafana-openapi-client-${pkg}-${PACKAGE_VERSION}.tgz"
 
   echo "Creating GitHub release for ${pkg}..."

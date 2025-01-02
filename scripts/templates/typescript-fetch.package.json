@@ -1,5 +1,5 @@
 {
-  "name": "@grafana-openapi-client/fetch",
+  "name": "@grafana-openapi-client/fetch-client",
   "version": "1.0.0",
   "description": "Generated Grafana OpenAPI client using typescript-fetch",
   "repository": {

@@ -1,4 +1,4 @@
-# @grafana-openapi-client/fetch
+# @grafana-openapi-client/fetch-client
 
 TypeScript OpenAPI client for Grafana HTTP API using fetch.
 
@@ -7,19 +7,19 @@ TypeScript OpenAPI client for Grafana HTTP API using fetch.
 Using npm:
 
 ```bash
-npm install @grafana-openapi-client/fetch
+npm install @grafana-openapi-client/fetch-client
 ```
 
 Using yarn:
 
 ```bash
-yarn add @grafana-openapi-client/fetch
+yarn add @grafana-openapi-client/fetch-client
 ```
 
 Using pnpm:
 
 ```bash
-pnpm add @grafana-openapi-client/fetch
+pnpm add @grafana-openapi-client/fetch-client
 ```
 
 ## Usage
@@ -73,7 +73,7 @@ import {
   DashboardsApi,
   SearchApi,
   SearchTypeEnum,
-} from "@grafana-openapi-client/fetch";
+} from "@grafana-openapi-client/fetch-client";
 
 const config = new Configuration({
   basePath: "http://localhost:3000/api", // Your Grafana server API URL
