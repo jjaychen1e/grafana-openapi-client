@@ -14,6 +14,7 @@
   "keywords": ["grafana", "typescript", "axios"],
   "author": "jjaychen1e <jjaychen1e@gmail.com>",
   "license": "MIT",
+  "type": "module",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
