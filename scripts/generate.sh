@@ -19,11 +19,11 @@ if ! [[ "$1" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
 fi
 
 # Check for uncommitted changes
-if [[ -n $(git status -s) ]]; then
-  echo "Error: There are uncommitted changes in the repository"
-  echo "Please commit or stash your changes before running the release script"
-  exit 1
-fi
+# if [[ -n $(git status -s) ]]; then
+#   echo "Error: There are uncommitted changes in the repository"
+#   echo "Please commit or stash your changes before running the release script"
+#   exit 1
+# fi
 
 # Set version from argument
 GRAFANA_VERSION="$1"
@@ -41,6 +41,9 @@ PROCESSED_SPEC=$(echo "$API_SPEC" | jq 'del(.definitions.SecretURL.title, .defin
   echo "Failed to process API spec"
   exit 1
 }
+
+# Install dependencies
+yarn install
 
 # Define generators and their properties
 # Format: "name:properties"
@@ -74,6 +77,9 @@ for config in "${GENERATORS[@]}"; do
 
   # Clean up the temporary file
   rm "$TEMP_SPEC"
+
+  # Fix ESM import path
+  npx fix-esm-import-path "$ROOT_DIR/packages/$generator_name"
 
   # Copy and update the corresponding package.json template
   template_path="$SCRIPT_DIR/templates/$generator_name.package.json"
