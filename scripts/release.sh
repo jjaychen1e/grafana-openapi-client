@@ -53,7 +53,7 @@ cleanupGit() {
     git branch -D "release/${PACKAGE_VERSION}"
     git push origin --delete "release/${PACKAGE_VERSION}" || echo "Warning: Failed to delete remote branch"
   fi
-  git clean -fd
+  rm -rf packages
 }
 
 cleanupOnError() {
