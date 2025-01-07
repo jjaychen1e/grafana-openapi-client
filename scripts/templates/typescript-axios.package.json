@@ -33,7 +33,7 @@
   "scripts": {
     "build": "tsup"
   },
-  "files": ["dist"],
+  "files": ["dist", "specs"],
   "publishConfig": {
     "access": "public"
   },

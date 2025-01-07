@@ -61,22 +61,19 @@ for config in "${GENERATORS[@]}"; do
 
   rm -rf "$ROOT_DIR/packages/$generator_name"
 
-  # Create a temporary file for the processed spec
-  TEMP_SPEC=$(mktemp)
-  echo "$PROCESSED_SPEC" >"$TEMP_SPEC"
+  # Create specs directory and copy the OpenAPI spec
+  mkdir -p "$ROOT_DIR/packages/$generator_name/specs"
+  OPENAPI_SPEC_PATH="$ROOT_DIR/packages/$generator_name/specs/openapi.json"
+  echo "$PROCESSED_SPEC" >"$OPENAPI_SPEC_PATH"
 
   openapi-generator-cli generate \
-    -i "$TEMP_SPEC" \
+    -i "$OPENAPI_SPEC_PATH" \
     -g "$generator_name" \
     -o "$ROOT_DIR/packages/$generator_name" \
     $generator_properties || {
-    rm "$TEMP_SPEC" # Clean up temp file on error
     echo "Failed to generate client: ${generator_name}"
     exit 1
   }
-
-  # Clean up the temporary file
-  rm "$TEMP_SPEC"
 
   # Fix ESM import path
   npx fix-esm-import-path "$ROOT_DIR/packages/$generator_name"
